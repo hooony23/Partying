@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// 위치를 지정해두고 순찰하는 용도(시야각안에 들어올시 chase 기능은 AIView에 구현)
 public class PatrolAI : MonoBehaviour
 {
     NavMeshAgent enemy = null;
@@ -10,6 +11,8 @@ public class PatrolAI : MonoBehaviour
     // 정찰 위치들을 담을 배열 선언
     [SerializeField] Transform[] tfWayPoints = null;
     int count = 0;
+
+    Transform target = null; // 타켓이 정해지면 추격함
 
     // Start is called before the first frame update
     void Start()
@@ -45,18 +48,18 @@ public class PatrolAI : MonoBehaviour
         }
     }
 
-    Transform target = null;
+    
     public void SetTarget(Transform playertarget)
     {
         // 기존 순찰 취소
         CancelInvoke();
         target = playertarget;
-        enemy.speed = 20f;
+        enemy.speed = 15f;
     }
 
     public void RemoveTarget()
     {
-        enemy.speed = 3.5f;
+        enemy.speed = 5f;
         target = null;
         InvokeRepeating("MoveToNextWayPoint", 0f, 2f);
     }

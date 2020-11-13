@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     {
         GetInput();
         Move();
+        Turn();
     }
 
     void GetInput()
@@ -35,5 +36,10 @@ public class Player : MonoBehaviour
     {
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         transform.position += moveVec * speed * Time.deltaTime;
+    }
+
+    void Turn()
+    {
+        transform.LookAt(transform.position + moveVec);
     }
 }
