@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Danger : MonoBehaviour
+public class DangerPoint : MonoBehaviour
 {
     // 위험지역으로 달려갈 Enemy를 지정
     [SerializeField] PatrolAI enemy = null;
@@ -11,7 +11,7 @@ public class Danger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            enemy.SetTarget(other.transform);
+            enemy.CheckDanger(other.transform);
         }
     }
 
@@ -19,7 +19,7 @@ public class Danger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            enemy.RemoveTarget();
+            enemy.Chase();
         }
     }
 

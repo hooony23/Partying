@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 임시로 참고하기 위한 코드
+ * AI의 시야각 안에 목적layerMask가 인식되면 목적지 까지 이동 기능
+ * PatrolAI에 다 포함되어 있으며 Patrol 에 AIView는 제외
+ */
 
 public class AIView : MonoBehaviour
 {
@@ -39,6 +44,13 @@ public class AIView : MonoBehaviour
                     {
                         // 장애물 없음, 몬스터가 점점 가까이 감
                         transform.position = Vector3.Lerp(transform.position, targetHit.transform.position, 0.02f);
+                        
+
+                    }
+                    
+                    // 장애물이 플레이어가 아닐 때
+                    else
+                    {
                         
                     }
                 }
