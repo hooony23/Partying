@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     bool jDown; // sacebar키 입력 여부
 
     // 움직임 상태
-    bool isDodge;
+    bool isDodge; // 회피동작 상태 여부
 
     // 상호작용
     bool eDown; // E키 입력 여부
@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
 
     void Turn()
     {
+        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
         transform.LookAt(transform.position + moveVec);
     }
     void GetItem() // 아이템 획득을 위한 로직
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Dodge()
+    void Dodge() // 플레이어 회피
     {
         if (jDown && isDodge == false && moveVec != Vector3.zero)
         {
@@ -85,7 +86,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void DodgeOut()
+    
+    void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
     {
         isDodge = false;
         speed *= 0.5f;
@@ -99,7 +101,7 @@ public class Player : MonoBehaviour
             if (getItem == true)
             {
                 SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
-                Destroy(nearObject);// 이동과 동시에 아이템 오브젝트가 사라짐
+                Destroy(nearObject); // 이동과 동시에 아이템 오브젝트가 사라짐
             }
         }
 

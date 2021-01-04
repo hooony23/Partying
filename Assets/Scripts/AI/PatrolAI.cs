@@ -50,6 +50,13 @@ public class PatrolAI : MonoBehaviour
     }
 
     void UpdateTarget()
+
+    /* 
+     * 추적해야할 플레이어들의 타겟을 업데이트
+     * 타겟의 layerMask는 "Player"로 해야 인식 가능
+     * 인식된 Player들중 가장 가까운 것을 타겟으로 설정
+     */
+
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, distance, layerMask); // (중심, 반경, layer)
         if (cols.Length > 0) // 주변에 1개이상 콜라이더 검출되면
@@ -99,6 +106,7 @@ public class PatrolAI : MonoBehaviour
         }
     }
 
+    // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적
     public void CheckDanger(Transform dangerTarget)
     {
         CancelInvoke();
