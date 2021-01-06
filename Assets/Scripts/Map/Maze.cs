@@ -9,13 +9,20 @@ public class Maze : MonoBehaviour
     public int Columns = 2; // 배열의 열에 해당함
     public GameObject wall; // 벽의 프리팹을 참조하도록 하는 줄
     public GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
-    public NavMeshSurface[] surfaces;
+    public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
+    public GameObject MazeRespon;// 유닛 오브젝트 리스폰 지점확인 오브젝트
+    public GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트
+    public GameObject Cube;// 오브젝트 리스폰 테스트용 오브젝트
+    public NavMeshSurface[] surfaces; // NavMesh 동적 bake를 위한 정의
 
     private MazeCell[,] grid; //미로를 만들기 위한 격자 생성
+    private MazePoint[,] Spawn; //유닛 오브젝트의 위치를 지정하기 위한 배열 생성
     private int currentRow = 0; // 행에 대한 미로찾기를 위한 처음의 시작값
     private int currentColumns = 0; // 열에 대한 미로찾기를 위한 처음의 시작값
-    private bool scanComplete = false;
-    private bool Completemap = false;
+    private int Test = 15; //함정 오브젝트의 수량 제한
+    
+    private bool scanComplete = false; //Maze 구성의 Hunt의 종료여부 확인
+    private bool Completemap = false;//Maze Walk,Hunt구성의 완성을 확인
 
     void Start()
     {
@@ -33,17 +40,21 @@ public class Maze : MonoBehaviour
                 surfaces[i].BuildNavMesh();
             }
             Completemap = false;
+            for (int i = 0; i < Test; i++) {
+                TrapRespon(); }
         }
     }
     void CreateGrid() // 그리드를 쉽게 호출하기 위해 함수로 정의
     {
         float size = wall.transform.localScale.x;
         grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
+        Spawn = new MazePoint[Rows, Columns];
         for (int i = 0; i < Rows; i++)
         {
             for (int j = 0; j < Columns; j++)
             {
                 grid[i, j] = new MazeCell();// gird 격자를 초기화
+                Spawn[i, j] = new MazePoint();
                 if (i == 0)
                 {
                     grid[i, j].UpWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size + 5.5f), Quaternion.identity);
@@ -62,6 +73,10 @@ public class Maze : MonoBehaviour
                 grid[i, j].RightWall.name = "rightWall_" + i + "_" + j;
                 grid[i, j].DownWall.transform.parent = transform;
                 grid[i, j].RightWall.transform.parent = transform;
+
+                Spawn[i, j].Respwan = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 2f, -i * size), Quaternion.identity);
+                Spawn[i, j].Respwan.name = "MazeRespawn_" + i + "_" + j;
+                Spawn[i, j].Respwan.transform.parent = MazeRespon.transform;
             }
         }
     }
@@ -320,5 +335,17 @@ public class Maze : MonoBehaviour
         }
         return false;
     }
-
+    void TrapRespon() { // 함정을 랜덤으로 생성하는 역할
+        int directiona = Random.Range(1, (Columns-2));
+        int directionb = Random.Range(1, (Rows - 2));
+        //Player Respon구간은 각 모서리의 2*2구간만큼 랜덤 리스폰 구상중
+        //AI Respon구간은 정 중앙의 3*3구간의 랜덤 리스폰 구상중
+        if (!Spawn[directiona, directionb].ResponCheck) // ResponCheck를 통해 해당 배열구간에 다른 오브젝트의 여부를 확인 추후(AI,Player)를 추가하여 함정 설치
+        {
+            GameObject Trap = Instantiate(Cube, Spawn[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+            Trap.name = "TrapPoint_" + directiona + "_" + directionb;
+            Trap.transform.parent = TrapPoint.transform;
+            Spawn[directiona,directionb].ResponCheck = true;
+        }
+    }
 }
