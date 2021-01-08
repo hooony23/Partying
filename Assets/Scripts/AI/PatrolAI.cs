@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/* 순찰자의 순찰, 인식, 추격 기능
+/* 순찰자의 순찰, 인식, 추격 기능 
  * Target을 Player로 둘수 있고, 다른것을 쫒게 할 수도 있음
  * 추격할 타겟의 태그를 "Player", LayerMask를 "Player"라고 설정해야함
  */
@@ -51,7 +51,7 @@ public class PatrolAI : MonoBehaviour
 
     void UpdateTarget()
 
-    /*
+    /* 
      * 추적해야할 플레이어들의 타겟을 업데이트
      * 타겟의 layerMask는 "Player"로 해야 인식 가능
      * 인식된 Player들중 가장 가까운 것을 타겟으로 설정
@@ -74,7 +74,7 @@ public class PatrolAI : MonoBehaviour
                 }
             }
             target = cols[minIndex].transform;
-
+            
         }
     }
 
@@ -112,8 +112,8 @@ public class PatrolAI : MonoBehaviour
         CancelInvoke();
         enemy.SetDestination(dangerTarget.position);
     }
-
-
-
-
+          
+    
+    
+    
 }
