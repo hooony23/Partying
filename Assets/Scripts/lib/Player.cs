@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
 
     // 기본 움직임
-    float hAxis; 
+    float hAxis;
     float vAxis;
     Vector3 moveVec;
     public float speed;
@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+
     void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
     {
         isDodge = false;
