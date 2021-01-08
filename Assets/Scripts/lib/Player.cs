@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     // 움직임 상태
     bool isDodge; // 회피동작 상태 여부
+    bool isStun = false;  // 플레이어 스턴 상태 여부
 
     // 상호작용
     bool eDown; // E키 입력 여부
@@ -25,10 +26,15 @@ public class Player : MonoBehaviour
     // 애니메이션
     Animator anim;
 
+    // 물리효과
+    Rigidbody rigid;
+    bool isBorder;
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -41,6 +47,12 @@ public class Player : MonoBehaviour
         Dodge();
     }
 
+    private void FixedUpdate()
+    {
+        FreezeRotation();
+        StopToWall();
+    }
+
     void GetInput()
     {
         hAxis = Input.GetAxisRaw("Horizontal");
@@ -51,10 +63,24 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-        transform.position += moveVec * speed * Time.deltaTime;
+        if (isStun == false)
+        {
+            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+            transform.position += moveVec * speed * Time.deltaTime;
+        }
 
-        // 애니메이션
+        if (isStun == true)
+        {
+            moveVec = Vector3.zero;
+        }
+
+        if (isBorder == true)
+        {
+            Debug.Log("벽 충돌!!");
+            // 벽앞에서 멈추는거 필요, moveVec 을 0으로 하는건 안됨
+        }
+
+        // run 애니메이션
         anim.SetBool("isRun", moveVec != Vector3.zero); // 움직이는 상태 -> isRun 애니메이션 실행
     }
 
@@ -91,6 +117,31 @@ public class Player : MonoBehaviour
     {
         isDodge = false;
         speed *= 0.5f;
+    }
+
+    public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
+    {
+        StartCoroutine("StunForSec", time);
+    }
+
+    IEnumerator StunForSec(float time)
+    {
+        isStun = true;
+        yield return new WaitForSeconds(time);
+        isStun = false;
+
+    }
+
+    // 물리 충돌 해결 -> FixedUpdate
+    // 충돌로 인한 회전력 발생 무력화
+    void FreezeRotation()
+    {
+        rigid.angularVelocity = Vector3.zero;
+    }
+    void StopToWall()
+    {
+        Debug.DrawRay(transform.position, transform.forward * 1f, Color.green);
+        isBorder = Physics.Raycast(transform.position, transform.forward, 1f, LayerMask.GetMask("Wall"));
     }
 
     private void OnTriggerStay(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
