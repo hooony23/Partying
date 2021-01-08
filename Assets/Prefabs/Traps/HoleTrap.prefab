@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1519441922320458510}
   - component: {fileID: 1519441922320458509}
   - component: {fileID: 1519441922320458505}
+  - component: {fileID: 3688905752250379796}
   m_Layer: 0
   m_Name: HoleTrap
   m_TagString: Untagged
@@ -109,6 +110,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e4bb2854b0bb04c9cb09c21c82f7b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &3688905752250379796
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519441922320458508}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61254dcfd5f118741a23a4e2fabe4cfe, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61254dcfd5f118741a23a4e2fabe4cfe, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2678754105832246626
 GameObject:
   m_ObjectHideFlags: 0
