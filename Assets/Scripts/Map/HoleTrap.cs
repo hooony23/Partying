@@ -30,13 +30,13 @@ public class HoleTrap : MonoBehaviour
     {
         hole_activate = true;
         Invoke("HoleClose" , 3f);
-        Debug.Log("구멍 열림");
+        
     }
 
     private void HoleClose()
     {
         hole_activate = false;
-        Debug.Log("구멍 닫힘");
+       
     }
     
 }

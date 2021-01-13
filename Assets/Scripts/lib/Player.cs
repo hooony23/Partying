@@ -7,14 +7,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    // 기본 움직임
+    // 기본 움직임(w,a,s,d, spacebar)
     float hAxis; 
     float vAxis;
-    Vector3 moveVec;
-    public float speed;
+    Vector3 moveVec, moveDir;
+    
     bool jDown; // sacebar키 입력 여부
 
     // 움직임 상태
+    public float player_speed; // 플레이어 스피드
     bool isDodge; // 회피동작 상태 여부
     bool isStun = false;  // 플레이어 스턴 상태 여부
 
@@ -30,6 +31,19 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
     bool isBorder;
 
+    // 캐릭터 시점
+    public Transform cameraArm;
+    Vector2 mouseDelta;
+
+    //TODO
+    // 0. 플레이어 시점, 회피 움직임
+    /* 서버와 상호작용 */
+    /* 
+     * 1. 클라이언트 - > 서버 : 최초 상황 동기화, 플레이어 입력 전송(움직임, 회피 등)
+     * 2. 서버 -> 클라이언트 : 서버에서 보내주는 패킷을 통해 클라이언트에서 처리(움직임, 회피, 등)
+     */
+
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -41,10 +55,17 @@ public class Player : MonoBehaviour
     void Update()
     {
         GetInput();
+        /* 서버 전송 */
+        
+
         Move();
         Turn();
         GetItem();
         Dodge();
+
+        CameraTurn();
+        
+        
     }
 
     private void FixedUpdate()
@@ -55,23 +76,35 @@ public class Player : MonoBehaviour
 
     void GetInput()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        hAxis = Input.GetAxis("Horizontal");
+        vAxis = Input.GetAxis("Vertical");
         eDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
         jDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
+        mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
     }
 
     void Move()
     {
-        if (isStun == false)
-        {
-            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-            transform.position += moveVec * speed * Time.deltaTime;
-        }
+        Vector2 moveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
+        Vector3 moveVec = new Vector3(hAxis, 0f, vAxis).normalized; // Dodge 방향용 vector(필요없음)
 
+        if (isStun == false && isDodge == false)
+        {
+            // transform.position += moveVec * speed * Time.deltaTime;
+            Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
+            Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
+            Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
+
+            transform.forward = lookForward;
+            transform.position += moveDir * Time.deltaTime * player_speed;
+        }
+        else if(isStun == false && isDodge == true)
+        {
+
+        }
         if (isStun == true)
         {
-            moveVec = Vector3.zero;
+            moveDir *= 0.1f;
         }
 
         if (isBorder == true)
@@ -81,14 +114,38 @@ public class Player : MonoBehaviour
         }
 
         // run 애니메이션
-        anim.SetBool("isRun", moveVec != Vector3.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+        anim.SetBool("isRun", moveInput != Vector2.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+
     }
 
     void Turn()
     {
-        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
-        transform.LookAt(transform.position + moveVec);
+        transform.LookAt(transform.position + moveDir);
     }
+
+    void CameraTurn()
+    {
+        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
+        // transform.LookAt(transform.position + moveVec);
+
+        
+        Vector3 camAngle = cameraArm.rotation.eulerAngles;
+        float x = camAngle.x - mouseDelta.y;
+
+        if (x < 180f)
+        {
+            x = Mathf.Clamp(x, -1f, 70f);
+        }
+        else
+        {
+            x = Mathf.Clamp(x, 335f, 361f);
+        }
+
+        cameraArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+
+    }
+
+
     void GetItem() // 아이템 획득을 위한 로직
     {
         if (eDown && nearObject != null)
@@ -102,28 +159,30 @@ public class Player : MonoBehaviour
 
     void Dodge() // 플레이어 회피
     {
-        if (jDown && isDodge == false && moveVec != Vector3.zero)
+        if (jDown && isDodge == false && moveDir != Vector3.zero)
         {
+
+            /* 수정 필요
+             */
             isDodge = true;
-            speed *= 2;
+            player_speed *= 2;
+
             anim.SetTrigger("doDodge");
 
-            Invoke("DodgeOut", 0.4f); // 회피중인 시간 0.4초, 0.4초후에 원래대로 돌아가는 DodgeOut 실행
+            Invoke("DodgeOut", 1f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
         }
     }
-
-    
     void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
     {
         isDodge = false;
-        speed *= 0.5f;
+        player_speed *= 0.5f;
     }
 
+    // 플레이어 스턴 기능
     public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
     {
         StartCoroutine("StunForSec", time);
     }
-
     IEnumerator StunForSec(float time)
     {
         isStun = true;
