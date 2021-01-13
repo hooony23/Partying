@@ -151,6 +151,36 @@ Transform:
   m_Father: {fileID: 1506043034}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &138294513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 138294514}
+  m_Layer: 0
+  m_Name: AiPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &138294514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138294513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 393254658}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262375820
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,8 +354,9 @@ MonoBehaviour:
   UpDownWall: {fileID: 8261083374174478660, guid: f121fd3adc85adc4f8534f482920909d,
     type: 3}
   MazePoint: {fileID: 866680368}
-  MazeRespon: {fileID: 697419842}
+  MazeRespwan: {fileID: 697419842}
   TrapPoint: {fileID: 2132175808}
+  PatrolPoint: {fileID: 138294513}
   SpikeTrap: {fileID: 1404811910695789843, guid: 6bcbae3aa19b66841bde90df75277391,
     type: 3}
   HoleTrap: {fileID: 1519441922320458508, guid: a578249b6d035ef469a2fd97151023fb,
@@ -346,6 +377,7 @@ Transform:
   - {fileID: 697419843}
   - {fileID: 2132175809}
   - {fileID: 866680370}
+  - {fileID: 138294514}
   - {fileID: 1963605049}
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -2052,7 +2084,7 @@ Transform:
   m_Children:
   - {fileID: 262375825}
   m_Father: {fileID: 393254658}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132175808
 GameObject:

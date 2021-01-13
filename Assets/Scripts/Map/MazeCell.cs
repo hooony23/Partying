@@ -4,6 +4,7 @@ using UnityEngine;
 public class MazePoint
 {
     public GameObject Respwan;
+    public GameObject AiPoint;
     public bool ResponCheck = false;
 }
 public class MazeCell
