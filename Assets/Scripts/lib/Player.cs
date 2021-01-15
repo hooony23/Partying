@@ -11,11 +11,14 @@ public class Player : MonoBehaviour
     float hAxis; 
     float vAxis;
     Vector3 moveVec, moveDir;
+    Vector2 moveInput;
     
     bool jDown; // sacebar키 입력 여부
 
     // 움직임 상태
+    public string player_state; // 플레이어 이벤트, 상태(run, dodge)
     public float player_speed; // 플레이어 스피드
+    bool isMove;
     bool isDodge; // 회피동작 상태 여부
     bool isStun = false;  // 플레이어 스턴 상태 여부
 
@@ -42,6 +45,8 @@ public class Player : MonoBehaviour
      * 1. 클라이언트 - > 서버 : 최초 상황 동기화, 플레이어 입력 전송(움직임, 회피 등)
      * 2. 서버 -> 클라이언트 : 서버에서 보내주는 패킷을 통해 클라이언트에서 처리(움직임, 회피, 등)
      */
+    PlayerInfo pInfo = new PlayerInfo();
+    
 
 
     // Start is called before the first frame update
@@ -49,19 +54,24 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         GetInput();
-        /* 서버 전송 */
-        
-
         Move();
         Turn();
         GetItem();
         Dodge();
+        PlayerStateUpdate();
+
+        
+
+
 
         CameraTurn();
         
@@ -70,6 +80,13 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /* 서버 전송 */
+        // CharacterInfo 에 현재 플레이어의 상태 입력
+        // CharacterInfo 를 서버로 전송
+        pInfo.UpdateInfo(transform.position, moveDir, player_state); 
+        string jsonData = pInfo.ObjectToJson(pInfo);
+        Debug.Log("jsonData 정보 : " + jsonData);
+
         FreezeRotation();
         StopToWall();
     }
@@ -81,27 +98,29 @@ public class Player : MonoBehaviour
         eDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
         jDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
         mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        moveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
+
+        
     }
 
     void Move()
     {
-        Vector2 moveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
-        Vector3 moveVec = new Vector3(hAxis, 0f, vAxis).normalized; // Dodge 방향용 vector(필요없음)
+        moveVec = new Vector3(moveInput.x, 0f, moveInput.y).normalized; // Dodge 방향용 vector(필요없음)
 
-        if (isStun == false && isDodge == false)
+        if (isStun == false )
         {
-            // transform.position += moveVec * speed * Time.deltaTime;
+            isMove = true;
+            Debug.DrawRay(cameraArm.position, cameraArm.forward, Color.red);
+            
             Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
             Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
-            Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
+            // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
+            moveDir = (lookForward * moveInput.y + lookRight * moveInput.x).normalized;
 
             transform.forward = lookForward;
             transform.position += moveDir * Time.deltaTime * player_speed;
         }
-        else if(isStun == false && isDodge == true)
-        {
-
-        }
+        
         if (isStun == true)
         {
             moveDir *= 0.1f;
@@ -116,6 +135,11 @@ public class Player : MonoBehaviour
         // run 애니메이션
         anim.SetBool("isRun", moveInput != Vector2.zero); // 움직이는 상태 -> isRun 애니메이션 실행
 
+        if (moveInput == Vector2.zero)
+        {
+            isMove = false;
+        }
+
     }
 
     void Turn()
@@ -123,6 +147,7 @@ public class Player : MonoBehaviour
         transform.LookAt(transform.position + moveDir);
     }
 
+    // 마우스 이동에 의한 카메라 각도 제한
     void CameraTurn()
     {
         // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
@@ -159,17 +184,14 @@ public class Player : MonoBehaviour
 
     void Dodge() // 플레이어 회피
     {
-        if (jDown && isDodge == false && moveDir != Vector3.zero)
+        if (jDown && isDodge == false && moveDir!= Vector3.zero)
         {
-
-            /* 수정 필요
-             */
             isDodge = true;
             player_speed *= 2;
 
             anim.SetTrigger("doDodge");
 
-            Invoke("DodgeOut", 1f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
+            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
         }
     }
     void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -191,6 +213,20 @@ public class Player : MonoBehaviour
 
     }
 
+    // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
+    // ex) 플레이어 현재상태(애니메이션이 작동해야되는)를 서버로 전송해야함
+    void PlayerStateUpdate()
+    {
+        // 애니메이션 : run, dodge 의 bool값 확인후 true 가 되면 "상태" 전송
+        if (isMove == true)
+            player_state = "Move";
+        if (isDodge == true)
+            player_state = "Dodge";
+      
+    }
+
+
+    /*@@@ 충돌해결, 콜리전 처리 등 @@@*/
     // 물리 충돌 해결 -> FixedUpdate
     // 충돌로 인한 회전력 발생 무력화
     void FreezeRotation()
