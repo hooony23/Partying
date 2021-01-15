@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using project;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -38,24 +42,39 @@ public class Player : MonoBehaviour
     public Transform cameraArm;
     Vector2 mouseDelta;
 
-    //TODO
-    // 0. 플레이어 시점, 회피 움직임
-    /* 서버와 상호작용 */
-    /* 
-     * 1. 클라이언트 - > 서버 : 최초 상황 동기화, 플레이어 입력 전송(움직임, 회피 등)
-     * 2. 서버 -> 클라이언트 : 서버에서 보내주는 패킷을 통해 클라이언트에서 처리(움직임, 회피, 등)
-     */
+    /*@@@ 서버 @@@*/
+    string userID;
     PlayerInfo pInfo = new PlayerInfo();
     
 
 
     // Start is called before the first frame update
-    private void Awake()
+    void Awake()
     {
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
 
+        /* 서버 연결 */
+        // AsynchronousClient.Connected();      
+
+    }
+
+    private void Start()
+    {
+        // 서버로부터 uuid 받아옴
+        /* string response = AsynchronousClient.Connected();
+        JObject responseJson = JObject.Parse(response);
+        userID = responseJson["data"].Value<string>("uuid"); */
+
         
+    }
+
+
+    // 에티터 플레이버튼, 앱의 종료 -> 생명주기 종료
+    private void OnApplicationQuit()
+    {
+        /* 서버 연결 해제 */
+        // AsynchronousClient.ConnectedExit();
         
     }
 
@@ -78,14 +97,16 @@ public class Player : MonoBehaviour
         
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // default : 50fps
     {
         /* 서버 전송 */
         // CharacterInfo 에 현재 플레이어의 상태 입력
+
         // CharacterInfo 를 서버로 전송
-        pInfo.UpdateInfo(transform.position, moveDir, player_state); 
+        pInfo.UpdateInfo(transform.position, moveDir, player_state, userID); 
         string jsonData = pInfo.ObjectToJson(pInfo);
-        Debug.Log("jsonData 정보 : " + jsonData);
+        // AsynchronousClient.Send(jsonData);
+
 
         FreezeRotation();
         StopToWall();
@@ -105,7 +126,7 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        moveVec = new Vector3(moveInput.x, 0f, moveInput.y).normalized; // Dodge 방향용 vector(필요없음)
+        moveVec = new Vector3(moveInput.x, 0f, moveInput.y).normalized; // Dodge 방향용 vector
 
         if (isStun == false )
         {
@@ -117,7 +138,7 @@ public class Player : MonoBehaviour
             // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
             moveDir = (lookForward * moveInput.y + lookRight * moveInput.x).normalized;
 
-            transform.forward = lookForward;
+            transform.forward = lookForward; // 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
             transform.position += moveDir * Time.deltaTime * player_speed;
         }
         

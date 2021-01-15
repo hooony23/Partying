@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 public class PlayerInfo
 {
-    public string type = "syncPacket";
+    public string type = "move";
     public Dictionary<string, Dictionary<string, object>> data = new Dictionary<string, Dictionary<string, object>>();
-    public string player_event = "";
+    public string movement = "";
     public string uuid = "";
     
 
-    public void UpdateInfo(Vector3 location, Vector3 moveVec, string playerEvent)
+    public void UpdateInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
     {
         Dictionary<string, object> loc = new Dictionary<string, object>();
         Dictionary<string, object> vec = new Dictionary<string, object>();
@@ -45,10 +45,10 @@ public class PlayerInfo
         data["vec"] = vec;
 
         // event
-        this.player_event = playerEvent;
+        this.movement = playerEvent;
 
         // uuid
-        this.uuid = "b2a6938e - 8285 - 48b9 - b0cd - 017df4ed029b";
+        this.uuid = userID;
 
 
     }

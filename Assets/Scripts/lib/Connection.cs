@@ -60,7 +60,7 @@ namespace project
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send(client, "{'type':'connected'}<EOF>");
+                Send("{'type':'connected'}");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -76,7 +76,7 @@ namespace project
         {
             try
             {
-                Send(client, "{'type':'connectedExit'}<EOF>");
+                Send("{'type':'connectedExit'}");
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -122,6 +122,7 @@ namespace project
                 // Begin receiving the data from the remote device.  
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
+
             }
             catch (Exception e)
             {
@@ -153,13 +154,15 @@ namespace project
                         receiveData = receiveData + content[i];
                     }
                     response = receiveData;
-                    // response 처리 함수 필요.
+                    // response 처리 함수 필요. 
 
                 }
                 receiveDone.Set();
                 state.sb.Clear();
                 state.workSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReceiveCallback), state);
+
+                
             }
             catch (Exception e)
             {
@@ -167,10 +170,11 @@ namespace project
             }
         }
         // -------------- Send
-        private static void Send(Socket client, String data)
+        public static void Send(String Message)
         {
             // Convert the string data to byte data using ASCII encoding.  
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            string data = Message + "<EOF>";
+            byte[] byteData = Encoding.UTF8.GetBytes(data);
             // Console.WriteLine("send {0}", data);
 
             // Begin sending the data to the remote device.  

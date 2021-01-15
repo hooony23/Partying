@@ -16,25 +16,32 @@ public class PatrolAI : MonoBehaviour
     [SerializeField] LayerMask layerMask = 0; // OverlapSphere : LayerMask를 통해 인식함
 
 
-    // 정찰 위치들을 담을 배열 선언
-    [SerializeField] Transform[] tfWayPoints = null;
+    // 주변의 패트롤포인트를 인식하고 인식된 포인트에서만 순찰
+    static int find_point = 2;
+    Transform[] tfWayPoints = new Transform[find_point]; // (test)랜덤으로 근처 2개만 포인트 인식
     int count = 0;
+    float detect_distance = 30;
 
     NavMeshAgent enemy = null;
     Transform target = null; // 타켓이 정해지면 추격함
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         enemy = GetComponent<NavMeshAgent>();
+        
+
+    }
+    void Start()
+    {
         InvokeRepeating("Patrol", 0f, 2f);
+        FindPatrolPoint();
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateTarget();
         Chase();
+        
     }
 
     // 다음 정찰지역으로 이동시켜줌
@@ -111,6 +118,18 @@ public class PatrolAI : MonoBehaviour
     {
         CancelInvoke();
         enemy.SetDestination(dangerTarget.position);
+    }
+
+    // 최초 순찰지역 인식 기능
+    void FindPatrolPoint()
+    {
+        // 레이저로 순찰지역 인식 distance 표시
+        Debug.DrawRay(transform.position, transform.forward * detect_distance, Color.red);
+
+        Collider[] p_points = Physics.OverlapSphere(transform.position, detect_distance, layerMask); // (중심, 반경, layer)
+        Debug.Log(p_points.Length);
+
+
     }
           
     
