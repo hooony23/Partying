@@ -5,28 +5,32 @@ using Newtonsoft.Json;
 
 
 
-public class PlayerInfo
+public class aiMove
 {
-    public string type = "move";
+    public string type = "aiMove";
+    public string uuid = "room_masteruuid-8285-48b9-b0cd-017df4ed029b"; // 서버로부터 받아오는 로직 추가
     public Dictionary<string, object> data = new Dictionary<string, object>();
-    public string movement = "";
-    public string uuid = "";
-    
 
-    public void UpdateInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
+
+    public void UpdateAiInfo(string aiUuid, Vector3 location, Vector3 moveVec, Transform target)
     {
         Dictionary<string, object> loc = new Dictionary<string, object>();
         Dictionary<string, object> vec = new Dictionary<string, object>();
+        Dictionary<string, object> targetPoint = new Dictionary<string, object>();
         float tx, ty, tz; // t : transform(location)
-        float vx, vy, vz; // v : vector
+        float vx, vy, vz; // v : vector(Vector3)
+        float tgx, tgy, tgz; // tg : target(location)
 
-        // 플레이어의 정보를 얻어온다
+        // Vector 정보 받아옴
         tx = location.x;
         ty = location.y;
         tz = location.z;
         vx = moveVec.x;
         vy = moveVec.y;
         vz = moveVec.z;
+        tgx = target.position.x;
+        tgy = target.position.y;
+        tgz = target.position.z;
 
         // 각각의 키 값에 얻어온 정보를 저장한다
 
@@ -36,20 +40,20 @@ public class PlayerInfo
         loc["z"] = tz;
 
         // "vec"
-        vec["x"] = vx; /* 추후 움직임 수정에 변경 가능성 있음 */
+        vec["x"] = vx; 
         vec["y"] = vy;
         vec["z"] = vz;
-        
-        // 딕셔너리를 값으로 가지는 키(loc, vec, ...) 에 정보를 받아온 딕셔너리를 추가한다
+
+        // "targetPoint"
+        targetPoint["x"] = tgx;
+        targetPoint["y"] = tgy;
+        targetPoint["z"] = tgz;
+
+        // 최종 data 정보
+        data["aiUuid"] = aiUuid;
         data["loc"] = loc;
         data["vec"] = vec;
-
-        // event
-        data["movement"] = playerEvent;
-
-        // uuid
-        data["uuid"] = userID;
-
+        data["targetPoint"] = targetPoint;
 
     }
 
@@ -63,5 +67,5 @@ public class PlayerInfo
         return JsonConvert.DeserializeObject<T>(jsonData);
     }
 
-   
+
 }

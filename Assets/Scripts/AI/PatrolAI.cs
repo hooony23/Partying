@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using project;
 
 /* 순찰자의 순찰, 인식, 추격 기능 
  * Target을 Player로 둘수 있고, 다른것을 쫒게 할 수도 있음
@@ -16,32 +17,61 @@ public class PatrolAI : MonoBehaviour
     [SerializeField] LayerMask layerMask = 0; // OverlapSphere : LayerMask를 통해 인식함
 
 
+
     // 주변의 패트롤포인트를 인식하고 인식된 포인트에서만 순찰
     static int find_point = 2;
-    Transform[] tfWayPoints = new Transform[find_point]; // (test)랜덤으로 근처 2개만 포인트 인식
+    public Transform[] tfWayPoints = new Transform[find_point]; // (test)랜덤으로 근처 2개만 포인트 인식
+    List<Transform> allPoints = new List<Transform>(); // 검출된 모든 순찰포인트
     int count = 0;
-    float detect_distance = 30;
 
+    // 추격
+    float detect_distance = 30;
     NavMeshAgent enemy = null;
-    Transform target = null; // 타켓이 정해지면 추격함
+    Transform target = null; // 타켓이 정해지면 움직임
+
+
+    //@@@ 서버 @@@
+    aiMove aiMove = new aiMove();
 
     private void Awake()
     {
         enemy = GetComponent<NavMeshAgent>();
-        
+
+        // @@@ 서버 @@@
+        //AsynchronousClient.Connected();
 
     }
     void Start()
     {
-        InvokeRepeating("Patrol", 0f, 2f);
-        FindPatrolPoint();
+        InvokeRepeating("FindPatrolPoint", 0.5f, 10f); // 0.5초 후에 10초마다 실행
+        InvokeRepeating("Patrol", 1f, 2f);
+
+        // @@@ 서버 @@@
+        // AI정보 서버에 보냄
+        string aiUuid = "aiUuid-123123-123123";
+        Vector3 moveVec = transform.position - target.position;
+        aiMove.UpdateAiInfo(aiUuid, transform.position, moveVec, target);
+        string jsonData = aiMove.ObjectToJson(aiMove);
+        //AsynchronousClient.Send(jsonData);
+    }
+
+    private void OnApplicationQuit()
+    {
+        // @@@ 서버 @@@
+        //AsynchronousClient.ConnectedExit();
     }
 
     void Update()
     {
         UpdateTarget();
-        Chase();
+        Move(); // 순찰, 추격, 위험지역 확인
         
+    }
+
+    private void FixedUpdate()
+    {
+        
+
     }
 
     // 다음 정찰지역으로 이동시켜줌
@@ -85,7 +115,7 @@ public class PatrolAI : MonoBehaviour
         }
     }
 
-    public void Chase()
+    public void Move()
     {
 
         // 타겟이 있고 > 시야각 안에 들어왔으면 > 순찰 취소 > 추격
@@ -125,14 +155,25 @@ public class PatrolAI : MonoBehaviour
     {
         // 레이저로 순찰지역 인식 distance 표시
         Debug.DrawRay(transform.position, transform.forward * detect_distance, Color.red);
+        
 
-        Collider[] p_points = Physics.OverlapSphere(transform.position, detect_distance, layerMask); // (중심, 반경, layer)
-        Debug.Log(p_points.Length);
+        if (allPoints.Count > 0)
+        {
+            // 갱신안함 또는 랜덤으로 순찰포인트 변환(나중에)
+        }
+        else if (allPoints.Count == 0)
+        {
+            Collider[] cols = Physics.OverlapSphere(transform.position, detect_distance); // (중심, 반경, layer)
+            
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (cols[i].CompareTag("PatrolPoint"))
+                    allPoints.Add(cols[i].transform);
+            }
 
-
-    }
-          
-    
-    
+            // 발견된 allPoints 중 2개만 tfWayPoints에 갱신
+            Debug.Log("올 포인트 트랜스폼"+allPoints[0]);
+        }
+    } 
     
 }

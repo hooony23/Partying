@@ -19,12 +19,14 @@ public class Player : MonoBehaviour
     
     bool jDown; // sacebar키 입력 여부
 
-    // 움직임 상태
-    public string player_state; // 플레이어 이벤트, 상태(run, dodge)
-    public float player_speed; // 플레이어 스피드
+    // 움직임 상태, 플레이어 상태
+    string player_state; // 플레이어 이벤트, 상태(run, dodge, ...)
+    public float player_speed = config.player_speed; 
+    public float player_health = config.player_health;
     bool isMove;
     bool isDodge; // 회피동작 상태 여부
-    bool isStun = false;  // 플레이어 스턴 상태 여부
+    bool isStun = false;
+    bool isDead = false; 
 
     // 상호작용
     bool eDown; // E키 입력 여부
@@ -48,23 +50,25 @@ public class Player : MonoBehaviour
     
 
 
-    // Start is called before the first frame update
+    
     void Awake()
     {
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
 
         /* 서버 연결 */
-        // AsynchronousClient.Connected();      
+        // AsynchronousClient.Connected();   
+
+        // 서버로부터 uuid 받아옴
+        /* string response = AsynchronousClient.Connected();
+        JObject responseJson = JObject.Parse(response);
+        userID = responseJson["data"].Value<string>("uuid"); */
 
     }
 
     private void Start()
     {
-        // 서버로부터 uuid 받아옴
-        /* string response = AsynchronousClient.Connected();
-        JObject responseJson = JObject.Parse(response);
-        userID = responseJson["data"].Value<string>("uuid"); */
+        
 
         
     }
@@ -88,12 +92,8 @@ public class Player : MonoBehaviour
         Dodge();
         PlayerStateUpdate();
 
-        
-
-
 
         CameraTurn();
-        
         
     }
 
@@ -101,7 +101,6 @@ public class Player : MonoBehaviour
     {
         /* 서버 전송 */
         // CharacterInfo 에 현재 플레이어의 상태 입력
-
         // CharacterInfo 를 서버로 전송
         pInfo.UpdateInfo(transform.position, moveDir, player_state, userID); 
         string jsonData = pInfo.ObjectToJson(pInfo);
@@ -122,6 +121,16 @@ public class Player : MonoBehaviour
         moveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
 
         
+    }
+
+    // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
+    void PlayerStateUpdate()
+    {
+        // 애니메이션 : run, dodge 의 bool값 확인후 true 가 되면 "상태" 전송
+        if (isMove == true)
+            player_state = "Move";
+        if (isDodge == true)
+            player_state = "Dodge";
     }
 
     void Move()
@@ -196,7 +205,7 @@ public class Player : MonoBehaviour
     {
         if (eDown && nearObject != null)
         { //아이템을 먹었을 때 실행하는 문장
-            if (nearObject.tag == ("Item"))
+            if (nearObject.CompareTag("Item"))
             {
                 getItem = true;
             }
@@ -221,7 +230,7 @@ public class Player : MonoBehaviour
         player_speed *= 0.5f;
     }
 
-    // 플레이어 스턴 기능
+    // 플레이어 스턴
     public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
     {
         StartCoroutine("StunForSec", time);
@@ -234,16 +243,11 @@ public class Player : MonoBehaviour
 
     }
 
-    // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
-    // ex) 플레이어 현재상태(애니메이션이 작동해야되는)를 서버로 전송해야함
-    void PlayerStateUpdate()
+    // 플레이어 죽음
+    void Dead()
     {
-        // 애니메이션 : run, dodge 의 bool값 확인후 true 가 되면 "상태" 전송
-        if (isMove == true)
-            player_state = "Move";
-        if (isDodge == true)
-            player_state = "Dodge";
-      
+        // isDead == true 일때
+        // 
     }
 
 
