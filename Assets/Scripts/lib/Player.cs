@@ -247,7 +247,7 @@ public class Player : MonoBehaviour
     void Dead()
     {
         // isDead == true 일때
-        // 
+        Debug.Log("플레이어가 죽었습니다!!");
     }
 
 

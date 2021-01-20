@@ -19,7 +19,7 @@ public class DangerPoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            enemy.Move();
+            enemy.CheckDanger(null);
         }
     }
 
