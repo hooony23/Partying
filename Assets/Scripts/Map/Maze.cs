@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using project;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,23 +11,27 @@ public class Maze : MonoBehaviour
     public GameObject wall; // 벽의 프리팹을 참조하도록 하는 줄
     public GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
     public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
-    public GameObject MazeRespon;// 유닛 오브젝트 리스폰 지점확인 오브젝트
+    public GameObject MazeRespwan;// 유닛 오브젝트 리스폰 지점확인 오브젝트
     public GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트
+    public GameObject PatrolPoint;
     public GameObject SpikeTrap;// 가시함정 오브젝트
     public GameObject HoleTrap;// 바닥함정 오브젝트
     public NavMeshSurface[] surfaces; // NavMesh 동적 bake를 위한 정의
 
     private MazeCell[,] grid; //미로를 만들기 위한 격자 생성
-    private MazePoint[,] Spawn; //유닛 오브젝트의 위치를 지정하기 위한 배열 생성
+    //private MazePoint[,] Spawn; //유닛 오브젝트의 위치를 지정하기 위한 배열 생성
     private int currentRow = 0; // 행에 대한 미로찾기를 위한 처음의 시작값
     private int currentColumns = 0; // 열에 대한 미로찾기를 위한 처음의 시작값
-    private int Test = 15; //함정 오브젝트의 수량 제한
+    private int Test = 0; //함정 오브젝트의 수량 제한
+    private int TestCheck = 0;
 
     private bool scanComplete = false; //Maze 구성의 Hunt의 종료여부 확인
     private bool Completemap = false;//Maze Walk,Hunt구성의 완성을 확인
 
     void Start()
     {
+        Test = (Rows * Columns / 16);
+        Debug.Log(Test);
         CreateGrid();
         HuntAndKill();
 
@@ -35,15 +40,16 @@ public class Maze : MonoBehaviour
     {
         if (Completemap == true)
         {
-
             for (int i = 0; i < surfaces.Length; i++)
             {
                 surfaces[i].BuildNavMesh();
             }
             Completemap = false;
-            for (int i = 0; i < Test; i++)
+            while (TestCheck <= Test)
             {
+
                 TrapRespon();
+                //Debug.Log("반복문 이후 " + TestCheck);
             }
         }
     }
@@ -51,13 +57,14 @@ public class Maze : MonoBehaviour
     {
         float size = wall.transform.localScale.x;
         grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
-        Spawn = new MazePoint[Rows, Columns];
         for (int i = 0; i < Rows; i++)
         {
             for (int j = 0; j < Columns; j++)
             {
+               // for (int k = 0; k < 4; k++) { 
+                //if(wallInfo[i, j, k] == )
+                //}
                 grid[i, j] = new MazeCell();// gird 격자를 초기화
-                Spawn[i, j] = new MazePoint();
                 if (i == 0)
                 {
                     grid[i, j].UpWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size + 5.5f), Quaternion.identity);
@@ -77,13 +84,32 @@ public class Maze : MonoBehaviour
                 grid[i, j].DownWall.transform.parent = transform;
                 grid[i, j].RightWall.transform.parent = transform;
 
-                Spawn[i, j].Respwan = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 1.01f, -i * size), Quaternion.identity);
-                Spawn[i, j].Respwan.name = "MazeRespawn_" + i + "_" + j;
-                Spawn[i, j].Respwan.transform.parent = MazeRespon.transform;
+                grid[i, j].Respwan = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 1.01f, -i * size), Quaternion.identity);
+                grid[i, j].Respwan.name = "MazeRespawn_" + i + "_" + j;
+                grid[i, j].Respwan.transform.parent = MazeRespwan.transform;
+
+                if (!(i == 0 && j == 0) && !(i == 0 && j == (Columns - 1)) && !(i == Rows - 1 && j == 0) && !(i == Rows - 1 && j == Columns - 1))
+                {
+                    if (i % 3 == 0 && j % 3 == 0)
+                    {
+                        grid[i, j].AiPoint = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 10f, -i * size), Quaternion.identity);
+                        grid[i, j].AiPoint.name = "PatrolPoint_" + i + "_" + j;
+                        grid[i, j].AiPoint.transform.parent = PatrolPoint.transform;
+                    }
+                }
             }
         }
     }
-    bool AreThereUnvisitedNeighbors()
+    bool IsCellUnvisitredAndWithBoundaries(int row, int column)
+    {// 각 배열의 경계선에 방문여부 확인
+     
+        if (row > 0 && row < Rows && column >= 0 && column < Columns && !grid[row, column].Visited)
+        {
+            return true;
+        }
+        return false;
+    }
+    bool AreThereUnvisitedNeighbors() // 경계 모서리에서 
     {
         if (IsCellUnvisitredAndWithBoundaries(currentRow - 1, currentColumns)) //위쪽방향에 대한 이웃을 방문했는지 확인
         {
@@ -109,6 +135,7 @@ public class Maze : MonoBehaviour
 
     public bool AreThereVisitedNeighbors(int row, int column)
     {
+        //IsCellUnvisitredAndWithBoundaries(row-1, column)
         if (row > 0 && grid[row - 1, column].Visited) //위쪽방문확인
         {
             return true;
@@ -121,7 +148,7 @@ public class Maze : MonoBehaviour
         {
             return true;
         }
-        if (column > Columns && grid[row, column + 1].Visited) //오른쪽확인
+        if (column < Columns-1 && grid[row, column + 1].Visited) //오른쪽확인
         {
             return true;
         }
@@ -133,14 +160,21 @@ public class Maze : MonoBehaviour
         grid[currentRow, currentColumns].Visited = true; // 현재 행과 열에 대해 방문한 grid를 설정한다. / 랜덤한 방향으로 나아가기 위한 첫번째 cell을 방문한것으로 처리한다.
         while (!scanComplete) // Walk를 통한 길찾기와 Hunt를 통한 새로운 길 생성
         {
+           
+            // Debug.Log(currentRow+"_Row");
+            // Debug.Log(currentColumns+"_Columns");
+            // Debug.Log("-----------");
             Walk();
             Hunt();
+           
         }
         Completemap = true;
     }
+   
     void Walk()
     {
-        while (AreThereUnvisitedNeighbors()) //이웃방문여부를 확인하며 최초의 길을 찾음
+        Debug.Log(currentRow + "_" + "_--------------Row");
+        while (AreThereUnvisitedNeighbors()) //경계선 부터 이웃방문여부를 확인하며 최초의 길을 찾음
         {
             int direction = Random.Range(0, 4); //0~4의 범위인 1,2,3을 제공하여 랜덤으로 돌린다. / 임의의 방향으로 진행하는 것을 말한다.
 
@@ -330,35 +364,91 @@ public class Maze : MonoBehaviour
         }
 
     }
-    bool IsCellUnvisitredAndWithBoundaries(int row, int column)
-    {// 경계선에 방문안했는지 확인
-        if (row > 0 && row < Rows && column >= 0 && column < Columns && !grid[row, column].Visited)
-        {
-            return true;
-        }
-        return false;
-    }
+   
     void TrapRespon()
     { // 함정을 랜덤으로 생성하는 역할
-        int directiona = Random.Range(1, (Columns - 2));
-        int directionb = Random.Range(1, (Rows - 2));
+        int directiona = Random.Range(1, (Columns - 1));
+        int directionb = Random.Range(1, (Rows - 1));
         int Rand = Random.Range(0, 2);
+      //  Debug.Log("반복문 이전 " + TestCheck);
+        bool ResPwanComplete = false;
         //Player Respon구간은 각 모서리의 2*2구간만큼 랜덤 리스폰 구상중
         //AI Respon구간은 정 중앙의 3*3구간의 랜덤 리스폰 구상중
-        if (!Spawn[directiona, directionb].ResponCheck) // ResponCheck를 통해 해당 배열구간에 다른 오브젝트의 여부를 확인 추후(AI,Player)를 추가하여 함정 설치
+        while (!ResPwanComplete)
         {
-            if (Rand == 0) { //가시함정 오브젝트
-                GameObject Trap = Instantiate(SpikeTrap, Spawn[directiona, directionb].Respwan.transform.position, Quaternion.identity);
-                Trap.name = "SpikeTrap_" + directiona + "_" + directionb;
-                Trap.transform.parent = TrapPoint.transform;
-                Spawn[directiona, directionb].ResponCheck = true;
+            if (Rand == 0)
+            { //가시함정 오브젝트
+                if (grid[directiona, directionb].DownWall && grid[directiona - 1, directionb].DownWall && !grid[directiona, directionb].ResponCheck)
+                {
+                    if (grid[directiona, directionb].RightWall || grid[directiona, directionb - 1].RightWall || grid[directiona, directionb].LeftWall)
+                    {
+                        //   Debug.Log("벽 3개이상, 함정 부적합");
+                        grid[directiona, directionb].ResponCheck = true;
+                    }
+                    else
+                    {
+                        GameObject Trap = Instantiate(SpikeTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+                        Trap.name = "SpikeTrap_" + directiona + "_" + directionb;
+                        Trap.transform.parent = TrapPoint.transform;
+                        grid[directiona, directionb].ResponCheck = true;
+                        TestCheck++;
+                    }
+                }
+                else if (grid[directiona, directionb].RightWall && grid[directiona, directionb - 1].RightWall && !grid[directiona, directionb].ResponCheck)
+                {
+                    if (grid[directiona, directionb].DownWall || grid[directiona - 1, directionb].DownWall || grid[directiona, directionb].UpWall)
+                    {
+                        //    Debug.Log("벽 3개이상, 함정 부적합");
+                        grid[directiona, directionb].ResponCheck = true;
+                    }
+                    else
+                    {
+                        GameObject Trap = Instantiate(SpikeTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+                        Trap.name = "SpikeTrap_" + directiona + "_" + directionb;
+                        Trap.transform.parent = TrapPoint.transform;
+                        grid[directiona, directionb].ResponCheck = true;
+                        TestCheck++;
+                    }
+                }
+                ResPwanComplete = true;
             }
-            if (Rand == 1) {//바닥함정 오브젝트
-                GameObject Trap = Instantiate(HoleTrap, Spawn[directiona, directionb].Respwan.transform.position, Quaternion.identity);
-                Trap.name = "HoleTrap_" + directiona + "_" + directionb;
-                Trap.transform.parent = TrapPoint.transform;
-                Spawn[directiona, directionb].ResponCheck = true;
+            if (Rand == 1)
+            {//바닥함정 오브젝트
+                if (grid[directiona, directionb].DownWall && grid[directiona - 1, directionb].DownWall && !grid[directiona, directionb].ResponCheck)
+                {
+                    if (grid[directiona, directionb].RightWall || grid[directiona, directionb + 1].RightWall || grid[directiona, directionb].LeftWall)
+                    { //Debug.Log("벽 3개이상, 함정 부적합"); 
+                    }
+                    else
+                    {
+                        GameObject Trap = Instantiate(HoleTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+                        Trap.name = "HoleTrap_" + directiona + "_" + directionb;
+                        Trap.transform.parent = TrapPoint.transform;
+                        grid[directiona, directionb].ResponCheck = true;
+                        TestCheck++;
+
+                    }
+                }
+                else if (grid[directiona, directionb].RightWall && grid[directiona, directionb - 1].RightWall && !grid[directiona, directionb].ResponCheck)
+                {
+                    if (grid[directiona, directionb].DownWall || grid[directiona - 1, directionb].DownWall || grid[directiona, directionb].UpWall)
+                    {
+
+                        // Debug.Log("벽 3개이상, 함정 부적합");
+                        grid[directiona, directionb].ResponCheck = true;
+                    }
+                    else
+                    {
+                        GameObject Trap = Instantiate(HoleTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+                        Trap.name = "HoleTrap_" + directiona + "_" + directionb;
+                        Trap.transform.parent = TrapPoint.transform;
+                        grid[directiona, directionb].ResponCheck = true;
+                        TestCheck++;
+                    }
+                }
+                ResPwanComplete = true;
             }
         }
     }
 }
+

@@ -13,7 +13,7 @@ public class config : MonoBehaviour
     public static float player_health = 100;
 
     // map
-    public static int map_size = 20; 
-    
+    public static int map_size = 20;
+
 
 }
