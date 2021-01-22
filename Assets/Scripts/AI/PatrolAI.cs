@@ -115,6 +115,7 @@ public class PatrolAI : MonoBehaviour
                 nearestPlayer = cols_visible[minIndex].transform;
 
                 // 주변에 플레이어 감지되었고, 시야각 안에 들어옴
+                Debug.Log("플레이어 발견");
                 isPatrol = false;
                 target = nearestPlayer;
             }
@@ -122,12 +123,14 @@ public class PatrolAI : MonoBehaviour
             // 주변에 플레이어 감지 되었고, 시야각에서 사라짐
             else
             {
+                Debug.Log("플레이어 놓침");
                 isPatrol = true;
                 
             }
         }
 
         // 주변에 플레이어 없음
+        Debug.Log("순찰 재시작");
         isPatrol = true;
  
     }
@@ -137,7 +140,8 @@ public class PatrolAI : MonoBehaviour
         // 레이저로 순찰지역 인식 distance 표시
         Debug.DrawRay(transform.position, transform.forward * detect_distance, Color.red);
         //Debug.DrawRay(transform.position, transform.forward * patrol_distance, Color.blue);
-        patrol.SetDestination(target.position);
+        if(target)
+            patrol.SetDestination(target.position);
         
     }
 

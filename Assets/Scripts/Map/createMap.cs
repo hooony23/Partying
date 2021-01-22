@@ -12,10 +12,6 @@ using JetBrains.Annotations;
 public class createMap : MonoBehaviour
 {
 
-
-    public config configData;
-
-
     public MazeCell[,] grid; //미로를 만들기 위한 격자 생성
     public int Rows; // 행에 대한 미로찾기를 위한 처음의 시작값
     public int Columns; // 열에 대한 미로찾기를 위한 처음의 시작값
@@ -64,9 +60,8 @@ public class createMap : MonoBehaviour
         }*/
 
     void basicSetting() {
-        configData = new config();
-        Rows = configData.Rows;
-        Columns = configData.Columns;
+        Rows = config.ROW;
+        Columns = config.COL;
         testJson = startmaptest.CreateLabylinth(Rows); //데이터 테스트용 값삽입
         testJson = @"{'type':'','data':" + testJson + "}";
         testJsonObject = JObject.Parse(testJson);

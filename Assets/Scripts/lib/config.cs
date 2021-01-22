@@ -15,5 +15,6 @@ public class config : MonoBehaviour
     // map
     public static int map_size = 20;
 
-
+    public static int ROW = 20;
+    public static int COL = 20;
 }

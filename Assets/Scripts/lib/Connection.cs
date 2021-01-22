@@ -60,7 +60,7 @@ namespace project
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send(client, "{'type':'connected'}<EOF>");
+                Send("{'type':'connected'}<EOF>");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -76,7 +76,7 @@ namespace project
         {
             try
             {
-                Send(client, "{'type':'connectedExit'}<EOF>");
+                Send("{'type':'connectedExit'}<EOF>");
                 sendDone.WaitOne();
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
