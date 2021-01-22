@@ -18,7 +18,6 @@ public class Maze : MonoBehaviour
     public GameObject HoleTrap;// 바닥함정 오브젝트
     public NavMeshSurface[] surfaces; // NavMesh 동적 bake를 위한 정의
 
-    private Program.testMapinfo[,,] wallInfo;
     private MazeCell[,] grid; //미로를 만들기 위한 격자 생성
     //private MazePoint[,] Spawn; //유닛 오브젝트의 위치를 지정하기 위한 배열 생성
     private int currentRow = 0; // 행에 대한 미로찾기를 위한 처음의 시작값
