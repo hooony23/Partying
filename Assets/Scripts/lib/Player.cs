@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using project;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class Player : MonoBehaviour
 {
 
-    // 기본 움직임
+    // 기본 움직임(w,a,s,d, spacebar)
     float hAxis; 
     float vAxis;
-    Vector3 moveVec;
-    public float speed;
+    Vector3 moveVec, moveDir;
+    Vector2 moveInput;
+    
     bool jDown; // sacebar키 입력 여부
 
-    // 움직임 상태
+    // 움직임 상태, 플레이어 상태
+    string player_state; // 플레이어 이벤트, 상태(run, dodge, ...)
+    public float player_speed = config.player_speed; 
+    public float player_health = config.player_health;
+    bool isMove;
     bool isDodge; // 회피동작 상태 여부
-    bool isStun = false;  // 플레이어 스턴 상태 여부
+    bool isStun = false;
+    bool isDead = false; 
 
     // 상호작용
     bool eDown; // E키 입력 여부
@@ -30,11 +40,46 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
     bool isBorder;
 
-    // Start is called before the first frame update
-    private void Awake()
+    // 캐릭터 시점
+    public Transform cameraArm;
+    Vector2 mouseDelta;
+
+    /*@@@ 서버 @@@*/
+    string userID;
+    PlayerInfo pInfo = new PlayerInfo();
+    
+
+
+    
+    void Awake()
     {
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+
+        /* 서버 연결 */
+        // AsynchronousClient.Connected();   
+
+        // 서버로부터 uuid 받아옴
+        /* string response = AsynchronousClient.Connected();
+        JObject responseJson = JObject.Parse(response);
+        userID = responseJson["data"].Value<string>("uuid"); */
+
+    }
+
+    private void Start()
+    {
+        
+
+        
+    }
+
+
+    // 에티터 플레이버튼, 앱의 종료 -> 생명주기 종료
+    private void OnApplicationQuit()
+    {
+        /* 서버 연결 해제 */
+        // AsynchronousClient.ConnectedExit();
+        
     }
 
     // Update is called once per frame
@@ -45,33 +90,70 @@ public class Player : MonoBehaviour
         Turn();
         GetItem();
         Dodge();
+        PlayerStateUpdate();
+
+
+        CameraTurn();
+        
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // default : 50fps
     {
+        /* 서버 전송 */
+        // CharacterInfo 에 현재 플레이어의 상태 입력
+        // CharacterInfo 를 서버로 전송
+        pInfo.UpdateInfo(transform.position, moveDir, player_state, userID); 
+        string jsonData = pInfo.ObjectToJson(pInfo);
+        // AsynchronousClient.Send(jsonData);
+
+
         FreezeRotation();
         StopToWall();
     }
 
     void GetInput()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        hAxis = Input.GetAxis("Horizontal");
+        vAxis = Input.GetAxis("Vertical");
         eDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
         jDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
+        mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        moveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
+
+        
+    }
+
+    // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
+    void PlayerStateUpdate()
+    {
+        // 애니메이션 : run, dodge 의 bool값 확인후 true 가 되면 "상태" 전송
+        if (isMove == true)
+            player_state = "Move";
+        if (isDodge == true)
+            player_state = "Dodge";
     }
 
     void Move()
     {
-        if (isStun == false)
-        {
-            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-            transform.position += moveVec * speed * Time.deltaTime;
-        }
+        moveVec = new Vector3(moveInput.x, 0f, moveInput.y).normalized; // Dodge 방향용 vector
 
+        if (isStun == false )
+        {
+            isMove = true;
+            Debug.DrawRay(cameraArm.position, cameraArm.forward, Color.red);
+            
+            Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
+            Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
+            // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
+            moveDir = (lookForward * moveInput.y + lookRight * moveInput.x).normalized;
+
+            transform.forward = lookForward; // 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
+            transform.position += moveDir * Time.deltaTime * player_speed;
+        }
+        
         if (isStun == true)
         {
-            moveVec = Vector3.zero;
+            moveDir *= 0.1f;
         }
 
         if (isBorder == true)
@@ -81,19 +163,49 @@ public class Player : MonoBehaviour
         }
 
         // run 애니메이션
-        anim.SetBool("isRun", moveVec != Vector3.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+        anim.SetBool("isRun", moveInput != Vector2.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+
+        if (moveInput == Vector2.zero)
+        {
+            isMove = false;
+        }
+
     }
 
     void Turn()
     {
-        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
-        transform.LookAt(transform.position + moveVec);
+        transform.LookAt(transform.position + moveDir);
     }
+
+    // 마우스 이동에 의한 카메라 각도 제한
+    void CameraTurn()
+    {
+        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
+        // transform.LookAt(transform.position + moveVec);
+
+        
+        Vector3 camAngle = cameraArm.rotation.eulerAngles;
+        float x = camAngle.x - mouseDelta.y;
+
+        if (x < 180f)
+        {
+            x = Mathf.Clamp(x, -1f, 70f);
+        }
+        else
+        {
+            x = Mathf.Clamp(x, 335f, 361f);
+        }
+
+        cameraArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+
+    }
+
+
     void GetItem() // 아이템 획득을 위한 로직
     {
         if (eDown && nearObject != null)
         { //아이템을 먹었을 때 실행하는 문장
-            if (nearObject.tag == ("Item"))
+            if (nearObject.CompareTag("Item"))
             {
                 getItem = true;
             }
@@ -102,28 +214,27 @@ public class Player : MonoBehaviour
 
     void Dodge() // 플레이어 회피
     {
-        if (jDown && isDodge == false && moveVec != Vector3.zero)
+        if (jDown && isDodge == false && moveDir!= Vector3.zero)
         {
             isDodge = true;
-            speed *= 2;
+            player_speed *= 2;
+
             anim.SetTrigger("doDodge");
 
-            Invoke("DodgeOut", 0.4f); // 회피중인 시간 0.4초, 0.4초후에 원래대로 돌아가는 DodgeOut 실행
+            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
         }
     }
-
-    
     void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
     {
         isDodge = false;
-        speed *= 0.5f;
+        player_speed *= 0.5f;
     }
 
+    // 플레이어 스턴
     public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
     {
         StartCoroutine("StunForSec", time);
     }
-
     IEnumerator StunForSec(float time)
     {
         isStun = true;
@@ -132,6 +243,15 @@ public class Player : MonoBehaviour
 
     }
 
+    // 플레이어 죽음
+    void Dead()
+    {
+        // isDead == true 일때
+        Debug.Log("플레이어가 죽었습니다!!");
+    }
+
+
+    /*@@@ 충돌해결, 콜리전 처리 등 @@@*/
     // 물리 충돌 해결 -> FixedUpdate
     // 충돌로 인한 회전력 발생 무력화
     void FreezeRotation()

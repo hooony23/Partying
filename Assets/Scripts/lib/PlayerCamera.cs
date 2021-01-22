@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// 플레이어(타겟) 위치 따라가는 기능
+
 public class PlayerCamera : MonoBehaviour
 {
     public Transform target;
