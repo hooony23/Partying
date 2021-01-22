@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
 
     // 움직임 상태, 플레이어 상태
     private string playerState; // 플레이어 이벤트, 상태(run, dodge, ...)
-    public float playerSpeed = config.playerSpeed;
-    public float playerHealth = config.playerHealth;
+    public float playerSpeed = Config.playerSpeed;
+    public float playerHealth = Config.playerHealth;
     private bool isMove;
     private bool isDodge; // 회피동작 상태 여부
 

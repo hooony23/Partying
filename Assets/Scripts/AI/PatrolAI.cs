@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using project;
 
 /* 순찰자의 순찰, 인식, 추격 기능 
  * Target을 Player로 둘수 있고, 다른것을 쫒게 할 수도 있음
