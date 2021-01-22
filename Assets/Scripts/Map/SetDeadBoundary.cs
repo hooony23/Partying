@@ -10,7 +10,7 @@ public class SetDeadBoundary : MonoBehaviour
     {
         Player player = collision.rigidbody.GetComponent<Player>();
 
-        Debug.Log("죽었습니다" + player.player_health);
+        Debug.Log(ErrorMessage.clientMessage["dead"] + player.getPlayerController().PlayerHealth);
     }
 
 }

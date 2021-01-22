@@ -438,10 +438,8 @@ MonoBehaviour:
   PatrolPoint: {fileID: 138294513}
   SpikeTrap: {fileID: 1404811910695789843, guid: 6bcbae3aa19b66841bde90df75277391,
     type: 3}
-  HoleTrap: {fileID: 1519441922320458508, guid: a578249b6d035ef469a2fd97151023fb,
-    type: 3}
-  surfaces:
-  - {fileID: 1963605048}
+  HoleTrap: {fileID: 647996715}
+  surfaces: []
 --- !u!4 &393254658
 Transform:
   m_ObjectHideFlags: 0
@@ -694,6 +692,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b6d4d1d3f38be45a9c9575af023342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &647996715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1519441922320458508, guid: a578249b6d035ef469a2fd97151023fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 393235056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &697419842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,12 +2341,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629722524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9908d97cb1292414ea91de61a655b640, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1798b3f261e2d4aa18604b8fe33bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player_speed: 14
-  player_health: 100
-  cameraArm: {fileID: 1166335229}
 --- !u!136 &1629722526
 CapsuleCollider:
   m_ObjectHideFlags: 0
