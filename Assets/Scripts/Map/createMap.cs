@@ -1,15 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System.IO;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using JetBrains.Annotations;
 
-
-public class createMap : MonoBehaviour
+public class CreateMap : MonoBehaviour
 {
 
     public MazeCell[,] grid; //미로를 만들기 위한 격자 생성
@@ -30,15 +24,14 @@ public class createMap : MonoBehaviour
     JObject testJsonObject;
     JObject data;
     public NavMeshSurface[] surfaces;
-    Program startmaptest = new Program();
 
     private bool isMapdone = false;
 
     private void Start()
     {
         //AsynchronousClient.Connected();
-        basicSetting();
-        createGrid();
+        BasicSetting();
+        CreateGrid();
     }
     void Update() // Bake를 최초 갱신하기 위함
     {
@@ -59,21 +52,21 @@ public class createMap : MonoBehaviour
         // AsynchronousClient.ConnectedExit(); //서버 연결 해제 
         }*/
 
-    void basicSetting() {
+    void BasicSetting() {
         Rows = config.ROW;
         Columns = config.COL;
-        testJson = startmaptest.CreateLabylinth(Rows); //데이터 테스트용 값삽입
+        testJson = File.ReadAllText("./Assets/Scripts/Map/temp.json");
         testJson = @"{'type':'','data':" + testJson + "}";
         testJsonObject = JObject.Parse(testJson);
         data = (JObject)testJsonObject["data"];
     }
-    void createGrid()
+    void CreateGrid()
     {
         // 결과를 확인하기 위한 구문 Dictionary<int, string> type = new Dictionary<int, string>() { { 0, "왼쪽" }, { 1, "오른쪽" }, { 2, "위" }, { 3, "아래" } };
         JArray labylinthJArray = data.Value<JArray>("labylinthArray");
-        JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
+        // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
         int[,,] labylinthArray = labylinthJArray.ToObject<int[,,]>();
-        int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
+        // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
         float size = wall.transform.localScale.x;
         grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
 
@@ -117,16 +110,16 @@ public class createMap : MonoBehaviour
                 grid[i, j].Respwan = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 1.01f, -i * size), Quaternion.identity); //플레이어,함정 리스폰을 위해 생성
                 grid[i, j].Respwan.name = "MazeRespawn_" + i + "_" + j;
                 grid[i, j].Respwan.transform.parent = MazeRespwan.transform;
-                if (patrolpoint[i, j] == 0) //Ai가 패트롤할 구간을 지정하기 위한 생성
-                {
-                    continue;
-                }
-                if (patrolpoint[i, j] == 1)
-                {
-                    grid[i, j].AiPoint = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 10f, -i * size), Quaternion.identity);
-                    grid[i, j].AiPoint.name = "PatrolPoint_" + i + "_" + j;
-                    grid[i, j].AiPoint.transform.parent = PatrolPoint.transform;
-                }
+                // if (patrolpoint[i, j] == 0) //Ai가 패트롤할 구간을 지정하기 위한 생성
+                // {
+                //     continue;
+                // }
+                // if (patrolpoint[i, j] == 1)
+                // {
+                //     grid[i, j].AiPoint = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 10f, -i * size), Quaternion.identity);
+                //     grid[i, j].AiPoint.name = "PatrolPoint_" + i + "_" + j;
+                //     grid[i, j].AiPoint.transform.parent = PatrolPoint.transform;
+                // }
             }
         }
         isMapdone = true;
@@ -160,66 +153,3 @@ public class createMap : MonoBehaviour
         }
     }
 }
-public class Program
-{
-    public class MapInfo
-    {
-        public int[,,] wallInfo;
-        public int[,] patrolpointInfo;
-        public string[,] trapInfo;
-        public int clearItemLocation;
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(new { labylinthArray = wallInfo, patrolpoint = patrolpointInfo, trap = trapInfo }); //, clearItem = clearItemLocation 
-        }
-    }
-    public static string randomTrap(int num)
-    {
-        string result = "None";
-        switch (num)
-        {
-            case 1:
-                result = "ranth";
-                break;
-            case 2:
-                result = "hole";
-                break;
-            case 3:
-                result = "slow";
-                break;
-            case 4:
-                result = "dange";
-                break;
-        }
-        return result;
-    }
-    public string CreateLabylinth(int size)
-    {
-        MapInfo mapInfo = new MapInfo();
-        System.Random r = new System.Random();
-        //mapInfo.clearItemLocation = new Vector3(r.Next(0, size), 3, r.Next(0, size));
-        mapInfo.wallInfo = new int[size, size, 4];
-        mapInfo.patrolpointInfo = new int[size, size];
-        mapInfo.trapInfo = new string[size, size];
-        for (int i = 0; i < mapInfo.wallInfo.GetLength(0); i++)
-        {
-            for (int j = 0; j < mapInfo.wallInfo.GetLength(1); j++)
-            {
-
-                for (int k = 0; k < mapInfo.wallInfo.GetLength(2); k++)
-                {
-                    mapInfo.wallInfo[i, j, k] = r.Next(0, 2);
-
-                }
-                mapInfo.trapInfo[i, j] = randomTrap(r.Next(1, 5));
-                //Debug.Log(mapInfo.trapInfo[i, j]);
-                mapInfo.patrolpointInfo[i, j] = r.Next(0, 2);
-            }
-
-        }
-        return mapInfo.ToString();
-    }
-   
-}
-

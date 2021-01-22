@@ -11,24 +11,24 @@ using Newtonsoft.Json.Linq;
 namespace project
 {
 
-    // State object for receiving data from remote device.
+    // State object for receiving data from remote device.  
     public class StateObject
     {
-        // Client socket.
+        // Client socket.  
         public Socket workSocket = null;
-        // Size of receive buffer.
+        // Size of receive buffer.  
         public const int BufferSize = 256;
-        // Receive buffer.
+        // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
-        // Received data string.
+        // Received data string.  
         public StringBuilder sb = new StringBuilder();
     }
 
     public class AsynchronousClient
     {
-        // The port number for the remote device.
+        // The port number for the remote device.  
 
-        // ManualResetEvent instances signal completion.
+        // ManualResetEvent instances signal completion.  
         private static ManualResetEvent connectDone =
             new ManualResetEvent(false);
         private static ManualResetEvent sendDone =
@@ -36,31 +36,31 @@ namespace project
         private static ManualResetEvent receiveDone =
             new ManualResetEvent(false);
 
-        // The response from the remote device.
+        // The response from the remote device.  
         private static String response = String.Empty;
         private static Socket client;
         public static string Connected()
         {
-            // Connect to a remote device.
+            // Connect to a remote device.  
             try
             {
-                // Establish the remote endpoint for the socket.
+                // Establish the remote endpoint for the socket.  
                 // The name of the
-                // remote device is "host.contoso.com".
+                // remote device is "host.contoso.com".  
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(config.serverIP);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, config.serverPort);
 
-                // Create a TCP/IP socket.
+                // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,
                     SocketType.Stream, ProtocolType.Tcp);
 
-                // Connect to the remote endpoint.
+                // Connect to the remote endpoint.  
                 client.BeginConnect(remoteEP,
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send("{'type':'connected'}<EOF>");
+                Send(client, "{'type':'connected'}<EOF>");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -76,9 +76,9 @@ namespace project
         {
             try
             {
-                Send("{'type':'connectedExit'}<EOF>");
+                Send(client, "{'type':'connectedExit'}<EOF>");
                 sendDone.WaitOne();
-                // Release the socket.
+                // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
             }
@@ -92,16 +92,16 @@ namespace project
         {
             try
             {
-                // Retrieve the socket from the state object.
+                // Retrieve the socket from the state object.  
                 Socket client = (Socket)ar.AsyncState;
 
-                // Complete the connection.
+                // Complete the connection.  
                 client.EndConnect(ar);
 
                 // Console.WriteLine("Socket connected to {0}",
                 //     client.RemoteEndPoint.ToString());
 
-                // Signal that the connection has been made.
+                // Signal that the connection has been made.  
                 connectDone.Set();
             }
             catch (Exception e)
@@ -115,11 +115,11 @@ namespace project
         {
             try
             {
-                // Create the state object.
+                // Create the state object.  
                 StateObject state = new StateObject();
                 state.workSocket = client;
                 state.sb.Clear();
-                // Begin receiving the data from the remote device.
+                // Begin receiving the data from the remote device.  
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
             }
@@ -134,11 +134,11 @@ namespace project
             try
             {
                 // Retrieve the state object and the client socket
-                // from the asynchronous state object.
+                // from the asynchronous state object.  
                 StateObject state = (StateObject)ar.AsyncState;
                 Socket client = state.workSocket;
                 String content = String.Empty;
-                // Read data from the remote device.
+                // Read data from the remote device.  
                 int bytesRead = client.EndReceive(ar);
                 if (bytesRead > 0)
                 {
@@ -167,14 +167,13 @@ namespace project
             }
         }
         // -------------- Send
-        public static void Send(String Message)
+        private static void Send(Socket client, String data)
         {
-            // Convert the string data to byte data using ASCII encoding.
-            string data = Message + "<EOF>";
-            byte[] byteData = Encoding.UTF8.GetBytes(data);
+            // Convert the string data to byte data using ASCII encoding.  
+            byte[] byteData = Encoding.ASCII.GetBytes(data);
             // Console.WriteLine("send {0}", data);
 
-            // Begin sending the data to the remote device.
+            // Begin sending the data to the remote device.  
             client.BeginSend(byteData, 0, byteData.Length, 0,
                 new AsyncCallback(SendCallback), client);
         }
@@ -183,13 +182,13 @@ namespace project
         {
             try
             {
-                // Retrieve the socket from the state object.
+                // Retrieve the socket from the state object.  
                 Socket client = (Socket)ar.AsyncState;
 
-                // Complete sending the data to the remote device.
+                // Complete sending the data to the remote device.  
                 int bytesSent = client.EndSend(ar);
 
-                // Signal that all bytes have been sent.
+                // Signal that all bytes have been sent.  
                 sendDone.Set();
             }
             catch (Exception e)

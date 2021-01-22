@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 
 
-public class aiMove
+public class AIMove
 {
     public string type = "aiMove";
     public string uuid = "room_masteruuid-8285-48b9-b0cd-017df4ed029b"; // 서버로부터 받아오는 로직 추가

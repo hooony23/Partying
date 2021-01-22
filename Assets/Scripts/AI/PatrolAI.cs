@@ -29,7 +29,7 @@ public class PatrolAI : MonoBehaviour
 
 
     //@@@ 서버 @@@
-    aiMove aiMove = new aiMove();
+    AIMove aiMove = new AIMove();
 
     private void Awake()
     {

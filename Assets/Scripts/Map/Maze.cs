@@ -1,7 +1,4 @@
-﻿using project;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class Maze : MonoBehaviour
@@ -27,7 +24,6 @@ public class Maze : MonoBehaviour
 
     private bool scanComplete = false; //Maze 구성의 Hunt의 종료여부 확인
     private bool Completemap = false;//Maze Walk,Hunt구성의 완성을 확인
-
     void Start()
     {
         Test = (Rows * Columns / 16);
