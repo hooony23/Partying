@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,27 +8,18 @@ using UnityEngine;
 
 public class PlayerUtil : MonoBehaviour
 {
-    protected PlayerController playerController;
+    public PlayerController playerController = new PlayerController();
+    [Range(0.01f, 10)] public float mouseSensitivity = 1;
 
-
-    public PlayerController getPlayerController()
+    public void GetInput()
     {
-        return this.playerController;
-    }
-
-    public void setPlayerController(PlayerController playerController)
-    {
-        this.playerController = playerController;
-    }
-
-    public void GetInput(float hAxis, float vAxis, bool eDown, bool jDown, float mouseX, float mouseY)
-    {
-        playerController.HAxis = hAxis;
-        playerController.VAxis = vAxis;
-        playerController.EDown = eDown; //E키를 통한 아이템 습득
-        playerController.JDown = jDown; // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
-        playerController.MouseDelta = new Vector2(mouseX, mouseY); // 마우스를 통해 플레이어 화면 움직임
-        playerController.MoveInput = new Vector2(hAxis, vAxis).normalized; // TPS 움직임용 vector
+        
+        playerController.HAxis = Input.GetAxis("Horizontal");
+        playerController.VAxis = Input.GetAxis("Vertical");
+        playerController.EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
+        playerController.JDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
+        playerController.MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        playerController.MoveInput = new Vector2(playerController.HAxis, playerController.VAxis).normalized; // TPS 움직임용 vector
 
 
     }
@@ -44,7 +34,7 @@ public class PlayerUtil : MonoBehaviour
             playerController.PlayerState = "Dodge";
     }
 
-    public void Move(GameObject gameObject)
+    public void Move()
     {
         playerController.MoveVec = new Vector3(playerController.MoveInput.x, 0f, playerController.MoveInput.y).normalized; // Dodge 방향용 vector
 
@@ -58,8 +48,8 @@ public class PlayerUtil : MonoBehaviour
             // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
             playerController.MoveDir = (lookForward * playerController.MoveInput.y + lookRight * playerController.MoveInput.x).normalized;
 
-            gameObject.transform.forward = lookForward; // 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
-            gameObject.transform.position += playerController.MoveDir * Time.deltaTime * playerController.PlayerSpeed;
+            transform.forward = lookForward; // 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
+            transform.position += playerController.MoveDir * Time.deltaTime * playerController.PlayerSpeed;
         }
 
         if (playerController.IsStun == true)
@@ -83,9 +73,9 @@ public class PlayerUtil : MonoBehaviour
 
     }
 
-    public void Turn(GameObject gameObject)
+    public void Turn()
     {
-        gameObject.transform.LookAt(gameObject.transform.position + playerController.MoveDir);
+        transform.LookAt(transform.position + playerController.MoveDir);
     }
 
     // 마우스 이동에 의한 카메라 각도 제한
@@ -94,9 +84,8 @@ public class PlayerUtil : MonoBehaviour
         // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
         // transform.LookAt(transform.position + moveVec);
 
-
         Vector3 camAngle = playerController.CameraArm.rotation.eulerAngles;
-        float x = camAngle.x - playerController.MouseDelta.y;
+        float x = camAngle.x - playerController.MouseDelta.y * mouseSensitivity;
 
         if (x < 180f)
         {
@@ -107,7 +96,7 @@ public class PlayerUtil : MonoBehaviour
             x = Mathf.Clamp(x, 335f, 361f);
         }
 
-        playerController.CameraArm.rotation = Quaternion.Euler(x, camAngle.y + playerController.MouseDelta.x, camAngle.z);
+        playerController.CameraArm.rotation = Quaternion.Euler(x, camAngle.y + playerController.MouseDelta.x * mouseSensitivity, camAngle.z);
 
     }
 

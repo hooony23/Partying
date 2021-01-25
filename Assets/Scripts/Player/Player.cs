@@ -2,14 +2,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 public class Player : PlayerUtil
 {
-
     /*@@@ 서버 @@@*/
-    string userID;
+    string userID = null;
     PlayerInfo pInfo = new PlayerInfo();
     
     void Awake()
     {
-        playerController = new PlayerController();
+        
         playerController.CameraArm = GameObject.Find("CameraArm").transform;
         playerController.Anim = GetComponent<Animator>();
         playerController.Rigid = GetComponent<Rigidbody>();
@@ -35,16 +34,14 @@ public class Player : PlayerUtil
     // Update is called once per frame
     void Update()
     {
-        GetInput(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Input.GetKeyDown(KeyCode.E), Input.GetButtonDown("Jump"), Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        Move(this.gameObject);
-        Turn(this.gameObject);
+        GetInput();
+        Move();
+        Turn();
         GetItem();
+        CameraTurn();
         Dodge();
         PlayerStateUpdate();
-        CameraTurn();
-        
     }
-
     
     private void FixedUpdate() // default : 50fps
     {
@@ -55,7 +52,7 @@ public class Player : PlayerUtil
         string jsonData = pInfo.ObjectToJson(pInfo);
         // AsynchronousClient.Send(jsonData);
 
-
+        
         FreezeRotation();
         StopToWall();
     }

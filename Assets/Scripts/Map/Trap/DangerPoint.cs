@@ -10,6 +10,7 @@ public class DangerPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             enemy.CheckDanger(other.transform);
+            
         }
     }
 

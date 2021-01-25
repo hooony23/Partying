@@ -12,9 +12,12 @@ public class Config : MonoBehaviour
     public static float playerSpeed = 14f;
     public static float playerHealth = 100;
 
-    // map
-    public static int mapSize = 20;
+    // patrol
+    public static float patrolVisionAngle = 110f;        // 패트롤 시야각
+    public static float playerDetectDistance = 10f;      // 플레이어 viewAngle 안에 들어왔을시 사정거리
+    public static float patrolPointFindDistance = 20f;  // 순찰지역 랜덤 인식을 위한 사정거리
 
+    // map
     public static int ROW = 20;
     public static int COL = 20;
 }

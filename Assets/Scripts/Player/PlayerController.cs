@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController
 {
 
     private bool isStun = false;
@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
 
     // 움직임 상태, 플레이어 상태
     private string playerState; // 플레이어 이벤트, 상태(run, dodge, ...)
-    public float playerSpeed = Config.playerSpeed;
-    public float playerHealth = Config.playerHealth;
+    private float playerSpeed = Config.playerSpeed;
+    private float playerHealth = Config.playerHealth;
     private bool isMove;
     private bool isDodge; // 회피동작 상태 여부
 
@@ -36,255 +36,28 @@ public class PlayerController : MonoBehaviour
     private bool isBorder;
 
     // 캐릭터 시점
-    public Transform cameraArm;
+    private Transform cameraArm;
     private Vector2 mouseDelta;
-    public bool IsStun{
-        
-        get
-        {
-            return this.isStun;
-        }
-        set
-        {
-            this.isStun = value;
-        }
-    }
-    public bool IsDead{
-        
-        get
-        {
-            return this.isDead;
-        }
-        set
-        {
-            this.isDead = value;
-        }
-    }
-    public bool GetItem{
-        
-        get
-        {
-            return this.getItem;
-        }
-        set
-        {
-            this.getItem = value;
-        }
-    }
-    public float HAxis
-    {
-        get
-        {
-            return this.hAxis;
-        }
-        set
-        {
-            this.hAxis = value;
-        }
-    }
 
-    public float VAxis
-    {
-        get
-        {
-            return this.vAxis;
-        }
-        set
-        {
-            this.vAxis = value;
-        }
-    }
-
-    public Vector3 MoveVec
-    {
-        get
-        {
-            return this.moveVec;
-        }
-        set
-        {
-            this.moveVec = value;
-        }
-    }
-
-    public Vector3 MoveDir
-    {
-        get
-        {
-            return this.moveDir;
-        }
-        set
-        {
-            this.moveDir = value;
-        }
-    }
-
-    public bool JDown
-    {
-        get
-        {
-            return this.jDown;
-        }
-        set
-        {
-            this.jDown = value;
-        }
-    }
-
-    public string PlayerState
-    {
-        get
-        {
-            return this.playerState;
-        }
-        set
-        {
-            this.playerState = value;
-        }
-    }
-
-    public float PlayerSpeed
-    {
-        get
-        {
-            return this.playerSpeed;
-        }
-        set
-        {
-            this.playerSpeed = value;
-        }
-    }
-
-    public float PlayerHealth
-    {
-        get
-        {
-            return this.playerHealth;
-        }
-        set
-        {
-            this.playerHealth = value;
-        }
-    }
-
-    public bool IsMove
-    {
-        get
-        {
-            return this.isMove;
-        }
-        set
-        {
-            this.isMove = value;
-        }
-    }
-
-    public bool IsDodge
-    {
-        get
-        {
-            return this.isDodge;
-        }
-        set
-        {
-            this.isDodge = value;
-        }
-    }
-
-    public bool EDown
-    {
-        get
-        {
-            return this.eDown;
-        }
-        set
-        {
-            this.eDown = value;
-        }
-    }
-
-    public Animator Anim
-    {
-        get
-        {
-            return this.anim;
-        }
-        set
-        {
-            this.anim = value;
-        }
-    }
-
-    public Rigidbody Rigid
-    {
-        get
-        {
-            return this.rigid;
-        }
-        set
-        {
-            this.rigid = value;
-        }
-    }
-
-    public bool IsBorder
-    {
-        get
-        {
-            return this.isBorder;
-        }
-        set
-        {
-            this.isBorder = value;
-        }
-    }
-
-    public Transform CameraArm
-    {
-        get
-        {
-            return this.cameraArm;
-        }
-        set
-        {
-            this.cameraArm = value;
-        }
-    }
-
-    public Vector2 MouseDelta
-    {
-        get
-        {
-            return this.mouseDelta;
-        }
-        set
-        {
-            this.mouseDelta = value;
-        }
-    }
-    public Vector2 MoveInput
-    {
-        
-        get
-        {
-            return this.moveInput;
-        }
-        set
-        {
-            this.moveInput = value;
-        }
-    }
-    public GameObject NearObject
-    {
-        
-        get
-        {
-            return this.nearObject;
-        }
-        set
-        {
-            this.nearObject = value;
-        }
-    }
-
+    public bool IsStun { get => isStun; set => isStun = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
+    public bool GetItem { get => getItem; set => getItem = value; }
+    public float HAxis { get => hAxis; set => hAxis = value; }
+    public float VAxis { get => vAxis; set => vAxis = value; }
+    public Vector3 MoveVec { get => moveVec; set => moveVec = value; }
+    public Vector3 MoveDir { get => moveDir; set => moveDir = value; }
+    public Vector2 MoveInput { get => moveInput; set => moveInput = value; }
+    public bool JDown { get => jDown; set => jDown = value; }
+    public string PlayerState { get => playerState; set => playerState = value; }
+    public float PlayerSpeed { get => playerSpeed; set => playerSpeed = value; }
+    public float PlayerHealth { get => playerHealth; set => playerHealth = value; }
+    public bool IsMove { get => isMove; set => isMove = value; }
+    public bool IsDodge { get => isDodge; set => isDodge = value; }
+    public bool EDown { get => eDown; set => eDown = value; }
+    public GameObject NearObject { get => nearObject; set => nearObject = value; }
+    public Animator Anim { get => anim; set => anim = value; }
+    public Rigidbody Rigid { get => rigid; set => rigid = value; }
+    public bool IsBorder { get => isBorder; set => isBorder = value; }
+    public Transform CameraArm { get => cameraArm; set => cameraArm = value; }
+    public Vector2 MouseDelta { get => mouseDelta; set => mouseDelta = value; }
 }
