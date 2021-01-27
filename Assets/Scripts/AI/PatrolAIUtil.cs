@@ -21,6 +21,8 @@ public class PatrolAIUtil : MonoBehaviour
                 Vector3 target_visible = cols[i].transform.position;
                 Vector3 targetDirection = (target_visible - pac.Patrol.transform.position).normalized;
                 float targetAngle = Vector3.Angle(targetDirection, pac.Patrol.transform.forward);
+
+                // 0.5f : 시야각 forward 기준으로 한쪽방향 * 2
                 if (targetAngle < pac.ViewAngle * 0.5f)
                 {
                     cols_visible.Add(cols[i]);
