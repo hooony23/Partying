@@ -2,14 +2,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 public class Player : PlayerUtil
 {
+    [SerializeField] private GameObject cameraArm;
+
     /*@@@ 서버 @@@*/
     string userID = null;
     PlayerInfo pInfo = new PlayerInfo();
     
     void Awake()
     {
-        
-        playerController.CameraArm = GameObject.Find("CameraArm").transform;
+
+        playerController.CameraArm = cameraArm.transform;
         playerController.Anim = GetComponent<Animator>();
         playerController.Rigid = GetComponent<Rigidbody>();
 

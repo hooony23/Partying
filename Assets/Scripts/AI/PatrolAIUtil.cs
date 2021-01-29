@@ -62,7 +62,7 @@ public class PatrolAIUtil : MonoBehaviour
         }
 
         // 주변에 플레이어 없음
-        Debug.Log("순찰 재시작");
+        // Debug.Log("순찰 재시작");
         pac.IsPatrol = true;
 
     }
