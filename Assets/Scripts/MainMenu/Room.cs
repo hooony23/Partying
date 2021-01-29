@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// 방 안에 들어옴
+
 public class Room : MonoBehaviour
 {
     [SerializeField] private Text title = null;
@@ -44,7 +47,7 @@ public class Room : MonoBehaviour
     }
     public void SetupRoom()
     {
-        
+        // 방제목 ...등등 초기화
         title.text = currentRoom.RoomTitle;
     }
 

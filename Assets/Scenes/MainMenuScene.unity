@@ -1450,6 +1450,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225425697}
   m_CullTransparentMesh: 0
+--- !u!1 &240384719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 240384720}
+  - component: {fileID: 240384721}
+  m_Layer: 5
+  m_Name: PopupSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &240384720
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240384719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 384282004}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &240384721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240384719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e43e73036336148ae020855895a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &242927881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2130,7 @@ RectTransform:
   m_Children:
   - {fileID: 220357263}
   - {fileID: 41516259}
+  - {fileID: 240384720}
   - {fileID: 1142854450}
   - {fileID: 979179931}
   - {fileID: 1052963639}
@@ -4281,7 +4330,7 @@ RectTransform:
   - {fileID: 730914656}
   - {fileID: 1696649328}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4490,7 +4539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &979179931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4511,7 +4560,7 @@ RectTransform:
   - {fileID: 583120164}
   - {fileID: 385053008}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4854,7 +4903,7 @@ GameObject:
   - component: {fileID: 1052963639}
   - component: {fileID: 1052963640}
   m_Layer: 5
-  m_Name: SignupUI
+  m_Name: "SignupUI // \uD68C\uC6D0\uAC00\uC785"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4882,7 +4931,7 @@ RectTransform:
   - {fileID: 2130165747}
   - {fileID: 1832518854}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5400,12 +5449,12 @@ GameObject:
   - component: {fileID: 1142854450}
   - component: {fileID: 1142854451}
   m_Layer: 5
-  m_Name: FirstScreenUI
+  m_Name: "FirstScreenUI // (\uCD5C\uCD08) \uC774 \uD654\uBA74\uB9CC \uD65C\uC131\uD654"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1142854450
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5420,7 +5469,7 @@ RectTransform:
   - {fileID: 10993966}
   - {fileID: 79857052}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5601,7 +5650,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1247638222}
   m_Layer: 5
-  m_Name: HostOrUserUI
+  m_Name: "HostOrUserUI // \uBC29\uB9CC\uB4E4\uAE30 \uC785\uC7A5\uD558\uAE30 \uC911
+    \uC120\uD0DD"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5622,7 +5672,7 @@ RectTransform:
   - {fileID: 1839903883}
   - {fileID: 1904522785}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6694,7 +6744,7 @@ RectTransform:
   - {fileID: 661547915}
   - {fileID: 2006875368}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6717,9 +6767,9 @@ MonoBehaviour:
     type: 3}
   content: {fileID: 309456221}
   nextScreen: {fileID: 1900864840}
+  popup: {fileID: 2006875367}
   message: {fileID: 296072316}
   inputPassword: {fileID: 801372058}
-  popup: {fileID: 2006875367}
   check: {fileID: 2121852461}
   cancel: {fileID: 1898881130}
 --- !u!1 &1656240113
@@ -8119,9 +8169,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2006875367}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1643745071}
+        m_MethodName: OnClickCancel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8211,7 +8261,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900864840}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8222,7 +8272,7 @@ RectTransform:
   - {fileID: 770485187}
   - {fileID: 1085601034}
   m_Father: {fileID: 384282004}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8996,6 +9046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2006875368}
+  - component: {fileID: 2006875369}
   m_Layer: 5
   m_Name: Popup Password
   m_TagString: Untagged
@@ -9027,6 +9078,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -99.92}
   m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &2006875369
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006875367}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9d42e0db0a10a254fb2166a7ba1c42b3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2028298106
 GameObject:
   m_ObjectHideFlags: 0

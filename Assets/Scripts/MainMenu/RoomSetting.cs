@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 방만들기
+
 public class RoomSetting : MonoBehaviour
 {
     public GameObject warning;

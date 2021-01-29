@@ -11,7 +11,7 @@ public class Lobby : MonoBehaviour
     [SerializeField] private Transform content = null;
     [SerializeField] private GameObject nextScreen = null; // RoomUI
     
-
+    
 
     // 예시) 받아올 방들의 정보
     List<RoomInfo> rooms;
@@ -24,17 +24,22 @@ public class Lobby : MonoBehaviour
     RoomInfo room7 = new RoomInfo(6, "바보바보바보", "hasse", "", 1);
 
     // 비밀번호 입력 창
+    [SerializeField] private GameObject popup = null;
     [SerializeField] private Text message = null;
     [SerializeField] private InputField inputPassword = null;
-    [SerializeField] private GameObject popup = null;
     [SerializeField] private Button check = null;
     [SerializeField] private Button cancel = null;
 
+    
+
     // 선택한 방의 정보
     private RoomInfo clickroomInfo = null;
-    // private string clickroomPassword = null;
 
 
+    private void Awake()
+    {
+
+    }
 
     void Start()
     {
@@ -48,8 +53,10 @@ public class Lobby : MonoBehaviour
         rooms.Add(room6);
         rooms.Add(room7);
 
-        AddElement();
+        AddElement(); // 방 목록 갱신
 
+        popup.SetActive(false); // 팝업 메뉴 비활성화로 초기화
+ 
 
     }
 
@@ -105,20 +112,21 @@ public class Lobby : MonoBehaviour
     {
         this.clickroomInfo = rooms[index];
 
+        // 비밀번호가 "" 인 공개방 입장
         if (clickroomInfo.RoomPassword.Equals(""))
         {
             Debug.Log(clickroomInfo.RoomTitle + " 방을 입장합니다");
             this.gameObject.SetActive(false);
             nextScreen.SetActive(true);
 
-            // 서버: 방 입장하면서 입장한 방의 roomInfo로 설정(Room에서 roomInfo를 받아오기 위함) 일듯?
 
         }
+        // 비밀번호가 "" 가 아닌 비밀방 클릭
         else
         {
-            // 비밀번호 입력 창 팝업
+            // 비밀번호 입력 창 팝업시킴
             message.text = "비밀번호를 입력해주세요";
-            popup.SetActive(true);
+            PopupSystem.instance.OpenPopUp(popup);
 
         }
     }
@@ -134,7 +142,7 @@ public class Lobby : MonoBehaviour
         if (inputPassword.text.Equals(clickroomInfo.RoomPassword))
         {
             Debug.Log("비밀번호 일치합니다");
-            popup.SetActive(false); // 팝업 비활성화
+            popup.SetActive(false); // 팝업 바로 비활성화
             inputPassword.text = ""; // 팝업 입력했던 비밀번호 재설정
 
             // 다음 화면으로
@@ -148,5 +156,10 @@ public class Lobby : MonoBehaviour
             inputPassword.text = "";
         }
 
+    }
+
+    public void OnClickCancel()
+    {
+        PopupSystem.instance.ClosePopUp(popup);
     }
 }
