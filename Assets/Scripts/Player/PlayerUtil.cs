@@ -10,7 +10,7 @@ using UnityEngine;
 public class PlayerUtil : MonoBehaviour
 {
     protected PlayerController playerController;
-
+    private MapClearItem MapClearItem;
 
     public PlayerController getPlayerController()
     {
@@ -176,13 +176,15 @@ public class PlayerUtil : MonoBehaviour
 
     public void IsClear(Collider other)
     {
+        MapClearItem = new MapClearItem();
         if (other.CompareTag("Item"))
         {
             playerController.NearObject = other.gameObject;
             if (playerController.GetItem == true)
             {
-                SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
-                Destroy(playerController.NearObject); // 이동과 동시에 아이템 오브젝트가 사라짐
+                MapClearItem.IsBoxOpen();
+                //SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
+                Destroy(playerController.NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
             }
         }
     }

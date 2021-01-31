@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDir;
     private Vector2 moveInput;
 
+    private string walkSound = "Walk";
 
     private bool jDown; // sacebar키 입력 여부
 
@@ -286,5 +287,15 @@ public class PlayerController : MonoBehaviour
             this.nearObject = value;
         }
     }
-
+    public string WalkSound
+    {
+        get
+        {
+            return this.walkSound;
+        }
+        set
+        {
+            this.walkSound = value;
+        }
+    }
 }

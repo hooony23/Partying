@@ -17,4 +17,7 @@ public class Config : MonoBehaviour
 
     public static int ROW = 20;
     public static int COL = 20;
+
+    public static float Bgmvol;
+    public static float Sfxvol;
 }
