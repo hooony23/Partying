@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,112 +9,49 @@ using UnityEngine.AI;
  * 추격할 타겟의 태그를 "Player", LayerMask를 "Player"라고 설정해야함
  */
 
-public class PatrolAI : MonoBehaviour
+public class PatrolAI : PatrolAIUtil
 {
-    // 시야각 에 따른 순찰
-    [SerializeField] float viewAngle = 0f; // 시야각
-    [SerializeField] float distance = 0f; // 반경
-    [SerializeField] LayerMask layerMask = 0; // OverlapSphere : LayerMask를 통해 인식함
 
 
-    // 정찰 위치들을 담을 배열 선언
-    [SerializeField] Transform[] tfWayPoints = null;
-    int count = 0;
+    //@@@ 서버 @@@
+    AIMove aiMove = new AIMove();
 
-    NavMeshAgent enemy = null;
-    Transform target = null; // 타켓이 정해지면 추격함
 
-    // Start is called before the first frame update
+    NavMeshAgent navPatrol;
+    private void Awake()
+    {   
+        pac.LayerMaskPlayer = LayerMask.GetMask("Player");
+        pac.LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
+        pac.Patrol = GetComponent<NavMeshAgent>();
+
+    }
     void Start()
     {
-        enemy = GetComponent<NavMeshAgent>();
-        InvokeRepeating("Patrol", 0f, 2f);
+        pac.LastPpoint = transform;
+        
+        InvokeRepeating("FindPatrolPoint", 0f, 1.5f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        UpdateTarget();
-        Chase();
+        
+        UpdatePatrolTarget();
+        Move(); // 순찰, 추격, 위험지역 확인
+        
+        
     }
 
-    // 다음 정찰지역으로 이동시켜줌
-    void Patrol()
+    private void FixedUpdate()
     {
-        // 포인트 돌아가면서 순찰
-        if (enemy.velocity == Vector3.zero)
-        {
-            enemy.SetDestination(tfWayPoints[count++].position);
-            if (count >= tfWayPoints.Length)
-                count = 0;
-        }
+        // AI정보 서버에 보냄
+        //string aiUuid = "aiUuid-123123-123123";
+        //Vector3 moveVec = Vector3.zero;
+        //aiMove.UpdateAiInfo(aiUuid, transform.position, moveVec, target);
+        //string jsonData = aiMove.ObjectToJson(aiMove);
+        //Debug.Log(jsonData);
+        //AsynchronousClient.Send(jsonData);
+
     }
 
-    void UpdateTarget()
-
-    /* 
-     * 추적해야할 플레이어들의 타겟을 업데이트
-     * 타겟의 layerMask는 "Player"로 해야 인식 가능
-     * 인식된 Player들중 가장 가까운 것을 타겟으로 설정
-     */
-
-    {
-        Collider[] cols = Physics.OverlapSphere(transform.position, distance, layerMask); // (중심, 반경, layer)
-        if (cols.Length > 0) // 주변에 1개이상 콜라이더 검출되면
-        {
-            Debug.Log("플레이어 검출됨");
-            int minIndex = 0;
-            float minDistance = (transform.position - cols[0].transform.position).magnitude;
-            for (int i = 0; i < cols.Length; i++)
-            {
-                // 추출된 콜라이더(플레이어위치) 와 순찰자 위치 비교하여 제일 가까운 플레이어를 타겟으로
-                if ((transform.position - cols[i].transform.position).magnitude < minDistance)
-                {
-                    minIndex = i;
-                    minDistance = (transform.position - cols[i].transform.position).magnitude;
-                }
-            }
-            target = cols[minIndex].transform;
-            
-        }
-    }
-
-    public void Chase()
-    {
-
-        // 타겟이 있고 > 시야각 안에 들어왔으면 > 순찰 취소 > 추격
-        // 타겟이 있고 > 시야각 안에 없으면 > 순찰
-        if (target != null)
-        {
-            Vector3 targetDirection = (target.position - transform.position).normalized;
-            float targetAngle = Vector3.Angle(targetDirection, transform.forward);
-
-            if (targetAngle < viewAngle * 0.5f) // 범위 안에 있고 시야각 안에 있음
-            {
-                CancelInvoke();
-                enemy.SetDestination(target.position);
-
-
-            }
-            else
-            {
-                InvokeRepeating("Patrol", 0f, 2f);
-            }
-        }
-        else if (target == null) // 범위에 없음
-        {
-            InvokeRepeating("Patrol", 0f, 2f);
-        }
-    }
-
-    // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적
-    public void CheckDanger(Transform dangerTarget)
-    {
-        CancelInvoke();
-        enemy.SetDestination(dangerTarget.position);
-    }
-          
-    
-    
     
 }
