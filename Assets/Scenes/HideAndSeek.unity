@@ -417,9 +417,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 393254656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b38023dda195ac449e839a67e41f1d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d805712ac3841b4292cf559e2cd63aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rows: 2
+  Columns: 2
+  wall: {fileID: 4106891451373894568, guid: 80152f4c77f79894d91d3634d8350c13, type: 3}
+  UpDownWall: {fileID: 8261083374174478660, guid: f121fd3adc85adc4f8534f482920909d,
+    type: 3}
+  MazePoint: {fileID: 866680368}
+  MazeRespwan: {fileID: 697419842}
+  TrapPoint: {fileID: 2132175808}
+  PatrolPoint: {fileID: 1506043033}
+  SpikeTrap: {fileID: 1404811910695789843, guid: 6bcbae3aa19b66841bde90df75277391,
+    type: 3}
+  HoleTrap: {fileID: 1519441922320458508, guid: a578249b6d035ef469a2fd97151023fb,
+    type: 3}
+  surfaces: []
 --- !u!4 &393254658
 Transform:
   m_ObjectHideFlags: 0

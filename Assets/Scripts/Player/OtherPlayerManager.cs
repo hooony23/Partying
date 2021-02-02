@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class OtherPlayer : MonoBehaviour
@@ -14,5 +16,9 @@ public class OtherPlayer : MonoBehaviour
     void Update()
     {
         
+        // if (IsKeyEvent(Evect.current))
+        // {
+            
+        // }
     }
 }

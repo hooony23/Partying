@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-
+using Partying.Assets.Scripts.API;
 
 public class PlayerUtil : MonoBehaviour
 {
@@ -13,9 +12,9 @@ public class PlayerUtil : MonoBehaviour
 
     public void GetInput()
     {
-        
         playerController.HAxis = Input.GetAxis("Horizontal");
         playerController.VAxis = Input.GetAxis("Vertical");
+        // Debug.Log($"{playerController.HAxis},{playerController.VAxis}");
         playerController.EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
         playerController.JDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
         playerController.MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
@@ -23,7 +22,19 @@ public class PlayerUtil : MonoBehaviour
 
 
     }
-
+    public void MoveChangeSend(PlayerInfo playerInfo){
+        
+        if (IsMoveChange())
+        {
+            APIController.SendController("Move", playerInfo.ObjectToJson());
+        }
+    }
+    public bool IsMoveChange(){
+        if(Input.GetKeyDown(KeyCode.A)||Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.W)
+            ||Input.GetKeyUp(KeyCode.A)||Input.GetKeyUp(KeyCode.S)||Input.GetKeyUp(KeyCode.D)||Input.GetKeyUp(KeyCode.W))
+            return true;
+        return false;
+    }
     // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
     public void PlayerStateUpdate()
     {

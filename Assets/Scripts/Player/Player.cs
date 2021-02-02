@@ -1,5 +1,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Partying.Assets.Scripts.API;
 public class Player : PlayerUtil
 {
     [SerializeField] private GameObject cameraArm;
@@ -44,17 +45,13 @@ public class Player : PlayerUtil
         Dodge();
         PlayerStateUpdate();
     }
-    
     private void FixedUpdate() // default : 50fps
     {
         /* 서버 전송 */
         // CharacterInfo 에 현재 플레이어의 상태 입력
         // CharacterInfo 를 서버로 전송
         pInfo.UpdateInfo(transform.position, playerController.MoveDir, playerController.PlayerState, userID); 
-        string jsonData = pInfo.ObjectToJson(pInfo);
-        // AsynchronousClient.Send(jsonData);
-
-        
+        APIController.SendController("Move",pInfo.ObjectToJson());
         FreezeRotation();
         StopToWall();
     }

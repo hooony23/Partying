@@ -6,10 +6,9 @@ using System.Threading;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Partying.Assets.Scripts.API;
 
 
-namespace project
-{
 
     // State object for receiving data from remote device.  
     public class StateObject
@@ -24,7 +23,7 @@ namespace project
         public StringBuilder sb = new StringBuilder();
     }
 
-    public class AsynchronousClient
+    public class Connection
     {
         // The port number for the remote device.  
 
@@ -60,7 +59,7 @@ namespace project
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send(client, "{'type':'connected'}<EOF>");
+                Send("{'type':'connected'}<EOF>");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -76,7 +75,7 @@ namespace project
         {
             try
             {
-                Send(client, "{'type':'connectedExit'}<EOF>");
+                Send( "{'type':'connectedExit'}<EOF>");
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -152,8 +151,9 @@ namespace project
                     {
                         receiveData = receiveData + content[i];
                     }
+                    receiveData = receiveData.Split(new string[]{"<EOF>"},StringSplitOptions.None)[0];
                     response = receiveData;
-                    // response 처리 함수 필요.
+                    APIController.ReceiveController(receiveData);
 
                 }
                 receiveDone.Set();
@@ -167,7 +167,7 @@ namespace project
             }
         }
         // -------------- Send
-        private static void Send(Socket client, String data)
+        public static void Send(String data)
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);
@@ -203,4 +203,3 @@ namespace project
         //     return 0;
         // }
     }
-}

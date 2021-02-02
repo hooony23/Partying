@@ -53,9 +53,9 @@ public class PlayerInfo
 
     }
 
-    public string ObjectToJson(object obj)
+    public string ObjectToJson()
     {
-        return JsonConvert.SerializeObject(obj);
+        return JsonConvert.SerializeObject(this);
     }
 
     public T JsonToOject<T>(string jsonData)
