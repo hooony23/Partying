@@ -9,6 +9,6 @@ public class MapUtil : MonoBehaviour
     {
         mapInfo = new MapInfo();
         mapObjectInfo = new MapObjectInfo();
-        createMap = new CreateMap(mapInfo, mapObjectInfo, Config.ROW, Config.COL);
+         //createMap = new CreateMap(mapInfo, mapObjectInfo, Config.ROW, Config.COL);
     }
 }

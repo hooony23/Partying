@@ -3,12 +3,12 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CreateMap1 : MonoBehaviour
+public class CreateMap : MonoBehaviour
 {
 
     public MazeCell[,] grid; //미로를 만들기 위한 격자 생성
-    public int Rows; // 행에 대한 미로찾기를 위한 처음의 시작값
-    public int Columns; // 열에 대한 미로찾기를 위한 처음의 시작값
+    private int Rows; // 행에 대한 미로찾기를 위한 처음의 시작값
+    private int Columns; // 열에 대한 미로찾기를 위한 처음의 시작값
     private string testJson;
 
     public GameObject LeftRightWall; // 벽의 프리팹을 참조하도록 하는 줄
@@ -61,20 +61,20 @@ public class CreateMap1 : MonoBehaviour
         testJsonObject = JObject.Parse(testJson);
         data = (JObject)testJsonObject["data"];
     }
-   /* private MapInfo mapInfo;
-    private MapObjectInfo mapObjectInfo;
-    //column == 행, row == 열 
-    public CreateMap(MapInfo mapInfo, MapObjectInfo mapObjectInfo,int size) : this(mapInfo,mapObjectInfo,size,size) {}
-    public CreateMap(MapInfo mapInfo, MapObjectInfo mapObjectInfo,int column, int row) {
-        this.mapInfo = mapInfo;
-        this.mapObjectInfo = mapObjectInfo;
-        this.mapInfo.Columns = column;
-        this.mapInfo.Rows = row;
-        this.mapInfo.testJson = File.ReadAllText("./Assets/Scripts/Map/temp.json");
-        this.mapInfo.testJson = @"{'type':'','data':" + this.mapInfo.testJson + "}";
-        this.mapInfo.testJsonObject = JObject.Parse(this.mapInfo.testJson);
-        this.mapInfo.data = (JObject)this.mapInfo.testJsonObject["data"];
-    }*/
+    /* private MapInfo mapInfo;
+     private MapObjectInfo mapObjectInfo;
+     //column == 행, row == 열 
+     public CreateMap(MapInfo mapInfo, MapObjectInfo mapObjectInfo,int size) : this(mapInfo,mapObjectInfo,size,size) {}
+     public CreateMap(MapInfo mapInfo, MapObjectInfo mapObjectInfo,int column, int row) {
+         this.mapInfo = mapInfo;
+         this.mapObjectInfo = mapObjectInfo;
+         this.mapInfo.Columns = column;
+         this.mapInfo.Rows = row;
+         this.mapInfo.testJson = File.ReadAllText("./Assets/Scripts/Map/temp.json");
+         this.mapInfo.testJson = @"{'type':'','data':" + this.mapInfo.testJson + "}";
+         this.mapInfo.testJsonObject = JObject.Parse(this.mapInfo.testJson);
+         this.mapInfo.data = (JObject)this.mapInfo.testJsonObject["data"];
+     }*/
     private const int LEFT = 0;
     private const int RIGHT = 1;
     private const int UP = 2;
@@ -84,7 +84,7 @@ public class CreateMap1 : MonoBehaviour
     {
         //TODO wall -> left-right wall로 바꿀 것
         // 결과를 확인하기 위한 구문 Dictionary<int, string> type = new Dictionary<int, string>() { { 0, "왼쪽" }, { 1, "오른쪽" }, { 2, "위" }, { 3, "아래" } };
-        JArray labylinthJArray =data.Value<JArray>("labylinthArray");
+        JArray labylinthJArray = data.Value<JArray>("labylinthArray");
         // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
         int[,,] labylinthArray = labylinthJArray.ToObject<int[,,]>();
         // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
@@ -95,7 +95,7 @@ public class CreateMap1 : MonoBehaviour
         {
             for (int j = 0; j < labylinthArray.GetLength(1); j++)
             {
-               grid[i, j] = new MazeCell();// gird 격자를 초기화
+                grid[i, j] = new MazeCell();// gird 격자를 초기화
                 if (labylinthArray[i, j, LEFT] == 1)
                 {
                     grid[i, j].LeftWall = Instantiate(LeftRightWall, new Vector3(j * size - 5.5f, 3f, -i * size), Quaternion.Euler(0, 90, 0));
@@ -110,10 +110,10 @@ public class CreateMap1 : MonoBehaviour
                 }
                 if (labylinthArray[i, j, UP] == 1)
                 {
-                    
-                   grid[i, j].UpWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size + 5.5f), Quaternion.identity);
-                   grid[i, j].UpWall.name = "UpWall_" + i + "_" + j;
-                   grid[i, j].UpWall.transform.parent = transform;
+
+                    grid[i, j].UpWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size + 5.5f), Quaternion.identity);
+                    grid[i, j].UpWall.name = "UpWall_" + i + "_" + j;
+                    grid[i, j].UpWall.transform.parent = transform;
                 }
                 if (labylinthArray[i, j, DOWN] == 1)
                 {
@@ -132,15 +132,18 @@ public class CreateMap1 : MonoBehaviour
                 // }
             }
         }
-       isMapdone = true;
+        isMapdone = true;
     }
-    public void TrapRespwan() { //함정생성
+    public void TrapRespwan()
+    { //함정생성
         JArray JtrapInfo = data.Value<JArray>("trap");
         string[,] trapInfo = JtrapInfo.ToObject<string[,]>();
         GameObject Trap;
-        for (int i = 0; i <Rows; i++) {
-            for (int j = 0; j <Rows; j++) {
-                
+        for (int i = 0; i < Rows; i++)
+        {
+            for (int j = 0; j < Rows; j++)
+            {
+
                 switch (trapInfo[i, j])
                 {
                     case "slow":
@@ -158,7 +161,7 @@ public class CreateMap1 : MonoBehaviour
                     case "dange":
                         break;
                 }
-                
+
             }
         }
     }

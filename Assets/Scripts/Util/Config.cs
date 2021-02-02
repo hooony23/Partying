@@ -18,6 +18,9 @@ public class Config : MonoBehaviour
     public static int ROW = 20;
     public static int COL = 20;
 
-    public static float Bgmvol;
-    public static float Sfxvol;
+    //Sound
+    public static float Bgmvol = 0.5f;
+    public static float Sfxvol = 0.5f;
+
+    public static float Time = 10f;
 }

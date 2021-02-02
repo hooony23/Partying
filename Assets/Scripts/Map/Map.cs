@@ -1,5 +1,5 @@
 public class Map : MapUtil
-{
+{/*
     private void Start()
     {
         //AsynchronousClient.Connected();
@@ -16,5 +16,5 @@ public class Map : MapUtil
             createMap.TrapRespwan();
             mapInfo.isMapdone = false;
         }
-    }
+    }*/
 }

@@ -10,7 +10,7 @@ using UnityEngine;
 public class PlayerUtil : MonoBehaviour
 {
     protected PlayerController playerController;
-    private MapClearItem MapClearItem;
+    //protected MapClearItem MapClearItem;
 
     public PlayerController getPlayerController()
     {
@@ -122,6 +122,11 @@ public class PlayerUtil : MonoBehaviour
             }
         }
     }
+    /*public void OpenPreferences() {
+        if (playerController.PDown) {
+        }
+    }*/
+
     public void Dodge() // 플레이어 회피
     {
         if (playerController.JDown && playerController.IsDodge == false && playerController.MoveDir != Vector3.zero)
@@ -176,17 +181,20 @@ public class PlayerUtil : MonoBehaviour
 
     public void IsClear(Collider other)
     {
-        MapClearItem = new MapClearItem();
         if (other.CompareTag("Item"))
         {
             playerController.NearObject = other.gameObject;
             if (playerController.GetItem == true)
             {
-                MapClearItem.IsBoxOpen();
-                //SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
+                //playerController.nim.SetBool("isBoxOpen", true);
+                //MapClearItem.IsBoxOpen(true);
                 Destroy(playerController.NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
+                Invoke("SceneChange", 4);
             }
         }
+    }
+    public void SceneChange() {
+        SceneManager.LoadScene("First Map");
     }
 
     public void IsGetItem(Collider other)

@@ -11,56 +11,58 @@ public class Sound {
     public string name;
     public AudioClip clip;
 }
+
+/*
+//다른 스크립트에서 선언시
+     [SerializeField]
+    private string BGMSound;*/
+
 public class SoundManager : MonoBehaviour
 {
-    /* public AudioSource bgSound;
-     public AudioSource audioSource;
-     public AudioMixer audioMixer;
-     public AudioClip[] bglist;
-     public Slider UiSliderSfx;
-     public Slider UiSliderBgm;
-     
-        //최초 실행할 때 초기값을 설정
-        Config.Bgmvol = 0.5f; 
-        Config.Sfxvol = 0.5f;
-     */
 
-
-    public static SoundManager instance;
+public static SoundManager instance; //전역변수로 설정하여 어디서든 참조 
     public AudioSource[] audioSourceSFX;
     public AudioSource audioSourceBGM;
+    public AudioMixer audioMixer;
 
     public string[] playSoundName;
 
     public Sound[] EffectSound;
     public Sound[] BgmSound;
+    public Slider UiSliderSfx;
+    public Slider UiSliderBgm;
+
     private void Awake()
     {
-        if (instance == null)
+        if (instance == null) //SoundManager 없을시
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-            //UiSliderBgm.value = Bgmvol;
-           // UiSliderSfx.value = Sfxvol;
+            DontDestroyOnLoad(gameObject); // 씬 변경후에도 소리를 관리하도록 함
+            //환경설정 슬라이더에 초기값 대입
+            UiSliderBgm.value = Config.Bgmvol;
+            UiSliderSfx.value = Config.Sfxvol;
         }
-        else {
+        else { //씬 이동후 SoundManager 중복방지를 위한 기존 SoundManger 파괴
             Destroy(gameObject);
         }
     }
     private void Start()
     {
-        playSoundName = new string[audioSourceSFX.Length];
+        //효과음의 갯수와 동일화
+        playSoundName = new string[audioSourceSFX.Length]; 
+        audioMixer.SetFloat("SFX", Mathf.Log10(UiSliderBgm.value) * 20); // 오디오 설정에 슬라이더 값 대입
+        audioMixer.SetFloat("BGM", Mathf.Log10(UiSliderSfx.value) * 20);
     }
-    public void PlaySE(string name) {
+    public void IsPlaySound(string name) { //음원재생
         for (int i = 0; i < EffectSound.Length; i++)
         {
-            if (name.Equals(BgmSound[i].name))
+            if (name.Equals(BgmSound[i].name)) //BGM재생
             {
-                Debug.Log(name);
+                //Debug.Log(name);
                 audioSourceBGM.clip = BgmSound[i].clip;
                 audioSourceBGM.Play();
             }
-            if (name.Equals(EffectSound[i].name)) {
+            if (name.Equals(EffectSound[i].name)) {//SFX재생
                 for (int j = 0;  j < audioSourceSFX.Length;  j++)
                 {
                     if (!audioSourceSFX[j].isPlaying) {
@@ -78,13 +80,13 @@ public class SoundManager : MonoBehaviour
         return;
     }
 
-    public void StopAllSE() { //실행중인 음원들 모두 정지
+    public void StopAllSound() { //실행중인 음원들 모두 정지
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             audioSourceSFX[i].Stop();
         }
     }
-    public void StopSE(string name) { //해당 이름과 일치하는 음원 정지
+    public void IsStopSound(string name) { //해당 이름과 일치하는 음원 정지
         
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
@@ -94,42 +96,21 @@ public class SoundManager : MonoBehaviour
                 audioSourceSFX[i].Stop();
                 return;
             }
-           /*else { //합칠 수 있을 경우 위 함수 제거후 추가
+           /*else { //StopAllSound와 합칠 수 있을 경우 제거후 추가
                 audioSourceSFX[i].Stop();
             }*/
         }
         Debug.Log("재생중인" + name + "사운드가 없습니다.");
     }
-    /*
-    private void Start()
-    {
-        audioMixer.SetFloat("SFX", Mathf.Log10(UiSliderBgm.value) * 20);
-        audioMixer.SetFloat("BGM", Mathf.Log10(UiSliderSfx.value) * 20);
-    }
-
-    public void SFXPlay(AudioClip clip) {
-        audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
-        audioSource.clip = clip;
-        audioSource.Play();
-    }
-    public void BgSoundPlay(AudioClip clip) {
-        bgSound.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
-        bgSound.clip = clip;
-        bgSound.loop = true;
-        bgSound.volume = 0.5f;
-        bgSound.Play();
-    }
-    
-    public void SetVolume(float volume) {
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
-    }
+    // 환경설정의 스크롤바 조절
     public void SFXVolume(float volume)
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        Config.Sfxvol = volume;
     }
     public void BGMVolume(float volume)
     {
         audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
-    }*/
-
+        Config.Bgmvol = volume;
+    }
 }
