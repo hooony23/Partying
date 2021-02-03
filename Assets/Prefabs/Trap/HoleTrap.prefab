@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1519441922320458509}
   - component: {fileID: 5229767940684226554}
   - component: {fileID: 1519441922320458505}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: HoleTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 4581325565715928351}
   - component: {fileID: 3351074738359927836}
   - component: {fileID: 6749349639577007675}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PlaneL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 5105799931520610128}
   - component: {fileID: 4169532805443783322}
   - component: {fileID: 5663652072035133025}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PlaneR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1848493344525879212}
   - component: {fileID: 1848493344525879213}
   - component: {fileID: 1848493344525879210}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SlowPointCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
