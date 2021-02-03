@@ -20,4 +20,10 @@ public class Config : MonoBehaviour
     // map
     public static int ROW = 20;
     public static int COL = 20;
+
+    //Sound
+    public static float Bgmvol = 0.5f;
+    public static float Sfxvol = 0.5f;
+
+    public static float Time = 10f;
 }

@@ -32,7 +32,8 @@ public class Player : PlayerUtil
         // AsynchronousClient.ConnectedExit();
         
     }
-
+    [SerializeField]
+    private string BGMSound;
     // Update is called once per frame
     void Update()
     {

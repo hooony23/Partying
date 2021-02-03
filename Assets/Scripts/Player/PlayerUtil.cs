@@ -13,7 +13,7 @@ public class PlayerUtil : MonoBehaviour
 
     public void GetInput()
     {
-        
+
         playerController.HAxis = Input.GetAxis("Horizontal");
         playerController.VAxis = Input.GetAxis("Vertical");
         playerController.EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
@@ -111,6 +111,11 @@ public class PlayerUtil : MonoBehaviour
             }
         }
     }
+    /*public void OpenPreferences() {
+        if (playerController.PDown) {
+        }
+    }*/
+
     public void Dodge() // 플레이어 회피
     {
         if (playerController.JDown && playerController.IsDodge == false && playerController.MoveDir != Vector3.zero)
@@ -120,7 +125,7 @@ public class PlayerUtil : MonoBehaviour
 
             playerController.Anim.SetTrigger("doDodge");
 
-            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
+            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
         }
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -170,15 +175,20 @@ public class PlayerUtil : MonoBehaviour
             playerController.NearObject = other.gameObject;
             if (playerController.GetItem == true)
             {
-                SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
-                Destroy(playerController.NearObject); // 이동과 동시에 아이템 오브젝트가 사라짐
+                //playerController.nim.SetBool("isBoxOpen", true);
+                //MapClearItem.IsBoxOpen(true);
+                Destroy(playerController.NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
+                Invoke("SceneChange", 4);
             }
         }
+    }
+    public void SceneChange() {
+        SceneManager.LoadScene("First Map");
     }
 
     public void IsGetItem(Collider other)
     {
-        
+
         if (other.CompareTag("Item"))
         {
             playerController.NearObject = null;

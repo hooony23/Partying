@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Animation/MenuAnim.meta
 guid: 4583d3dc60e72854aa0b22cd9a86012a
+=======
+guid: 726daab326aa2ef4b8f8c7a5fa728add
+>>>>>>> dev-HwangSunGyu:Assets/Animation/ItemAnim.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
