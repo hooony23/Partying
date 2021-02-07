@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class CreateMap : MonoBehaviour
 {
 
@@ -10,20 +11,28 @@ public class CreateMap : MonoBehaviour
     private int Rows; // 행에 대한 미로찾기를 위한 처음의 시작값
     private int Columns; // 열에 대한 미로찾기를 위한 처음의 시작값
     private string testJson;
-
-    public GameObject LeftRightWall; // 벽의 프리팹을 참조하도록 하는 줄
-    public GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
-    public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
-    public GameObject MazeRespwan;// 유닛 오브젝트 리스폰 지점확인 오브젝트
-    public GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트
-    public GameObject PatrolPoint;
-    public GameObject SpikeTrap;// 가시함정 오브젝트
-    public GameObject HoleTrap;// 바닥함정 오브젝트
+    [SerializeField]
+    private GameObject LeftRightWall; // 벽의 프리팹을 참조하도록 하는 줄
+    [SerializeField]
+    private GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
+    [SerializeField]
+    private GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
+    [SerializeField]
+    private GameObject MazeRespwan;// 유닛 오브젝트 리스폰 지점확인 오브젝트
+    [SerializeField]
+    private GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트
+    [SerializeField]
+    private GameObject PatrolPoint;
+    [SerializeField]
+    private GameObject SpikeTrap;// 가시함정 오브젝트
+    [SerializeField]
+    private GameObject HoleTrap;// 바닥함정 오브젝트
 
 
     JObject testJsonObject;
     JObject data;
-    public NavMeshSurface[] surfaces;
+    [SerializeField]
+    private NavMeshSurface[] surfaces;
 
     private bool isMapdone = false;
 

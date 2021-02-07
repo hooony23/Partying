@@ -20,10 +20,13 @@ public class Config : MonoBehaviour
     // map
     public static int ROW = 20;
     public static int COL = 20;
+    public static int LodingSence = 1; //씬 로드 순서파악을 위한 숫자
 
     //Sound
     public static float Bgmvol = 0.5f;
     public static float Sfxvol = 0.5f;
 
-    public static float Time = 10f;
+    public static float Time = 50f;
+
+
 }
