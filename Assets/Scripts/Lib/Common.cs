@@ -2,13 +2,13 @@ using System;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Partying.Assets.Scripts.API.Labylinth;
-
+using Partying.Assets.Scripts.Util;
 
 namespace Partying.Assets.Scripts.Lib
 {
-    public class Common
+    public static class Common
     {
-        public static void CallAPI(string APIName,params object[] list)
+        public static void CallAPI(string APIName, params object[] list)
         {
             //TODO 
             Controller controller = CallClass("Labylinth");
@@ -27,7 +27,7 @@ namespace Partying.Assets.Scripts.Lib
             return instance;
         }
 
-        public static void CallMethod(object obj, String APIName,params object[] list)
+        public static void CallMethod(object obj, String APIName, params object[] list)
         {
             /// <summary>
             /// param : obj : classInstance , APIName : APIName
@@ -40,7 +40,8 @@ namespace Partying.Assets.Scripts.Lib
             MethodInfo info = type.GetMethod(APIName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             info.Invoke(obj, list);
         }
-        public static string GetRequestData(string type, string server, string uuid, string data){
+        public static string GetRequestData(string type, string server, string uuid, string data)
+        {
             JObject requestJson = Config.requestForm;
             requestJson["type"] = type;
             requestJson["server"] = server;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Partying.Assets.Scripts.Util;
+
 
 public class PatrolAIController
 {

@@ -420,8 +420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d805712ac3841b4292cf559e2cd63aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rows: 2
-  Columns: 2
+  Rows: 20
+  Columns: 20
   wall: {fileID: 4106891451373894568, guid: 80152f4c77f79894d91d3634d8350c13, type: 3}
   UpDownWall: {fileID: 8261083374174478660, guid: f121fd3adc85adc4f8534f482920909d,
     type: 3}

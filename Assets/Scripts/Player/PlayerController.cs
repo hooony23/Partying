@@ -1,7 +1,11 @@
 using UnityEngine;
-
-public class PlayerController
+using Partying.Assets.Scripts.Util;
+public class PlayerController : MonoBehaviour
 {
+    
+
+    private string userUuid = null;
+    private PlayerInfo pInfo = new PlayerInfo();
 
     private bool isStun = false;
     private bool isDead = false;
@@ -39,6 +43,8 @@ public class PlayerController
     private Transform cameraArm;
     private Vector2 mouseDelta;
 
+    public string UserUuid { get => UserUuid; set => UserUuid = value; }
+    public PlayerInfo PInfo { get => pInfo; set => pInfo = value; }
     public bool IsStun { get => isStun; set => isStun = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
     public bool GetItem { get => getItem; set => getItem = value; }

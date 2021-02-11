@@ -27,7 +27,7 @@ public class Maze : MonoBehaviour
     void Start()
     {
         Test = (Rows * Columns / 16);
-        Debug.Log(Test);
+        // Debug.Log(Test);
         CreateGrid();
         HuntAndKill();
 
@@ -169,7 +169,7 @@ public class Maze : MonoBehaviour
    
     void Walk()
     {
-        Debug.Log(currentRow + "_" + "_--------------Row");
+        // Debug.Log(currentRow + "_" + "_--------------Row");
         while (AreThereUnvisitedNeighbors()) //경계선 부터 이웃방문여부를 확인하며 최초의 길을 찾음
         {
             int direction = Random.Range(0, 4); //0~4의 범위인 1,2,3을 제공하여 랜덤으로 돌린다. / 임의의 방향으로 진행하는 것을 말한다.
