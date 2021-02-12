@@ -72,13 +72,15 @@ public class PlayerUtil : MonoBehaviour
         }
 
     }
-
+    
     public void Turn()
     {
         transform.LookAt(transform.position + playerController.MoveDir);
     }
-
-    // 마우스 이동에 의한 카메라 각도 제한
+    
+    /// <summary>
+    /// 마우스 이동에 의한 카메라 각도 제한
+    /// </summary>
     public void CameraTurn()
     {
         // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
