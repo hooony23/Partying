@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using Util;
 
 public class Maze : MonoBehaviour
 {
-    public int Rows = 2; //배열의 행에 해당함
-    public int Columns = 2; // 배열의 열에 해당함
-    public GameObject wall; // 벽의 프리팹을 참조하도록 하는 줄
-    public GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
+    
+    private GameObject wall; // 벽의 프리팹을 참조하도록 하는 줄
+    private GameObject UpDownWall; // 벽의 프리팹을 참조하도록 하는 줄
+    private GameObject SpikeTrap;// 가시함정 오브젝트
+    private GameObject HoleTrap;// 바닥함정 오브젝트
     public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
     public GameObject MazeRespwan;// 유닛 오브젝트 리스폰 지점확인 오브젝트
     public GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트
     public GameObject PatrolPoint;
-    public GameObject SpikeTrap;// 가시함정 오브젝트
-    public GameObject HoleTrap;// 바닥함정 오브젝트
+    public int Rows = 2; //배열의 행에 해당함
+    public int Columns = 2; // 배열의 열에 해당함
     public NavMeshSurface[] surfaces; // NavMesh 동적 bake를 위한 정의
-
     private MazeCell[,] grid; //미로를 만들기 위한 격자 생성
     //private MazePoint[,] Spawn; //유닛 오브젝트의 위치를 지정하기 위한 배열 생성
     private int currentRow = 0; // 행에 대한 미로찾기를 위한 처음의 시작값
@@ -26,6 +27,10 @@ public class Maze : MonoBehaviour
     private bool Completemap = false;//Maze Walk,Hunt구성의 완성을 확인
     void Start()
     {
+        wall = Resources.Load("Map/Wall") as GameObject;
+        UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;
+        SpikeTrap = Resources.Load("Trap/SpikeTrap") as GameObject;
+        HoleTrap = Resources.Load("Trap/HoleTrap") as GameObject;
         Test = (Rows * Columns / 16);
         // Debug.Log(Test);
         CreateGrid();
@@ -51,46 +56,46 @@ public class Maze : MonoBehaviour
     }
     void CreateGrid() // 그리드를 쉽게 호출하기 위해 함수로 정의
     {
-        float size = wall.transform.localScale.x;
+        // wall transform localScale == (10, 5, 1)
+        Config.labylinthOnSpaceSize = wall.transform.localScale.x;
         grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
         for (int i = 0; i < Rows; i++)
         {
             for (int j = 0; j < Columns; j++)
             {
-               // for (int k = 0; k < 4; k++) { 
-                //if(wallInfo[i, j, k] == )
-                //}
+                GameObject go = new GameObject($"{i}_{j}");
                 grid[i, j] = new MazeCell();// gird 격자를 초기화
+                go.AddComponent<MazeCell>();
                 if (i == 0)
                 {
-                    grid[i, j].UpWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size + 5.5f), Quaternion.identity);
-                    grid[i, j].UpWall.name = "UpWall_" + i + "_" + j;
-                    grid[i, j].UpWall.transform.parent = transform;
+                    go.GetComponent<MazeCell>().UpWall = Instantiate(UpDownWall, new Vector3(j * Config.labylinthOnSpaceSize - 0.5f, 3f, -i * Config.labylinthOnSpaceSize + 5.5f), Quaternion.identity);
+                    go.GetComponent<MazeCell>().UpWall.name = "UpWall";
+                    go.GetComponent<MazeCell>().UpWall.transform.parent = transform;
                 }
-                grid[i, j].DownWall = Instantiate(UpDownWall, new Vector3(j * size - 0.5f, 3f, -i * size - 4.5f), Quaternion.identity);
-                grid[i, j].DownWall.name = "downWall_" + i + "_" + j;
+                go.GetComponent<MazeCell>().DownWall = Instantiate(UpDownWall, new Vector3(j * Config.labylinthOnSpaceSize - 0.5f, 3f, -i * Config.labylinthOnSpaceSize - 4.5f), Quaternion.identity);
+                go.GetComponent<MazeCell>().DownWall.name = "downWall";
                 if (j == 0)
                 {
-                    grid[i, j].LeftWall = Instantiate(wall, new Vector3(j * size - 5.5f, 3f, -i * size), Quaternion.Euler(0, 90, 0));
-                    grid[i, j].LeftWall.name = "leftWall_" + i + "_" + j;
-                    grid[i, j].LeftWall.transform.parent = transform;
+                    go.GetComponent<MazeCell>().LeftWall = Instantiate(wall, new Vector3(j * Config.labylinthOnSpaceSize - 5.5f, 3f, -i * Config.labylinthOnSpaceSize), Quaternion.Euler(0, 90, 0));
+                    go.GetComponent<MazeCell>().LeftWall.name = "leftWall";
+                    go.GetComponent<MazeCell>().LeftWall.transform.parent = transform;
                 }
-                grid[i, j].RightWall = Instantiate(wall, new Vector3(j * size + 4.5f, 3f, -i * size), Quaternion.Euler(0, 90, 0));
-                grid[i, j].RightWall.name = "rightWall_" + i + "_" + j;
-                grid[i, j].DownWall.transform.parent = transform;
-                grid[i, j].RightWall.transform.parent = transform;
+                go.GetComponent<MazeCell>().RightWall = Instantiate(wall, new Vector3(j * Config.labylinthOnSpaceSize + 4.5f, 3f, -i * Config.labylinthOnSpaceSize), Quaternion.Euler(0, 90, 0));
+                go.GetComponent<MazeCell>().RightWall.name = "rightWall";
+                go.GetComponent<MazeCell>().DownWall.transform.parent = transform;
+                go.GetComponent<MazeCell>().RightWall.transform.parent = transform;
 
-                grid[i, j].Respwan = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 1.01f, -i * size), Quaternion.identity);
-                grid[i, j].Respwan.name = "MazeRespawn_" + i + "_" + j;
-                grid[i, j].Respwan.transform.parent = MazeRespwan.transform;
+                go.GetComponent<MazeCell>().Respwan = Instantiate(MazePoint, new Vector3(j * Config.labylinthOnSpaceSize - 0.5f, 1.01f, -i * Config.labylinthOnSpaceSize), Quaternion.identity);
+                go.GetComponent<MazeCell>().Respwan.name = "MazeRespawn";
+                go.GetComponent<MazeCell>().Respwan.transform.parent = MazeRespwan.transform;
 
                 if (!(i == 0 && j == 0) && !(i == 0 && j == (Columns - 1)) && !(i == Rows - 1 && j == 0) && !(i == Rows - 1 && j == Columns - 1))
                 {
                     if (i % 3 == 0 && j % 3 == 0)
                     {
-                        grid[i, j].AiPoint = Instantiate(MazePoint, new Vector3(j * size - 0.5f, 10f, -i * size), Quaternion.identity);
-                        grid[i, j].AiPoint.name = "PatrolPoint_" + i + "_" + j;
-                        grid[i, j].AiPoint.transform.parent = PatrolPoint.transform;
+                        go.GetComponent<MazeCell>().AiPoint = Instantiate(MazePoint, new Vector3(j * Config.labylinthOnSpaceSize - 0.5f, 10f, -i * Config.labylinthOnSpaceSize), Quaternion.identity);
+                        go.GetComponent<MazeCell>().AiPoint.name = "PatrolPoint";
+                        go.GetComponent<MazeCell>().AiPoint.transform.parent = PatrolPoint.transform;
                     }
                 }
             }
@@ -435,9 +440,10 @@ public class Maze : MonoBehaviour
                     }
                     else
                     {
-                        GameObject Trap = Instantiate(HoleTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "HoleTrap_" + directiona + "_" + directionb;
-                        Trap.transform.parent = TrapPoint.transform;
+                        GameObject trap = Instantiate(HoleTrap, grid[directiona, directionb].Respwan.transform.position, Quaternion.identity);
+                        trap.name = "HoleTrap_" + directiona + "_" + directionb;
+                        trap.AddComponent<HoleTrap>();
+                        trap.transform.parent = TrapPoint.transform;
                         grid[directiona, directionb].ResponCheck = true;
                         TestCheck++;
                     }
@@ -446,5 +452,6 @@ public class Maze : MonoBehaviour
             }
         }
     }
+    public MazeCell[,] Grid{ get => grid; set => grid = value;}
 }
 

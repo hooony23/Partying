@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using Communication.JsonFormat;
 using Communication.API.Labylinth;
 using Util;
 
@@ -8,46 +9,40 @@ namespace Lib
 {
     public static class Common
     {
-        public static void CallAPI(string APIName, params object[] list)
+        public static void CallAPI(string server, string APIName, params object[] list)
         {
-            //TODO 
-            Controller controller = CallClass("Labylinth");
+            /// <summary>
+            /// param : "namespace.className"
+            /// returm : Type
+            /// </summary>
+            Type controller = CallClass(server);
             CallMethod(controller, APIName, list);
         }
 
-        public static Controller CallClass(string nameSpaceName)
+        public static Type CallClass(string server)
         {
             /// <summary>
             /// param : "namespace.className"
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-            Type type = Type.GetType($"API.{nameSpaceName}.Controller");
-            Controller instance = Activator.CreateInstance(type) as Controller;
-            return instance;
+            Type type = Type.GetType($"Communication.API.{server}.Controller");
+            return type;
         }
 
-        public static void CallMethod(object obj, String APIName, params object[] list)
+        public static void CallMethod(Type classType, String APIName, params object[] list)
         {
             /// <summary>
-            /// param : obj : classInstance , APIName : APIName
+            /// param : classInstance : classInstance , APIName : APIName, list : API params
             /// process : Call Method
             /// returm : None
             /// </summary>
             /// <returns></returns>
-            Type type = obj.GetType();
+            Type type = classType.GetType();
             // private, protected, public에 관계없이 취득한다.
             MethodInfo info = type.GetMethod(APIName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            info.Invoke(obj, list);
+            info.Invoke(classType, list);
         }
-        public static string GetRequestData(string type, string server, string uuid, string data)
-        {
-            JObject requestJson = Config.requestForm;
-            requestJson["type"] = type;
-            requestJson["server"] = server;
-            requestJson["uuid"] = uuid;
-            requestJson["data"] = data;
-            return requestJson.ToString();
-        }
+
     }
 }

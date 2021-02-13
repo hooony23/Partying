@@ -1,27 +1,20 @@
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Lib;
+using Util;
 
 
 namespace Communication.API
 {
     public class APIController : MonoBehaviour
     {
-        public enum SendAPINames 
-        {
-            "Move"
-        };
-        public enum ReceiveAPINames
-        {
-            "SyncPackit"
-        };
 
-        public static void SendController(String type, String requestJson)
+
+        public static void SendController(string server, String type, String requestJson)
         {
-            if (SendAPINames.Contains(type))
-                Common.CallAPI(type, requestJson);
+            if (Enum.IsDefined(typeof(Config.SendAPINames),type))
+                Common.CallAPI(server, type, requestJson);
         }
         public static void ReceiveController(String json)
         {
@@ -34,12 +27,14 @@ namespace Communication.API
             catch (Exception e)
             {
                 Debug.Log(e.Message);
+                return;
             }
             // RegularExpression.jsonValidation(responseJson);
 
             string type = responseJson.Value<string>("type");
-            if (ReceiveAPINames.Contains(type))
-                Common.CallAPI(type);
+            string server = responseJson.Value<string>("server");
+            if (Enum.IsDefined(typeof(Config.ReceiveAPINames),type))
+                Common.CallAPI(server, type, responseJson);
         }
     }
 }

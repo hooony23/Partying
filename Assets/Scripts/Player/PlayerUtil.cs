@@ -15,7 +15,7 @@ public class PlayerUtil : PlayerController
     {
         HAxis = 0f;
         VAxis = 0f;
-        foreach(var key in GetInputKeys())
+        foreach (var key in GetInputKeys())
         {
             InputEvent(key);
         }
@@ -55,11 +55,11 @@ public class PlayerUtil : PlayerController
                 break;
         }
     }
-    public void MoveChangeSend(PlayerInfo playerInfo)
+    public void MoveChangeSend(string server, PlayerInfo playerInfo)
     {
         if (IsKeyInput())
         {
-            APIController.SendController("Move", playerInfo.ObjectToJson());
+            APIController.SendController(server, "Move", playerInfo.ObjectToJson());
         }
     }
     public bool IsKeyInput()
@@ -67,8 +67,10 @@ public class PlayerUtil : PlayerController
         var inputData = from input in Config.InputKey.GetValues(typeof(Config.InputKey))
                         .Cast<Config.InputKey>()
                         .Select(k => (KeyCode)k)
-                        .ToList() where Input.GetKeyDown(input) == true || Input.GetKeyUp(input) select input;
-        if (inputData.Count() <=0)
+                        .ToList()
+                        where Input.GetKeyDown(input) == true || Input.GetKeyUp(input)
+                        select input;
+        if (inputData.Count() <= 0)
             return false;
         return true;
     }
@@ -78,7 +80,9 @@ public class PlayerUtil : PlayerController
         var inputData = from input in Config.InputKey.GetValues(typeof(Config.InputKey))
                         .Cast<Config.InputKey>()
                         .Select(k => (KeyCode)k)
-                        .ToList() where Input.GetKey(input) == true select input;
+                        .ToList()
+                        where Input.GetKey(input) == true
+                        select input;
         return inputData;
     }
     // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)

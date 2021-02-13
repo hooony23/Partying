@@ -5,24 +5,24 @@ using Util;
 namespace Communication
 {
 
-    public class NetWorkManager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
 
         void Awake()
         {
-            // 서버로부터 uuid 받아옴
             string response = Connection.Connected();
             JObject responseJson = JObject.Parse(response);
             Config.userUuid = responseJson["data"].Value<string>("uuid");
+            MazeCell playerSpawnLocation = GameObject.Find("Maze").GetComponent<Maze>().Grid[0,0];
+
         }
 
 
 
-        private void OnApplicationQuit()
+        void OnApplicationQuit()
         {
             /* 서버 연결 해제 */
             Connection.ConnectedExit();
-
         }
     }
 }
