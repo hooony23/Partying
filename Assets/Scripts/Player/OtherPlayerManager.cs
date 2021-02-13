@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using Partying.Assets.Scripts.API;
+using Communication.API;
+using Communication.JsonFormat;
 
 public class OtherPlayer : PlayerUtil
 {
-    string userID = null;
-    PlayerInfo pInfo = new PlayerInfo();
     
     void Awake()
     {
@@ -18,7 +17,7 @@ public class OtherPlayer : PlayerUtil
     // Update is called once per frame
     void Update()
     {
-        GetInput();
+        GetNetWorkInput();
         Move();
         Turn();
         IsGetItem();
@@ -28,8 +27,6 @@ public class OtherPlayer : PlayerUtil
     }
     private void FixedUpdate() // default : 50fps
     {
-        /* 서버 전송 */
-        pInfo.UpdateInfo(transform.position, MoveDir, PlayerState, userID);
         FreezeRotation();
         StopToWall();
     }

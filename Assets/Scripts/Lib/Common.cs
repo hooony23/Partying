@@ -1,10 +1,10 @@
 using System;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using Partying.Assets.Scripts.API.Labylinth;
-using Partying.Assets.Scripts.Util;
+using Communication.API.Labylinth;
+using Util;
 
-namespace Partying.Assets.Scripts.Lib
+namespace Lib
 {
     public static class Common
     {
@@ -22,7 +22,7 @@ namespace Partying.Assets.Scripts.Lib
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-            Type type = Type.GetType($"Partying.Assets.Scripts.API.{nameSpaceName}.Controller");
+            Type type = Type.GetType($"API.{nameSpaceName}.Controller");
             Controller instance = Activator.CreateInstance(type) as Controller;
             return instance;
         }

@@ -6,10 +6,11 @@ using System.Threading;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Partying.Assets.Scripts.API;
-using Partying.Assets.Scripts.Util;
+using Communication.API;
+using Util;
 
-
+namespace Communication
+{
 
     // State object for receiving data from remote device.  
     public class StateObject
@@ -76,7 +77,7 @@ using Partying.Assets.Scripts.Util;
         {
             try
             {
-                Send( "{'type':'connectedExit'}<EOF>");
+                Send("{'type':'connectedExit'}<EOF>");
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -152,7 +153,7 @@ using Partying.Assets.Scripts.Util;
                     {
                         receiveData = receiveData + content[i];
                     }
-                    receiveData = receiveData.Split(new string[]{"<EOF>"},StringSplitOptions.None)[0];
+                    receiveData = receiveData.Split(new string[] { "<EOF>" }, StringSplitOptions.None)[0];
                     response = receiveData;
                     APIController.ReceiveController(receiveData);
 
@@ -204,3 +205,4 @@ using Partying.Assets.Scripts.Util;
         //     return 0;
         // }
     }
+}

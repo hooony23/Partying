@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-namespace Partying.Assets.Scripts.Util
+namespace Util
 {
 
     public static class Config

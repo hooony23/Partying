@@ -1,5 +1,5 @@
 using UnityEngine;
-using Partying.Assets.Scripts.Util;
+using Util;
 public class MapUtil : MonoBehaviour
 {
     protected MapInfo mapInfo;

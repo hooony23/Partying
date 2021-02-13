@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
-using Partying.Assets.Scripts.API;
-using Partying.Assets.Scripts.Util;
+using Communication.API;
+using Communication.JsonFormat;
+using Util;
 public class PlayerUtil : PlayerController
 {
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
@@ -16,13 +17,18 @@ public class PlayerUtil : PlayerController
         VAxis = 0f;
         foreach(var key in GetInputKeys())
         {
-            
-            Debug.Log(key);
             InputEvent(key);
         }
         MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
 
+
+    }
+    public void GetNetWorkInput()
+    {
+        HAxis = PInfo.Vec.X;
+        VAxis = PInfo.Vec.Y;
+        MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
 
     }
     public void InputEvent(KeyCode key)
@@ -48,10 +54,6 @@ public class PlayerUtil : PlayerController
                 JDown = Input.GetKeyDown(key); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
                 break;
         }
-    }
-    public void NetworkGetInput()
-    {
-
     }
     public void MoveChangeSend(PlayerInfo playerInfo)
     {

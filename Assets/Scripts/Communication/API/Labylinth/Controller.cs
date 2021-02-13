@@ -1,8 +1,8 @@
 using Newtonsoft.Json.Linq;
-using Partying.Assets.Scripts.Lib;
+using Lib;
 
 
-namespace Partying.Assets.Scripts.API.Labylinth
+namespace Communication.API.Labylinth
 {
     public class Controller
     {

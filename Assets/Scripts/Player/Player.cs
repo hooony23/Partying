@@ -1,8 +1,8 @@
 using UnityEngine;
-using Partying.Assets.Scripts.Util;
+using Util;
 using System;
 using System.IO;
-using Partying.Assets.Scripts.API;
+using Communication.API;
 public class Player : PlayerUtil
 {
     [SerializeField] private GameObject cameraArm;
@@ -34,7 +34,7 @@ public class Player : PlayerUtil
         /* 서버 전송 */
         // CharacterInfo 에 현재 플레이어의 상태 입력
         // CharacterInfo 를 서버로 전송
-        // PInfo.UpdateInfo(transform.position, MoveDir, PlayerState, UserUuid); 
+        // PInfo.SetInfo(transform.position, MoveDir, PlayerState, UserUuid); 
         // APIController.SendController("Move",PInfo.ObjectToJson());
         FreezeRotation();
         StopToWall();
