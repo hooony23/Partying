@@ -7,6 +7,9 @@ public class MapObjects
     public GameObject UpDownWall; // 위 아래 벽
     public GameObject SpikeTrap;// 가시함정
     public GameObject HoleTrap;// 바닥함정
+    public GameObject SlowTrap;
+
+    public GameObject DangerZone;
 
     // 생성자에서 생성
     public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트

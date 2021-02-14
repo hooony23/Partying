@@ -7,9 +7,13 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
     public Vector3 offset; // 멀티로 변경시, Start 에서 플레이어 offset(x, y, z) 을 받아와야 함
 
+    void Awake()
+    {
+         target = GameObject.Find("Player").transform;   
+    }
     // Update is called once per frame
     void Update()
     {

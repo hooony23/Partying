@@ -20,10 +20,11 @@ namespace Util
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각
         public static float playerDetectDistance = 10f;      // 플레이어 viewAngle 안에 들어왔을시 사정거리
-        public static float patrolPointFindDistance = 20f;  // 순찰지역 랜덤 인식을 위한 사정거리
+        public static float patrolPointFindDistance = 200f;  // 순찰지역 랜덤 인식을 위한 사정거리
         // map
         public static int ROW = 20;
         public static int COL = 20;
+        public static string mapController = "";
         public static float labylinthOnSpaceSize;
         public enum InputKey
         {

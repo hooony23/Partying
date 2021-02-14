@@ -5,12 +5,11 @@ using System.IO;
 using Communication.API;
 public class Player : PlayerUtil
 {
-    [SerializeField] private GameObject cameraArm;
 
     void Awake()
     {
 
-        CameraArm = cameraArm.transform;
+        CameraArm = GameObject.Find("CameraArm").transform;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         // UserUuid = Config.userUuid;

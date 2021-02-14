@@ -45,11 +45,10 @@ namespace Communication
             // Connect to a remote device.  
             try
             {
-                // Establish the remote endpoint for the socket.  
-                // The name of the
-                // remote device is "host.contoso.com".  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                // TODO Test끝나면 주석 해제
+                // IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
+                // IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, Config.serverPort);
 
                 // Create a TCP/IP socket.  
