@@ -68,14 +68,16 @@ public class Lobby : MonoBehaviour
 
     private void AddElement()
     {
+        // 서버로부터 받아온 방의 개수 만큼 방 버튼 생성
         for (int i = 0; i < rooms.Count; i++)
         {
-            // 모든 방의 정보를 받아옴
+            // 방의 모든 정보를 받아옴
             int index = rooms[i].RoomIndex;
             string title = rooms[i].RoomTitle;
             string master = rooms[i].RoomMaster;
             string password = rooms[i].RoomPassword;
             int headcount = rooms[i].Headcount;
+
 
             // roomPrefab 의 자식 컴포넌트에 정보를 넣는 과정
             Text roomTitle = roomPrefab.transform.Find("Text Title").gameObject.GetComponent<Text>();

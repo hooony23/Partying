@@ -62,7 +62,7 @@ public class Room : MonoBehaviour
         {
             // USER(1~4) UI 초기화
             pText = players[i].GetComponentInChildren<Text>();
-            pImage = players[i].GetComponent<Image>();
+            pImage = players[i].GetComponentInChildren<Image>();
 
             pText.text = users[i];
             pImage.color = Color.white;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,18 +18,25 @@ public class Signup : MonoBehaviour
 
     private void Start()
     {
+
         
     }
 
     // 아이디 중복확인 클릭
     public void OnClickIdCheck()
     {
+        string id = idInput.text;
+
         // 데이터베이스에서 중복된 아이디 있는지 확인
         // ~~~~
 
-        warning.color = Color.white;
-        warning.text = "중복확인 완료";
+        if (id.Equals(""))
+        {
+            warning.text = "아이디를 입력해 주세요";
+        }
+
         idValid = true;
+        
     }
 
     // 회원가입 클릭
