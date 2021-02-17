@@ -3,32 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using project;
+
+
+// Signup : 회원가입
 
 public class Signup : MonoBehaviour
 {
     [SerializeField] private Text warning = null;
     [SerializeField] private Button idCheck = null;
+
+    [SerializeField] private InputField nameInput = null;
     [SerializeField] private InputField idInput = null;
     [SerializeField] private InputField pwInput = null;
-    [SerializeField] private InputField eaInput = null; // email address
+    [SerializeField] private InputField mobileInput = null;
+
     [SerializeField] private Button signup = null;
     [SerializeField] private GameObject nextScreen;
 
     private bool idValid = false;
 
+
+    //서버 테스트
+    string userID = null;
+
     private void Start()
     {
+        
 
         
+    }
+
+    private void OnApplicationQuit()
+    {
+        AsynchronousClient.ConnectedExit();
     }
 
     // 아이디 중복확인 클릭
     public void OnClickIdCheck()
     {
-        string id = idInput.text;
+        // 서버 테스트
+        Debug.Log("네트워킹 테스트"+userID);
 
-        // 데이터베이스에서 중복된 아이디 있는지 확인
-        // ~~~~
+        string id = idInput.text;
 
         if (id.Equals(""))
         {
@@ -42,37 +59,23 @@ public class Signup : MonoBehaviour
     // 회원가입 클릭
     public void OnClickRegister()
     {
+        string name = nameInput.text;
         string id = idInput.text;
         string pw = pwInput.text;
-        string email = eaInput.text;
+        string mobile = mobileInput.text;
 
-        // 내용이 다 써져있지 않다면 warning
-        if (id.Equals("") || pw.Equals("") || email.Equals(""))
-        {
-            warning.text = "입력을 확인해주세요";
-            warning.color = Color.red;
-        }
-        else if (idValid == false)
-        {
-            warning.text = "아이디 중복확인을 해주세요";
-            warning.color = Color.red;
-        }
-        // 내용이 다 써져있다면 register
-        else
-        {
-            // 등록절차 ~~
+        // json 형태로 서버 전송
+        SignUpInfo sInfo = new SignUpInfo();
+        string jsonData = sInfo.ObjectToJson(sInfo);
+        Debug.Log(jsonData);
+        AsynchronousClient.Send(jsonData);
+        // 서버에서 받아온 Json 출력
+        // 다음화면으로 넘어감
 
-            // 입력내용 초기화
-            idInput.text = "";
-            pwInput.text = "";
-            eaInput.text = "";
-            warning.text = "";
-            warning.color = Color.black;
-            
-            // 다음화면으로
-            this.gameObject.SetActive(false);
-            nextScreen.SetActive(true);
-        }
+        // 서버로부터 uuid 받아옴
+        /* string response = AsynchronousClient.Connected();
+        JObject responseJson = JObject.Parse(response);
+        userID = responseJson["data"].Value<string>("uuid"); */
     }
 
 }

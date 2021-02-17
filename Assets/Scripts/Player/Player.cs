@@ -1,5 +1,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+
 public class Player : PlayerUtil
 {
     [SerializeField] private GameObject cameraArm;
@@ -14,6 +15,7 @@ public class Player : PlayerUtil
         playerController.CameraArm = cameraArm.transform;
         playerController.Anim = GetComponent<Animator>();
         playerController.Rigid = GetComponent<Rigidbody>();
+        
 
         /* 서버 연결 */
         // AsynchronousClient.Connected();   

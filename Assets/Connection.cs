@@ -60,7 +60,7 @@ namespace project
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send(client, "{'type':'connected'}<EOF>");
+                Send(/*client, */"{'type':'connected'}<EOF>");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -72,11 +72,12 @@ namespace project
             }
             return response;
         }
+
         public static void ConnectedExit()
         {
             try
             {
-                Send(client, "{'type':'connectedExit'}<EOF>");
+                Send(/*client,*/ "{'type':'connectedExit'}<EOF>");
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -167,7 +168,7 @@ namespace project
             }
         }
         // -------------- Send
-        private static void Send(Socket client, String data)
+        public static void Send(/*Socket client, */String data)
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);
