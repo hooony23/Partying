@@ -9,10 +9,10 @@ namespace Communication.JsonFormat
 
     public class PlayerInfo
     {
-        private string movement = "";
-        private string uuid = "";
-        private Division3 vec = new Division3();
-        private Division3 loc = new Division3();
+        public string movement = "";
+        public string uuid = "";
+        public Division3 vec = new Division3();
+        public Division3 loc = new Division3();
         public PlayerInfo() : this(new Vector3(0,0,0),new Vector3(0,0,0),"None","None"){}
         public PlayerInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
         {
@@ -97,10 +97,7 @@ namespace Communication.JsonFormat
         }
 
         
-        public string Movement{ get => movement; set => movement = value;}
-        public string Uuid{ get => uuid; set => uuid = value; }
-        public Division3 Loc { get => loc; set => loc = value; }
-        public Division3 Vec { get => vec; set => vec = value; }
+
 
     }
 }

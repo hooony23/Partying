@@ -26,8 +26,8 @@ public class PlayerUtil : PlayerController
     }
     public void GetNetWorkInput()
     {
-        HAxis = PInfo.Vec.X;
-        VAxis = PInfo.Vec.Y;
+        HAxis = PInfo.vec.X;
+        VAxis = PInfo.vec.Y;
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
 
     }
@@ -55,11 +55,11 @@ public class PlayerUtil : PlayerController
                 break;
         }
     }
-    public void MoveChangeSend(string server, PlayerInfo playerInfo)
+    public void MoveChangeSend(string server)
     {
         if (IsKeyInput())
         {
-            APIController.SendController(server, "Move", playerInfo.ObjectToJson());
+            APIController.SendController(server, "Move", PInfo.ObjectToJson());
         }
     }
     public bool IsKeyInput()
@@ -131,7 +131,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
-
+        PInfo= new PlayerInfo(this.transform.position,Rigid.velocity,PlayerState,UserUuid);
     }
 
     public void Turn()
@@ -149,7 +149,6 @@ public class PlayerUtil : PlayerController
         /// <summary>
         // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
         // transform.LookAt(transform.position + moveVec);
-
         Vector3 camAngle = CameraArm.rotation.eulerAngles;
         float x = camAngle.x - MouseDelta.y * mouseSensitivity;
 
@@ -161,7 +160,7 @@ public class PlayerUtil : PlayerController
         {
             x = Mathf.Clamp(x, 335f, 361f);
         }
-
+        CameraArm.transform.position = this.transform.position;
         CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
 
     }

@@ -4,10 +4,10 @@ namespace Communication.JsonFormat
 {
     public class MapInfo
     {
-    private int[,,] labylinthArray;
-    private int[,] patrolPoint;
-    private string[,] trap;
-    private Division2 clearItem;
+    public int[,,] labylinthArray;
+    public int[,] patrolPoint;
+    public string[,] trap;
+    public Division2 clearItem;
 
     public int[,,] LabylinthArray{get=>labylinthArray;set=>labylinthArray=value;}
     public int[,] PatrolPoint{get=>patrolPoint;set=>patrolPoint=value;}

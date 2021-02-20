@@ -8,11 +8,10 @@ public class Player : PlayerUtil
 
     void Awake()
     {
-
+        UserUuid = Config.userUuid;
         CameraArm = GameObject.Find("CameraArm").transform;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
-        // UserUuid = Config.userUuid;
 
     }
 
@@ -26,15 +25,12 @@ public class Player : PlayerUtil
         CameraTurn();
         Dodge();
         PlayerStateUpdate();
+        MoveChangeSend("Labylinth");
         
     }
     private void FixedUpdate() // default : 50fps
     {
-        /* 서버 전송 */
-        // CharacterInfo 에 현재 플레이어의 상태 입력
-        // CharacterInfo 를 서버로 전송
-        // PInfo.SetInfo(transform.position, MoveDir, PlayerState, UserUuid); 
-        // APIController.SendController("Move",PInfo.ObjectToJson());
+
         FreezeRotation();
         StopToWall();
     }

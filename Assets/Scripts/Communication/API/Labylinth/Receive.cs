@@ -13,16 +13,9 @@ namespace Communication.API.Labylinth
         public void CreateMap(string response)
         {
             MapInfo mapInfo = JsonConvert.DeserializeObject<MapInfo>(response);
-            Map mapObject = null;
             
             //TODO 더 좋은 방법 찾아야함
-            try{
             Config.mapInfo = mapInfo;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
             
         }
         public void SyncPackit(string response)

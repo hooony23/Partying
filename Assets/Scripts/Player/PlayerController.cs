@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     private Transform cameraArm;
     private Vector2 mouseDelta;
 
-    public string UserUuid { get => UserUuid; set => UserUuid = value; }
+    public string UserUuid { get => userUuid; set => userUuid = value; }
     public PlayerInfo PInfo { get => pInfo; set => pInfo = value; }
     public bool IsStun { get => isStun; set => isStun = value; }
     public bool IsDead { get => isDead; set => isDead = value; }

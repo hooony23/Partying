@@ -99,7 +99,7 @@ public class MapUtil : MapController
                 GameObject Trap;
                 switch (trapInfo[i, j])
                 {
-                    case "ranth":
+                    case "spike":
                         Trap = Instantiate(MapObjects.SpikeTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "SpikeTrap";
                         Trap.transform.parent = MapObjects.TrapPoint.transform;
@@ -114,7 +114,7 @@ public class MapUtil : MapController
                         Trap.name = "SlowTrap";
                         Trap.transform.parent = MapObjects.TrapPoint.transform;
                         break;
-                    case "dange":
+                    case "danger":
                         Trap = Instantiate(MapObjects.DangerZone, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "DangerZone";
                         Trap.transform.parent = MapObjects.TrapPoint.transform;

@@ -10,8 +10,7 @@ namespace Communication.API.Labylinth
     {
         public void Move(string request)
         {
-            JObject requestJson = JObject.Parse(request);
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server, requestJson.Value<string>("uuid"), request));
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server, request));
         }
         public void CreateMap()
         {
