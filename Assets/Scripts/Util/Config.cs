@@ -1,8 +1,5 @@
-using System.Net;
-using System.Collections;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
+using Communication.JsonFormat;
 
 namespace Util
 {
@@ -24,8 +21,8 @@ namespace Util
         // map
         public static int ROW = 20;
         public static int COL = 20;
-        public static string mapController = "";
-        public static float labylinthOnSpaceSize;
+        public static MapInfo mapInfo = null;
+        public static float labylinthOnSpaceSize = 0f;
         public enum InputKey
         {
             A = KeyCode.A,
@@ -39,10 +36,16 @@ namespace Util
 
         public enum SendAPINames 
         {
+            Connected,
+            ConnectedExit,
+            CreateMap,
             Move,
         }
         public enum ReceiveAPINames
         {
+            Connected,
+            CreateMap,
+            ConnectedExit,
             SyncPackit,
         }
     }

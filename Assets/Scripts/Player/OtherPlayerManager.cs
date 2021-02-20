@@ -21,7 +21,6 @@ public class OtherPlayer : PlayerUtil
         Move();
         Turn();
         IsGetItem();
-        CameraTurn();
         Dodge();
         PlayerStateUpdate();
     }

@@ -18,7 +18,7 @@ namespace Communication
         // Client socket.  
         public Socket workSocket = null;
         // Size of receive buffer.  
-        public const int BufferSize = 256;
+        public const int BufferSize = 1024*16;
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
         // Received data string.  
@@ -29,13 +29,13 @@ namespace Communication
     {
         // The port number for the remote device.  
 
-        // ManualResetEvent instances signal completion.  
-        private static ManualResetEvent connectDone =
-            new ManualResetEvent(false);
-        private static ManualResetEvent sendDone =
-            new ManualResetEvent(false);
-        private static ManualResetEvent receiveDone =
-            new ManualResetEvent(false);
+        // AutoResetEvent instances signal completion.  
+        public static AutoResetEvent connectDone =
+            new AutoResetEvent(false);
+        public static AutoResetEvent sendDone =
+            new AutoResetEvent(false);
+        public static AutoResetEvent receiveDone =
+            new AutoResetEvent(false);
 
         // The response from the remote device.  
         private static String response = String.Empty;
@@ -49,7 +49,7 @@ namespace Communication
                 // IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
                 // IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, Config.serverPort);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
 
                 // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,
@@ -60,7 +60,7 @@ namespace Communication
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send("{'type':'connected'}<EOF>");
+                Send("{'type':'Connected'}");
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -76,7 +76,7 @@ namespace Communication
         {
             try
             {
-                Send("{'type':'connectedExit'}<EOF>");
+                Send("{'type':'ConnectedExit'}");
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -154,7 +154,8 @@ namespace Communication
                     }
                     receiveData = receiveData.Split(new string[] { "<EOF>" }, StringSplitOptions.None)[0];
                     response = receiveData;
-                    APIController.ReceiveController(receiveData);
+                    if  (!receiveData.Contains("connected"))
+                        APIController.ReceiveController(receiveData);
 
                 }
                 receiveDone.Set();
@@ -171,7 +172,7 @@ namespace Communication
         public static void Send(String data)
         {
             // Convert the string data to byte data using ASCII encoding.  
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            byte[] byteData = Encoding.UTF8.GetBytes(data+"<EOF>");
             // Console.WriteLine("send {0}", data);
 
             // Begin sending the data to the remote device.  

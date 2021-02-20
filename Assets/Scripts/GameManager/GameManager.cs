@@ -1,4 +1,8 @@
+using System;
+using UnityEngine;
+using Util;
 using Communication;
+using Communication.API;
 
 
 namespace GameManager
@@ -10,10 +14,13 @@ namespace GameManager
         void Awake()
         {
             SetUserUuid(Connection.Connected());
+            APIController.SendController("Labylinth", "CreateMap");
+            
+            Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
 
-        
+
 
         void OnApplicationQuit()
         {

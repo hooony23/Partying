@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Lib;
@@ -11,14 +12,13 @@ namespace Communication.API
     {
 
 
-        public static void SendController(string server, String type, String requestJson)
+        public static void SendController(string server, String type, params String[] requestJson)
         {
             if (Enum.IsDefined(typeof(Config.SendAPINames),type))
-                Common.CallAPI(server, type, requestJson);
+                Common.CallAPI(server,"Send", type, requestJson);
         }
         public static void ReceiveController(String json)
         {
-
             JObject responseJson = null;
             try
             {
@@ -32,10 +32,11 @@ namespace Communication.API
             // RegularExpression.jsonValidation(responseJson);
 
             string type = responseJson.Value<string>("type");
+            type = Common.ToPascalCase(type);
             string server = responseJson.Value<string>("server");
-            string data = responseJson.Value<string>("data");
+            string data = JsonConvert.SerializeObject((JObject)responseJson["data"]);
             if (Enum.IsDefined(typeof(Config.ReceiveAPINames),type))
-                Common.CallAPI(server, type, responseJson);
+                Common.CallAPI(server, "Receive",type, data);
         }
     }
 }
