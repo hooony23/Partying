@@ -56,10 +56,13 @@ public static SoundManager instance; //전역변수로 설정하여 어디서든
     public void IsPlaySound(string name) { //음원재생
         for (int i = 0; i < EffectSound.Length; i++)
         {
+
             if (name.Equals(BgmSound[i].name)) //BGM재생
             {
+                //Debug.Log(name+" "+i);
                 //Debug.Log(name);
                 audioSourceBGM.clip = BgmSound[i].clip;
+                Debug.Log(audioSourceBGM.clip);
                 audioSourceBGM.Play();
             }
             if (name.Equals(EffectSound[i].name)) {//SFX재생

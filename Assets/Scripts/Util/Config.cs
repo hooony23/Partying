@@ -26,7 +26,10 @@ public class Config : MonoBehaviour
     public static float Bgmvol = 0.5f;
     public static float Sfxvol = 0.5f;
 
-    public static float Time = 50f;
+    public static float Timer = 103f;
+    public static int CountDownTime = 3;
+    public static bool StartGame = false;
 
+    public static bool GameClear = false;
 
 }

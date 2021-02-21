@@ -177,16 +177,12 @@ public class PlayerUtil : MonoBehaviour
             playerController.NearObject = other.gameObject;
             if (playerController.GetItem == true)
             {
-                //playerController.nim.SetBool("isBoxOpen", true);
-                //MapClearItem.IsBoxOpen(true);
                 Destroy(playerController.NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
-                Invoke("SceneChange", 4);
+                Config.GameClear = true;
             }
         }
     }
-    public void SceneChange() {
-        SceneManager.LoadScene("First Map");
-    }
+   
 
     public void IsGetItem(Collider other)
     {
@@ -194,6 +190,7 @@ public class PlayerUtil : MonoBehaviour
         if (other.CompareTag("Item"))
         {
             playerController.NearObject = null;
+            Config.GameClear = true;
         }
     }
 }
