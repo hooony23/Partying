@@ -7,10 +7,10 @@ public class Map : MapUtil
     
     private void Start()
     {
-        MapInfo = Config.mapInfo;
-        MapObjects = new MapObjects();
         InitializeMap();
         CreateGrid(Config.ROW,Config.COL);
+        TrapRespawn(Config.ROW, Config.COL);
+        PlayerRespawn(Config.ROW,Config.COL);
         
     }
     void Update() // Bake를 최초 갱신하기 위함

@@ -9,6 +9,8 @@ public class MapUtil : MapController
 {
     protected void InitializeMap()
     {
+        MapInfo = Config.mapInfo;
+        MapObjects = new MapObjects();
         MapObjects.wall = Resources.Load("Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
         MapObjects.UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;// 위 아래 벽
         MapObjects.SpikeTrap = Resources.Load("Trap/SpikeTrap") as GameObject;// 가시함정
@@ -30,7 +32,7 @@ public class MapUtil : MapController
 
     public void CreateGrid(int size)
     {
-        CreateGrid(size,size);
+        CreateGrid(size, size);
     }
     public void CreateGrid(int Rows, int Columns)
     {
@@ -38,7 +40,7 @@ public class MapUtil : MapController
         // 결과를 확인하기 위한 구문 
         // Dictionary<int, string> type = new Dictionary<int, string>() { { 0, "왼쪽" }, { 1, "오른쪽" }, { 2, "위" }, { 3, "아래" } };
         // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
-        int[,,] labylinthArray = MapInfo.LabylinthArray;
+        int[,,] labylinthArray = MapInfo.labylinthArray;
         // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
         Config.labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
         //wall localScale = (10,5,1)
@@ -85,16 +87,15 @@ public class MapUtil : MapController
             }
         }
         IsMapdone = true;
-        TrapRespawn(Rows,Columns);
     }
-    public void TrapRespawn(int Rows,int Columns)
+    public void TrapRespawn(int row, int column)
     { //함정생성
-        string[,] trapInfo = MapInfo.Trap;
-        
+        string[,] trapInfo = MapInfo.trap;
+
         GameObject grandParent = GameObject.Find("Map");
-        for (int i = 0; i < Rows; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < Rows; j++)
+            for (int j = 0; j < column; j++)
             {
                 GameObject Trap;
                 switch (trapInfo[i, j])
@@ -102,22 +103,18 @@ public class MapUtil : MapController
                     case "spike":
                         Trap = Instantiate(MapObjects.SpikeTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "SpikeTrap";
-                        Trap.transform.parent = MapObjects.TrapPoint.transform;
                         break;
                     case "hole":
                         Trap = Instantiate(MapObjects.HoleTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "HoleTrap";
-                        Trap.transform.parent = MapObjects.TrapPoint.transform;
                         break;
                     case "slow":
                         Trap = Instantiate(MapObjects.SlowTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "SlowTrap";
-                        Trap.transform.parent = MapObjects.TrapPoint.transform;
                         break;
                     case "danger":
                         Trap = Instantiate(MapObjects.DangerZone, Grid[i, j].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "DangerZone";
-                        Trap.transform.parent = MapObjects.TrapPoint.transform;
                         break;
                     default:
                         Trap = null;
@@ -126,6 +123,22 @@ public class MapUtil : MapController
                 if (Trap == null)
                     continue;
                 Trap.transform.SetParent(grandParent.transform.Find($"{i}_{j}"));
+            }
+        }
+    }
+
+    public void PlayerRespawn(int row, int column)
+    {
+        string[,] playerInfo = MapInfo.playerLocs;
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < column; j++)
+            {
+                if (playerInfo[i, j].Equals(""))
+                    continue;
+                GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                player.name = playerInfo[i, j];
+
             }
         }
     }

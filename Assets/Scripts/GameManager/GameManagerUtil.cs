@@ -13,19 +13,18 @@ namespace GameManager
         }
         protected void InitializeLabylinth()
         {
+            // 플레이어에게 부착할 카메라 생성
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"),Vector3.zero,Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
-            GameObject player = Instantiate(Resources.Load("Player/Player"),new Vector3(0,3,0),Quaternion.identity) as GameObject;
-            player.name = Config.userUuid;
+            
+            // 순찰 npc
             GameObject AIPatrol = Instantiate(Resources.Load("Patrol/Patrol"),new Vector3(0,3,0),Quaternion.identity) as GameObject;
             AIPatrol.name = Resources.Load("Patrol/Patrol").name;
-            GameObject patrolPoint = new GameObject("PatrolPoint");
-            patrolPoint.AddComponent<BoxCollider>();
-            // MazeCell playerSpawnLocation = GameObject.Find("Map").GetComponent<Map>().Grid[0,0];
-            patrolPoint.layer = LayerMask.NameToLayer("PatrolPoint");
-            Vector3 firstGrid = new Vector3( - 0.5f, 1 + player.transform.localScale.y/2, 0.5f);
-            player.transform.position = firstGrid;
-            patrolPoint.transform.position = firstGrid + new Vector3(UnityEngine.Random.Range(0,20)*Config.labylinthOnSpaceSize/2,-UnityEngine.Random.Range(0,20)*Config.labylinthOnSpaceSize/2);
+
+            // 플레이어, 맵, 함정, patrol point 생성
+            GameObject Map = Instantiate(Resources.Load("Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
+            Map.name = Resources.Load("Map/Map").name;
+            
         }
     }
 }
