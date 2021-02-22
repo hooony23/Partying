@@ -25,7 +25,7 @@ public class Room : MonoBehaviour
     private void Start()
     {
         // 서버에서 받아온 roomInfo
-        currentRoom = new RoomInfo(0, "안녕안녕", "hooony23", "1234", 1);
+        //urrentRoom = new RoomInfo(0, "안녕안녕", "hooony23", "1234", 1);
 
         // 서버에서 받아온 유저 정보
         users.Add("hooony23");
@@ -49,7 +49,7 @@ public class Room : MonoBehaviour
     public void SetupRoom()
     {
         // 방제목 ...등등 초기화
-        title.text = currentRoom.RoomTitle;
+        //title.text = currentRoom.RoomTitle;
     }
 
     // 플레이어가 들어오면 PLAYER1, PLAYER2, PLAYER3, PLAYER4 UI 업데이트
