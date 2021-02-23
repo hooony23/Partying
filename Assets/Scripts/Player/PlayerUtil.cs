@@ -26,10 +26,7 @@ public class PlayerUtil : PlayerController
     }
     public void GetNetWorkInput()
     {
-        HAxis = PInfo.vec.X;
-        VAxis = PInfo.vec.Y;
-        MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
-
+        MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
     }
     public void InputEvent(KeyCode key)
     {
@@ -102,14 +99,18 @@ public class PlayerUtil : PlayerController
         if (IsStun == false)
         {
             IsMove = true;
-            Debug.DrawRay(CameraArm.position, CameraArm.forward, Color.red);
+            // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
+            if (this.UserUuid.Equals(Config.userUuid))
+            {
+                Debug.DrawRay(CameraArm.position, CameraArm.forward, Color.red);
 
-            Vector3 lookForward = new Vector3(CameraArm.forward.x, 0f, CameraArm.forward.z).normalized;
-            Vector3 lookRight = new Vector3(CameraArm.right.x, 0f, CameraArm.right.z).normalized;
-            // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
-            MoveDir = (lookForward * MoveInput.y + lookRight * MoveInput.x).normalized;
+                Vector3 lookForward = new Vector3(CameraArm.forward.x, 0f, CameraArm.forward.z).normalized;
+                Vector3 lookRight = new Vector3(CameraArm.right.x, 0f, CameraArm.right.z).normalized;
+                transform.forward = lookForward;
 
-            transform.forward = lookForward; // 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
+                // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
+                MoveDir = (lookForward * MoveInput.y + lookRight * MoveInput.x).normalized;
+            }
             transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
         }
 
@@ -131,9 +132,8 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
-        PInfo= new PlayerInfo(this.transform.position,Rigid.velocity,PlayerState,UserUuid);
+        PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
-
     public void Turn()
     {
         transform.LookAt(transform.position + MoveDir);
