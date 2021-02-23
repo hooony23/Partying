@@ -1,11 +1,8 @@
-using System.Drawing;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Communication.API;
 using Util;
 
@@ -18,7 +15,7 @@ namespace Communication
         // Client socket.  
         public Socket workSocket = null;
         // Size of receive buffer.  
-        public const int BufferSize = 1024*16;
+        public const int BufferSize = Int32.MaxValue;
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
         // Received data string.  
@@ -148,15 +145,20 @@ namespace Communication
 
                     content = state.sb.ToString();
                     string receiveData = "";
-                    for (int i = 0; i < content.IndexOf("<EOF>"); i++)
+                    if (content.IndexOf("<EOF>") > -1)
                     {
-                        receiveData = receiveData + content[i];
-                    }
-                    receiveData = receiveData.Split(new string[] { "<EOF>" }, StringSplitOptions.None)[0];
-                    response = receiveData;
-                    if  (!receiveData.Contains("connected"))
-                        APIController.ReceiveController(receiveData);
+                        // All the data has been read from the
+                        // client. Display it on the console.  
+                        string[] receiveDatas = content.Split(new string[] { "<EOF>" }, StringSplitOptions.None);
+                        foreach(string data in receiveDatas)
+                        {
+                            if  (data.Contains("connected"))
+                                response = data;
+                            APIController.ReceiveController(data);
 
+                        }
+
+                    }
                 }
                 receiveDone.Set();
                 state.sb.Clear();
