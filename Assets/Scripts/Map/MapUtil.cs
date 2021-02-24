@@ -137,6 +137,11 @@ public class MapUtil : MapController
                 if (playerInfo[i, j].Equals(""))
                     continue;
                 GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                if (Config.userUuid.Equals(playerInfo[i, j]))
+                {
+                    Destroy(player.GetComponent<Player>());
+                    player.AddComponent<OtherPlayer>();
+                }
                 player.name = playerInfo[i, j];
 
             }

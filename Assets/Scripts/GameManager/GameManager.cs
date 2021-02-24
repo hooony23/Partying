@@ -15,7 +15,7 @@ namespace GameManager
         {
             SetUserUuid(Connection.Connected());
             // APIController.SendController("Labylinth", "CreateMap");
-            // Connection.receiveDone.WaitOne();
+            Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
 

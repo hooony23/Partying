@@ -152,8 +152,10 @@ namespace Communication
                         string[] receiveDatas = content.Split(new string[] { "<EOF>" }, StringSplitOptions.None);
                         foreach(string data in receiveDatas)
                         {
-                            if  (data.Contains("connected"))
+                            if  (data.Contains("connected")){
                                 response = data;
+                                continue;
+                            }
                             APIController.ReceiveController(data);
 
                         }
