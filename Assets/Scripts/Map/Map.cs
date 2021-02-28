@@ -9,8 +9,8 @@ public class Map : MapUtil
     {
         InitializeMap();
         CreateGrid(Config.ROW,Config.COL);
-        TrapRespawn(Config.ROW, Config.COL);
-        PlayerRespawn(Config.ROW,Config.COL);
+        TrapRespawn();
+        PlayerRespawn();
         
     }
     void Update() // Bake를 최초 갱신하기 위함

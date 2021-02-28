@@ -88,32 +88,30 @@ public class MapUtil : MapController
         }
         IsMapdone = true;
     }
-    public void TrapRespawn(int row, int column)
+    public void TrapRespawn()
     { //함정생성
-        string[,] trapInfo = MapInfo.trap;
+        CellInfo[] trapInfo = MapInfo.trap;
 
         GameObject grandParent = GameObject.Find("Map");
-        for (int i = 0; i < row; i++)
+        foreach(CellInfo item in trapInfo)
         {
-            for (int j = 0; j < column; j++)
-            {
                 GameObject Trap;
-                switch (trapInfo[i, j])
+                switch ((string)item.data)
                 {
                     case "spike":
-                        Trap = Instantiate(MapObjects.SpikeTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                        Trap = Instantiate(MapObjects.SpikeTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "SpikeTrap";
                         break;
                     case "hole":
-                        Trap = Instantiate(MapObjects.HoleTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                        Trap = Instantiate(MapObjects.HoleTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "HoleTrap";
                         break;
                     case "slow":
-                        Trap = Instantiate(MapObjects.SlowTrap, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                        Trap = Instantiate(MapObjects.SlowTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "SlowTrap";
                         break;
                     case "danger":
-                        Trap = Instantiate(MapObjects.DangerZone, Grid[i, j].Respwan.transform.position, Quaternion.identity);
+                        Trap = Instantiate(MapObjects.DangerZone, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
                         Trap.name = "DangerZone";
                         break;
                     default:
@@ -122,29 +120,22 @@ public class MapUtil : MapController
                 }
                 if (Trap == null)
                     continue;
-                Trap.transform.SetParent(grandParent.transform.Find($"{i}_{j}"));
-            }
+                Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
         }
     }
 
-    public void PlayerRespawn(int row, int column)
+    public void PlayerRespawn()
     {
-        string[,] playerInfo = MapInfo.playerLocs;
-        for (int i = 0; i < row; i++)
+        CellInfo[] playerInfo = MapInfo.playerLocs;
+        foreach (CellInfo item in playerInfo)
         {
-            for (int j = 0; j < column; j++)
+            GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            if (!Config.userUuid.Equals((string)item.data))
             {
-                if (playerInfo[i, j].Equals(""))
-                    continue;
-                GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[i, j].Respwan.transform.position, Quaternion.identity);
-                if (Config.userUuid.Equals(playerInfo[i, j]))
-                {
-                    Destroy(player.GetComponent<Player>());
-                    player.AddComponent<OtherPlayer>();
-                }
-                player.name = playerInfo[i, j];
-
+                Destroy(player.GetComponent<Player>());
+                player.AddComponent<OtherPlayer>();
             }
+            player.name = (string)item.data;
         }
     }
 }

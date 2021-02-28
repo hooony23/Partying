@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using System.Collections;
+using System.Collections.Generic;
 using Communication.API;
 using Util;
 
@@ -15,7 +17,7 @@ namespace Communication
         // Client socket.  
         public Socket workSocket = null;
         // Size of receive buffer.  
-        public const int BufferSize = Int32.MaxValue;
+        public const int BufferSize = 1024*8;
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
         // Received data string.  
@@ -45,8 +47,9 @@ namespace Communication
                 // TODO Test끝나면 주석 해제
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
-                // IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                // IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                // IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
 
                 // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,
@@ -112,7 +115,7 @@ namespace Communication
         {
             try
             {
-                // Create the state object.  
+                // Create the state object.
                 StateObject state = new StateObject();
                 state.workSocket = client;
                 state.sb.Clear();
@@ -144,12 +147,14 @@ namespace Communication
                         state.buffer, 0, bytesRead));
 
                     content = state.sb.ToString();
-                    string receiveData = "";
                     if (content.IndexOf("<EOF>") > -1)
                     {
                         // All the data has been read from the
                         // client. Display it on the console.  
                         string[] receiveDatas = content.Split(new string[] { "<EOF>" }, StringSplitOptions.None);
+                        List<string> tmp = new List<string>(receiveDatas);
+                        tmp.Remove("");
+                        receiveDatas = tmp.ToArray();
                         foreach(string data in receiveDatas)
                         {
                             if  (data.Contains("connected")){
@@ -159,11 +164,10 @@ namespace Communication
                             APIController.ReceiveController(data);
 
                         }
-
+                        receiveDone.Set();
+                        state.sb.Clear();
                     }
                 }
-                receiveDone.Set();
-                state.sb.Clear();
                 state.workSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReceiveCallback), state);
             }

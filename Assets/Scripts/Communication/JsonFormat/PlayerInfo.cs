@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using Util.Division;
+using Util;
 
 namespace Communication.JsonFormat
 {
