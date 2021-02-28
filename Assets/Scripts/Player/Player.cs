@@ -32,18 +32,17 @@ public class Player : PlayerUtil
         // AsynchronousClient.ConnectedExit();
         
     }
-    [SerializeField]
-    private string BGMSound;
     // Update is called once per frame
     void Update()
     {
-        GetInput();
-        Move();
-        Turn();
-        GetItem();
-        CameraTurn();
-        Dodge();
-        PlayerStateUpdate();
+            GetInput();
+            Move();
+            Turn();
+            GetItem();
+            CameraTurn();
+            Dodge();
+            PlayerStateUpdate();
+       
     }
     
     private void FixedUpdate() // default : 50fps

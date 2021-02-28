@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Text timeText;
+
+    [SerializeField]
+    private Text timeText;
     private float time;
-    private int Notime = 100;
     private bool TimeOver = false;
-    private bool Mintime = false;
+    private bool mintime = false;
+    private bool isTimerStart = true;
     [SerializeField]
     private string BGMSound;
     AudioSource audioSource;
@@ -19,29 +21,34 @@ public class Timer : MonoBehaviour
         time = Config.Timer;
         
     }
-    private void Start()
-    {
-        SoundManager.instance.IsPlaySound(BGMSound);
-    }
     private void Update()
     {
-        if (Config.StartGame)
+            TimeCount();
+    }
+    private void TimeCount() {
+        if (Config.StartGame&& isTimerStart)
         {
+            SoundManager.instance.IsPlaySound(BGMSound);
             timeText.gameObject.SetActive(true);
-            Config.StartGame = false;
+            isTimerStart = false;
         }
         if (time > 0)
         {
             CountDownTimer();
         }
-        if (Mintime && time>99.995f) {
-            Debug.Log("실행중");
-            SoundManager.instance.StopAllSound();
-            audioSource.Play();
+        if (mintime)
+        {
+            if (!audioSource.isPlaying)
+            {
+                mintime = false;
+                SoundManager.instance.IsStopSound(BGMSound);
+                audioSource.Play();
+            }
         }
-        if (time < 0 && TimeOver) {
+        if (time < 0 && TimeOver)
+        {
             TimeOver = false;
-            Debug.Log("게임끝");
+            audioSource.Stop();
             //Application.Quit();
 
         }
@@ -49,11 +56,12 @@ public class Timer : MonoBehaviour
     private void CountDownTimer() {
         time -= Time.deltaTime;
         timeText.text = string.Format("{0:D2}:{1:D2}", (int)(time/60%60), (int)(time % 60));
+        //Debug.Log(timeText.text);
         if (time < 0) {
             TimeOver = true;
         }
-        if (time > 99&&time<100) {
-            Mintime = true;
+        if (time<60&&time>59.9) {
+            mintime = true;
         }
     }
 }

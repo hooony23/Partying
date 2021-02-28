@@ -79,7 +79,7 @@ public class Room : MonoBehaviour
 
      public void OnClickGameStart() //private으로 하려 했으나, 이벤트 요소는 public으로만 끌어올 수 있는듯.
     {
-        SceneManager.LoadScene("LodingScene");
+        SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
         // Game Scene 으로 넘어감
     }
 

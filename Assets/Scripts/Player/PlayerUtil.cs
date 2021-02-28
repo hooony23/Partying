@@ -10,18 +10,16 @@ public class PlayerUtil : MonoBehaviour
 {
     public PlayerController playerController = new PlayerController();
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
-
+    [SerializeField]
+    private string BGMSound;
     public void GetInput()
     {
-
-        playerController.HAxis = Input.GetAxis("Horizontal");
-        playerController.VAxis = Input.GetAxis("Vertical");
+        playerController.HAxis = Input.GetAxis("Horizontal2");
+        playerController.VAxis = Input.GetAxis("Vertical2");
         playerController.EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
         playerController.JDown = Input.GetButtonDown("Jump"); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
         playerController.MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
         playerController.MoveInput = new Vector2(playerController.HAxis, playerController.VAxis).normalized; // TPS 움직임용 vector
-
-
     }
 
     // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
@@ -113,10 +111,6 @@ public class PlayerUtil : MonoBehaviour
             }
         }
     }
-    /*public void OpenPreferences() {
-        if (playerController.PDown) {
-        }
-    }*/
 
     public void Dodge() // 플레이어 회피
     {
@@ -190,7 +184,7 @@ public class PlayerUtil : MonoBehaviour
         if (other.CompareTag("Item"))
         {
             playerController.NearObject = null;
-            Config.GameClear = true;
+            //Config.GameClear = true;
         }
     }
 }
