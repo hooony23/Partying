@@ -1,15 +1,14 @@
 
 using UnityEngine;
 using UnityEngine.AI;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Communication;
 using Util;
 
 public class MapUtil : MapController
 {
     protected void InitializeMap()
     {
-        MapInfo = Config.mapInfo;
+        MapInfo = NetworkInfo.mapInfo;
         MapObjects = new MapObjects();
         MapObjects.wall = Resources.Load("Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
         MapObjects.UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;// 위 아래 벽
@@ -130,10 +129,12 @@ public class MapUtil : MapController
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            Debug.Log($"player uuid :{Config.userUuid}\n other player uuid : {(string)item.data}");
             if (!Config.userUuid.Equals((string)item.data))
             {
                 Destroy(player.GetComponent<Player>());
                 player.AddComponent<OtherPlayer>();
+                player.GetComponent<OtherPlayer>().UserUuid = (string)item.data;
             }
             player.name = (string)item.data;
         }

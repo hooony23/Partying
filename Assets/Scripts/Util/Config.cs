@@ -21,7 +21,6 @@ namespace Util
         // map
         public static int ROW = 20;
         public static int COL = 20;
-        public static MapInfo mapInfo = null;
         public static float labylinthOnSpaceSize = 0f;
         public enum InputKey
         {
@@ -46,7 +45,7 @@ namespace Util
             Connected,
             CreateMap,
             ConnectedExit,
-            SyncPackit,
+            SyncPacket,
         }
     }
 }

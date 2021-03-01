@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
+using Communication;
 using Communication.API;
 using Communication.JsonFormat;
 using Util;
@@ -26,6 +26,15 @@ public class PlayerUtil : PlayerController
     }
     public void GetNetWorkInput()
     {
+        if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name))
+            // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
+            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
+            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
+            if (NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
+            {
+                PInfo = NetworkInfo.playersInfo[this.gameObject.name];
+                this.gameObject.transform.position = new Vector3(PInfo.loc.X,PInfo.loc.Y,PInfo.loc.Z);
+            }
         MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
     }
     public void InputEvent(KeyCode key)
@@ -111,7 +120,7 @@ public class PlayerUtil : PlayerController
                 // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
                 MoveDir = (lookForward * MoveInput.y + lookRight * MoveInput.x).normalized;
             }
-            transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
+            this.gameObject.transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
         }
 
         if (IsStun == true)
@@ -126,13 +135,14 @@ public class PlayerUtil : PlayerController
         }
 
         // run 애니메이션
-        Anim.SetBool("isRun", MoveInput != Vector2.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+        Anim.SetBool("isRun", MoveDir != Vector3.zero); // 움직이는 상태 -> isRun 애니메이션 실행
 
         if (MoveInput == Vector2.zero)
         {
             IsMove = false;
         }
-        PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
+        if (this.UserUuid.Equals(Config.userUuid))
+            PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
     public void Turn()
     {

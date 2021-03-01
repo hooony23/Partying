@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,20 +14,39 @@ namespace Communication.API.Labylinth
         public void CreateMap(string response)
         {
             MapInfo mapInfo = JsonConvert.DeserializeObject<MapInfo>(response);
-            
+
             //TODO 더 좋은 방법 찾아야함
-            Config.mapInfo = mapInfo;
-            
+            NetworkInfo.mapInfo = mapInfo;
+
         }
-        public void SyncPackit(string response)
+        public void SyncPacket(string response)
         {
-            JObject responseJson = JObject.Parse(response);
-            JObject[] datas = responseJson.Value<JObject[]>("data");
-            foreach (var data in datas)
+            JObject responseJson = null;
+            try
             {
-                GameObject gameObject = GameObject.Find(data.Value<string>("uuid"));
-                Player player = gameObject.GetComponent<Player>();
-                player.PInfo = data.ToObject<PlayerInfo>();
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            JArray usersInfo = responseJson.Value<JArray>("usersInfo");
+            foreach (JObject data in usersInfo)
+            {
+                PlayerInfo userInfo = data.ToObject<PlayerInfo>();
+                if (!userInfo.uuid.Equals(Config.userUuid))
+                {
+                    try
+                    {
+                        NetworkInfo.playersInfo.Add(userInfo.uuid,userInfo);
+                    }
+                    catch (ArgumentException)
+                    {
+                        NetworkInfo.playersInfo[userInfo.uuid] = userInfo;
+                    }
+
+                }
             }
 
         }
