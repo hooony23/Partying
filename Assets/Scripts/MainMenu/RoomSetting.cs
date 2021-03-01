@@ -19,6 +19,8 @@ public class RoomSetting : MonoBehaviour
     // 서버 통신용
     private string serverMsg = "";
 
+    public string Title { get => title; set => title = value; }
+
     private void Start()
     {
 
@@ -32,7 +34,7 @@ public class RoomSetting : MonoBehaviour
         title = roomTitleInput.text;
         password = roomPasswordInput.text;
 
-        if (title != "")
+        if (!Title.Equals(""))
         {
             Debug.Log("방을 생성하였습니다");
 
@@ -41,24 +43,29 @@ public class RoomSetting : MonoBehaviour
             string response = "";
 
             createRoomInfo info = new createRoomInfo();
-            info.UpdateInfo(title, password);
+            info.UpdateInfo(Title, password);
 
             response = MServer.Communicate(createRoomUri, "POST", info);
             Debug.Log(response);
             JObject json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();
 
+            if (serverMsg.Equals("True"))
+            {
+                // 방 진입
+                // 방의 Uuid를 생성하는 과정이 필요
+                Room.roomName = title;
+                Room.roomUuid = "ce55aa9d-cca4-4a41-836a-168407bbe30d";
+                Room.roomMemberCount = "1";
+                Debug.Log(Room.roomName);
+                GoNextScreen();
+            }
+
         }
         else
         {
             Debug.Log("방 제목을 입력해주세요");
         }
-
-        if (serverMsg.Equals("True"))
-        {
-            GoNextScreen();
-        }
-
     }
 
     private void GoNextScreen()

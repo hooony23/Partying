@@ -19,13 +19,10 @@ public class Lobby : MonoBehaviour
     [SerializeField] private GameObject popup = null;
     [SerializeField] private Text message = null;
     [SerializeField] private InputField inputPassword = null;
-    [SerializeField] private Button check = null;
-    [SerializeField] private Button cancel = null;
 
-    
 
     // 선택한 방의 정보
-    private RoomInfo clickroomInfo = null;
+    private RoomInfo clickRoomInfo = null;
 
     // 서버 통신용
     private string serverMsg = "";
@@ -34,10 +31,15 @@ public class Lobby : MonoBehaviour
 
     private void Start()
     {
-        // GetRoomsList();
+
     }
 
-    public void GetRoomsList()
+    private void OnEnable()
+    {
+        GetRoomsListButtons();
+    }
+
+    public void GetRoomsListButtons()
     {
         string roomsListUri = "api/v1/rooms/roomList";
         string response = "";
@@ -46,7 +48,6 @@ public class Lobby : MonoBehaviour
         response = MServer.Communicate(roomsListUri, "GET");
         JObject json = JObject.Parse(response);
 
-        // 받은 JSON 의 [data][isSuccess] 부분 파싱
         serverMsg = json["data"]["isSuccess"].ToString();
         roomListUpdated = json["data"]["roomList"].ToString();
         //Debug.Log(serverMsg);
@@ -57,7 +58,7 @@ public class Lobby : MonoBehaviour
             //Debug.Log("방 목록을 갱신합니다");
 
             // 받은 서버의 정보 갱신
-            UpdateList(json);
+            UpdateRoomsList(json);
 
             // 스크롤뷰의 방 버튼 갱신
             SetRoomButtons();
@@ -76,7 +77,7 @@ public class Lobby : MonoBehaviour
     }
 
     // 서버에 받아온 roomList 정보를 rooms배열에 갱신
-    private void UpdateList(JObject json)
+    private void UpdateRoomsList(JObject json)
     {
         // 받은 JSON 의 roomList 데이터
         JToken arrData = json["data"]["roomList"];
@@ -96,7 +97,6 @@ public class Lobby : MonoBehaviour
             info.Pwd = jsonArray[i]["pwd"].ToString();
 
             rooms.Add(info);
-
         }
     }
 
@@ -106,6 +106,8 @@ public class Lobby : MonoBehaviour
     {
         for (int i = 0; i < rooms.Count; i++)
         {
+            RoomInfo currentRoom = rooms[i];
+
             // 1. 방 버튼 프리펩에 넣을 정보를 가져옴
             string roomUuid = rooms[i].RoomUuid;
             string roomName = rooms[i].RoomName;
@@ -135,8 +137,9 @@ public class Lobby : MonoBehaviour
 
             // 3. 방 버튼을 인스턴스화
             GameObject instance = Instantiate(roomPrefab);
+            // 각 방 버튼에 리스너 추가
             Button button = instance.GetComponent<Button>();
-            button.onClick.AddListener(() => { OnClickRoom(roomUuid); });
+            button.onClick.AddListener(() => { OnClickRoom(currentRoom); });
 
             // 꽉 찬 방은 비활성화
             if (int.Parse(memberCount) == 4)
@@ -153,15 +156,76 @@ public class Lobby : MonoBehaviour
 
     public void OnClickRefresh()
     {
-        GetRoomsList();
+        GetRoomsListButtons();
     }
 
-    private void OnClickRoom(string roomUuid) 
+    private void OnClickRoom(RoomInfo currentRoom) 
     {
-        // 해당하는 uuid 의 방으로 입장
-        // 비밀방 이라면 팝업(비밀번호 입력) 활성화
+        this.clickRoomInfo = currentRoom;
+        // 해당 방의 인원 정보 재확인
+        List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid);
+        if (roomMemberList.Count == 4)
+        {
+            Debug.Log("해당 방의 인원수가 초과하였습니다");
+            return;
+        }
 
+        // 비공개/공개 방 입장
+        if (!currentRoom.Pwd.Equals(""))
+        {
+            Debug.Log(currentRoom.Pwd);
+            popup.SetActive(true);
+        }
+        else
+        {
+            // 들어갈 방의 정보 세팅
+            Room.roomName = currentRoom.RoomName;
+            Room.roomUuid = currentRoom.RoomUuid;
+            Room.roomMemberCount = (int.Parse(currentRoom.MemberCount) + 1).ToString();
 
+            GoNextScreen();
+        }
     }
 
+    private void GoNextScreen()
+    {
+        // 다음화면으로
+        this.gameObject.SetActive(false);
+        nextScreen.SetActive(true);
+    }
+
+    // 비밀번호 팝업 메뉴 확인 버튼
+    public void OnClickCheck()
+    {
+        if (inputPassword.text.Equals(clickRoomInfo.Pwd))
+        {
+            message.text = "비밀번호를 확인하였습니다";
+
+            // 들어갈 방의 정보 세팅
+            Room.roomName = this.clickRoomInfo.RoomName;
+            Room.roomUuid = this.clickRoomInfo.RoomUuid;
+            Room.roomMemberCount = (int.Parse(this.clickRoomInfo.MemberCount) + 1).ToString();
+
+            GoNextScreen();
+            inputPassword.text = "";
+            popup.SetActive(false);
+        }
+        else
+        {
+            message.text = "비밀번호가 틀렸습니다";
+        }
+        Invoke("SetBasicMessage", 2f);
+    }
+
+    // 비밀번호 팝업 메뉴 취소 버튼
+    public void OnClickCancel()
+    {
+        inputPassword.text = "";
+        popup.SetActive(false);
+    }
+
+    private void SetBasicMessage()
+    {
+        message.text = "비밀번호를 입력해주세요";
+    }
 }
