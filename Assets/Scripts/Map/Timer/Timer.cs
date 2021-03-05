@@ -5,20 +5,22 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    //타이머 Text
+    [SerializeField] private Text timeText;
 
-    [SerializeField]
-    private Text timeText;
-    private float time;
+    //타이머 관리를 위한 변수
+    private float Time;
     private bool TimeOver = false;
-    private bool mintime = false;
+    private bool Mintime = false;
     private bool isTimerStart = true;
-    [SerializeField]
-    private string BGMSound;
+    
+    //BGM 실행
+    [SerializeField] private string BGMSound;
     AudioSource audioSource;
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        time = Config.Timer;
+        Time = Config.Timer;
         
     }
     private void Update()
@@ -26,26 +28,31 @@ public class Timer : MonoBehaviour
             TimeCount();
     }
     private void TimeCount() {
+        //게임시작과 함께 BGM실행
         if (Config.StartGame&& isTimerStart)
         {
             SoundManager.instance.IsPlaySound(BGMSound);
             timeText.gameObject.SetActive(true);
             isTimerStart = false;
         }
-        if (time > 0)
+        //타이머의 시간의 흐름관리
+        if (Time > 0)
         {
             CountDownTimer();
         }
-        if (mintime)
+        //60초 이하로 남았을때
+        if (Mintime)
         {
+            //현재 audioSource가 동작중이지 않을 때 실행
             if (!audioSource.isPlaying)
             {
-                mintime = false;
+                Mintime = false;
                 SoundManager.instance.IsStopSound(BGMSound);
                 audioSource.Play();
             }
         }
-        if (time < 0 && TimeOver)
+        //시간이 종료될때
+        if (Time < 0 && TimeOver)
         {
             TimeOver = false;
             audioSource.Stop();
@@ -53,15 +60,16 @@ public class Timer : MonoBehaviour
 
         }
     }
+
+    //타이머 작동
     private void CountDownTimer() {
-        time -= Time.deltaTime;
-        timeText.text = string.Format("{0:D2}:{1:D2}", (int)(time/60%60), (int)(time % 60));
-        //Debug.Log(timeText.text);
-        if (time < 0) {
+        Time -= UnityEngine.Time.deltaTime;
+        timeText.text = string.Format("{0:D2}:{1:D2}", (int)(Time/60%60), (int)(Time % 60));
+        if (Time < 0) {
             TimeOver = true;
         }
-        if (time<60&&time>59.9) {
-            mintime = true;
+        if (Time<60&&Time>59.9) {
+            Mintime = true;
         }
     }
 }
