@@ -40,10 +40,13 @@ namespace GameManager
                 while(NetworkInfo.deathUserQueue.Count != 0)
                 {
                     string userUuid = NetworkInfo.deathUserQueue.Dequeue();
+                    GameObject player = GameObject.Find(userUuid);
                     if (Config.userUuid == userUuid)
-                        GameObject.Find(userUuid).GetComponent<Player>().PlayerState = "death";
+                        player.GetComponent<Player>().IsDead = true;
                     else
-                        GameObject.Find(userUuid).GetComponent<OtherPlayer>().PlayerState = "death";
+                        player.GetComponent<OtherPlayer>().IsDead = true;
+                    Debug.Log($"{userUuid} 가 죽었습니다!");
+                    player.transform.rotation = Quaternion.Euler(new Vector3(45,0,0));
                 }
         }
         protected void ClearGame()

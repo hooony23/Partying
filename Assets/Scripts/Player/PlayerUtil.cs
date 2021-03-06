@@ -13,27 +13,29 @@ public class PlayerUtil : PlayerController
 
     public void GetInput()
     {
-        HAxis = 0f;
-        VAxis = 0f;
-        foreach (var key in GetInputKeys())
+        if (!IsDead)
         {
-            InputEvent(key);
+            HAxis = 0f;
+            VAxis = 0f;
+            foreach (var key in GetInputKeys())
+            {
+                InputEvent(key);
+            }
+            MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+            MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         }
-        MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
-        MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
-
 
     }
     public void GetNetWorkInput()
     {
-        if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name))
+        if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name) && !IsDead)
             // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
             if (NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
-                this.gameObject.transform.position = new Vector3(PInfo.loc.X,PInfo.loc.Y,PInfo.loc.Z);
+                this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);
             }
         MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
     }
@@ -63,7 +65,7 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend(string server)
     {
-        if (IsKeyInput())
+        if (IsKeyInput() && !IsDead)
         {
             APIController.SendController(server, "Move", PInfo.ObjectToJson());
         }
@@ -215,13 +217,6 @@ public class PlayerUtil : PlayerController
         yield return new WaitForSeconds(time);
         IsStun = false;
 
-    }
-
-    // 플레이어 죽음
-    public void Dead()
-    {
-        // isDead == true 일때
-        Debug.Log("플레이어가 죽었습니다!!");
     }
 
 
