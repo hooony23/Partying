@@ -14,8 +14,6 @@ public class Player : PlayerUtil
         Rigid = GetComponent<Rigidbody>();
 
     }
-    [SerializeField]
-    private string BGMSound;
     // Update is called once per frame
     void Update()
     {
@@ -27,7 +25,6 @@ public class Player : PlayerUtil
         Dodge();
         PlayerStateUpdate();
         MoveChangeSend("Labylinth");
-        
     }
     private void FixedUpdate() // default : 50fps
     {

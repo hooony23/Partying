@@ -6,16 +6,19 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Util;
+/*
+//다른 스크립트에서 선언시
+     [SerializeField]
+    private string BGMSound;*/
+
 [System.Serializable]
 public class Sound {
     public string name;
     public AudioClip clip;
 }
-
-/*
-//다른 스크립트에서 선언시
-     [SerializeField]
-    private string BGMSound;*/
+/// <summary>
+/// 게임의 효과음, 배경음을 관리함
+/// </summary>
 
 public class SoundManager : MonoBehaviour
 {
@@ -56,11 +59,14 @@ public static SoundManager instance; //전역변수로 설정하여 어디서든
     public void IsPlaySound(string name) { //음원재생
         for (int i = 0; i < EffectSound.Length; i++)
         {
+
             if (name.Equals(BgmSound[i].name)) //BGM재생
             {
-                //Debug.Log(name);
+                playSoundName[i] = BgmSound[i].name;
                 audioSourceBGM.clip = BgmSound[i].clip;
+                Debug.Log(BgmSound[i].name);
                 audioSourceBGM.Play();
+                return;
             }
             if (name.Equals(EffectSound[i].name)) {//SFX재생
                 for (int j = 0;  j < audioSourceSFX.Length;  j++)
@@ -80,7 +86,7 @@ public static SoundManager instance; //전역변수로 설정하여 어디서든
         return;
     }
 
-    public void StopAllSound() { //실행중인 음원들 모두 정지
+    public void StopAllSound() { //실행중인 효과음들 모두 정지
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             audioSourceSFX[i].Stop();
@@ -90,10 +96,11 @@ public static SoundManager instance; //전역변수로 설정하여 어디서든
         
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
-            if (playSoundName.Equals(name))
+            if (playSoundName[i].Equals(name))
             {
                 Debug.Log(playSoundName + " 소리 중지");
                 audioSourceSFX[i].Stop();
+                audioSourceBGM.Stop();
                 return;
             }
            /*else { //StopAllSound와 합칠 수 있을 경우 제거후 추가

@@ -10,7 +10,8 @@ using Util;
 public class PlayerUtil : PlayerController
 {
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
-
+    [SerializeField]
+    private string BGMSound;
     public void GetInput()
     {
         if (!IsDead)
@@ -191,10 +192,6 @@ public class PlayerUtil : PlayerController
             }
         }
     }
-    /*public void OpenPreferences() {
-        if (playerController.PDown) {
-        }
-    }*/
 
     public void Dodge() // 플레이어 회피
     {
@@ -248,15 +245,12 @@ public class PlayerUtil : PlayerController
             NearObject = other.gameObject;
             if (GetItem == true)
             {
-                SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
-                Destroy(NearObject); // 이동과 동시에 아이템 오브젝트가 사라짐
-
+                Destroy(NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
+                Config.GameClear = true;
             }
         }
     }
-    public void SceneChange() {
-        SceneManager.LoadScene("First Map");
-    }
+   
 
     public void IsGetItem(Collider other)
     {
