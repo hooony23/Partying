@@ -66,6 +66,8 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend(string server)
     {
+        //TODO 만약 플레이어가 하나의 키를 누른채로 마우스만 이동시키며 
+        //     움직일 경우 동기화 불가능함 추후 수정필요
         if (IsKeyInput() && !IsDead)
         {
             APIController.SendController(server, "Move", PInfo.ObjectToJson());
