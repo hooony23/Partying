@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using project;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System;
