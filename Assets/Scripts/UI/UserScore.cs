@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UTil;
+using Util;
 
 public class UserScore : MonoBehaviour
 {

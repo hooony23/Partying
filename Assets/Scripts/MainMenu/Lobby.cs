@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,156 +12,220 @@ public class Lobby : MonoBehaviour
     [SerializeField] private GameObject roomPrefab = null;
     [SerializeField] private Transform content = null;
     [SerializeField] private GameObject nextScreen = null; // RoomUI
-    
-    
+    [SerializeField] private Button refresh = null;
 
-    // 예시) 받아올 방들의 정보
-    List<RoomInfo> rooms;
-    RoomInfo room1 = new RoomInfo(0, "안녕안녕", "hooony23", "1234", 1);
-    RoomInfo room2 = new RoomInfo(1, "드루와드루와", "skine134", "", 3);
-    RoomInfo room3 = new RoomInfo(2, "자신있는 사람만", "prawn12", "", 4);
-    RoomInfo room4 = new RoomInfo(3, "아무나", "sunkyu", "", 1);
-    RoomInfo room5 = new RoomInfo(4, "신세계", "newt", "", 3);
-    RoomInfo room6 = new RoomInfo(5, "아모르파티", "dynamic", "", 2);
-    RoomInfo room7 = new RoomInfo(6, "바보바보바보", "hasse", "", 1);
 
     // 비밀번호 입력 창
     [SerializeField] private GameObject popup = null;
     [SerializeField] private Text message = null;
     [SerializeField] private InputField inputPassword = null;
-    [SerializeField] private Button check = null;
-    [SerializeField] private Button cancel = null;
 
-    
 
     // 선택한 방의 정보
-    private RoomInfo clickroomInfo = null;
+    private RoomInfo clickRoomInfo = null;
 
+    // 서버 통신용
+    private string serverMsg = "";
+    private List<RoomInfo> rooms = new List<RoomInfo>();
+    private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
 
-    private void Awake()
+    private void Start()
     {
 
     }
 
-    void Start()
+    private void OnEnable()
     {
-        // 예시
-        rooms = new List<RoomInfo>();
-        rooms.Add(room1);
-        rooms.Add(room2);
-        rooms.Add(room3);
-        rooms.Add(room4);
-        rooms.Add(room5);
-        rooms.Add(room6);
-        rooms.Add(room7);
-
-        AddElement(); // 방 목록 갱신
-
-        popup.SetActive(false); // 팝업 메뉴 비활성화로 초기화
- 
-
+        GetRoomsListButtons();
     }
 
-    void FixedUpdate()
+    public void GetRoomsListButtons()
     {
-        // 받아온 배열을 통해 방 목록 동기화
+        string roomsListUri = "api/v1/rooms/roomList";
+        string response = "";
+        string roomListUpdated;
 
+        response = MServer.Communicate(roomsListUri, "GET");
+        JObject json = JObject.Parse(response);
+
+        serverMsg = json["data"]["isSuccess"].ToString();
+        roomListUpdated = json["data"]["roomList"].ToString();
+        //Debug.Log(serverMsg);
+
+        
+        if (!this.preRoomList.Equals(roomListUpdated))
+        {
+            //Debug.Log("방 목록을 갱신합니다");
+
+            // 받은 서버의 정보 갱신
+            UpdateRoomsList(json);
+
+            // 스크롤뷰의 방 버튼 갱신
+            SetRoomButtons();
+
+            // 다음에 수행될 때 현재 방의 정보와 이전 방의 정보를 비교
+            this.preRoomList = roomListUpdated;
+
+        }
+        else
+        {
+            Debug.Log("방 추가/변경 사항이 없습니다");
+
+        }
+        
+        
     }
 
-    private void AddElement()
+    // 서버에 받아온 roomList 정보를 rooms배열에 갱신
+    private void UpdateRoomsList(JObject json)
+    {
+        // 받은 JSON 의 roomList 데이터
+        JToken arrData = json["data"]["roomList"];
+        JArray jsonArray = (JArray)arrData;
+
+        // 이전에 받아둔 방 목록들 제거
+        rooms.Clear();
+
+        // roomList 배열 파싱
+        for (int i = 0; i < jsonArray.Count; i++)
+        {
+            RoomInfo info = new RoomInfo();
+            info.RoomUuid = jsonArray[i]["roomUuid"].ToString();
+            info.RoomName = jsonArray[i]["roomName"].ToString();
+            info.RoomAdmin = jsonArray[i]["admin"].ToString();
+            info.MemberCount = jsonArray[i]["memberCount"].ToString();
+            info.Pwd = jsonArray[i]["pwd"].ToString();
+
+            rooms.Add(info);
+        }
+    }
+
+    // 방 목록 리스트 데이터를 프리팹(방 버튼)화 시키는 기능
+    // 방 버튼 프리펩(roomPrefab) 의 각 속성에 roomUuid, roomName, admin, pwd, memberCount 순으로 입력하여
+    private void SetRoomButtons()
     {
         for (int i = 0; i < rooms.Count; i++)
         {
-            // 모든 방의 정보를 받아옴
-            int index = rooms[i].RoomIndex;
-            string title = rooms[i].RoomTitle;
-            string master = rooms[i].RoomMaster;
-            string password = rooms[i].RoomPassword;
-            int headcount = rooms[i].Headcount;
+            RoomInfo currentRoom = rooms[i];
 
-            // roomPrefab 의 자식 컴포넌트에 정보를 넣는 과정
+            // 1. 방 버튼 프리펩에 넣을 정보를 가져옴
+            string roomUuid = rooms[i].RoomUuid;
+            string roomName = rooms[i].RoomName;
+            string admin = rooms[i].RoomAdmin;
+            string Pwd = rooms[i].Pwd;
+            string memberCount = rooms[i].MemberCount;
+
+            // 2. 방 버튼 프리펩 정보 구성
+            // 방 제목
             Text roomTitle = roomPrefab.transform.Find("Text Title").gameObject.GetComponent<Text>();
-            roomTitle.text = title;
+            roomTitle.text = roomName;
 
+            // 방장
             Text roomMaster = roomPrefab.transform.Find("Text Master").gameObject.GetComponent<Text>();
-            roomMaster.text = master;
+            roomMaster.text = admin;
 
-            Text roomPassword = roomPrefab.transform.Find("Text Password").gameObject.GetComponent<Text>();
-            roomPassword.text = password;
+            // 방 비밀번호(자물쇠 UI)
+            Image locker = roomPrefab.transform.Find("Image Locker").gameObject.GetComponent<Image>();
+            if (!Pwd.Equals(""))
+                locker.enabled = true;
+            else
+                locker.enabled = false;
 
-            Text roomHeadcount = roomPrefab.transform.Find("Text Headcount").gameObject.GetComponent<Text>();
-            roomHeadcount.text = headcount.ToString();
+            // 인원수
+            Text headcount = roomPrefab.transform.Find("Text Headcount").gameObject.GetComponent<Text>();
+            headcount.text = memberCount;
 
+            // 3. 방 버튼을 인스턴스화
+            GameObject instance = Instantiate(roomPrefab);
+            // 각 방 버튼에 리스너 추가
+            Button button = instance.GetComponent<Button>();
+            button.onClick.AddListener(() => { OnClickRoom(currentRoom); });
 
-
-            // 받아온 방 개수만큼 방 버튼 동적 생성 과정
-            GameObject instance = Instantiate(roomPrefab); // 인스턴스화
-            Button button = instance.GetComponent<Button>(); // Button형식으로 바꿔줌
-            button.onClick.AddListener(() => { OnClickRoom(index); }); // 생성된 Button마다 Listener 추가
-            button.transform.SetParent(content); // Scroll View > Viewport > Content 안에 동적 생성
-
-            // 인원 꽉 찼을 시 비활성화
-            if (headcount == 4)
+            // 꽉 찬 방은 비활성화
+            if (int.Parse(memberCount) == 4)
             {
-                button.interactable = false; 
+                button.interactable = false;
             }
-        }
 
+            // 스크롤 뷰 안에 동적 생성한 버튼을 세팅
+            button.transform.SetParent(content);
+
+        }
     }
 
-    // 비밀번호 없는 방
-    void OnClickRoom(int index)
+
+    public void OnClickRefresh()
     {
-        this.clickroomInfo = rooms[index];
+        GetRoomsListButtons();
+    }
 
-        // 비밀번호가 "" 인 공개방 입장
-        if (clickroomInfo.RoomPassword.Equals(""))
+    private void OnClickRoom(RoomInfo currentRoom) 
+    {
+        this.clickRoomInfo = currentRoom;
+        // 해당 방의 인원 정보 재확인
+        List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid);
+        if (roomMemberList.Count == 4)
         {
-            Debug.Log(clickroomInfo.RoomTitle + " 방을 입장합니다");
-            this.gameObject.SetActive(false);
-            nextScreen.SetActive(true);
-
-
+            Debug.Log("해당 방의 인원수가 초과하였습니다");
+            return;
         }
-        // 비밀번호가 "" 가 아닌 비밀방 클릭
+
+        // 비공개/공개 방 입장
+        if (!currentRoom.Pwd.Equals(""))
+        {
+            Debug.Log(currentRoom.Pwd);
+            popup.SetActive(true);
+        }
         else
         {
-            // 비밀번호 입력 창 팝업시킴
-            message.text = "비밀번호를 입력해주세요";
-            PopupSystem.instance.OpenPopUp(popup);
+            // 들어갈 방의 정보 세팅
+            Room.roomName = currentRoom.RoomName;
+            Room.roomUuid = currentRoom.RoomUuid;
+            Room.roomMemberCount = (int.Parse(currentRoom.MemberCount) + 1).ToString();
 
+            GoNextScreen();
         }
     }
 
-    // Popup 메뉴 확인버튼(비밀번호 있는 방)
+    private void GoNextScreen()
+    {
+        // 다음화면으로
+        this.gameObject.SetActive(false);
+        nextScreen.SetActive(true);
+    }
+
+    // 비밀번호 팝업 메뉴 확인 버튼
     public void OnClickCheck()
     {
-
-        // 확인 클릭
-        // 비밀번호 일치 시 방 입장 처리, RoomUI화면
-        // 비밀번호 불일치시 "틀렸습니다" 출력
-
-        if (inputPassword.text.Equals(clickroomInfo.RoomPassword))
+        if (inputPassword.text.Equals(clickRoomInfo.Pwd))
         {
-            Debug.Log("비밀번호 일치합니다");
-            popup.SetActive(false); // 팝업 바로 비활성화
-            inputPassword.text = ""; // 팝업 입력했던 비밀번호 재설정
+            message.text = "비밀번호를 확인하였습니다";
 
-            // 다음 화면으로
-            this.gameObject.SetActive(false);
-            nextScreen.SetActive(true);
+            // 들어갈 방의 정보 세팅
+            Room.roomName = this.clickRoomInfo.RoomName;
+            Room.roomUuid = this.clickRoomInfo.RoomUuid;
+            Room.roomMemberCount = (int.Parse(this.clickRoomInfo.MemberCount) + 1).ToString();
 
+            GoNextScreen();
+            inputPassword.text = "";
+            popup.SetActive(false);
         }
         else
         {
-            message.text = "틀렸습니다";
-            inputPassword.text = "";
+            message.text = "비밀번호가 틀렸습니다";
         }
-
+        Invoke("SetBasicMessage", 2f);
     }
 
+    // 비밀번호 팝업 메뉴 취소 버튼
     public void OnClickCancel()
     {
-        PopupSystem.instance.ClosePopUp(popup);
+        inputPassword.text = "";
+        popup.SetActive(false);
+    }
+
+    private void SetBasicMessage()
+    {
+        message.text = "비밀번호를 입력해주세요";
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,9 +16,10 @@ public class RoomSetting : MonoBehaviour
     private string title = "";
     private string password = "";
 
-    // 서버 : 생성하기(create) 버튼 누를 시 roomInfo 클래스 배열에 roomInfo 추가
-    // roomInfo : 방제목, 방장(닉네임또는 아이디), 비밀번호(없으면 공개방), 인원수
-    // RoomInfo room = new RoomInfo(title, userID(서버), password, headcount)
+    // 서버 통신용
+    private string serverMsg = "";
+
+    public string Title { get => title; set => title = value; }
 
     private void Start()
     {
@@ -32,21 +34,48 @@ public class RoomSetting : MonoBehaviour
         title = roomTitleInput.text;
         password = roomPasswordInput.text;
 
-        if (title != "")
+        if (!Title.Equals(""))
         {
             Debug.Log("방을 생성하였습니다");
-            // room 정보를 만들어 서버로 전송
-            // RoomInfo room = new RoomInfo(title, "서버에서받은 ID", password, 1); // 1 : 최초생성 은 방장 1명 
 
+            // [createRoom API] uri : api/v1/rooms/createRoom , method : POST
+            string createRoomUri = "api/v1/rooms/createRoom";
+            string response = "";
 
-            // 다음화면으로
-            this.gameObject.SetActive(false);
-            nextScreen.SetActive(true);
+            createRoomInfo info = new createRoomInfo();
+            info.UpdateInfo(Title, password);
+
+            response = MServer.Communicate(createRoomUri, "POST", info);
+            Debug.Log(response);
+            JObject json = JObject.Parse(response);
+            serverMsg = json["data"]["isSuccess"].ToString();
+
+            if (serverMsg.Equals("True"))
+            {
+                // 방 진입
+                // 방의 Uuid를 생성하는 과정이 필요
+                Room.roomName = title;
+                Room.roomUuid = "ce55aa9d-cca4-4a41-836a-168407bbe30d";
+                Room.roomMemberCount = "1";
+                Debug.Log(Room.roomName);
+                GoNextScreen();
+            }
+
         }
         else
         {
             Debug.Log("방 제목을 입력해주세요");
         }
+    }
 
+    private void GoNextScreen()
+    {
+        // 입력값 초기화
+        roomTitleInput.text = "";
+        roomPasswordInput.text = "";
+
+        // 다음화면으로
+        this.gameObject.SetActive(false);
+        nextScreen.SetActive(true);
     }
 }
