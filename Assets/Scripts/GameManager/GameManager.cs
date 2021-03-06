@@ -18,6 +18,10 @@ namespace GameManager
             Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
+        void Update() 
+        {
+            DelUser();
+        }
 
 
 

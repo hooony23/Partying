@@ -1,5 +1,6 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
+using Communication;
 using Util;
 
 namespace GameManager
@@ -25,6 +26,14 @@ namespace GameManager
             GameObject Map = Instantiate(Resources.Load("Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Map/Map").name;
             
+        }
+        protected void DelUser()
+        {
+                while(NetworkInfo.connectedExitQueue.Count != 0)
+                {
+                    string userUuid = NetworkInfo.connectedExitQueue.Dequeue();
+                    Destroy(GameObject.Find(userUuid));
+                }
         }
     }
 }

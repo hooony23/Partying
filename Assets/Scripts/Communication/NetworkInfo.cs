@@ -8,5 +8,6 @@ namespace Communication
 
         public static MapInfo mapInfo = null;
         public static Dictionary<string,PlayerInfo> playersInfo = new Dictionary<string,PlayerInfo>();
+        public static Queue<string> connectedExitQueue = new Queue<string>();
     }
 }

@@ -129,6 +129,7 @@ public class MapUtil : MapController
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            //TODO 추후 테스트 완료 후 삭제
             Debug.Log($"player uuid :{Config.userUuid}\n other player uuid : {(string)item.data}");
             if (!Config.userUuid.Equals((string)item.data))
             {
