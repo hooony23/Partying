@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -76,8 +77,9 @@ public class Room : MonoBehaviour
             startButton.interactable = false;
     }
 
-    private void OnClickGameStart()
+     public void OnClickGameStart() //private으로 하려 했으나, 이벤트 요소는 public으로만 끌어올 수 있는듯.
     {
+        SceneManager.LoadScene("LodingScene");
         // Game Scene 으로 넘어감
     }
 

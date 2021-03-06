@@ -25,6 +25,7 @@ public class PlayerUtil : PlayerController
             MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         }
 
+
     }
     public void GetNetWorkInput()
     {
@@ -146,11 +147,11 @@ public class PlayerUtil : PlayerController
         if (this.UserUuid.Equals(Config.userUuid))
             PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
+
     public void Turn()
     {
         transform.LookAt(transform.position + MoveDir);
     }
-
 
     public void CameraTurn()
     {
@@ -188,6 +189,11 @@ public class PlayerUtil : PlayerController
             }
         }
     }
+    /*public void OpenPreferences() {
+        if (playerController.PDown) {
+        }
+    }*/
+
     public void Dodge() // 플레이어 회피
     {
         if (JDown && IsDodge == false && MoveDir != Vector3.zero)
@@ -197,7 +203,7 @@ public class PlayerUtil : PlayerController
 
             Anim.SetTrigger("doDodge");
 
-            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행 
+            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
         }
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -242,8 +248,12 @@ public class PlayerUtil : PlayerController
             {
                 SceneManager.LoadScene("First Map"); //getItem이 true일경우 다음 맵으로 이동
                 Destroy(NearObject); // 이동과 동시에 아이템 오브젝트가 사라짐
+
             }
         }
+    }
+    public void SceneChange() {
+        SceneManager.LoadScene("First Map");
     }
 
     public void IsGetItem(Collider other)

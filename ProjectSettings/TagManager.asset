@@ -19,9 +19,9 @@ TagManager:
   - Player
   - Wall
   - PatrolPoint
-  - 
-  - 
-  - 
+  - DeadBoundary
+  - Item
+  - Trap
   - 
   - 
   - 

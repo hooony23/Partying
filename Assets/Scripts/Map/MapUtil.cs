@@ -125,6 +125,7 @@ public class MapUtil : MapController
 
     public void PlayerRespawn()
     {
+<<<<<<< HEAD
         CellInfo[] playerInfo = MapInfo.playerLocs;
         foreach (CellInfo item in playerInfo)
         {
@@ -139,5 +140,10 @@ public class MapUtil : MapController
             }
             player.name = (string)item.data;
         }
+=======
+        mapInfo = new MapInfo();
+        mapObjectInfo = new MapObjectInfo();
+         //createMap = new CreateMap(mapInfo, mapObjectInfo, Config.ROW, Config.COL);
+>>>>>>> origin/dev-KimSeongHun
     }
 }

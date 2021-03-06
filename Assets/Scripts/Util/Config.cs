@@ -33,7 +33,7 @@ namespace Util
 
         }
 
-        public enum SendAPINames 
+        public enum SendAPINames
         {
             Connected,
             ConnectedExit,
@@ -51,7 +51,16 @@ namespace Util
             SyncPacket,
             GetItem,
         }
+        public static int LodingSence = 1; //씬 로드 순서파악을 위한 숫자
+
+        //Sound
+        public static float Bgmvol = 0.5f;
+        public static float Sfxvol = 0.5f;
+
+        public static float Time = 50f;
     }
+
+
 }
 
 

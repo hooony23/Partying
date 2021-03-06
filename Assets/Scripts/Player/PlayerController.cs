@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDir;
     private Vector2 moveInput;
 
+    //private string walkSound = "Walk";
 
     private bool jDown; // sacebar키 입력 여부
 
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool isDodge; // 회피동작 상태 여부
 
     // 상호작용
-    private bool eDown; // E키 입력 여부    
+    private bool eDown; // E키 입력 여부
     private GameObject nearObject; // 아이템 습득로직을 위한 오브젝트 정의
 
     // 애니메이션
