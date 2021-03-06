@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
+using Communication;
+using Communication.API;
 
 public class SetDeadBoundary : MonoBehaviour
 {
@@ -8,9 +11,10 @@ public class SetDeadBoundary : MonoBehaviour
     // DeadBoundary 에 Player 닿으면 죽음 처리
     private void OnCollisionEnter(Collision collision)
     {
-        Player player = collision.rigidbody.GetComponent<Player>();
-        
-        Debug.Log(ErrorMessage.clientMessage["dead"] + player.PlayerHealth);
+        if (collision.gameObject.name == Config.userUuid)
+            {
+                APIController.SendController("Labylinth", "Death");
+            }
     }
 
 }

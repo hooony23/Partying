@@ -39,7 +39,7 @@ namespace Communication.API.Labylinth
                 {
                     try
                     {
-                        NetworkInfo.playersInfo.Add(userInfo.uuid,userInfo);
+                        NetworkInfo.playersInfo.Add(userInfo.uuid, userInfo);
                     }
                     catch (ArgumentException)
                     {
@@ -49,6 +49,38 @@ namespace Communication.API.Labylinth
                 }
             }
 
+        }
+        public void Death(string response)
+        {
+
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            string deathUserUuid = responseJson.Value<string>("uuid");
+            NetworkInfo.deathUserQueue.Enqueue(deathUserUuid);
+        }
+        public void GetItem(string response)
+        {
+
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            string delUserUuid = responseJson.Value<string>("uuid");
+            NetworkInfo.GetItemUserQueue.Enqueue(delUserUuid);
         }
     }
 }

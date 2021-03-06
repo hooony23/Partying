@@ -35,5 +35,25 @@ namespace GameManager
                     Destroy(GameObject.Find(userUuid));
                 }
         }
+        protected void DeathUser()
+        {
+                while(NetworkInfo.deathUserQueue.Count != 0)
+                {
+                    string userUuid = NetworkInfo.deathUserQueue.Dequeue();
+                    if (Config.userUuid == userUuid)
+                        GameObject.Find(userUuid).GetComponent<Player>().PlayerState = "death";
+                    else
+                        GameObject.Find(userUuid).GetComponent<OtherPlayer>().PlayerState = "death";
+                }
+        }
+        protected void ClearGame()
+        {
+                while(NetworkInfo.GetItemUserQueue.Count != 0)
+                {
+                    string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
+                    Debug.Log("Game Clear");
+                    Application.Quit(0);
+                }
+        }
     }
 }

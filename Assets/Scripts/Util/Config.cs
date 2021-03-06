@@ -38,14 +38,18 @@ namespace Util
             Connected,
             ConnectedExit,
             CreateMap,
+            Death,
             Move,
+            GetItem,
         }
         public enum ReceiveAPINames
         {
             Connected,
             CreateMap,
             ConnectedExit,
+            Death,
             SyncPacket,
+            GetItem,
         }
     }
 }
