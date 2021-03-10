@@ -60,11 +60,7 @@ namespace Communication
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-<<<<<<< HEAD:Assets/Scripts/Communication/Connection.cs
                 Send("{'type':'Connected'}");
-=======
-                Send(client,"{'type':'connected'}<EOF>");
->>>>>>> origin/dev-KimSeongHun:Assets/Connection.cs
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -182,11 +178,7 @@ namespace Communication
             }
         }
         // -------------- Send
-<<<<<<< HEAD:Assets/Scripts/Communication/Connection.cs
         public static void Send(String data)
-=======
-        public static void Send(Socket client,String data)
->>>>>>> origin/dev-KimSeongHun:Assets/Connection.cs
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.UTF8.GetBytes(data+"<EOF>");
