@@ -7,15 +7,13 @@ public class PauseControl : MonoBehaviour
 {
     public static PauseControl pauseMenu;
     private bool IsUiPoen = false;
-    [SerializeField]
-    private GameObject PauseObject;
-    [SerializeField]
-    private GameObject MainMenu;
-    [SerializeField]
-    private GameObject OptionMenu;
+    private GameObject PauseObject, MainMenu, OptionMenu;
 
     private void Awake()
     {
+        PauseObject = GameObject.Find("PauseMenu").transform.Find("Preferences").gameObject;
+        MainMenu = PauseObject.transform.Find("MainMenu").gameObject;
+        OptionMenu = PauseObject.transform.Find("OptionMenu").gameObject;
         if (pauseMenu == null) //pauseMenu 없을시
         {
             if (Config.LodingSence != 0) //메인메뉴가 아닐때만 작동

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UTil;
+using Util;
 
 public class UserScore : MonoBehaviour
 {
     //스코어 목록 동적생성
-    [SerializeField] private GameObject InfoPanel, textObject, scrollPanel;
-    [SerializeField] Text IsPlayerScore;
+    private GameObject InfoPanel, textObject, scrollPanel;
+    Text IsPlayerScore;
 
 
     //유저 스코어창 오픈 애니메이션
@@ -25,7 +25,14 @@ public class UserScore : MonoBehaviour
 
     public void Awake()
     {
-      animator = InfoPanel.GetComponent<Animator>();
+        GameObject UserScoreInfoObject = Instantiate(Resources.Load("GameUi/UserUi")) as GameObject;
+        InfoPanel = UserScoreInfoObject.transform.Find("UsersScoreUi").gameObject;
+        textObject = Resources.Load("GameUi/UserText") as GameObject;
+        GameObject UserInfoScrollView = GameObject.Find("UserInfoScroll View").transform.Find("Viewport").gameObject;
+        scrollPanel = UserInfoScrollView.transform.Find("Content").gameObject;
+        GameObject UserUi = UserScoreInfoObject.transform.Find("UserInfoUi").gameObject;
+        IsPlayerScore = UserUi.transform.Find("IsPlayerScore").GetComponent<Text>();
+        animator = InfoPanel.GetComponent<Animator>();
     }
     public void Start()
     {

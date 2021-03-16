@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Util;
+
 public class MapClearItem : MonoBehaviour
 {
     // enum 선언으로 열거형 타입으로 아이템 분류
@@ -11,22 +12,39 @@ public class MapClearItem : MonoBehaviour
     public MapClear ItemType;
 
     //게임클리어 Ui
-    [SerializeField] private GameObject GameClearUi;
-    [SerializeField] private Button ContinueButton = null;
-    private bool UserClear = false;
-    private bool UserallClear = false;
+    private GameObject GameClearUi;
+    private Button ContinueButton = null;
+    private Animator animator;
+    private bool isanimation = false;
 
+    private bool UserClear = false;
+    private bool DestrotyBox = false;
+    private bool UserallClear = false;
+    private void Awake()
+    {
+        GameObject ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
+        GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+        ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
+        animator = transform.Find("ChestBox").GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        ContinueButton.onClick.AddListener(UserClearButton);
+    }
     private void Update()
     {
-        if (Config.GameClear) {
+        if (Config.GameClear && !DestrotyBox)
+        {
             StartCoroutine(ClearUi());
         }
-        if (UserClear && UserallClear) {
+        if (UserClear && UserallClear)
+        {
             StartCoroutine(SceneChange());
         }
     }
     //유저가 누르는 씬전환 확인 버튼
-    public void UserClearButton() {
+    public void UserClearButton()
+    {
         Debug.Log("button Test");
         UserClear = true;
         Config.GameClear = false;
@@ -34,11 +52,17 @@ public class MapClearItem : MonoBehaviour
     }
 
     //게임 클리어 UI 활성화
-    public void isGameClear() {
+    public void isGameClear()
+    {
         GameClearUi.SetActive(true);
     }
     //5초뒤 클리어 확인(애니메이션 추가예정)
-    IEnumerator ClearUi() {
+    IEnumerator ClearUi()
+    {
+        Debug.Log("animation");
+        isanimation = animator.GetBool("IsBoxOpen");
+        animator.SetBool("IsBoxOpen", !isanimation);
+        DestrotyBox = true;
         yield return new WaitForSeconds(5f);
         isGameClear();
     }
@@ -48,17 +72,17 @@ public class MapClearItem : MonoBehaviour
         yield return new WaitForSeconds(5f);
         GameClearUi.SetActive(true);
         Debug.Log(UserClear);
-            if (UserClear)
+        if (UserClear)
+        {
+            yield return new WaitForSeconds(2f);
+            if (UserallClear)
             {
-               yield return new WaitForSeconds(2f);
-                if (UserallClear)
-                {
-                    Config.GameClear = false;
-                    SceneManager.LoadScene("First Map");
-                }
-                UserallClear = true;
+                Config.GameClear = false;
+                SceneManager.LoadScene("First Map");
             }
-        
+            UserallClear = true;
+        }
+
     }
 }
 
