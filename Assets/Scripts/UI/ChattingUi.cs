@@ -19,10 +19,19 @@ public class ChattingUi : MonoBehaviour
     [SerializeField] private InputField chatBox;
     [SerializeField] List<Message> messagesList = new List<Message>();
     private string ScoreResult;
-    void Start()
+    private void Awake()
     {
         //채팅 오브젝트사용을 위한 오브젝트 가져오기
-        isInputChatBox = GameObject.Find("ChatScroll View");
+        GameObject ChatingObject = Instantiate(Resources.Load("GameUi/ChatUi")) as GameObject;
+        GameObject ChatingText = ChatingObject.transform.Find("ChatingText").gameObject;
+        isTextBox = Resources.Load("GameUi/Text") as GameObject;
+        isInputChatBox = ChatingText.transform.Find("ChatScroll View").gameObject;
+        GameObject ChatInfoScrollView = isInputChatBox.transform.Find("Viewport").gameObject;
+        chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
+        chatBox = ChatingText.transform.Find("InputField").GetComponent<InputField>();
+    }
+    void Start()
+    {
         image1 = isInputChatBox.GetComponent<Image>();
         image2 = chatBox.GetComponent<Image>();
     }

@@ -245,7 +245,7 @@ public class PlayerUtil : PlayerController
             NearObject = other.gameObject;
             if (GetItem == true)
             {
-                Destroy(NearObject,3f); // 이동과 동시에 아이템 오브젝트가 사라짐
+                Destroy(NearObject, 7f); // 이동과 동시에 아이템 오브젝트가 사라짐
                 Config.GameClear = true;
             }
         }

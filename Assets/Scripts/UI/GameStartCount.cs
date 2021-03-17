@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class GameStartCount : MonoBehaviour
 {
-    [SerializeField]
     public Text CountDownDisplay;
     //현재시각을 이용하여 CountDown을 해보았으나, timescale이 0일때 발생하는 오류가 다수발생.
    /* private int firsttime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds+5;
@@ -15,6 +14,8 @@ public class GameStartCount : MonoBehaviour
     private int CountDownTime;*/
     private void Start()
     {
+        GameObject TimerObject = Instantiate(Resources.Load("GameUi/CountDownUi")) as GameObject;
+        CountDownDisplay = TimerObject.transform.Find("CountDownText").GetComponent<Text>();
         StartCoroutine(CountDownToStart());
     }
     //Coroutine을 이용하여 카운트 다운을 실행함.

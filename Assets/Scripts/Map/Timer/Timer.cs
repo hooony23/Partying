@@ -7,7 +7,7 @@ using Util;
 public class Timer : MonoBehaviour
 {
     //타이머 Text
-    [SerializeField] private Text timeText;
+    private Text timeText;
 
     //타이머 관리를 위한 변수
     private float Time;
@@ -20,6 +20,8 @@ public class Timer : MonoBehaviour
     AudioSource audioSource;
     private void Awake()
     {
+        GameObject TimerObject = Instantiate(Resources.Load("GameUi/TimerUi")) as GameObject;
+        timeText = TimerObject.transform.Find("TimeText").GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
         Time = Config.Timer;
         
