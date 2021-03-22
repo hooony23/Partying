@@ -20,7 +20,7 @@ namespace GameManager
             // 플레이어, 맵, 함정, patrol point 생성
             GameObject Map = Instantiate(Resources.Load("Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Map/Map").name;
-            
+
         }
         protected void DelUser()
         {

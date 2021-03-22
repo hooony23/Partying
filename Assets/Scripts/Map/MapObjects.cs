@@ -8,7 +8,7 @@ public class MapObjects
     public GameObject SpikeTrap;// 가시함정
     public GameObject HoleTrap;// 바닥함정
     public GameObject SlowTrap;
-
+    public GameObject MapClearItem;
     public GameObject DangerZone;
 
     // 생성자에서 생성

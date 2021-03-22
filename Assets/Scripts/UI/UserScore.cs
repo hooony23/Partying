@@ -36,7 +36,6 @@ public class UserScore : MonoBehaviour
     }
     public void Start()
     {
-        Debug.Log(userInfo1);
         //예시
         userInfo.Add(userInfo1);
         userInfo.Add(userInfo2);

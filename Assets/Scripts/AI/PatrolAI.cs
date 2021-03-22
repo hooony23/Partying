@@ -22,8 +22,7 @@ public class PatrolAI : PatrolAIUtil
     {   
         pac.LayerMaskPlayer = LayerMask.GetMask("Player");
         pac.LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
-        pac.Patrol = GetComponent<NavMeshAgent>();
-
+        pac.Patrol = gameObject.GetComponent<NavMeshAgent>();
     }
     void Start()
     {

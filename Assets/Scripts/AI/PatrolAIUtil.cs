@@ -91,9 +91,9 @@ public class PatrolAIUtil : MonoBehaviour
             // 주변 패트롤 포인트 인식
             Collider[] cols = Physics.OverlapSphere(pac.Patrol.transform.position, pac.PatrolDistance, pac.LayerMaskPpoint); // (중심, 반경, layer)
             List<Collider> points = new List<Collider>(cols);
-
             if (cols.Length > 0)
             {
+            Debug.Log(points[0].transform.position);
                 // 인식된 PatrolPoints 들중 1개만 랜덤으로 선택
                 int ridx = Random.Range(0, points.Count);
                 pac.Target = points[ridx].transform;

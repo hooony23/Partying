@@ -12,6 +12,9 @@ public class MapUtil : MapController
         MapObjects = new MapObjects();
         MapObjects.wall = Resources.Load("Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
         MapObjects.UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;// 위 아래 벽
+       
+        MapObjects.PatrolPoint = Resources.Load("Map/PatrolPoint") as GameObject;
+        MapObjects.MapClearItem = Resources.Load("Map/MapClearItem") as GameObject;
         MapObjects.SpikeTrap = Resources.Load("Trap/SpikeTrap") as GameObject;// 가시함정
         MapObjects.HoleTrap = Resources.Load("Trap/HoleTrap") as GameObject;// 바닥함정
         MapObjects.SlowTrap = Resources.Load("Trap/SlowTrap") as GameObject;// 슬로우함정
@@ -123,13 +126,27 @@ public class MapUtil : MapController
         }
     }
 
+    public void PatrolPointRespawn()
+    { //함정생성
+        CellInfo[] patrolPintsInfo = MapInfo.patrolPoints;
+
+        GameObject grandParent = GameObject.Find("Map");
+        foreach(CellInfo item in patrolPintsInfo)
+        {
+                Debug.Log($"{item.col}, {item.row}");
+                GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                patrolPoint.name = "patrolPoint";
+                patrolPoint.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
+        }
+    }
+
     public void PlayerRespawn()
     {
         CellInfo[] playerInfo = MapInfo.playerLocs;
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-            //TODO 추후 테스트 완료 후 삭제
+            //TODO: 추후 테스트 완료 후 삭제
             Debug.Log($"player uuid :{Config.userUuid}\n other player uuid : {(string)item.data}");
             if (!Config.userUuid.Equals((string)item.data))
             {
@@ -139,5 +156,11 @@ public class MapUtil : MapController
             }
             player.name = (string)item.data;
         }
+    }
+    public void ClearItemRespawn()
+    {
+        Division2 clearLoc = MapInfo.clearItem;
+        Instantiate(MapObjects.MapClearItem, Grid[(int)clearLoc.X,(int)clearLoc.Y].Respwan.transform.position, Quaternion.identity);
+
     }
 }
