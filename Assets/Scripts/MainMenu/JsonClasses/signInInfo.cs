@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
 
 [System.Serializable]
 public class signInInfo
 {
-    public string type = "signUp";
-    public string uuid = "b2a6938e-8285-48b9-b0cd-017df4ed029b";
-    public Dictionary<string, string> data = new Dictionary<string, string>();
+    public string cellphone;
+    public string pwd;
 
     public signInInfo()
     {
-        data["cellphone"] = "01012341234";
-        data["pwd"] = "asdf123$";
+        cellphone = "01012341234";
+        pwd = "asdf123$";
     }
 
     public void UpdateInfo(string cellphone, string pwd)
     {
-        data["cellphone"] = cellphone;
-        data["pwd"] = pwd;
+        this.cellphone = cellphone;
+        this.pwd = pwd;
     }
 }

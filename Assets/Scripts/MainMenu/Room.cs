@@ -77,7 +77,7 @@ public class Room : MonoBehaviour
     // 방장이 시작 버튼을 누르면 멤버 전부 화면 이동
     private void ActiveStartButton()
     {
-        if (users.Count == 4)
+        if (users.Count >=1 )
             startButton.interactable = true;
         else
             startButton.interactable = false;

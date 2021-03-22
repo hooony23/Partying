@@ -6,10 +6,15 @@ using UnityEngine;
 public class FirstScreen : MonoBehaviour
 {
 
+    public void Start()
+    {
+        
+        Lib.Common.SetUserUuid(Communication.Connection.Connected());
+        Debug.Log($"uuid : {Util.Config.userUuid}");
+    }
     public void OnClickStart()
     {
         Debug.Log("게임을 시작하였습니다. 로그인 화면으로 갑니다.");
-
     }
 
     public void OnClickQuit()

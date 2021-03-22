@@ -11,7 +11,7 @@ public class MemberInfo
     {
         List<string> memList = new List<string>();
 
-        string memInfoUri = "api/v1/rooms/" + roomUuid + "/memberInfo";
+        string memInfoUri = "api/v1/rooms/" + roomUuid;
         string response;
 
 
@@ -20,12 +20,12 @@ public class MemberInfo
 
         Debug.Log(response);
 
-        JToken arrData = json["data"]["userInfo"];
+        JToken arrData = json["data"]["memberInfo"];
         JArray jsonArray = (JArray)arrData;
 
         for (int i = 0; i < jsonArray.Count; i++)
         {
-            memList.Add(jsonArray[i]["Id"].ToString());
+            memList.Add(jsonArray[i]["nickname"].ToString());
         }
 
         return memList;

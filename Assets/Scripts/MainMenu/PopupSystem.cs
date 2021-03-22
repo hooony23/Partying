@@ -38,5 +38,8 @@ public class PopupSystem : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
         forPopup.SetActive(false);
     }
-
+    
+    private void OnApplicationQuit() {
+        Communication.Connection.ConnectedExit();
+    }
 }

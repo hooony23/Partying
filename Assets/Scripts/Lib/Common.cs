@@ -10,6 +10,12 @@ namespace Lib
 {
     public static class Common
     {
+        
+        public static void SetUserUuid(string response)
+        {
+            JObject responseJson = JObject.Parse(response);
+            Config.userUuid = responseJson["data"].Value<string>("uuid");
+        }
         public static void CallAPI(string server, string tranferFlag,string APIName, params object[] list)
         {
             /// <summary>

@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,8 +42,9 @@ public class RoomSetting : MonoBehaviour
 
             createRoomInfo info = new createRoomInfo();
             info.UpdateInfo(Title, password);
+            var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", "center_server", info);
 
-            response = MServer.Communicate(createRoomUri, "POST", info);
+            response = MServer.Communicate(createRoomUri, "POST", requestJson);
             Debug.Log(response);
             JObject json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();
@@ -55,7 +54,7 @@ public class RoomSetting : MonoBehaviour
                 // 방 진입
                 // 방의 Uuid를 생성하는 과정이 필요
                 Room.roomName = title;
-                Room.roomUuid = "ce55aa9d-cca4-4a41-836a-168407bbe30d";
+                Room.roomUuid = json["data"]["roomUuid"].ToString();
                 Room.roomMemberCount = "1";
                 Debug.Log(Room.roomName);
                 GoNextScreen();

@@ -7,11 +7,6 @@ namespace GameManager
 {
     public class GameManagerUtil : GameManagerController
     {
-        protected void SetUserUuid(string response)
-        {
-            JObject responseJson = JObject.Parse(response);
-            Config.userUuid = responseJson["data"].Value<string>("uuid");
-        }
         protected void InitializeLabylinth()
         {
             // 플레이어에게 부착할 카메라 생성

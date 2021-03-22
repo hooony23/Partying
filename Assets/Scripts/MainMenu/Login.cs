@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Collections.Generic;
+using Communication.JsonFormat;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,15 +34,15 @@ public class Login : MonoBehaviour
         // 서버에 로그인 요청
         if (id != "" && pw != "") // TODO : id, pw, 정규식 필요
         {
-            // MServer SignIn API,uri : api/v1/userSession/signIn ,method : POST
+            // MServer SignIn API,uri : api/v1/session/signIn ,method : POST
             // 서버에 전송
-            string signInUri = "api/v1/userSession/signIn";
+            string signInUri = "api/v1/session/signIn";
             string response = "";
 
             signInInfo info = new signInInfo();
             info.UpdateInfo(id, pw);
-
-            response = MServer.Communicate(signInUri, "POST", info);
+            var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
+            response = MServer.Communicate(signInUri, "POST", requestJson);
             Debug.Log(response);
             JObject json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();

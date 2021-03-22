@@ -76,7 +76,7 @@ public class Signup : MonoBehaviour
             info.UpdateInfo(id, pw, mobile, name);
 
             // json 형태로 서버에 전송
-            string signupUri = "api/v1/userSession/signUp";
+            string signupUri = "api/v1/session/signUp";
             response = MServer.Communicate(signupUri, "POST", info);
             JObject json = JObject.Parse(response);
 
