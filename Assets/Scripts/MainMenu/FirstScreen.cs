@@ -8,8 +8,8 @@ public class FirstScreen : MonoBehaviour
 
     public void Start()
     {
-        
-        Lib.Common.SetUserUuid(Communication.Connection.Connected());
+        //TODO: Test시 주석 처리 할 것
+        // Lib.Common.SetUserUuid(Communication.Connection.Connected());
         Debug.Log($"uuid : {Util.Config.userUuid}");
     }
     public void OnClickStart()
