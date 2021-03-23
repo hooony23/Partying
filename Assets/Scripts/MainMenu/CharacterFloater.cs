@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharacterFloater : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab; // 소환하고 날려버릴 캐릭터 프리팹 저장
-    [SerializeField] private List<Sprite> sprites; // 캐릭터들을 담을 배열
+    [SerializeField] private GameObject prefab = null; // 소환하고 날려버릴 캐릭터 프리팹 저장
+    [SerializeField] private List<Sprite> sprites = null; // 캐릭터들을 담을 배열
 
     private float timer = 2f; // 소환하는 사이의 간격
     private float distance = 11f; // 중심으로부터 소환되는 거리

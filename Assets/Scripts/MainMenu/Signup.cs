@@ -11,7 +11,7 @@ public class Signup : MonoBehaviour
     [SerializeField] private InputField pwInput = null;
     [SerializeField] private InputField eaInput = null; // email address
     [SerializeField] private Button signup = null;
-    [SerializeField] private GameObject nextScreen;
+    [SerializeField] private GameObject nextScreen = null;
 
     private bool idValid = false;
 
