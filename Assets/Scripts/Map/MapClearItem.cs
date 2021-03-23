@@ -33,6 +33,8 @@ public class MapClearItem : MonoBehaviour
     }
     private void Update()
     {
+        if (Communication.NetworkInfo.gameClear == true)
+            Config.GameClear = Communication.NetworkInfo.gameClear;
         if (Config.GameClear && !DestrotyBox)
         {
             StartCoroutine(ClearUi());

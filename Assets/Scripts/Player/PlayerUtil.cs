@@ -9,6 +9,7 @@ using Communication.JsonFormat;
 using Util;
 public class PlayerUtil : PlayerController
 {
+    private Vector3 preMoveDir = Vector3.zero;
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
     [SerializeField]
     private string BGMSound;
@@ -67,12 +68,11 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend(string server)
     {
-        //TODO 만약 플레이어가 하나의 키를 누른채로 마우스만 이동시키며 
-        //     움직일 경우 동기화 불가능함 추후 수정필요
-        if (IsKeyInput() && !IsDead)
+        if ((IsKeyInput() || MoveDir != preMoveDir)&& !IsDead)
         {
             APIController.SendController(server, "Move", PInfo.ObjectToJson());
         }
+        preMoveDir = MoveDir;
     }
     public bool IsKeyInput()
     {
