@@ -24,5 +24,10 @@ namespace Communication.API.Labylinth
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server));
         }
+        public void Connected()
+        {
+            string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server);
+            Connection.Connected(request);
+        }
     }
 }

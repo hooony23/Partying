@@ -66,6 +66,26 @@ namespace Communication.API.Labylinth
             string deathUserUuid = responseJson.Value<string>("uuid");
             NetworkInfo.deathUserQueue.Enqueue(deathUserUuid);
         }
+        public void Connected(string response)
+        {
+            
+        }
+        public void ConnectedExit(string response)
+        {
+
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            string deathUserUuid = responseJson.Value<string>("uuid");
+            NetworkInfo.connectedExitQueue.Enqueue(deathUserUuid);
+        }
         public void GetItem(string response)
         {
 
@@ -79,8 +99,8 @@ namespace Communication.API.Labylinth
                 Debug.Log(e.Message);
                 return;
             }
-            string delUserUuid = responseJson.Value<string>("uuid");
-            NetworkInfo.GetItemUserQueue.Enqueue(delUserUuid);
+            string isGetUserUuid = responseJson.Value<string>("uuid");
+            NetworkInfo.GetItemUserQueue.Enqueue(isGetUserUuid);
         }
     }
 }

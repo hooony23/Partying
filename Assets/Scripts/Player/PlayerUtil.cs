@@ -68,6 +68,7 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend(string server)
     {
+
         if ((IsKeyInput() || MoveDir != preMoveDir)&& !IsDead)
         {
             APIController.SendController(server, "Move", PInfo.ObjectToJson());
@@ -246,7 +247,7 @@ public class PlayerUtil : PlayerController
             if (GetItem == true)
             {
                 Destroy(NearObject, 7f); // 이동과 동시에 아이템 오브젝트가 사라짐
-                Config.GameClear = true;
+                APIController.SendController("Labylinth", "GetItem");
             }
         }
     }

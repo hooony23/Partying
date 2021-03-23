@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using Communication.JsonFormat;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication.JsonFormat;
 
 // 1. 사용자의 ID와 PW를 입력받고
 // 2. 값이 유효한지 확인후 다음화면으로 넘어간다

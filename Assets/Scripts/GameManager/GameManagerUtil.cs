@@ -50,8 +50,9 @@ namespace GameManager
                 {
                     string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
                     Debug.Log("Game Clear");
-                    Application.Quit(0);
+                    break;
                 }
+                    Application.Quit(0);
         }
     }
 }

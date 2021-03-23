@@ -2,10 +2,7 @@
 using UnityEngine.UI;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Net;
-using System.IO;
-
+using Communication.JsonFormat;
 
 // Signup : 회원가입
 
@@ -77,7 +74,8 @@ public class Signup : MonoBehaviour
 
             // json 형태로 서버에 전송
             string signupUri = "api/v1/session/signUp";
-            response = MServer.Communicate(signupUri, "POST", info);
+            var requestJson = BaseJsonFormat.ObjectToJson("signUp", "center_server", info);
+            response = MServer.Communicate(signupUri, "POST",requestJson);
             JObject json = JObject.Parse(response);
 
             // 서버로 부터 받은 메세지 

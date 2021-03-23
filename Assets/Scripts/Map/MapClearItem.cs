@@ -33,8 +33,9 @@ public class MapClearItem : MonoBehaviour
     }
     private void Update()
     {
-        if (Communication.NetworkInfo.gameClear == true)
-            Config.GameClear = Communication.NetworkInfo.gameClear;
+        //TODO: 만약 아이템이 추가되면 이 부분 수정 필요.
+        if (Communication.NetworkInfo.GetItemUserQueue.Count > 0)
+            Config.GameClear = true;
         if (Config.GameClear && !DestrotyBox)
         {
             StartCoroutine(ClearUi());

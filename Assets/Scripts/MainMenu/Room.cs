@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Communication.API;
 
 // 유저, 방 안에 들어옴 : 방 Uuid로 방 입장, 현재 방의 상태(멤버 리스트, 방제목 등) 필요
 // 방장, 최초 방 생성시 방 들어옴 : 방 Uuid를 생성하고 생성한 Uuid의 방으로 입장, 현재 방의 상태 필요
@@ -49,6 +49,8 @@ public class Room : MonoBehaviour
 
             UpdatePlayerBannerList();
         }
+        if (Communication.NetworkInfo.mapInfo != null)
+            GameStart();
     }
     public void SetupRoom()
     {
@@ -82,12 +84,20 @@ public class Room : MonoBehaviour
         else
             startButton.interactable = false;
     }
-
+    public void OnClickReady()
+    {
+        APIController.SendController("Labylinth","Connected");
+    }
 
      public void OnClickGameStart()
     {
-        SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
+        APIController.SendController("Labylinth","Connected");
+        APIController.SendController("Labylinth", "CreateMap");
         // Game Scene 으로 넘어감
+    }
+    public void GameStart()
+    {
+        SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
     }
  
 }

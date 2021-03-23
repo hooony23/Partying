@@ -9,7 +9,7 @@ public class FirstScreen : MonoBehaviour
     public void Start()
     {
         //TODO: Test시 주석 처리 할 것
-        // Lib.Common.SetUserUuid(Communication.Connection.Connected());
+        Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
         Debug.Log($"uuid : {Util.Config.userUuid}");
     }
     public void OnClickStart()

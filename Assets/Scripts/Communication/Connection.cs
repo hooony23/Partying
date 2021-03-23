@@ -39,7 +39,7 @@ namespace Communication
         // The response from the remote device.  
         private static String response = String.Empty;
         private static Socket client;
-        public static string Connected()
+        public static void Connected(string request)
         {
             // Connect to a remote device.  
             try
@@ -60,7 +60,7 @@ namespace Communication
                     new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                Send("{'type':'Connected'}");
+                Send(request);
                 sendDone.WaitOne();
                 Receive(client);
                 receiveDone.WaitOne();
@@ -70,7 +70,6 @@ namespace Communication
             {
                 Console.WriteLine(e.ToString());
             }
-            return response;
         }
 
         public static void ConnectedExit()
@@ -158,12 +157,7 @@ namespace Communication
                         receiveDatas = tmp.ToArray();
                         foreach(string data in receiveDatas)
                         {
-                            if  (data.Contains("connected")){
-                                response = data;
-                                continue;
-                            }
                             APIController.ReceiveController(data);
-
                         }
                         receiveDone.Set();
                         state.sb.Clear();
