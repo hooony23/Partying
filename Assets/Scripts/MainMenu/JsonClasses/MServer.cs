@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 public class MServer
 {
     public static string json = "";
-    private static string basicURL = "https://localhost:5001/";
+    private static string basicURL = "https://skine134.iptime.org:42450/";
 
     /// <summary>
     /// POST, PUT, DELETE 메서드를 사용할 경우 이용합니다
