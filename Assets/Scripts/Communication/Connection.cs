@@ -46,10 +46,10 @@ namespace Communication
             {
                 // TODO Test끝나면 주석 해제
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
-                //  IPAddress ipAddress = ipHostInfo.AddressList[0];
-                //  IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
+                 IPAddress ipAddress = ipHostInfo.AddressList[0];
+                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                // IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                // IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
 
                 // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,
