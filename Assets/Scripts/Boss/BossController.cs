@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossDrone : MonoBehaviour
+public class BossController : MonoBehaviour
 {
     void Start()
     {
@@ -22,6 +22,14 @@ public class BossDrone : MonoBehaviour
             BossPattern.Instance.OctaLaser();
 
         }
+
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            BossPattern.Instance.BodySlam();
+
+        }
+
+
 
     }
 }

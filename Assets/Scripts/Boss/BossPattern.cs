@@ -8,6 +8,15 @@ public class BossPattern : MonoBehaviour
     Animator anim;
     private static BossPattern instance = null;
 
+    public static BossPattern Instance
+    {
+        get
+        {
+            if (null == instance) return null;
+            return instance;
+        }
+    }
+
     void Awake()
     {
         if (null == instance)
@@ -20,14 +29,7 @@ public class BossPattern : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    public static BossPattern Instance
-    {
-        get
-        {   if (null == instance) return null;
-            return instance;
-        }
-    }
-
+    
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -50,5 +52,10 @@ public class BossPattern : MonoBehaviour
     {
         octaL.Play();                       // 파티클 시스템
         anim.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
+    }
+
+    public void BodySlam()
+    {
+        anim.SetTrigger("BodySlam1");
     }
 }
