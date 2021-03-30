@@ -6,9 +6,8 @@ using Communication.JsonFormat;
 
 // Signup : 회원가입
 
-public class Signup : MonoBehaviour
+public class Signup : BaseMainMenu
 {
-    [SerializeField] private Text warning = null;
     [SerializeField] private Button idCheck = null;
 
     [SerializeField] private InputField nameInput = null;
@@ -23,13 +22,12 @@ public class Signup : MonoBehaviour
 
 
     // 서버 통신용
-    private string serverMsg = "";
 
     private void Start()
     {
-        
 
-        
+
+
     }
 
     // 아이디 중복확인 클릭
@@ -40,15 +38,15 @@ public class Signup : MonoBehaviour
 
         if (id.Equals(""))
         {
-            warning.text = "아이디를 입력해 주세요";
+            SetWarnigText("아이디를 입력해 주세요");
         }
         else
         {
             idValid = true; // 유효한 아이디를 입력했음을 표시
-            warning.text = "유효한 아이디 입니다";
+            SetWarnigText("유효한 아이디 입니다");
         }
     }
-    
+
     // 회원가입 클릭
     public void OnClickRegister()
     {
@@ -61,9 +59,9 @@ public class Signup : MonoBehaviour
         // 인풋값 확인(id 중복 확인 했으면 idValid = True)
         if (name.Equals("") || id.Equals("") || pw.Equals("") || mobile.Equals("") || !idValid)
         {
-            warning.text = "입력값을 확인해 주세요";
+            SetWarnigText("입력값을 확인해 주세요");
             if (idValid == false)
-                warning.text = "아이디 중복확인을 해주세요";
+                SetWarnigText("아이디 중복확인을 해주세요");
         }
         else
         {
@@ -75,7 +73,7 @@ public class Signup : MonoBehaviour
             // json 형태로 서버에 전송
             string signupUri = "api/v1/session/signUp";
             var requestJson = BaseJsonFormat.ObjectToJson("signUp", "center_server", info);
-            response = MServer.Communicate(signupUri, "POST",requestJson);
+            response = MServer.Communicate(signupUri, "POST", requestJson);
             JObject json = JObject.Parse(response);
 
             // 서버로 부터 받은 메세지 
@@ -85,7 +83,7 @@ public class Signup : MonoBehaviour
 
         if (serverMsg.Equals("True"))
         {
-            warning.text = "회원가입에 성공하셨습니다";
+            SetWarnigText("회원가입에 성공하셨습니다");
             Invoke("GoNextScreen", 2.5f);
         }
 
@@ -97,11 +95,11 @@ public class Signup : MonoBehaviour
         idInput.text = "";
         pwInput.text = "";
         mobileInput.text = "";
-        warning.text = "";
+        ResetMessage();
 
         // 로그인 화면으로
         this.gameObject.SetActive(false);
         nextScreen.SetActive(true);
     }
-    
+
 }

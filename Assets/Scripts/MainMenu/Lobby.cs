@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby : MonoBehaviour
+public class Lobby : BaseMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
     // 방목록 동적생성
@@ -25,14 +25,9 @@ public class Lobby : MonoBehaviour
     private RoomInfo clickRoomInfo = null;
 
     // 서버 통신용
-    private string serverMsg = "";
+    
     private List<RoomInfo> rooms = new List<RoomInfo>();
     private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
-
-    private void Start()
-    {
-
-    }
 
     private void OnEnable()
     {
@@ -52,7 +47,7 @@ public class Lobby : MonoBehaviour
         roomListUpdated = json["data"]["roomList"].ToString();
         //Debug.Log(serverMsg);
 
-        
+
         if (!this.preRoomList.Equals(roomListUpdated))
         {
             //Debug.Log("방 목록을 갱신합니다");
@@ -72,8 +67,8 @@ public class Lobby : MonoBehaviour
             Debug.Log("방 추가/변경 사항이 없습니다");
 
         }
-        
-        
+
+
     }
 
     // 서버에 받아온 roomList 정보를 rooms배열에 갱신
@@ -159,7 +154,7 @@ public class Lobby : MonoBehaviour
         GetRoomsListButtons();
     }
 
-    private void OnClickRoom(RoomInfo currentRoom) 
+    private void OnClickRoom(RoomInfo currentRoom)
     {
         this.clickRoomInfo = currentRoom;
         // 해당 방의 인원 정보 재확인

@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 // 방만들기
 
-public class RoomSetting : MonoBehaviour
+public class RoomSetting : BaseMainMenu
 {
-    public GameObject warning;
     public GameObject nextScreen; // RoomUI
 
     [SerializeField] private InputField roomTitleInput = null;  
@@ -15,7 +14,7 @@ public class RoomSetting : MonoBehaviour
     private string password = "";
 
     // 서버 통신용
-    private string serverMsg = "";
+    
 
     public string Title { get => title; set => title = value; }
 

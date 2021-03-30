@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class PopupSystem : MonoBehaviour
+public class PopupSystem : BaseMainMenu
 {
     // 팝업할 객체는 해당하는 스크립트에서 PopupSystem.instance.OpenPopUp() 으로 UI를 팝업 시킨다
     // (팝업할 객체는 PopupAnimator 컴포넌트를 가지고 있어야 한다)

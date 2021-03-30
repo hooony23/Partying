@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class FirstScreen : MonoBehaviour
+public class FirstScreen : BaseMainMenu
 {
 
     public void Start()

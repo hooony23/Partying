@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 public class MServer
 {
     public static string json = "";
-    private static string basicURL = "https://skine134.iptime.org:42450/";
+    private static string basicURL = "https://localhost:1215/";
 
     /// <summary>
     /// POST, PUT, DELETE 메서드를 사용할 경우 이용합니다
@@ -22,31 +22,17 @@ public class MServer
     {
         uri = basicURL + uri;
 
-        // GET
-        if (method.Equals("GET"))
+        // 요청과 보낼 주소 세팅
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+        request.Method = method;
+        request.ContentType = "application/json";
+        // GET이 아닐 경우.
+        if (!method.Equals("GET"))
         {
-            // 요청과 보낼 주소 세팅
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Method = method;
-            request.ContentType = "application/json";
-
-            // StreamReader 로 역질렬화, 응답 데이터를 받음
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            json = reader.ReadToEnd();
-        }
-
-        // POST, PUT, DELETE
-        else
-        {
-            // 데이터 직렬화
+            // 데이터(body) 직렬화
             string str = JsonConvert.SerializeObject(Info);
             var bytes = System.Text.Encoding.UTF8.GetBytes(str);
 
-            // 요청과 보낼 주소 세팅
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Method = method;
-            request.ContentType = "application/json";
             request.ContentLength = bytes.Length;
 
             // Stream 형식으로 데이터를 보냄
@@ -56,14 +42,12 @@ public class MServer
                 stream.Flush();
                 stream.Close();
             }
-
-            // StreamReader 로 역질렬화, 응답 데이터를 받음
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            json = reader.ReadToEnd();
-
         }
-
+        
+        // StreamReader 로 역질렬화, 응답 데이터를 받음
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        StreamReader reader = new StreamReader(response.GetResponseStream());
+        json = reader.ReadToEnd();
         return json;
     }
 }
