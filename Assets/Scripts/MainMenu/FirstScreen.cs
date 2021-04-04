@@ -10,6 +10,7 @@ public class FirstScreen : BaseMainMenu
     {
         //TODO: Test시 주석 처리 할 것
         Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
+        Debug.Log(MServer.Communicate("api/v1/util/pingpong", "GET"));
         Debug.Log($"uuid : {Util.Config.userUuid}");
     }
     public void OnClickStart()

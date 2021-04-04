@@ -16,7 +16,7 @@ public class Signup : BaseMainMenu
     [SerializeField] private InputField mobileInput = null;
 
     [SerializeField] private Button signup = null;
-    [SerializeField] private GameObject nextScreen; // 로그인 화면
+    [SerializeField] private GameObject nextScreen; // 메인 화면
 
     private bool idValid = false;
 

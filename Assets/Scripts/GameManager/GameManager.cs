@@ -11,8 +11,6 @@ namespace GameManager
         void Awake()
         {
             
-            //TODO: Test시 주석 처리 할 것
-            
             // TODO: Test시 주석 지울 것
             // Util.Config.userUuid = System.Guid.NewGuid().ToString();
             // string temp= System.IO.File.ReadAllText(@".\Assets\Scripts\temp.json");
@@ -35,6 +33,7 @@ namespace GameManager
         {
             /* 서버 연결 해제 */
             Connection.ConnectedExit();
+            
         }
 
     }

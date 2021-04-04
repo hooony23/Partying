@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
+using  System.Security.Cryptography.X509Certificates;
+using  System.Net.Security;
 using System.Net;
 using Newtonsoft.Json;
 
@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 public class MServer
 {
     public static string json = "";
-    private static string basicURL = "https://localhost:1215/";
+    private static string basicURL = "https://partyingapi.cf:42450/";
+    // private static string basicURL = "https://localhost:1215/";
 
     /// <summary>
     /// POST, PUT, DELETE 메서드를 사용할 경우 이용합니다
@@ -21,6 +22,7 @@ public class MServer
     public static String Communicate(string uri, string method, object Info=null)
     {
         uri = basicURL + uri;
+        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateServerCertificate);
 
         // 요청과 보낼 주소 세팅
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
@@ -50,4 +52,39 @@ public class MServer
         json = reader.ReadToEnd();
         return json;
     }
+       
+static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) {
+// 	try {
+// 		if (sslPolicyErrors != SslPolicyErrors.None) {//SSL이 오류인 경우
+// 			Console.WriteLine(sslPolicyErrors);
+// 			return false;
+// 		}
+
+// 		Console.WriteLine("Subject : " + certificate.Subject);
+// 		Console.WriteLine("Issuer : " + certificate.Issuer);
+// 		Console.WriteLine("Hash : " + certificate.GetCertHashString());
+
+// 		X509ChainElementCollection x509ChainElement = chain.ChainElements;
+// 		X509Certificate rootCA = x509ChainElement[x509ChainElement.Count - 1].Certificate;
+        
+// 		Console.WriteLine("Root CA Subject : " + rootCA.Subject);
+// 		Console.WriteLine("Root CA Issuer : " + rootCA.Issuer);
+// 		Console.WriteLine("Root CA Hash : " + rootCA.GetCertHashString());
+
+// 		return true;
+// 	} catch (Exception) {
+// 		return false;
+// 	}
+    return true;
+    }
+}
+
+public class WebRequestCert : UnityEngine.Networking.CertificateHandler
+{
+    protected override bool ValidateCertificate(byte[] certificateData)
+    {
+        //return base.ValidateCertificate(certificateData);
+        return true;
+    }
+ 
 }
