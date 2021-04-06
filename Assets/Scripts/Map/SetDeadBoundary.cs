@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
-using Communication;
-using Communication.API;
+using Communication.GameServer;
+using Communication.GameServer.API;
 
 public class SetDeadBoundary : MonoBehaviour
 {

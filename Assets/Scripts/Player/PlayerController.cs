@@ -1,6 +1,6 @@
 using UnityEngine;
 using Util;
-using Communication.API;
+using Communication.GameServer.API;
 using Communication.JsonFormat;
 public class PlayerController : MonoBehaviour
 {

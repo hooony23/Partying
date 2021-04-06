@@ -1,5 +1,5 @@
-using Communication;
-using Communication.API;
+using Communication.GameServer;
+using Communication.GameServer.API;
 
 
 namespace GameManager

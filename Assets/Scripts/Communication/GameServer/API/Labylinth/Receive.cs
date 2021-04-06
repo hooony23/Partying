@@ -7,7 +7,7 @@ using Communication.JsonFormat;
 using Util;
 
 
-namespace Communication.API.Labylinth
+namespace Communication.GameServer.API.Labylinth
 {
     public class Receive : Controller
     {

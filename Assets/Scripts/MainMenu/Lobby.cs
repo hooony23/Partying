@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Communication.MainServer;
 public class Lobby : BaseMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
@@ -159,9 +159,9 @@ public class Lobby : BaseMainMenu
         this.clickRoomInfo = currentRoom;
         // 해당 방의 인원 정보 재확인
         List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid);
-        if (roomMemberList.Count == 4)
+        if (roomMemberList.Count >= 4)
         {
-            Debug.Log("해당 방의 인원수가 초과하였습니다");
+            SetWarnigText("해당 방의 인원수가 초과하였습니다");
             return;
         }
 

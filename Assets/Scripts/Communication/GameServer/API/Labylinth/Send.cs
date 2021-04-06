@@ -4,7 +4,7 @@ using Communication.JsonFormat;
 using Lib;
 
 
-namespace Communication.API.Labylinth
+namespace Communication.GameServer.API.Labylinth
 {
     public class Send : Controller
     {

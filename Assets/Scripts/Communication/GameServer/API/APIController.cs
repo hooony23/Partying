@@ -6,7 +6,7 @@ using Lib;
 using Util;
 
 
-namespace Communication.API
+namespace Communication.GameServer.API
 {
     public class APIController : MonoBehaviour
     {

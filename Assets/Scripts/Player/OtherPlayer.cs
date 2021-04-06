@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Communication.API;
+using Communication.GameServer.API;
 using Communication.JsonFormat;
 
 public class OtherPlayer : PlayerUtil

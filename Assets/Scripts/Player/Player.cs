@@ -2,7 +2,7 @@ using UnityEngine;
 using Util;
 using System;
 using System.IO;
-using Communication.API;
+using Communication.GameServer.API;
 public class Player : PlayerUtil
 {
 

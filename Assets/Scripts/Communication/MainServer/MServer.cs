@@ -1,16 +1,20 @@
-﻿using System;
+﻿using System.Runtime.CompilerServices;
+using System;
 using System.IO;
 using  System.Security.Cryptography.X509Certificates;
 using  System.Net.Security;
 using System.Net;
 using Newtonsoft.Json;
-
+using Util;
 // JSON 정보를 서버로 보내는 클래스 입니다
+namespace Communication.MainServer
+{
+    
 public class MServer
 {
     public static string json = "";
-    private static string basicURL = "https://partyingapi.cf:42450/";
-    // private static string basicURL = "https://localhost:1215/";
+    // private static string basicURL = Config.mainServerDNS;
+    private static string basicURL = "https://localhost:1215/";
 
     /// <summary>
     /// POST, PUT, DELETE 메서드를 사용할 경우 이용합니다
@@ -54,27 +58,6 @@ public class MServer
     }
        
 static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) {
-// 	try {
-// 		if (sslPolicyErrors != SslPolicyErrors.None) {//SSL이 오류인 경우
-// 			Console.WriteLine(sslPolicyErrors);
-// 			return false;
-// 		}
-
-// 		Console.WriteLine("Subject : " + certificate.Subject);
-// 		Console.WriteLine("Issuer : " + certificate.Issuer);
-// 		Console.WriteLine("Hash : " + certificate.GetCertHashString());
-
-// 		X509ChainElementCollection x509ChainElement = chain.ChainElements;
-// 		X509Certificate rootCA = x509ChainElement[x509ChainElement.Count - 1].Certificate;
-        
-// 		Console.WriteLine("Root CA Subject : " + rootCA.Subject);
-// 		Console.WriteLine("Root CA Issuer : " + rootCA.Issuer);
-// 		Console.WriteLine("Root CA Hash : " + rootCA.GetCertHashString());
-
-// 		return true;
-// 	} catch (Exception) {
-// 		return false;
-// 	}
     return true;
     }
 }
@@ -87,4 +70,6 @@ public class WebRequestCert : UnityEngine.Networking.CertificateHandler
         return true;
     }
  
+}
+
 }

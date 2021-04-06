@@ -5,10 +5,10 @@ using System.Threading;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using Communication.API;
+using Communication.GameServer.API;
 using Util;
 
-namespace Communication
+namespace Communication.GameServer
 {
 
     // State object for receiving data from remote device.  
@@ -45,9 +45,9 @@ namespace Communication
             try
             {
                 // TODO Test끝나면 주석 해제
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.defaultDNS);
                 //  IPAddress ipAddress = ipHostInfo.AddressList[0];
-                //  IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                //  IPEndPoint remoteEP = new IPEndPoint(ipAddress, Config.gameServerPort);
                 IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
 

@@ -6,8 +6,12 @@ namespace Util
 
     public static class Config
     {
-        public static string serverIP = "skine134.iptime.org";
-        public static int serverPort = 11000;
+        public static string defaultDNS = "skine134.iptime.org";
+        public static int mainServerPort = 42450;
+        public static int chatServerPort = 42460;
+        public static int gameServerPort = 11000;
+        public static string mainServerDNS = $"https://{defaultDNS}:{mainServerPort}";
+        public static string chatServerDNS = $"htpps://{defaultDNS}:{chatServerPort}";
 
         // player
         public static float playerMoveVector = 3f;

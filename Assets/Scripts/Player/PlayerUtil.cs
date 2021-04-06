@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
 using Communication;
-using Communication.API;
+using Communication.GameServer.API;
 using Communication.JsonFormat;
 using Util;
 public class PlayerUtil : PlayerController

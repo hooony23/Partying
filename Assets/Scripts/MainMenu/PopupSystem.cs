@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
+using Communication.MainServer;
 public class PopupSystem : BaseMainMenu
 {
     // 팝업할 객체는 해당하는 스크립트에서 PopupSystem.instance.OpenPopUp() 으로 UI를 팝업 시킨다
@@ -40,6 +40,6 @@ public class PopupSystem : BaseMainMenu
     }
     
     private void OnApplicationQuit() {
-        Communication.Connection.ConnectedExit();
+        Communication.GameServer.Connection.ConnectedExit();
     }
 }
