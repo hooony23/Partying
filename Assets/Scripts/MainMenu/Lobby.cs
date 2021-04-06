@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication;
 using Communication.MainServer;
+using Communication.JsonFormat;
 public class Lobby : BaseMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
@@ -28,38 +28,35 @@ public class Lobby : BaseMainMenu
     
     private List<RoomInfo> rooms = new List<RoomInfo>();
     private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
+    void Start()
+    {
+        new WebSocketModule().Start();
+    }
 
     private void OnEnable()
     {
         GetRoomsListButtons();
     }
-
-    public void GetRoomsListButtons()
+    void Update()
     {
-        string roomsListUri = "api/v1/rooms/roomList";
-        string response = "";
-        string roomListUpdated;
+        OnUpdateRoomList(NetworkInfo.roomList);
+    }
+    public void OnUpdateRoomList(JArray roomList)
+    {
+        
 
-        response = MServer.Communicate(roomsListUri, "GET");
-        JObject json = JObject.Parse(response);
-
-        serverMsg = json["data"]["isSuccess"].ToString();
-        roomListUpdated = json["data"]["roomList"].ToString();
-        //Debug.Log(serverMsg);
-
-
-        if (!this.preRoomList.Equals(roomListUpdated))
+        if (!this.preRoomList.Equals(roomList))
         {
             //Debug.Log("방 목록을 갱신합니다");
 
             // 받은 서버의 정보 갱신
-            UpdateRoomsList(json);
+            UpdateRoomsList(roomList);
 
             // 스크롤뷰의 방 버튼 갱신
             SetRoomButtons();
 
             // 다음에 수행될 때 현재 방의 정보와 이전 방의 정보를 비교
-            this.preRoomList = roomListUpdated;
+            this.preRoomList = roomList.ToString();
 
         }
         else
@@ -67,29 +64,48 @@ public class Lobby : BaseMainMenu
             Debug.Log("방 추가/변경 사항이 없습니다");
 
         }
+    }
+    public void GetRoomsListButtons()
+    {
+        string roomsListUri = "api/v1/rooms/roomList";
+        string response = "";
+        JArray roomList;
+
+        response = MServer.Communicate(roomsListUri, "GET");
+        JObject json = JObject.Parse(response);
+
+        serverMsg = json["data"]["isSuccess"].ToString();
+        roomList = json["data"]["roomList"] as JArray;
+        //Debug.Log(serverMsg);
+        if(serverMsg.Equals("true"))
+        {
+            OnUpdateRoomList(roomList);
+        }
+        else
+        {
+            SetwarningText(json["data"]["errorMsg"].ToString());
+        }
 
 
     }
 
     // 서버에 받아온 roomList 정보를 rooms배열에 갱신
-    private void UpdateRoomsList(JObject json)
+    private void UpdateRoomsList(JArray roomList)
     {
         // 받은 JSON 의 roomList 데이터
-        JToken arrData = json["data"]["roomList"];
-        JArray jsonArray = (JArray)arrData;
 
         // 이전에 받아둔 방 목록들 제거
         rooms.Clear();
 
         // roomList 배열 파싱
-        for (int i = 0; i < jsonArray.Count; i++)
+        for (int i = 0; i < roomList.Count; i++)
         {
             RoomInfo info = new RoomInfo();
-            info.RoomUuid = jsonArray[i]["roomUuid"].ToString();
-            info.RoomName = jsonArray[i]["roomName"].ToString();
-            info.RoomAdmin = jsonArray[i]["admin"].ToString();
-            info.MemberCount = jsonArray[i]["memberCount"].ToString();
-            info.Pwd = jsonArray[i]["pwd"].ToString();
+            info.RoomUuid = roomList[i]["roomUuid"].ToString();
+            info.RoomName = roomList[i]["roomName"].ToString();
+            info.RoomAdmin = roomList[i]["admin"].ToString();
+            info.MemberCount = roomList[i]["memberCount"].ToString();
+            info.Pwd = roomList[i]["pwd"].ToString();
 
             rooms.Add(info);
         }
@@ -158,10 +174,10 @@ public class Lobby : BaseMainMenu
     {
         this.clickRoomInfo = currentRoom;
         // 해당 방의 인원 정보 재확인
-        List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid);
+        List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid).ToObject<List<string>>();
         if (roomMemberList.Count >= 4)
         {
-            SetWarnigText("해당 방의 인원수가 초과하였습니다");
+            SetwarningText("해당 방의 인원수가 초과하였습니다");
             return;
         }
 

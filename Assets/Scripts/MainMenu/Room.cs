@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Net.NetworkInformation;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Communication;
 using Communication.GameServer.API;
 // 유저, 방 안에 들어옴 : 방 Uuid로 방 입장, 현재 방의 상태(멤버 리스트, 방제목 등) 필요
 // 방장, 최초 방 생성시 방 들어옴 : 방 Uuid를 생성하고 생성한 Uuid의 방으로 입장, 현재 방의 상태 필요
@@ -16,7 +18,7 @@ public class Room : BaseMainMenu
 
     // 서버 통신용
     private string getMemInfoMsg;
-    private List<string> users = new List<string>();
+    private JArray users = new JArray();
 
     // 현재 방의 유저 UI
     [SerializeField] GameObject[] players = null;
@@ -26,11 +28,12 @@ public class Room : BaseMainMenu
     public static string roomUuid = "";
     public static string roomMemberCount = "";
 
-    private void Start()
+
+    private void OnUpdateMemberInfo()
     {
-
+        if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString()))
+            UpdatePlayerBannerList();
     }
-
     // OnEnable : Hierachy 에서 활성화 될 때마다 실행
     private void OnEnable()
     {
@@ -41,12 +44,10 @@ public class Room : BaseMainMenu
 
     private void FixedUpdate()
     {
-        
+        OnUpdateMemberInfo();
         if (users.Count > 0)
         {
             ActiveStartButton();
-
-            UpdatePlayerBannerList();
         }
         if (Communication.NetworkInfo.mapInfo != null)
             GameStart();
@@ -69,7 +70,7 @@ public class Room : BaseMainMenu
             pText = players[i].GetComponentInChildren<Text>();
             pImage = players[i].GetComponentInChildren<Image>();
 
-            pText.text = users[i];
+            pText.text = users[i].ToString();
             pImage.color = Color.white;
         }
     }

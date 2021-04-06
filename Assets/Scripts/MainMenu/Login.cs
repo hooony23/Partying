@@ -31,7 +31,7 @@ public class Login : BaseMainMenu
             string signInUri = "api/v1/session/signIn";
             string response = "";
 
-            signInInfo info = new signInInfo();
+            SignInInfo info = new SignInInfo();
             info.UpdateInfo(id, pw);
             var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
             response = MServer.Communicate(signInUri, "POST", requestJson);
@@ -43,17 +43,17 @@ public class Login : BaseMainMenu
         }
         else
         {
-            SetWarnigText("입력 값을 확인해 주세요");
+            SetwarningText("입력 값을 확인해 주세요");
         }
 
         if (serverMsg.Equals("True"))
         {
-            SetWarnigText("로그인에 성공하였습니다 잠시 기다려 주세요");
+            SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
             Invoke("GoNextScreen", 2.5f);
         }
         if (serverMsg.Equals("False"))
         {
-            SetWarnigText(json["data"]["errorMsg"].ToString());
+            SetwarningText(json["data"]["errorMsg"].ToString());
         }
 
 

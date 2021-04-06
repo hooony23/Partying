@@ -14,7 +14,7 @@ public class BaseMainMenu : MonoBehaviour
         textMessage.SetActive(false);
         // textMessage.transform.position = new Vector3(380,280+130,0);
     }
-    protected void SetWarnigText(string message, float time = 3f)
+    protected void SetwarningText(string message, float time = 3f)
     {
         textMessage.SetActive(true);
         textMessage.GetComponent<Text>().text = message;

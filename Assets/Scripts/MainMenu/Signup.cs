@@ -38,12 +38,12 @@ public class Signup : BaseMainMenu
 
         if (id.Equals(""))
         {
-            SetWarnigText("아이디를 입력해 주세요");
+            SetwarningText("아이디를 입력해 주세요");
         }
         else
         {
             idValid = true; // 유효한 아이디를 입력했음을 표시
-            SetWarnigText("유효한 아이디 입니다");
+            SetwarningText("유효한 아이디 입니다");
         }
     }
 
@@ -59,15 +59,15 @@ public class Signup : BaseMainMenu
         // 인풋값 확인(id 중복 확인 했으면 idValid = True)
         if (name.Equals("") || id.Equals("") || pw.Equals("") || mobile.Equals("") || !idValid)
         {
-            SetWarnigText("입력값을 확인해 주세요");
+            SetwarningText("입력값을 확인해 주세요");
             if (idValid == false)
-                SetWarnigText("아이디 중복확인을 해주세요");
+                SetwarningText("아이디 중복확인을 해주세요");
         }
         else
         {
 
             // 입력받은 값을 JSON 형태로
-            signUpInfo info = new signUpInfo();
+            SignUpInfo info = new SignUpInfo();
             info.UpdateInfo(id, pw, mobile, name);
 
             // json 형태로 서버에 전송
@@ -83,7 +83,7 @@ public class Signup : BaseMainMenu
 
         if (serverMsg.Equals("True"))
         {
-            SetWarnigText("회원가입에 성공하셨습니다");
+            SetwarningText("회원가입에 성공하셨습니다");
             Invoke("GoNextScreen", 2.5f);
         }
 

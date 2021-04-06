@@ -7,9 +7,8 @@ using Communication.MainServer;
 // 각 방의 Uuid로 해당하는 방의 멤버 아이디 리스트 반환
 public class MemberInfo
 {
-    public static List<string> Get(string roomUuid)
+    public static JArray Get(string roomUuid)
     {
-        List<string> memList = new List<string>();
 
         string memInfoUri = "api/v1/rooms/" + roomUuid;
         string response;
@@ -23,11 +22,6 @@ public class MemberInfo
         JToken arrData = json["data"]["memberInfo"];
         JArray jsonArray = (JArray)arrData;
 
-        for (int i = 0; i < jsonArray.Count; i++)
-        {
-            memList.Add(jsonArray[i]["nickname"].ToString());
-        }
-
-        return memList;
+        return jsonArray;
     }
 }

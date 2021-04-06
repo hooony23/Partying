@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Communication.MainServer;
-using Communication.MainServer;
+using Communication.JsonFormat;
 // 방만들기
 
 public class RoomSetting : BaseMainMenu
@@ -34,18 +34,18 @@ public class RoomSetting : BaseMainMenu
 
         if (!Title.Equals(""))
         {
-            Debug.Log("방을 생성하였습니다");
+            SetwarningText("방을 생성하였습니다");
 
             // [createRoom API] uri : api/v1/rooms/createRoom , method : POST
             string createRoomUri = "api/v1/rooms/createRoom";
             string response = "";
 
-            createRoomInfo info = new createRoomInfo();
+            CreateRoomInfo info = new CreateRoomInfo();
             info.UpdateInfo(Title, password);
             var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", "center_server", info);
 
             response = MServer.Communicate(createRoomUri, "POST", requestJson);
-            Debug.Log(response);
+            SetwarningText(response);
             JObject json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();
 
@@ -56,14 +56,14 @@ public class RoomSetting : BaseMainMenu
                 Room.roomName = title;
                 Room.roomUuid = json["data"]["roomUuid"].ToString();
                 Room.roomMemberCount = "1";
-                Debug.Log(Room.roomName);
+                SetwarningText(Room.roomName);
                 GoNextScreen();
             }
 
         }
         else
         {
-            Debug.Log("방 제목을 입력해주세요");
+            SetwarningText("방 제목을 입력해주세요");
         }
     }
 
