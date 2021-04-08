@@ -12,6 +12,7 @@ namespace Communication
         public static Queue<string> connectedExitQueue = new Queue<string>();
         public static Queue<string> GetItemUserQueue = new Queue<string>();
         public static Queue<string> deathUserQueue = new Queue<string>();
+        public static string connectionId = "";
         public static JArray memberInfo = new JArray();
         public static JArray roomList = new JArray();
     }

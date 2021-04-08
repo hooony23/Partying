@@ -18,7 +18,7 @@ public class Room : BaseMainMenu
 
     // 서버 통신용
     private string getMemInfoMsg;
-    private JArray users = new JArray();
+    private JArray users;
 
     // 현재 방의 유저 UI
     [SerializeField] GameObject[] players = null;
@@ -27,20 +27,24 @@ public class Room : BaseMainMenu
     public static string roomName = "";
     public static string roomUuid = "";
     public static string roomMemberCount = "";
-
+    public void Start()
+    {
+        
+        users = NetworkInfo.memberInfo;
+        Debug.Log($"users : {users.ToString()}");
+        SetupRoom();
+    }
 
     private void OnUpdateMemberInfo()
     {
-        if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString()))
+        if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString())){
+            Debug.Log($"users : {users.ToString()}");
+            Debug.Log($"network.memberInfo : {NetworkInfo.memberInfo.ToString()}");
             UpdatePlayerBannerList();
+            users = NetworkInfo.memberInfo;
+        }
     }
     // OnEnable : Hierachy 에서 활성화 될 때마다 실행
-    private void OnEnable()
-    {
-        
-        SetupRoom();
-        users = MemberInfo.Get(roomUuid); // InvokeRepeating 으로 바꿔야 될 수도 있음
-    }
 
     private void FixedUpdate()
     {
@@ -56,6 +60,7 @@ public class Room : BaseMainMenu
     {
         title.text = roomName;
         playerCount.text = roomMemberCount;
+        UpdatePlayerBannerList();
     }
 
     // 플레이어가 들어오면 PLAYER1, PLAYER2, PLAYER3, PLAYER4 UI 업데이트
@@ -63,14 +68,19 @@ public class Room : BaseMainMenu
     {
         Text pText;
         Image pImage;
-
+        List<string> usersName = new List<string>();
+        foreach(JObject item in users)
+        {
+            usersName.Add(item["nickname"].ToString());
+            Debug.Log($"usersName:{item["nickname"].ToString()}");
+        }
         for (int i = 0; i < users.Count; i++)
         {
             // USER(1~4) UI 초기화
             pText = players[i].GetComponentInChildren<Text>();
             pImage = players[i].GetComponentInChildren<Image>();
 
-            pText.text = users[i].ToString();
+            pText.text = usersName[i];
             pImage.color = Color.white;
         }
     }

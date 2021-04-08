@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Communication;
 using Communication.MainServer;
-using Communication.JsonFormat;
+using Util;
 public class Lobby : BaseMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
@@ -28,14 +29,10 @@ public class Lobby : BaseMainMenu
     
     private List<RoomInfo> rooms = new List<RoomInfo>();
     private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
-    void Start()
-    {
-        new WebSocketModule().Start();
-    }
 
     private void OnEnable()
     {
-        GetRoomsListButtons();
+        GetRoomsList();
     }
     void Update()
     {
@@ -44,9 +41,10 @@ public class Lobby : BaseMainMenu
     public void OnUpdateRoomList(JArray roomList)
     {
         
-
-        if (!this.preRoomList.Equals(roomList))
+        if (!this.preRoomList.Equals(roomList.ToString()))
         {
+            Debug.Log($"preRoomList : {preRoomList.ToString()}");
+            Debug.Log($"NetworkRoomList : {roomList.ToString()}");
             //Debug.Log("방 목록을 갱신합니다");
 
             // 받은 서버의 정보 갱신
@@ -59,25 +57,21 @@ public class Lobby : BaseMainMenu
             this.preRoomList = roomList.ToString();
 
         }
-        else
-        {
-            Debug.Log("방 추가/변경 사항이 없습니다");
-
-        }
     }
-    public void GetRoomsListButtons()
+    public void GetRoomsList()
     {
-        string roomsListUri = "api/v1/rooms/roomList";
+        string roomsListUri = "api/v1/rooms/main";
         string response = "";
         JArray roomList;
-
-        response = MServer.Communicate(roomsListUri, "GET");
+        if(NetworkInfo.connectionId.Equals(""))
+            throw new Exception("not found connectionId");
+        response = MServer.Communicate("GET", roomsListUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
+        Debug.Log($"lobby response: {response}");
         JObject json = JObject.Parse(response);
 
         serverMsg = json["data"]["isSuccess"].ToString();
         roomList = json["data"]["roomList"] as JArray;
-        //Debug.Log(serverMsg);
-        if(serverMsg.Equals("true"))
+        if(serverMsg.Equals("True"))
         {
             OnUpdateRoomList(roomList);
         }
@@ -167,14 +161,15 @@ public class Lobby : BaseMainMenu
 
     public void OnClickRefresh()
     {
-        GetRoomsListButtons();
+        // GetRoomsList();
     }
 
     private void OnClickRoom(RoomInfo currentRoom)
     {
         this.clickRoomInfo = currentRoom;
+        NetworkInfo.memberInfo = MemberInfo.Get(currentRoom.RoomUuid);
         // 해당 방의 인원 정보 재확인
-        List<string> roomMemberList = MemberInfo.Get(currentRoom.RoomUuid).ToObject<List<string>>();
+        List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
         if (roomMemberList.Count >= 4)
         {
             SetwarningText("해당 방의 인원수가 초과하였습니다");
@@ -204,7 +199,10 @@ public class Lobby : BaseMainMenu
         this.gameObject.SetActive(false);
         nextScreen.SetActive(true);
     }
-
+    private void GoBackScreen()
+    {
+        
+    }
     // 비밀번호 팝업 메뉴 확인 버튼
     public void OnClickCheck()
     {

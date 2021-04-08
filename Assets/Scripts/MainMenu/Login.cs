@@ -22,6 +22,8 @@ public class Login : BaseMainMenu
         // ID PW 입력 확인
         id = idInput.text;
         pw = pwInput.text;
+        UINum = 1;
+        nextUINum = 3;
         JObject json = null;
         // 서버에 로그인 요청
         if (id != "" && pw != "") // TODO : id, pw, 정규식 필요
@@ -34,11 +36,11 @@ public class Login : BaseMainMenu
             SignInInfo info = new SignInInfo();
             info.UpdateInfo(id, pw);
             var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
-            response = MServer.Communicate(signInUri, "POST", requestJson);
+            response = MServer.Communicate("POST", signInUri, requestJson);
             Debug.Log(response);
             json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();
-
+            
 
         }
         else

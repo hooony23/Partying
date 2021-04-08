@@ -4,7 +4,7 @@
     {
         public string roomName;
         public string pwd;
-
+        public string ConnectionId {get;set;} = "";
         public CreateRoomInfo()
         {
             roomName = "";

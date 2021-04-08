@@ -19,19 +19,43 @@ namespace Communication.MainServer
 
             connection.On<string>("receive", data =>
             {
-                Console.WriteLine($"receive: {data}");
+                Debug.Log($"receive: {data}");
             });
 
             connection.On<string>("roomList", data =>
             {
-                NetworkInfo.roomList = Common.GetData(data)["roomList"] as JArray;
+                Debug.Log($"receive roomList : {data}");
+                try{
+                    NetworkInfo.roomList = Common.GetData(data)["roomList"] as JArray;
+                }catch(Exception e)
+                {
+                    throw e;
+                }
+                
             });
 
             connection.On<string>("memberInfo", data =>
             {
-                NetworkInfo.memberInfo = Common.GetData(data)["memberInfo"] as JArray;
+                Debug.Log($"receive memberInfo : {data}");
+                try{
+                    NetworkInfo.memberInfo = Common.GetData(data)["memberInfo"] as JArray;
+                }catch(Exception e)
+                {
+                    throw e;
+                }
+                
             });
-
+            connection.On<string>("notifyConnectionId", data =>
+            {
+                Debug.Log($"receive connectionId : {data}");
+                try{
+                    NetworkInfo.connectionId = Common.GetData(data)["connectionId"].ToString();
+                }catch(Exception e)
+                {
+                    throw e;
+                }
+                Debug.Log($"receive connectionId : {data}");
+            });
             connection.StartAsync();
         }
     }

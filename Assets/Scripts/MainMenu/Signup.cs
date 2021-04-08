@@ -25,9 +25,7 @@ public class Signup : BaseMainMenu
 
     private void Start()
     {
-
-
-
+        UINum = 2;
     }
 
     // 아이디 중복확인 클릭
@@ -73,7 +71,7 @@ public class Signup : BaseMainMenu
             // json 형태로 서버에 전송
             string signupUri = "api/v1/session/signUp";
             var requestJson = BaseJsonFormat.ObjectToJson("signUp", "center_server", info);
-            response = MServer.Communicate(signupUri, "POST", requestJson);
+            response = MServer.Communicate("POST", signupUri, requestJson);
             JObject json = JObject.Parse(response);
 
             // 서버로 부터 받은 메세지 

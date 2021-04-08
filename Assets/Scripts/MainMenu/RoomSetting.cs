@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication;
 using Communication.MainServer;
 using Communication.JsonFormat;
 // 방만들기
@@ -42,9 +44,12 @@ public class RoomSetting : BaseMainMenu
 
             CreateRoomInfo info = new CreateRoomInfo();
             info.UpdateInfo(Title, password);
+            if(NetworkInfo.connectionId.Equals(""))
+                throw new Exception("not found connectionId");
+            info.ConnectionId = NetworkInfo.connectionId;
             var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", "center_server", info);
 
-            response = MServer.Communicate(createRoomUri, "POST", requestJson);
+            response = MServer.Communicate("POST", createRoomUri, requestJson);
             SetwarningText(response);
             JObject json = JObject.Parse(response);
             serverMsg = json["data"]["isSuccess"].ToString();
@@ -54,7 +59,7 @@ public class RoomSetting : BaseMainMenu
                 // 방 진입
                 // 방의 Uuid를 생성하는 과정이 필요
                 Room.roomName = title;
-                Room.roomUuid = json["data"]["roomUuid"].ToString();
+                NetworkInfo.memberInfo = json["data"]["memberInfo"] as JArray;
                 Room.roomMemberCount = "1";
                 SetwarningText(Room.roomName);
                 GoNextScreen();
