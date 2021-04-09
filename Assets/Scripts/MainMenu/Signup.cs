@@ -26,10 +26,13 @@ public class Signup : BaseMainMenu, IMainMenu
     {
         SetUp();
     }
+    private void OnEnable()
+    {
+        UINum = 3;
+    }
     public void SetUp()
     {
         // Initialize Variable
-        UINum = 3;
         var id = this.transform.Find("ID");
         var password = this.transform.Find("Password");
         var name = this.transform.Find("Name");
@@ -94,10 +97,10 @@ public class Signup : BaseMainMenu, IMainMenu
             var requestJson = BaseJsonFormat.ObjectToJson("signUp", "center_server", info);
             response = MServer.Communicate("POST", signupUri, requestJson);
             JObject json = JObject.Parse(response);
-
+            var temp = Lib.Common.GetData(response);
+            Communication.NetworkInfo.myData = new MemberInfo(Util.Config.userUuid,temp["nickname"].ToString());
             // 서버로 부터 받은 메세지 
             serverMsg = json["data"]["isSuccess"].ToString();
-
         }
 
         if (serverMsg.Equals("True"))

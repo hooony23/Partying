@@ -13,11 +13,11 @@ public class PopupSystem : BaseMainMenu
     private Animator anim;
 
 
-    public static PopupSystem instance { get; set; }
+    public static PopupSystem Instance { get; set; }
 
-    private void Awake()
+    private void Start()
     {
-        instance = this;
+        Instance = this;
     }
 
     public void OpenPopUp(GameObject forPopup)
@@ -37,9 +37,5 @@ public class PopupSystem : BaseMainMenu
         // 0.15초 뒤에 게임오브젝트를 비활성화를 해야 애니메이션이 보입니다
         yield return new WaitForSeconds(0.15f);
         forPopup.SetActive(false);
-    }
-    
-    private void OnApplicationQuit() {
-        Communication.GameServer.Connection.ConnectedExit();
     }
 }

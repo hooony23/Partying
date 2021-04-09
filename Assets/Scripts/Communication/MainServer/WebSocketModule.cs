@@ -47,7 +47,6 @@ namespace Communication.MainServer
             });
             connection.On<string>("notifyConnectionId", data =>
             {
-                Debug.Log($"receive connectionId : {data}");
                 try{
                     NetworkInfo.connectionId = Common.GetData(data)["connectionId"].ToString();
                 }catch(Exception e)

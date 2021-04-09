@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -6,12 +7,13 @@ using System.Net.Security;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using Util;
 // JSON 정보를 서버로 보내는 클래스 입니다
 namespace Communication.MainServer
 {
 
-    public class MServer
+    public class MServer : MonoBehaviour
     {
         public static string json = "";
         private static string basicURL = Config.mainServerDNS;
@@ -32,16 +34,18 @@ namespace Communication.MainServer
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = method;
             request.ContentType = "application/json";
+
             // GET이 아닐 경우.
             if (!method.Equals("GET"))
             {
-                
+
                 // 데이터(body) 직렬화
                 string str = JsonConvert.SerializeObject(param);
                 var bytes = System.Text.Encoding.UTF8.GetBytes(str);
 
                 request.ContentLength = bytes.Length;
-
+                // TODO: Server Logging 추가되면 삭제
+                UnityEngine.Debug.Log($"request : {uri} {param.ToString()}");
                 // Stream 형식으로 데이터를 보냄
                 using (var stream = request.GetRequestStream())
                 {
@@ -52,25 +56,28 @@ namespace Communication.MainServer
             }
             else
             {
-                if(param != null)
+                if (param != null)
                     uri = $"{uri}?{param.ToString()}";
+                // TODO: Server Logging 추가되면 삭제
+                UnityEngine.Debug.Log($"request : {uri}");
                 request = (HttpWebRequest)WebRequest.Create(uri);
             }
             // StreamReader 로 역질렬화, 응답 데이터를 받음
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             StreamReader reader = new StreamReader(response.GetResponseStream());
             json = reader.ReadToEnd();
+            UnityEngine.Debug.Log($"response : {json}");
             return json;
         }
-        
+
         public static JArray GetMemberInfoFromRoom(string roomUuid)
         {
 
             string memInfoUri = "api/v1/rooms/" + roomUuid;
             string response;
 
-            
-            if(NetworkInfo.connectionId.Equals(""))
+
+            if (NetworkInfo.connectionId.Equals(""))
                 throw new Exception("not found connectionId");
             response = MServer.Communicate("GET", memInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
             JObject json = JObject.Parse(response);

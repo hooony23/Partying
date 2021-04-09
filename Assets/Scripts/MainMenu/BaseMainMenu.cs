@@ -10,7 +10,7 @@ public class BaseMainMenu : MonoBehaviour
     protected int backUINum = -1;
     protected int UINum = 0;
     protected int nextUINum = -1;
-    void Awake()
+    protected void Awake()
     {
         mainMenuCanvas = GameObject.Find("Main Menu Canvas");
         GameObject parent = this.gameObject;

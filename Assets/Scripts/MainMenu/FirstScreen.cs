@@ -11,18 +11,19 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         SetUp();
         Debug.Log($"uuid : {Util.Config.userUuid}");
     }
-    public void SetUp()
+    void OnEnable()
     {
-        // Initialize Variable
         UINum = 1;
-        
+    }
+    public void SetUp()
+    {        
         // Set User Uuid
         Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
         
         // Communication Test
         try
         {
-            Debug.Log(MServer.Communicate("GET", "api/v1/util/pingpong"));
+            MServer.Communicate("GET", "api/v1/util/pingpong");
         }
         catch
         {

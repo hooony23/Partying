@@ -2,19 +2,14 @@
 {
     public class CreateRoomInfo
     {
-        public string roomName;
-        public string pwd;
-        public string ConnectionId {get;set;} = "";
-        public CreateRoomInfo()
-        {
-            roomName = "";
-            pwd = "";
-        }
+        public string RoomName { get; set; } = "";
+        public string Pwd { get; set; } = "";
+        public string ConnectionId { get; set; } = "";
 
         public void UpdateInfo(string roomName, string pwd)
         {
-            this.roomName = roomName;
-            this.pwd = pwd;
+            RoomName = roomName;
+            Pwd = pwd;
         }
 
     }

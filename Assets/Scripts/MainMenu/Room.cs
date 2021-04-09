@@ -1,20 +1,21 @@
-﻿using System.Net.NetworkInformation;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Communication;
+using Communication.MainServer;
 using Communication.JsonFormat;
 using Communication.GameServer.API;
+using Util;
 // 유저, 방 안에 들어옴 : 방 Uuid로 방 입장, 현재 방의 상태(멤버 리스트, 방제목 등) 필요
 // 방장, 최초 방 생성시 방 들어옴 : 방 Uuid를 생성하고 생성한 Uuid의 방으로 입장, 현재 방의 상태 필요
 
 public class Room : BaseMainMenu, IMainMenu
 {
-    [SerializeField] private Text title = null;
-    [SerializeField] private Button startButton = null;
-    [SerializeField] private Text playerCount = null;
+    private Text title = null;
+    private Button startButton = null;
+    private Text playerCount = null;
 
 
     // 서버 통신용
@@ -22,26 +23,29 @@ public class Room : BaseMainMenu, IMainMenu
     private JArray users;
 
     // 현재 방의 유저 UI
-    [SerializeField] GameObject[] players = null;
+    GameObject[] players = null;
 
     // 현재 방의 정보
-    public static string roomName = "";
-    public static string roomUuid = "";
-    public static string roomMemberCount = "0";
+    public string roomUuid = "";
     public void Start()
     {
         SetUp();
-        Debug.Log($"users : {users.ToString()}");
+    }
+    public void OnEnable()
+    {
+        UINum = 7;
+        Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
+    }
+    public void OnApplicationQuit() {
+        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
     }
     public void SetUp()
     {
         //Initialize Variable
-        UINum = 7;
         var playerGrid = this.transform.Find("Player Grid");
         var startButtonTransfom = this.transform.Find("Button Start");
+        roomUuid = NetworkInfo.roomInfo.RoomUuid;
         users = NetworkInfo.memberInfo;
-        title.text = roomName;
-        playerCount.text = roomMemberCount;
         
         // Set GUI Object
         players = new GameObject[]{
@@ -49,6 +53,7 @@ public class Room : BaseMainMenu, IMainMenu
                                     playerGrid.GetChild(1).gameObject,
                                     playerGrid.GetChild(2).gameObject,
                                     playerGrid.GetChild(3).gameObject};
+        title = this.transform.Find("RoomTitle").Find("Text RoomTitle").gameObject.GetComponent<Text>();
         playerCount = this.transform.Find("PlayerCount").Find("Text PlayerCount").GetComponent<Text>();
         if(IsAdmin())
             startButtonTransfom.Find("Text").GetComponent<Text>().text = "Game Start";
@@ -59,6 +64,8 @@ public class Room : BaseMainMenu, IMainMenu
         startButton.onClick.AddListener(delegate {OnClickGameStart();});
         
         // Another
+        title.text = NetworkInfo.roomInfo.RoomName;
+        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
         UpdatePlayerBannerList();
     }
 
@@ -132,18 +139,20 @@ public class Room : BaseMainMenu, IMainMenu
     }
     private bool IsAdmin()
     {
-        
-        List<MemberInfo> userList = users.ToObject<List<MemberInfo>>();
-        foreach(MemberInfo user in userList)
-            if (NetworkInfo.roomInfo.RoomAdmin.Equals(user.Nickname) && user.UuId.Equals(NetworkInfo.myData.UuId))
-                return true;
+        if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))
+            return true;
         return false;
     }
     public void GameStart()
     {
         SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
     }
- 
+    protected override void BackUI()
+    {
+        NetworkInfo.roomInfo = new RoomInfo();
+        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        base.BackUI();
+    }
 }
 
 

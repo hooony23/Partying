@@ -2,7 +2,13 @@
 {
     public class MemberInfo
     {
-        public long UuId { get; set; }
+        public string UserUuid { get; set; }
         public string Nickname { get; set; }
+        public MemberInfo():this("",""){}
+        public MemberInfo(string userUuid,string nickname)
+        {
+            UserUuid = userUuid;
+            Nickname = nickname;
+        }
     }
 }

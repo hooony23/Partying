@@ -36,7 +36,7 @@ namespace Lib
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-            Type type = Type.GetType($"Communication.API.{server}.{tranferFlag}");
+            Type type = Type.GetType($"Communication.GameServer.API.{server}.{tranferFlag}");
             return type;
         }
 

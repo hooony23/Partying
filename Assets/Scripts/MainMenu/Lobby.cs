@@ -11,53 +11,63 @@ public class Lobby : BaseMainMenu, IMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
     // 방목록 동적생성
-    private GameObject roomPrefab = null;
+    [SerializeField]private GameObject roomPrefab = null;
     private Transform content = null;
 
 
     // 비밀번호 입력 창
     private GameObject popup = null;
     private InputField inputPassword = null;
+    [SerializeField]Text roomTitle = null;
+    [SerializeField]Text roomMaster = null;
+    [SerializeField]Image locker = null;
+    [SerializeField]Text headcount = null;
 
 
     // 선택한 방의 정보
     private RoomInfo clickRoomInfo = null;
 
     // 서버 통신용
-    
+
     private List<RoomInfo> rooms = new List<RoomInfo>();
     private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
-    public void Start()
-    {
-        UINum = 6;
-        backUINum = 4;
-    }
-    public void SetUp()
-    {
-       // Initialize variable
-        backUINum = 4;
-        UINum = 6;
-        
-        // Set GUIObject
-        content = this.transform.Find("Scroll View RoomList").Find("Viewport").Find("Content");
-        roomPrefab = Instantiate(Resources.Load("MainMenu/Object/Lobby/Button Room")) as GameObject;
-        popup = this.transform.Find("Popup Password").gameObject;
-        inputPassword = popup.transform.Find("InputField Passowrd").gameObject.GetComponent<InputField>();
 
-        // Set Button Event
-        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(backUINum);});
-    }
     private void OnEnable()
     {
+        SetUp();
         GetRoomsList();
     }
     void Update()
     {
         OnUpdateRoomList(NetworkInfo.roomList);
     }
+    void OnApplicationQuit()
+    {
+        MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Config.userUuid}");
+    }
+    public void SetUp()
+    {
+        // Initialize variable
+        backUINum = 4;
+        UINum = 6;
+
+        // Set GUIObject
+        content = this.transform.Find("Scroll View RoomList").Find("Viewport").Find("Content");
+
+        popup = this.transform.Find("Popup Password").gameObject;
+        inputPassword = popup.transform.Find("InputField Password").gameObject.GetComponent<InputField>();
+
+        // Set Button Event
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate { SelectUI(backUINum); });
+        popup.transform.Find("Button Check").gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnClickCheck();});
+        popup.transform.Find("Button Cancel").gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnClickCancel();});
+
+        //Another
+        UpdateRoomsList(NetworkInfo.roomList);
+    }
     public void OnUpdateRoomList(JArray roomList)
     {
-        
+
         if (!this.preRoomList.Equals(roomList.ToString()))
         {
             Debug.Log($"preRoomList : {preRoomList.ToString()}");
@@ -79,15 +89,14 @@ public class Lobby : BaseMainMenu, IMainMenu
         string roomsListUri = "api/v1/rooms/main";
         string response = "";
         JArray roomList;
-        if(NetworkInfo.connectionId.Equals(""))
+        if (NetworkInfo.connectionId.Equals(""))
             throw new Exception("not found connectionId");
         response = MServer.Communicate("GET", roomsListUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
-        Debug.Log($"lobby response: {response}");
         JObject json = JObject.Parse(response);
 
         serverMsg = json["data"]["isSuccess"].ToString();
         roomList = json["data"]["roomList"] as JArray;
-        if(serverMsg.Equals("True"))
+        if (serverMsg.Equals("True"))
         {
             OnUpdateRoomList(roomList);
         }
@@ -108,7 +117,7 @@ public class Lobby : BaseMainMenu, IMainMenu
         rooms.Clear();
         List<RoomInfo> roomList = roomArray.ToObject<List<RoomInfo>>();
         // roomList 배열 파싱
-        foreach(RoomInfo room in roomList)
+        foreach (RoomInfo room in roomList)
         {
             rooms.Add(room);
         }
@@ -120,23 +129,26 @@ public class Lobby : BaseMainMenu, IMainMenu
     {
         foreach (RoomInfo room in rooms)
         {
+            roomTitle = roomPrefab.transform.GetChild(0).gameObject.GetComponent<Text>();
+            roomMaster = roomPrefab.transform.GetChild(1).gameObject.GetComponent<Text>();
+            locker = roomPrefab.transform.GetChild(2).gameObject.GetComponent<Image>();
+            headcount = roomPrefab.transform.GetChild(3).Find("Text PlayerCount").gameObject.GetComponent<Text>();
             // 방 제목
-            Text roomTitle = roomPrefab.transform.Find("Text Title").gameObject.GetComponent<Text>();
             roomTitle.text = room.RoomName;
 
             // 방장
-            Text roomMaster = roomPrefab.transform.Find("Text Master").gameObject.GetComponent<Text>();
-            roomMaster.text = room.RoomAdmin;
+
+            roomMaster.text = room.Admin.Nickname;
             // 방 비밀번호(자물쇠 UI)
-            Image locker = roomPrefab.transform.Find("Image Locker").gameObject.GetComponent<Image>();
+            if(room.Pwd == null)
+                throw new Exception("password is null");
             if (!room.Pwd.Equals(""))
                 locker.enabled = true;
             else
                 locker.enabled = false;
 
             // 인원수
-            Text headcount = roomPrefab.transform.Find("Text Headcount").gameObject.GetComponent<Text>();
-            headcount.text = room.MemberCount;
+            headcount.text = room.MemberCount.ToString();
 
             // 3. 방 버튼을 인스턴스화
             GameObject instance = Instantiate(roomPrefab);
@@ -145,7 +157,7 @@ public class Lobby : BaseMainMenu, IMainMenu
             button.onClick.AddListener(() => { OnClickRoom(room); });
 
             // 꽉 찬 방은 비활성화
-            if (int.Parse(room.MemberCount) == 4)
+            if (room.MemberCount == 4)
             {
                 button.interactable = false;
             }
@@ -159,6 +171,7 @@ public class Lobby : BaseMainMenu, IMainMenu
     private void OnClickRoom(RoomInfo selectRoom)
     {
         this.clickRoomInfo = selectRoom;
+        NetworkInfo.roomInfo = selectRoom;
         NetworkInfo.memberInfo = MServer.GetMemberInfoFromRoom(selectRoom.RoomUuid);
         // 해당 방의 인원 정보 재확인
         List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
@@ -176,11 +189,6 @@ public class Lobby : BaseMainMenu, IMainMenu
         }
         else
         {
-            // 들어갈 방의 정보 세팅
-            Room.roomName = selectRoom.RoomName;
-            Room.roomUuid = selectRoom.RoomUuid;
-            Room.roomMemberCount = (int.Parse(selectRoom.MemberCount) + 1).ToString();
-
             NextUI();
         }
     }
@@ -190,12 +198,6 @@ public class Lobby : BaseMainMenu, IMainMenu
         if (inputPassword.text.Equals(clickRoomInfo.Pwd))
         {
             SetwarningText("비밀번호를 확인하였습니다");
-
-            // 들어갈 방의 정보 세팅
-            Room.roomName = this.clickRoomInfo.RoomName;
-            Room.roomUuid = this.clickRoomInfo.RoomUuid;
-            Room.roomMemberCount = (int.Parse(this.clickRoomInfo.MemberCount) + 1).ToString();
-
             inputPassword.text = "";
             popup.SetActive(false);
             NextUI();
@@ -212,5 +214,10 @@ public class Lobby : BaseMainMenu, IMainMenu
     {
         inputPassword.text = "";
         popup.SetActive(false);
+    }
+    protected override void SelectUI(int selectUINum)
+    {
+        NetworkInfo.roomList = new JArray();
+        base.SelectUI(selectUINum);
     }
 }

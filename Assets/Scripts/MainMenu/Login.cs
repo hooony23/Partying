@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Security.AccessControl;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication;
 using Communication.JsonFormat;
 using Communication.MainServer;
 // 1. 사용자의 ID와 PW를 입력받고
@@ -17,22 +19,25 @@ public class Login : BaseMainMenu, IMainMenu
     {
         SetUp();
     }
-
+    public void OnEnable()
+    {
+        
+        UINum = 2;
+        nextUINum = 4;
+    }
     public void SetUp()
     {
         // Initialize variable
-        UINum = 2;
-        nextUINum = 4;
         var Menu = this.transform.Find("Menu");
-        
+
         // Set GUIObject
         idInput = this.transform.Find("ID").Find("InputField ID").GetComponent<InputField>();
         pwdInput = this.transform.Find("Password").Find("InputField Password").GetComponent<InputField>();
-        
+
         // Set Button Event
-        Menu.Find("Button SignIn").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
-        Menu.Find("Button SignUp").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
-        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
+        Menu.Find("Button SignIn").gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnClickLogin(); });
+        Menu.Find("Button SignUp").gameObject.GetComponent<Button>().onClick.AddListener(delegate { NextUI(); });
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate { BackUI(); });
     }
     public void OnClickLogin()
     {
@@ -41,39 +46,37 @@ public class Login : BaseMainMenu, IMainMenu
         var pw = pwdInput.text;
         JObject json = null;
         // 서버에 로그인 요청
-        if (id != "" && pw != "") // TODO : id, pw, 정규식 필요
-        {
-            // MServer SignIn API,uri : api/v1/session/signIn ,method : POST
-            // 서버에 전송
-            string signInUri = "api/v1/session/signIn";
-            string response = "";
 
-            SignInInfo info = new SignInInfo();
-            info.UpdateInfo(id, pw);
-            var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
-            response = MServer.Communicate("POST", signInUri, requestJson);
-            Debug.Log(response);
-            json = JObject.Parse(response);
-            serverMsg = json["data"]["isSuccess"].ToString();
-            
-
-        }
-        else
+        if (id.Equals("") && pw.Equals(""))
         {
             SetwarningText("입력 값을 확인해 주세요");
+            return;
         }
+        // TODO : id, pw, 정규식 필요
 
-        if (serverMsg.Equals("True"))
-        {
-            SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
-            Invoke("GoNextScreen", 2.5f);
-        }
-        if (serverMsg.Equals("False"))
+        // MServer SignIn API,uri : api/v1/session/signIn ,method : POST
+        // 서버에 전송
+        string signInUri = "api/v1/session/signIn";
+        string response = "";
+
+        SignInInfo info = new SignInInfo();
+        info.UpdateInfo(id, pw);
+        var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
+        response = MServer.Communicate("POST", signInUri, requestJson);
+
+        json = JObject.Parse(response);
+        serverMsg = json["data"]["isSuccess"].ToString();
+
+        if (!serverMsg.Equals("True"))
         {
             SetwarningText(json["data"]["errorMsg"].ToString());
+            return;
         }
+        var temp = Lib.Common.GetData(response);
+        NetworkInfo.myData = new MemberInfo(Util.Config.userUuid, temp["nickname"].ToString());
 
-
+        SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
+        SelectUI(nextUINum);
     }
 
 
