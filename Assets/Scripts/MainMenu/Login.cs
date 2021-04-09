@@ -6,24 +6,39 @@ using Communication.MainServer;
 // 1. 사용자의 ID와 PW를 입력받고
 // 2. 값이 유효한지 확인후 다음화면으로 넘어간다
 
-public class Login : BaseMainMenu
+public class Login : BaseMainMenu, IMainMenu
 {
     // ID와 PW 가 유효한지 확인후 nextScreen 활성화 하기 위함
-    [SerializeField] private GameObject nextScreen; // HostOrUserUI
-    [SerializeField] private InputField idInput = null;  // SerializeField : private 변수를 인스펙터에서 다룰 수 있게함
-    [SerializeField] private InputField pwInput = null;
-    private string id = "";
-    private string pw = "";
+    private InputField idInput = null;  // SerializeField : private 변수를 인스펙터에서 다룰 수 있게함
+    private InputField pwdInput = null;
 
     // 서버 통신용
+    public void Start()
+    {
+        SetUp();
+    }
 
+    public void SetUp()
+    {
+        // Initialize variable
+        UINum = 2;
+        nextUINum = 4;
+        var Menu = this.transform.Find("Menu");
+        
+        // Set GUIObject
+        idInput = this.transform.Find("ID").Find("InputField ID").GetComponent<InputField>();
+        pwdInput = this.transform.Find("Password").Find("InputField Password").GetComponent<InputField>();
+        
+        // Set Button Event
+        Menu.Find("Button SignIn").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
+        Menu.Find("Button SignUp").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
+    }
     public void OnClickLogin()
     {
         // ID PW 입력 확인
-        id = idInput.text;
-        pw = pwInput.text;
-        UINum = 1;
-        nextUINum = 3;
+        var id = idInput.text;
+        var pw = pwdInput.text;
         JObject json = null;
         // 서버에 로그인 요청
         if (id != "" && pw != "") // TODO : id, pw, 정규식 필요
@@ -63,15 +78,16 @@ public class Login : BaseMainMenu
 
 
     // 화면 넘어가기
-    private void GoNextScreen()
+    protected override void NextUI()
     {
-        // 화면 초기화
         idInput.text = "";
-        pwInput.text = "";
-        ResetMessage();
-
-        // 다음 화면으로
-        this.gameObject.SetActive(false);
-        nextScreen.SetActive(true);
+        pwdInput.text = "";
+        base.NextUI();
+    }
+    protected override void SelectUI(int UINum)
+    {
+        idInput.text = "";
+        pwdInput.text = "";
+        base.SelectUI(UINum);
     }
 }

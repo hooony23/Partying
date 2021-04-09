@@ -1,31 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Communication.MainServer;
 
-public class FirstScreen : BaseMainMenu
+public class FirstScreen : BaseMainMenu, IMainMenu
 {
-
     public void Start()
     {
-        //TODO: Test시 주석 처리 할 것
-        Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
-        Debug.Log(MServer.Communicate("GET", "api/v1/util/pingpong"));
+        SetUp();
         Debug.Log($"uuid : {Util.Config.userUuid}");
+    }
+    public void SetUp()
+    {
+        // Initialize Variable
+        UINum = 1;
+        
+        // Set User Uuid
+        Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
+        
+        // Communication Test
+        try
+        {
+            Debug.Log(MServer.Communicate("GET", "api/v1/util/pingpong"));
+        }
+        catch
+        {
+            SetwarningText("서버와 통신 할 수 없습니다. 다시 접속해주세요.");
+            Invoke("OnClickQuit", 3f);
+        }
+        
+        // Set Button Event
+        this.transform.Find("Button Start").GetComponent<Button>().onClick.AddListener(delegate {OnClickStart();});
+        this.transform.Find("Button Quit").GetComponent<Button>().onClick.AddListener(delegate {OnClickQuit();});
     }
     public void OnClickStart()
     {
-        Debug.Log("게임을 시작하였습니다. 로그인 화면으로 갑니다.");
+        SetwarningText("게임을 시작하였습니다. 로그인 화면으로 갑니다.");
+        Invoke("NextUI",3f);
     }
 
     public void OnClickQuit()
     {
-#if UNITY_EDITOR
         // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
-        UnityEditor.EditorApplication.isPlaying = false; 
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit(); 
 #endif
     }
-
 }

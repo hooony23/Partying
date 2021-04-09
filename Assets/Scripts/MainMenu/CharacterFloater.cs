@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterFloater : BaseMainMenu
+public class CharacterFloater : MonoBehaviour
 {
     [SerializeField] private GameObject prefab; // 소환하고 날려버릴 캐릭터 프리팹 저장
     [SerializeField] private List<Sprite> sprites; // 캐릭터들을 담을 배열

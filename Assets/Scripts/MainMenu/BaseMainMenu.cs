@@ -14,7 +14,7 @@ public class BaseMainMenu : MonoBehaviour
     {
         mainMenuCanvas = GameObject.Find("Main Menu Canvas");
         GameObject parent = this.gameObject;
-        textMessage = Instantiate(Resources.Load("MainMenu/Prefab/TextMessage"),parent:parent.transform) as GameObject;
+        textMessage = Instantiate(Resources.Load("MainMenu/Prefab/TextMessage"), parent: parent.transform) as GameObject;
         textMessage.name = Resources.Load("MainMenu/Prefab/TextMessage").name;
         textMessage.SetActive(false);
         // textMessage.transform.position = new Vector3(380,280+130,0);
@@ -30,20 +30,23 @@ public class BaseMainMenu : MonoBehaviour
         textMessage.GetComponent<Text>().text = "";
         textMessage.SetActive(false);
     }
-    protected void NextUI()
+    protected virtual void NextUI()
     {
-        this.gameObject.SetActive(false);
-        if(nextUINum != -1)
-            mainMenuCanvas.transform.GetChild(nextUINum).gameObject.SetActive(true);
-        else
-            mainMenuCanvas.transform.GetChild(++UINum).gameObject.SetActive(true);
+        SetActive(false);
+        mainMenuCanvas.transform.GetChild(++UINum).gameObject.SetActive(true);
     }
-    protected void BackUI()
+    protected virtual void BackUI()
     {
-        this.gameObject.SetActive(false);
-        if(backUINum != -1)
-            mainMenuCanvas.transform.GetChild(backUINum).gameObject.SetActive(true);
-        else
-            mainMenuCanvas.transform.GetChild(--UINum).gameObject.SetActive(true);
+        SetActive(false);
+        mainMenuCanvas.transform.GetChild(--UINum).gameObject.SetActive(true);
+    }
+    protected virtual void SelectUI(int selectUINum)
+    {
+        SetActive(false);
+        mainMenuCanvas.transform.GetChild(selectUINum).gameObject.SetActive(true);
+    }
+    private void SetActive(bool active)
+    {
+        this.gameObject.SetActive(active);
     }
 }

@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Communication;
+using Communication.JsonFormat;
 using Communication.GameServer.API;
 // 유저, 방 안에 들어옴 : 방 Uuid로 방 입장, 현재 방의 상태(멤버 리스트, 방제목 등) 필요
 // 방장, 최초 방 생성시 방 들어옴 : 방 Uuid를 생성하고 생성한 Uuid의 방으로 입장, 현재 방의 상태 필요
 
-public class Room : BaseMainMenu
+public class Room : BaseMainMenu, IMainMenu
 {
     [SerializeField] private Text title = null;
     [SerializeField] private Button startButton = null;
@@ -26,13 +27,39 @@ public class Room : BaseMainMenu
     // 현재 방의 정보
     public static string roomName = "";
     public static string roomUuid = "";
-    public static string roomMemberCount = "";
+    public static string roomMemberCount = "0";
     public void Start()
     {
-        
-        users = NetworkInfo.memberInfo;
+        SetUp();
         Debug.Log($"users : {users.ToString()}");
-        SetupRoom();
+    }
+    public void SetUp()
+    {
+        //Initialize Variable
+        UINum = 7;
+        var playerGrid = this.transform.Find("Player Grid");
+        var startButtonTransfom = this.transform.Find("Button Start");
+        users = NetworkInfo.memberInfo;
+        title.text = roomName;
+        playerCount.text = roomMemberCount;
+        
+        // Set GUI Object
+        players = new GameObject[]{
+                                    playerGrid.GetChild(0).gameObject,
+                                    playerGrid.GetChild(1).gameObject,
+                                    playerGrid.GetChild(2).gameObject,
+                                    playerGrid.GetChild(3).gameObject};
+        playerCount = this.transform.Find("PlayerCount").Find("Text PlayerCount").GetComponent<Text>();
+        if(IsAdmin())
+            startButtonTransfom.Find("Text").GetComponent<Text>().text = "Game Start";
+        startButton = startButtonTransfom.transform.GetComponent<Button>();
+        
+        // Set Button Event
+        this.transform.Find("Button Back").GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
+        startButton.onClick.AddListener(delegate {OnClickGameStart();});
+        
+        // Another
+        UpdatePlayerBannerList();
     }
 
     private void OnUpdateMemberInfo()
@@ -55,12 +82,6 @@ public class Room : BaseMainMenu
         }
         if (Communication.NetworkInfo.mapInfo != null)
             GameStart();
-    }
-    public void SetupRoom()
-    {
-        title.text = roomName;
-        playerCount.text = roomMemberCount;
-        UpdatePlayerBannerList();
     }
 
     // 플레이어가 들어오면 PLAYER1, PLAYER2, PLAYER3, PLAYER4 UI 업데이트
@@ -102,8 +123,21 @@ public class Room : BaseMainMenu
      public void OnClickGameStart()
     {
         APIController.SendController("Labylinth","Connected");
-        APIController.SendController("Labylinth", "CreateMap");
-        // Game Scene 으로 넘어감
+        if(IsAdmin())
+        {
+            APIController.SendController("Labylinth", "CreateMap");
+            // Game Scene 으로 넘어감
+            GameStart();
+        }
+    }
+    private bool IsAdmin()
+    {
+        
+        List<MemberInfo> userList = users.ToObject<List<MemberInfo>>();
+        foreach(MemberInfo user in userList)
+            if (NetworkInfo.roomInfo.RoomAdmin.Equals(user.Nickname) && user.UuId.Equals(NetworkInfo.myData.UuId))
+                return true;
+        return false;
     }
     public void GameStart()
     {

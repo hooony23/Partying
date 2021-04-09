@@ -6,17 +6,16 @@ using Communication.JsonFormat;
 using Communication.MainServer;
 // Signup : 회원가입
 
-public class Signup : BaseMainMenu
+public class Signup : BaseMainMenu, IMainMenu
 {
-    [SerializeField] private Button idCheck = null;
+    private Button idCheck = null;
 
-    [SerializeField] private InputField nameInput = null;
-    [SerializeField] private InputField idInput = null;
-    [SerializeField] private InputField pwInput = null;
-    [SerializeField] private InputField mobileInput = null;
+    private InputField nameInput = null;
+    private InputField nickNameInput = null;
+    private InputField pwInput = null;
+    private InputField idInput = null;
 
-    [SerializeField] private Button signup = null;
-    [SerializeField] private GameObject nextScreen; // 메인 화면
+    private Button signup = null;
 
     private bool idValid = false;
 
@@ -25,14 +24,36 @@ public class Signup : BaseMainMenu
 
     private void Start()
     {
-        UINum = 2;
+        SetUp();
     }
+    public void SetUp()
+    {
+        // Initialize Variable
+        UINum = 3;
+        var id = this.transform.Find("ID");
+        var password = this.transform.Find("Password");
+        var name = this.transform.Find("Name");
+        var nickname = this.transform.Find("NickName");
 
+        // Set GUI Object
+        idInput = id.Find("InputField ID").gameObject.GetComponent<InputField>();
+        pwInput = password.Find("InputField Password").gameObject.GetComponent<InputField>();
+        nameInput = name.Find("InputField Name").gameObject.GetComponent<InputField>();
+        nickNameInput = nickname.Find("InputField NickName").gameObject.GetComponent<InputField>();
+        idCheck = id.Find("Button IDCheck").gameObject.GetComponent<Button>();
+        signup = this.transform.Find("Button SignUp").gameObject.GetComponent<Button>();
+        
+
+        // Set Button Event
+        idCheck.onClick.AddListener(delegate {OnClickIdCheck();});
+        signup.onClick.AddListener(delegate {OnClickSignUp();});
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
+    }
     // 아이디 중복확인 클릭
     public void OnClickIdCheck()
     {
 
-        string id = idInput.text;
+        string id = nickNameInput.text;
 
         if (id.Equals(""))
         {
@@ -46,12 +67,12 @@ public class Signup : BaseMainMenu
     }
 
     // 회원가입 클릭
-    public void OnClickRegister()
+    public void OnClickSignUp()
     {
         string name = nameInput.text;
-        string id = idInput.text;
+        string id = nickNameInput.text;
         string pw = pwInput.text;
-        string mobile = mobileInput.text;
+        string mobile = idInput.text;
         string response;
 
         // 인풋값 확인(id 중복 확인 했으면 idValid = True)
@@ -82,22 +103,18 @@ public class Signup : BaseMainMenu
         if (serverMsg.Equals("True"))
         {
             SetwarningText("회원가입에 성공하셨습니다");
-            Invoke("GoNextScreen", 2.5f);
+            Invoke("NextUI",2f);
         }
 
     }
-    private void GoNextScreen()
+    protected override void NextUI()
     {
-        // 입력값 지우고 다음화면으로
         nameInput.text = "";
-        idInput.text = "";
+        nickNameInput.text = "";
         pwInput.text = "";
-        mobileInput.text = "";
+        idInput.text = "";
         ResetMessage();
-
-        // 로그인 화면으로
-        this.gameObject.SetActive(false);
-        nextScreen.SetActive(true);
+        base.NextUI();
     }
 
 }

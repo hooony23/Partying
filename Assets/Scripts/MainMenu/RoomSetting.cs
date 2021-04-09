@@ -7,23 +7,32 @@ using Communication.MainServer;
 using Communication.JsonFormat;
 // 방만들기
 
-public class RoomSetting : BaseMainMenu
+public class RoomSetting : BaseMainMenu, IMainMenu
 {
-    public GameObject nextScreen; // RoomUI
 
-    [SerializeField] private InputField roomTitleInput = null;  
-    [SerializeField] private InputField roomPasswordInput = null;
-    private string title = "";
+    private InputField roomTitleInput = null;  
+    private InputField roomPasswordInput = null;
+    private string Title {get;set;}= "";
     private string password = "";
 
-    // 서버 통신용
-    
-
-    public string Title { get => title; set => title = value; }
 
     private void Start()
     {
-
+        SetUp();
+    }
+    public void SetUp()
+    {
+        // Initialize Variable
+        UINum = 5;
+        nextUINum = 7;
+        
+        // Set GUI Object 
+        roomTitleInput = this.transform.Find("Name").Find("InputField RoomTitle").gameObject.GetComponent<InputField>();
+        roomPasswordInput = this.transform.Find("Password").Find("InputField Password").gameObject.GetComponent<InputField>();
+        
+        // Set Button Event
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
+        this.transform.Find("Button Create").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
     }
 
     public void onClickCreate()
@@ -31,7 +40,7 @@ public class RoomSetting : BaseMainMenu
         // 방제목(입력필수), 암호 확인 , roomInfo 클래스 객체 이용하여, Lobby의 rooms배열에 추가
         // 방제목 미입력 시 생성하기 못함, 경고 활성화
 
-        title = roomTitleInput.text;
+        Title = roomTitleInput.text;
         password = roomPasswordInput.text;
 
         if (!Title.Equals(""))
@@ -58,11 +67,11 @@ public class RoomSetting : BaseMainMenu
             {
                 // 방 진입
                 // 방의 Uuid를 생성하는 과정이 필요
-                Room.roomName = title;
+                Room.roomName = Title;
                 NetworkInfo.memberInfo = json["data"]["memberInfo"] as JArray;
                 Room.roomMemberCount = "1";
                 SetwarningText(Room.roomName);
-                GoNextScreen();
+                SelectUI(nextUINum);
             }
 
         }
@@ -72,14 +81,13 @@ public class RoomSetting : BaseMainMenu
         }
     }
 
-    private void GoNextScreen()
+    protected override void SelectUI(int selectUINum)
     {
         // 입력값 초기화
         roomTitleInput.text = "";
         roomPasswordInput.text = "";
 
         // 다음화면으로
-        this.gameObject.SetActive(false);
-        nextScreen.SetActive(true);
+        base.SelectUI(selectUINum);
     }
 }
