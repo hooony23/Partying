@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Util;
 // JSON 정보를 서버로 보내는 클래스 입니다
 namespace Communication.MainServer
@@ -61,7 +62,23 @@ namespace Communication.MainServer
             json = reader.ReadToEnd();
             return json;
         }
+        
+        public static JArray GetMemberInfoFromRoom(string roomUuid)
+        {
 
+            string memInfoUri = "api/v1/rooms/" + roomUuid;
+            string response;
+
+            
+            if(NetworkInfo.connectionId.Equals(""))
+                throw new Exception("not found connectionId");
+            response = MServer.Communicate("GET", memInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
+            JObject json = JObject.Parse(response);
+            JToken arrData = json["data"]["memberInfo"];
+            JArray jsonArray = (JArray)arrData;
+
+            return jsonArray;
+        }
         static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;

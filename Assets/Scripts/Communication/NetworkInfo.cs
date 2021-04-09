@@ -15,5 +15,8 @@ namespace Communication
         public static string connectionId = "";
         public static JArray memberInfo = new JArray();
         public static JArray roomList = new JArray();
+        // TODO:회원가입 또는 로그인 시 jwt로 가져온 사용자 정보를 저장해야함.
+        public static MemberInfo myData = new MemberInfo();
+        public static RoomInfo roomInfo = new RoomInfo();
     }
 }
