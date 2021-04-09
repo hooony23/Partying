@@ -28,8 +28,11 @@ public class PlayerController : MonoBehaviour
     private string playerState; // 플레이어 이벤트, 상태(run, dodge, ...)
     private float playerSpeed = Config.playerSpeed;
     private float playerHealth = Config.playerHealth;
+    private float raidplayerHealth = Config.raidplayerHealth;
     private bool isMove;
     private bool isDodge; // 회피동작 상태 여부
+    private bool isBeatable = false; // 플레이어 무적 상태 컨트롤
+
 
     // 상호작용
     private bool eDown; // E키 입력 여부
@@ -45,6 +48,12 @@ public class PlayerController : MonoBehaviour
     // 캐릭터 시점
     private Transform cameraArm;
     private Vector2 mouseDelta;
+
+    // 플레이어 피격 효과
+    private Material mat;
+
+    // Boss의 일부 매서드 사용
+    private BossController bossController;
 
     public string UserUuid { get => userUuid; set => userUuid = value; }
     public PlayerInfo PInfo { get => pInfo; set => pInfo = value; }
@@ -69,4 +78,8 @@ public class PlayerController : MonoBehaviour
     public bool IsBorder { get => isBorder; set => isBorder = value; }
     public Transform CameraArm { get => cameraArm; set => cameraArm = value; }
     public Vector2 MouseDelta { get => mouseDelta; set => mouseDelta = value; }
+    public float RaidplayerHealth { get => raidplayerHealth; set => raidplayerHealth = value; }
+    public Material Mat { get => mat; set => mat = value; }
+    public BossController BossController { get => bossController; set => bossController = value; }
+    public bool IsBeatable { get => isBeatable; set => isBeatable = value; }
 }

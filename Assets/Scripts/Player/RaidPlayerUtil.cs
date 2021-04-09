@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -7,11 +7,12 @@ using Communication;
 using Communication.API;
 using Communication.JsonFormat;
 using Util;
-public class PlayerUtil : PlayerController
+public class RaidPlayerUtil : PlayerController, IDamageable
 {
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
     [SerializeField]
     private string BGMSound;
+
     public void GetInput()
     {
         if (!IsDead)
@@ -25,7 +26,6 @@ public class PlayerUtil : PlayerController
             MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
             MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         }
-
 
     }
     public void GetNetWorkInput()
@@ -109,8 +109,12 @@ public class PlayerUtil : PlayerController
 
     public void Move()
     {
-        MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
+        if (IsDead)
+        {
+            return;
+        }
 
+        MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
         if (IsStun == false)
         {
             IsMove = true;
@@ -129,6 +133,10 @@ public class PlayerUtil : PlayerController
             if (!IsBorder)
             {
                 this.gameObject.transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
+            }
+            else
+            {
+                Debug.Log("벽 충돌했음");
             }
         }
 
@@ -248,7 +256,6 @@ public class PlayerUtil : PlayerController
             }
         }
     }
-   
 
     public void IsGetItem(Collider other)
     {
@@ -258,4 +265,84 @@ public class PlayerUtil : PlayerController
             NearObject = null;
         }
     }
+
+
+    // 플레이어의 HP를 프레임별로 확인
+    public void CheckHP()
+    {
+        if (RaidplayerHealth <= 0)
+        {
+            IsDead = true;
+            CheckDeath();
+        }
+    }
+
+
+    public void CheckDeath()
+    {
+        if (IsDead)
+        {
+            this.gameObject.layer = default; // 보스가 인식 못함
+            Anim.Play("dead");
+            BossController.UpdatePlayersList();
+            Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
+        }
+    }
+
+
+    /// 플레이어 피격 처리 ///
+    public void TakeAttack(Vector3 reactVec)
+    {
+        StartCoroutine(OnAttacked(reactVec));
+    }
+
+    public IEnumerator OnAttacked(Vector3 reactVec)
+    {
+        Debug.Log("플레이어가 공격받음");
+
+        if (IsBeatable == false)
+        {
+            IsBeatable = true;
+            StartCoroutine(Blink(5));
+            KnockBack(reactVec, 8f);
+            TakeHit(100);
+        }
+
+        yield return new WaitForSeconds(2f);
+        IsBeatable = false;
+        
+    }
+
+    // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
+    public IEnumerator Blink(int count)
+    {
+        if (RaidplayerHealth > 0)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Mat.color = Color.red;
+                yield return new WaitForSeconds(0.1f);
+                Mat.color = Color.white;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else
+        {
+            Mat.color = Color.gray;
+        }
+    }
+
+    public void KnockBack(Vector3 reactVec, float force)
+    {
+        reactVec += Vector3.up;
+        Rigid.AddForce(reactVec * force, ForceMode.Impulse);
+    }
+
+    public void TakeHit(float damage)
+    {
+        RaidplayerHealth -= damage;
+        Debug.Log(RaidplayerHealth);
+    }
+
+    /// 플레이어 피격 처리 ///
 }

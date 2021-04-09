@@ -9,10 +9,14 @@ namespace Util
         public static string serverIP = "skine134.iptime.org";
         public static int serverPort = 11000;
 
+        // boss
+        public static float radarRange = 60f;
+        public static float bossHP = 6000f;
         // player
         public static float playerMoveVector = 3f;
         public static float playerSpeed = 14f;
         public static float playerHealth = 100;
+        public static float raidplayerHealth = 300;
         public static string userUuid = "";
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각
@@ -22,6 +26,7 @@ namespace Util
         public static int ROW = 20;
         public static int COL = 20;
         public static float labylinthOnSpaceSize = 0f;
+
         public enum InputKey
         {
             A = KeyCode.A,
