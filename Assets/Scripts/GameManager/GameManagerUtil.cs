@@ -19,12 +19,12 @@ namespace GameManager
             playerCamera.name = Resources.Load("Player/CameraArm").name;
             
             // 순찰 npc
-            GameObject AIPatrol = Instantiate(Resources.Load("Patrol/Patrol"),new Vector3(0,3,0),Quaternion.identity) as GameObject;
-            AIPatrol.name = Resources.Load("Patrol/Patrol").name;
+            GameObject AIPatrol = Instantiate(Resources.Load("Labyrinth/Patrol/Patrol"),new Vector3(0,3,0),Quaternion.identity) as GameObject;
+            AIPatrol.name = Resources.Load("Labyrinth/Patrol/Patrol").name;
 
             // 플레이어, 맵, 함정, patrol point 생성
-            GameObject Map = Instantiate(Resources.Load("Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
-            Map.name = Resources.Load("Map/Map").name;
+            GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
+            Map.name = Resources.Load("Labyrinth/Map/Map").name;
             
         }
         protected void DelUser()
