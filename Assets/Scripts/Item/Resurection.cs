@@ -1,15 +1,18 @@
 using UnityEngine;
-using Communication;
-
+using Communication;using GameManager;
 namespace Item
 {
     public class Resurection : BaseItem
     {
+        public GameManager.GameManager gameManager = null;
+        public void OnEnable() {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+        }
         public override void ItemApply(Player player, float time = 0)
         {
-            if(NetworkInfo.deathUserQueue.Count > 0)
+            if(gameManager.DeathPlayerList.Count > 0)
             {   
-                string[] deathUser = NetworkInfo.deathUserQueue.ToArray();
+                string[] deathUser = gameManager.DeathPlayerList.ToArray();
                 int peek = Random.Range(0,3);
                 var resurectionUser = GameObject.Find(deathUser[peek]);
                 resurectionUser.GetComponent<Player>().IsDead = false;
