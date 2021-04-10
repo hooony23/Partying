@@ -5,7 +5,7 @@ namespace GameManager
 {
     public class GameManagerController : MonoBehaviour
     {
-        public List<string> PlayerList{get; set;} = new List<string>();
-        public List<string> DeathPlayerList{get; set;} = new List<string>();
+        public List<GameObject> PlayerList{get; set;} = new List<GameObject>();
+        public List<GameObject> DeathPlayerList{get; set;} = new List<GameObject>();
     }
 }

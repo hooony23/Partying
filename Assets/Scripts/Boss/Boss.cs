@@ -22,7 +22,7 @@ namespace Boss
 
     private void Awake()
     {
-
+        GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
         Animator = GetComponent<Animator>();
 
         ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();
@@ -33,22 +33,25 @@ namespace Boss
         NavMeshAgent = GetComponent<NavMeshAgent>();
 
         InitParticleSystem();
-        UpdatePlayersList();
+        // UpdatePlayersList();
 
     }
 
     void Start()
     {
-        Debug.Log(PlayersList.Count);
-        if (PlayersList.Count > 0)
+        Debug.Log(GM.PlayerList.Count);
+        if (GM.PlayerList.Count > 0)
         {
             StartCoroutine(WakeUp());
         }
     }
-
     void Update()
     {
-       
+        TargetList.Clear();
+        foreach(var player in GM.PlayerList){TargetList.Add(player.GetComponent<Transform>());}
+    }
+    void OnTriggerEnter(Collider other) {
+        TakeHit(other,1);
     }
 
     

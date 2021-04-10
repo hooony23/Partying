@@ -258,15 +258,10 @@ public class PlayerUtil : PlayerController
         {
             this.gameObject.layer = default; // 보스가 인식 못함
             Anim.Play("dead");
-            BossController.UpdatePlayersList();
             Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
         }
     }
-    /// 플레이어 피격 처리 ///
-    public void TakeAttack(Vector3 reactVec)
-    {
-        StartCoroutine(OnAttacked(reactVec));
-    }
+
     public IEnumerator OnAttacked(Vector3 reactVec)
     {
         Debug.Log("플레이어가 공격받음");

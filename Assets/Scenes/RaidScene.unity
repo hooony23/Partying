@@ -257,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 4616313321248561517, guid: 58bd573d2a6a6d349ad36178be4a9b66,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 463
+      value: 321
       objectReference: {fileID: 0}
     - target: {fileID: 4616313321248561517, guid: 58bd573d2a6a6d349ad36178be4a9b66,
         type: 3}
@@ -267,7 +267,7 @@ PrefabInstance:
     - target: {fileID: 4616313321248561517, guid: 58bd573d2a6a6d349ad36178be4a9b66,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 742
+      value: 314
       objectReference: {fileID: 0}
     - target: {fileID: 4616313321248561517, guid: 58bd573d2a6a6d349ad36178be4a9b66,
         type: 3}
@@ -313,6 +313,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WindItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430109892979246039, guid: 58bd573d2a6a6d349ad36178be4a9b66,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58bd573d2a6a6d349ad36178be4a9b66, type: 3}

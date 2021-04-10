@@ -15,7 +15,6 @@ public class Player : PlayerUtil
         {
             CurrentStage = "Raid";
             Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
-            BossController = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossController>();
         }
         UserUuid = Config.userUuid;
         CameraArm = GameObject.Find("CameraArm").transform;

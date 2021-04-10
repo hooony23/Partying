@@ -64,7 +64,7 @@ namespace GameManager
             {
                 foreach (var playerUuid in NetworkInfo.playersInfo.Keys)
                 {
-                    PlayerList.Add(playerUuid);
+                    PlayerList.Add(GameObject.Find(playerUuid));
                 }
             }
         }
@@ -74,8 +74,8 @@ namespace GameManager
             {
                 foreach (var deathUserUuid in NetworkInfo.deathUserQueue)
                 {
-                    PlayerList.Remove(deathUserUuid);
-                    DeathPlayerList.Add(deathUserUuid);
+                    PlayerList.Remove(GameObject.Find(deathUserUuid));
+                    DeathPlayerList.Add(GameObject.Find(deathUserUuid));
                 }
             }
         }

@@ -47,7 +47,5 @@ public class PlayerController : MonoBehaviour
     // 플레이어 피격 효과
     public Material Mat {get;set;}
     
-    // Boss의 일부 매서드 사용
-    public BossController BossController {get;set;}
     public bool IsBeatable {get;set;} = false; // 플레이어 무적 상태 컨트롤
 }

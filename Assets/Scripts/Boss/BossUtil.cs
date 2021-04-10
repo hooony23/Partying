@@ -9,7 +9,9 @@ namespace Boss
     public class BossUtil : BossController
     {
 
-        private string[] patterns = { "ChargingLaser", "OctaLaser", "BodySlam" };
+        private enum Patterns {CHANGINGELAGER,OCTALASER,BODYSLAM}
+
+            // 주변의 Layer : Player 인 오브젝트 4개 검출
 
         // 모든 자식 파티클 시스템 정지상태로 초기화
         public void InitParticleSystem()
@@ -28,7 +30,7 @@ namespace Boss
         {
             yield return new WaitForSeconds(0.1f);
 
-            if (PlayersList.Count <= 0)
+            if (GM.PlayerList.Count <= 0)
             {
                 Animator.SetTrigger("Idle");
                 yield return null;
@@ -38,13 +40,13 @@ namespace Boss
                 int ranAction = Random.Range(0, 3);
                 switch (ranAction)
                 {
-                    case 0:
+                    case (int)Patterns.CHANGINGELAGER:
                         StartCoroutine(ChargingLaser());
                         break;
-                    case 1:
+                    case (int)Patterns.OCTALASER:
                         StartCoroutine(OctaLaser());
                         break;
-                    case 2:
+                    case (int)Patterns.BODYSLAM:
                         StartCoroutine(BodySlam());
                         break;
                 }
@@ -54,7 +56,7 @@ namespace Boss
         public IEnumerator Aim()
         {
 
-            int ranIdx = Random.Range(0, PlayersList.Count);
+            int ranIdx = Random.Range(0, GM.PlayerList.Count);
             Transform targetPlayer = TargetList[ranIdx];
             float rotationSpeed = 100f;
 
@@ -124,7 +126,7 @@ namespace Boss
         {
             Animator.SetTrigger("BodySlam1");
             yield return new WaitForSeconds(8f);
-
+        
             StartCoroutine(Think());
         }
 
@@ -133,5 +135,14 @@ namespace Boss
             Animator.SetTrigger("Destroyed");
             yield return null;
         }
+
+        
+    public void TakeHit(Collider collider,float damage)
+    {
+        var player = collider.gameObject.GetComponent<Player>();
+        var reactVec = (collider.transform.position - this.transform.position).normalized;
+        player.PlayerHealth -= damage;
+        StartCoroutine(player.OnAttacked(reactVec));
+    }
     }
 }

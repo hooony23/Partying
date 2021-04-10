@@ -12,9 +12,9 @@ namespace Item
         {
             if(gameManager.DeathPlayerList.Count > 0)
             {   
-                string[] deathUser = gameManager.DeathPlayerList.ToArray();
+                GameObject[] deathUser = gameManager.DeathPlayerList.ToArray();
                 int peek = Random.Range(0,3);
-                var resurectionUser = GameObject.Find(deathUser[peek]);
+                var resurectionUser = deathUser[peek];
                 resurectionUser.GetComponent<Player>().IsDead = false;
             }
             base.ItemApply(player, time);
