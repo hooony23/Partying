@@ -4990,7 +4990,7 @@ GameObject:
   - component: {fileID: 7380095957311466698}
   - component: {fileID: 7053172851055713689}
   - component: {fileID: 7053172851055713688}
-  - component: {fileID: 7053172851055713686}
+  - component: {fileID: 5412167769249848966}
   m_Layer: 0
   m_Name: HealthmaxItem
   m_TagString: Untagged
@@ -5048,7 +5048,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7053172851055713686
+--- !u!114 &5412167769249848966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5057,7 +5057,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7863441661696210544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1118927f742732d41ac196d5e5742b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: e9b45132b68b37f4aa528523e590a109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7053172850748932929

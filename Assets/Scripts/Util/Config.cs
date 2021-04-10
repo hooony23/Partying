@@ -15,8 +15,9 @@ namespace Util
         // player
         public static float playerMoveVector = 3f;
         public static float playerSpeed = 14f;
-        public static float playerHealth = 100;
-        public static float raidplayerHealth = 300;
+        public static float playerHealth = 3;
+        public static float playerAttackDamage = 1f;
+        public static float shotSpeed = 1f;
         public static string userUuid = "";
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각
@@ -25,6 +26,8 @@ namespace Util
         // map
         public static int ROW = 20;
         public static int COL = 20;
+        // 
+        public static int defaultStage = 0;
         public static float labylinthOnSpaceSize = 0f;
 
         public enum InputKey
@@ -35,7 +38,6 @@ namespace Util
             W = KeyCode.W,
             E = KeyCode.E,
             Space = KeyCode.Space,
-
         }
 
         public enum SendAPINames

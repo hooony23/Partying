@@ -1,33 +1,36 @@
 using System;
 using System.Reflection;
+using System.Collections;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using Communication.JsonFormat;
-using Communication.API.Labylinth;
-using Util;
+
 
 namespace Lib
 {
     public static class Common
     {
-        public static void CallAPI(string server, string tranferFlag,string APIName, params object[] list)
+        public static IEnumerator WaitThenCallback(float time, Action callback)
+        {
+            yield return new WaitForSeconds(time);
+            callback();
+        }
+        public static void CallAPI(string tranferFlag, string APIName, params object[] list)
         {
             /// <summary>
             /// param : "namespace.className"
             /// returm : Type
             /// </summary>
-            Type controller = CallClass(server,tranferFlag);
+            Type controller = CallClass(tranferFlag);
             CallMethod(controller, APIName, list);
         }
 
-        public static Type CallClass(string server,string tranferFlag)
+        public static Type CallClass(string tranferFlag)
         {
             /// <summary>
             /// param : "namespace.className"
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-            Type type = Type.GetType($"Communication.API.{server}.{tranferFlag}");
+            Type type = Type.GetType($"Communication.API.{tranferFlag}");
             return type;
         }
 
@@ -42,17 +45,19 @@ namespace Lib
             Type type = classType;
 
             ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
-            object classObject = constructor.Invoke(new object[]{});
+            object classObject = constructor.Invoke(new object[] { });
             // private, protected, public에 관계없이 취득한다.
             MethodInfo info = type.GetMethod(APIName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            try{
-            info.Invoke(classObject, list);
-            }catch (Exception e)
+            try
+            {
+                info.Invoke(classObject, list);
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
         }
-        
+
         public static string ToPascalCase(string str)
         {
             // If there are 0 or 1 characters, just return the string.

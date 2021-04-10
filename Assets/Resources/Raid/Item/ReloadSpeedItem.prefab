@@ -4911,7 +4911,7 @@ GameObject:
   - component: {fileID: 3908441751415954695}
   - component: {fileID: 3582378680395078659}
   - component: {fileID: 3582378680395078658}
-  - component: {fileID: 3582378680395078669}
+  - component: {fileID: 9160603093104336058}
   m_Layer: 0
   m_Name: ReloadSpeedItem
   m_TagString: Untagged
@@ -4969,7 +4969,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3582378680395078669
+--- !u!114 &9160603093104336058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4978,7 +4978,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4428801759116543933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1118927f742732d41ac196d5e5742b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 927115d86b854844ab23c4dc1076f566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4970353003345956699

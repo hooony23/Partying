@@ -10,11 +10,10 @@ namespace GameManager
 
     public class GameManager : GameManagerUtil
     {
-
         void Awake()
         {
             SetUserUuid(Connection.Connected());
-            APIController.SendController("Labylinth", "CreateMap");
+            APIController.SendController("CreateMap");
             Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }

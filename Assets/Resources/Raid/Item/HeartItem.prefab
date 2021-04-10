@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8741463151122796649}
   - component: {fileID: 9134798777038684495}
   - component: {fileID: 9134798777038684494}
-  - component: {fileID: 9134798777038684480}
+  - component: {fileID: 4621462656221678442}
   m_Layer: 0
   m_Name: HeartItem
   m_TagString: Untagged
@@ -227,7 +227,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &9134798777038684480
+--- !u!114 &4621462656221678442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8215756248371890899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1118927f742732d41ac196d5e5742b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 48f0851097d5e874ab36622fe76bcba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9134798776003700322

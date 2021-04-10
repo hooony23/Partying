@@ -14,7 +14,9 @@ using UnityEngine.AI;
 // 보스의 체력, 상태, 패턴 등을 기록
 // 보스 패턴 중 선택
 // 플레이어 데미지 입힘
-public class Boss : BossPattern
+namespace Boss
+{
+    public class Boss : BossUtil
 {
     
 
@@ -29,8 +31,6 @@ public class Boss : BossPattern
         PlayerMask = LayerMask.GetMask("Player");
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
-
-        BossTransform = this.transform;
 
         InitParticleSystem();
         UpdatePlayersList();
@@ -52,4 +52,6 @@ public class Boss : BossPattern
     }
 
     
+}
+
 }

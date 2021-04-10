@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3225840709568597873}
   - component: {fileID: 3120647602824183963}
   - component: {fileID: 3120647602824183972}
-  - component: {fileID: 3120647602824183974}
+  - component: {fileID: 988848743087535176}
   m_Layer: 0
   m_Name: ResurrectionItem
   m_TagString: Untagged
@@ -69,7 +69,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3120647602824183974
+--- !u!114 &988848743087535176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2850688009595311563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1118927f742732d41ac196d5e5742b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: cef8c9757c8dfaa4ca2f0138a25710c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3120647601286774021

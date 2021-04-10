@@ -2,5 +2,5 @@
 
 public interface IDamageable
 {
-    void TakeHit(float damage);
+    void TakeHit(Collider colider,float damage);
 }

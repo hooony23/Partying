@@ -4990,9 +4990,9 @@ GameObject:
   - component: {fileID: 4616313321248561517}
   - component: {fileID: 5159658411180844706}
   - component: {fileID: 5159658411180844707}
-  - component: {fileID: 5159658411180844709}
+  - component: {fileID: 8402571771140301567}
   m_Layer: 0
-  m_Name: windItem
+  m_Name: WindItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5048,7 +5048,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5159658411180844709
+--- !u!114 &8402571771140301567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5057,9 +5057,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5430109892979246039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1118927f742732d41ac196d5e5742b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 012bec21532565141946d00dcc967b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeedTemp: 0
 --- !u!1001 &5159658409678985416
 PrefabInstance:
   m_ObjectHideFlags: 0

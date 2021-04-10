@@ -1,22 +1,31 @@
+using System.Net.NetworkInformation;
 using UnityEngine;
 using Util;
-using System;
-using System.IO;
-using Communication.API;
+using Communication;
+using Boss;
 public class Player : PlayerUtil
 {
-
+    [SerializeField] float speed = 0f;
     void Awake()
     {
+        
+
+        // 피격 처리
+        if (NetworkInfo.currentStage == 2)
+        {
+            CurrentStage = "Raid";
+            Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
+            BossController = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossController>();
+        }
         UserUuid = Config.userUuid;
         CameraArm = GameObject.Find("CameraArm").transform;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
 
     }
-    // Update is called once per frame
     void Update()
     {
+        speed = PlayerSpeed;
         GetInput();
         Move();
         Turn();
@@ -24,16 +33,16 @@ public class Player : PlayerUtil
         CameraTurn();
         Dodge();
         PlayerStateUpdate();
-        MoveChangeSend("Labylinth");
-        StopToWall();
+        MoveChangeSend();
+
+        // 피격 처리
+        CheckHP();
     }
     private void FixedUpdate() // default : 50fps
     {
         FreezeRotation();
+        StopToWall();
     }
-
-
-
     private void OnTriggerStay(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
     {
         IsClear(other);

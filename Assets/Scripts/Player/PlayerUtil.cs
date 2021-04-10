@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
 using Communication;
@@ -25,8 +24,6 @@ public class PlayerUtil : PlayerController
             MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
             MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         }
-
-
     }
     public void GetNetWorkInput()
     {
@@ -65,13 +62,13 @@ public class PlayerUtil : PlayerController
                 break;
         }
     }
-    public void MoveChangeSend(string server)
+    public void MoveChangeSend()
     {
         //TODO 만약 플레이어가 하나의 키를 누른채로 마우스만 이동시키며 
         //     움직일 경우 동기화 불가능함 추후 수정필요
         if (IsKeyInput() && !IsDead)
         {
-            APIController.SendController(server, "Move", PInfo.ObjectToJson());
+            APIController.SendController("Move", PInfo.ObjectToJson());
         }
     }
     public bool IsKeyInput()
@@ -86,7 +83,6 @@ public class PlayerUtil : PlayerController
             return false;
         return true;
     }
-
     public IEnumerable<KeyCode> GetInputKeys()
     {
         var inputData = from input in Config.InputKey.GetValues(typeof(Config.InputKey))
@@ -106,7 +102,6 @@ public class PlayerUtil : PlayerController
         else if (IsDodge == true)
             PlayerState = "Dodge";
     }
-
     public void Move()
     {
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
@@ -147,12 +142,10 @@ public class PlayerUtil : PlayerController
         if (this.UserUuid.Equals(Config.userUuid))
             PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
-
     public void Turn()
     {
         transform.LookAt(transform.position + MoveDir);
     }
-
     public void CameraTurn()
     {
         ///<summary>
@@ -177,8 +170,6 @@ public class PlayerUtil : PlayerController
         CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
 
     }
-
-
     public void IsGetItem() // 아이템 획득을 위한 로직
     {
         if (EDown && NearObject != null)
@@ -189,7 +180,6 @@ public class PlayerUtil : PlayerController
             }
         }
     }
-
     public void Dodge() // 플레이어 회피
     {
         if (JDown && IsDodge == false && MoveDir != Vector3.zero)
@@ -207,7 +197,6 @@ public class PlayerUtil : PlayerController
         IsDodge = false;
         PlayerSpeed *= 0.5f;
     }
-
     // 플레이어 스턴
     public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
     {
@@ -220,7 +209,6 @@ public class PlayerUtil : PlayerController
         IsStun = false;
 
     }
-
 
     /*@@@ 충돌해결, 콜리전 처리 등 @@@*/
     // 물리 충돌 해결 -> FixedUpdate
@@ -235,7 +223,6 @@ public class PlayerUtil : PlayerController
         Debug.DrawRay(transform.position, transform.forward * raydis, Color.green);
         IsBorder = Physics.Raycast(transform.position, transform.forward, raydis, LayerMask.GetMask("Wall"));
     }
-
     public void IsClear(Collider other)
     {
         if (other.CompareTag("Item"))
@@ -248,8 +235,6 @@ public class PlayerUtil : PlayerController
             }
         }
     }
-   
-
     public void IsGetItem(Collider other)
     {
 
@@ -258,4 +243,68 @@ public class PlayerUtil : PlayerController
             NearObject = null;
         }
     }
+    // 플레이어의 HP를 프레임별로 확인
+    public void CheckHP()
+    {
+        if (PlayerHealth <= 0)
+        {
+            IsDead = true;
+            CheckDeath();
+        }
+    }
+    public void CheckDeath()
+    {
+        if (IsDead)
+        {
+            this.gameObject.layer = default; // 보스가 인식 못함
+            Anim.Play("dead");
+            BossController.UpdatePlayersList();
+            Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
+        }
+    }
+    /// 플레이어 피격 처리 ///
+    public void TakeAttack(Vector3 reactVec)
+    {
+        StartCoroutine(OnAttacked(reactVec));
+    }
+    public IEnumerator OnAttacked(Vector3 reactVec)
+    {
+        Debug.Log("플레이어가 공격받음");
+
+        if (IsBeatable == false)
+        {
+            IsBeatable = true;
+            StartCoroutine(Blink(5));
+            KnockBack(reactVec, 8f);
+        }
+
+        yield return new WaitForSeconds(2f);
+        IsBeatable = false;
+        
+    }
+    // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
+    public IEnumerator Blink(int count)
+    {
+        if (PlayerHealth > 0)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Mat.color = Color.red;
+                yield return new WaitForSeconds(0.1f);
+                Mat.color = Color.white;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else
+        {
+            Mat.color = Color.gray;
+        }
+    }
+    public void KnockBack(Vector3 reactVec, float force)
+    {
+        reactVec += Vector3.up;
+        Rigid.AddForce(reactVec * force, ForceMode.Impulse);
+    }
+
+    /// 플레이어 피격 처리 ///
 }

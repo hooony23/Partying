@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Communication.JsonFormat;
-
+using Util;
 namespace Communication
 {
     public static class NetworkInfo
@@ -11,5 +12,6 @@ namespace Communication
         public static Queue<string> connectedExitQueue = new Queue<string>();
         public static Queue<string> GetItemUserQueue = new Queue<string>();
         public static Queue<string> deathUserQueue = new Queue<string>();
+        public static int currentStage = Config.defaultStage;
     }
 }

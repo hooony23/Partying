@@ -12,9 +12,9 @@ public class SetDeadBoundary : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == Config.userUuid)
-            {
-                APIController.SendController("Labylinth", "Death");
-            }
+        {
+            APIController.SendController("Death");
+        }
     }
 
 }
