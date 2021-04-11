@@ -9,7 +9,7 @@ namespace Boss
     public class BossUtil : BossController
     {
 
-        private enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM }
+        private enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM,IDLE }
 
         // 주변의 Layer : Player 인 오브젝트 4개 검출
 
