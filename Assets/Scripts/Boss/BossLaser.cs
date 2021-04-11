@@ -18,14 +18,10 @@ public class BossLaser : MonoBehaviour, IDamageable
     {
         var player = collider.gameObject.GetComponent<Player>();
         var reactVec = (collider.transform.position - this.transform.position).normalized;
-        if (player.IsBeatable)
-        {
-            player.IsBeatable = false;
-            player.PlayerHealth -= damage;
-            StartCoroutine(player.OnAttacked(reactVec));
-        }
-        else
+        if (!player.IsBeatable)
             return;
+        player.PlayerHealth -= damage;
+        StartCoroutine(player.OnAttacked(reactVec));
     }
 
 

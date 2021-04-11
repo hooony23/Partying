@@ -27,7 +27,7 @@ namespace Util
         public static int ROW = 20;
         public static int COL = 20;
         // 
-        public static int defaultStage = 0;
+        public static int defaultStage = 2;
         public static float labylinthOnSpaceSize = 0f;
 
         public enum InputKey

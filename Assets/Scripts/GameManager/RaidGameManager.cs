@@ -11,8 +11,7 @@ namespace GameManager
         
         void Update()
         {
-            DelUser();
-            DeathUser();
+            UpdateUserList();
             ClearGame();
         }
 

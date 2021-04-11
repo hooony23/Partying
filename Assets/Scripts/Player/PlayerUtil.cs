@@ -1,3 +1,4 @@
+using System.Dynamic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -258,12 +259,15 @@ public class PlayerUtil : PlayerController
         {
             this.gameObject.layer = default; // 보스가 인식 못함
             Anim.Play("dead");
+            //TODO: 나중에 GM으로 수정 필요.
+            NetworkInfo.deathUserQueue.Enqueue(this.gameObject.name);
             Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
         }
     }
 
     public IEnumerator OnAttacked(Vector3 reactVec)
     {
+        IsBeatable = false;
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
         

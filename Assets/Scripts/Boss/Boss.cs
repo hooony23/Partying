@@ -31,7 +31,6 @@ namespace Boss
             NavMeshAgent = GetComponent<NavMeshAgent>();
 
             InitParticleSystem();
-            Debug.Log(GM.PlayerList.Count);
             if (GM.PlayerList.Count > 0)
             {
                 StartCoroutine(WakeUp());
