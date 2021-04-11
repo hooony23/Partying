@@ -14,7 +14,8 @@ public class CameraSet : MonoBehaviour
         CameraChange();
     }
 
-    void GetInput() {
+    void GetInput()
+    {
 
         /*funcKeys[0] = Input.GetButtonDown("f1");
         funcKeys[1] = Input.GetButtonDown("f2");

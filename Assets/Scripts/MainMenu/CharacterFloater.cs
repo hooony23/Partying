@@ -47,7 +47,6 @@ public class CharacterFloater : MonoBehaviour
             direction, floatingSpeed, rotateSpeed, Random.Range(2f, 6f));
     }
 
-    
     // 캐릭터 화면 밖으로 나가면 사라짐
     private void OnTriggerExit2D(Collider2D collision)
     {

@@ -10,7 +10,7 @@ public class RoomSetting : MonoBehaviour
     public GameObject warning;
     public GameObject nextScreen; // RoomUI
 
-    [SerializeField] private InputField roomTitleInput = null;  
+    [SerializeField] private InputField roomTitleInput = null;
     [SerializeField] private InputField roomPasswordInput = null;
     private string title = "";
     private string password = "";

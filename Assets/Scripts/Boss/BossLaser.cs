@@ -10,11 +10,11 @@ public class BossLaser : MonoBehaviour, IDamageable
         if (other.tag.Equals("Player"))
         {
             Debug.Log("파티클에서 플레이어 충돌");
-            TakeHit(other.GetComponent<Collider>(),1);
+            TakeHit(other.GetComponent<Collider>(), 1);
 
         }
     }
-    public void TakeHit(Collider collider,float damage)
+    public void TakeHit(Collider collider, float damage)
     {
         var player = collider.gameObject.GetComponent<Player>();
         var reactVec = (collider.transform.position - this.transform.position).normalized;

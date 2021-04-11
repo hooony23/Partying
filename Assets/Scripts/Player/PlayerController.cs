@@ -4,48 +4,48 @@ using Communication.JsonFormat;
 using Boss;
 public class PlayerController : MonoBehaviour
 {
-    public string CurrentStage {get;set;} = "Labyrinth";
-    public bool IsStun {get;set;} = false;
-    public bool IsDead {get;set;} = false;
-    public bool GetItem {get;set;} = false; // 클리어 아이템 획득 표시
-    public string UserUuid {get;set;}
-    public PlayerInfo PInfo {get;set;} = new PlayerInfo();
+    public string CurrentStage { get; set; } = "Labyrinth";
+    public bool IsStun { get; set; } = false;
+    public bool IsDead { get; set; } = false;
+    public bool GetItem { get; set; } = false; // 클리어 아이템 획득 표시
+    public string UserUuid { get; set; }
+    public PlayerInfo PInfo { get; set; } = new PlayerInfo();
 
     // 기본 움직임(w,a,s,d, spacebar)
-    public bool JDown {get;set;} // sacebar키 입력 여부
-    public float HAxis {get;set;}
-    public float VAxis {get;set;}
-    public Vector3 MoveVec {get;set;}
-    public Vector3 MoveDir {get;set;}
-    public Vector2 MoveInput {get;set;}
+    public bool JDown { get; set; } // sacebar키 입력 여부
+    public float HAxis { get; set; }
+    public float VAxis { get; set; }
+    public Vector3 MoveVec { get; set; }
+    public Vector3 MoveDir { get; set; }
+    public Vector2 MoveInput { get; set; }
 
     // 움직임 상태, 플레이어 상태
-    public bool IsMove {get;set;}
-    public bool IsDodge {get;set;} // 회피동작 상태 여부
-    public string PlayerState {get;set;} // 플레이어 이벤트, 상태(run, dodge, ...)
-    public float PlayerSpeed {get;set;} = Config.playerSpeed;
-    public float PlayerMaxHealth {get;set;} = Config.playerHealth;
-    public float PlayerHealth {get;set;} = Config.playerHealth;
-    public float AttackDamage {get; set;} = Config.playerAttackDamage;
-    public float ShotSpeed {get; set;} = Config.shotSpeed;
-    
+    public bool IsMove { get; set; }
+    public bool IsDodge { get; set; } // 회피동작 상태 여부
+    public string PlayerState { get; set; } // 플레이어 이벤트, 상태(run, dodge, ...)
+    public float PlayerSpeed { get; set; } = Config.playerSpeed;
+    public float PlayerMaxHealth { get; set; } = Config.playerHealth;
+    public float PlayerHealth { get; set; } = Config.playerHealth;
+    public float AttackDamage { get; set; } = Config.playerAttackDamage;
+    public float ShotSpeed { get; set; } = Config.shotSpeed;
+
     // 상호작용
-    public bool EDown {get;set;} // E키 입력 여부
-    public GameObject NearObject {get;set;} // 아이템 습득로직을 위한 오브젝트 정의
+    public bool EDown { get; set; } // E키 입력 여부
+    public GameObject NearObject { get; set; } // 아이템 습득로직을 위한 오브젝트 정의
 
     // 애니메이션
-    public Animator Anim {get;set;}
-    
+    public Animator Anim { get; set; }
+
     // 물리효과
-    public bool IsBorder {get;set;}
-    public Rigidbody Rigid {get;set;}
+    public bool IsBorder { get; set; }
+    public Rigidbody Rigid { get; set; }
 
     // 캐릭터 시점
-    public Transform CameraArm {get;set;}
-    public Vector2 MouseDelta {get;set;}
+    public Transform CameraArm { get; set; }
+    public Vector2 MouseDelta { get; set; }
 
     // 플레이어 피격 효과
-    public Material Mat {get;set;}
-    
-    public bool IsBeatable {get;set;} = false; // 플레이어 무적 상태 컨트롤
+    public Material Mat { get; set; }
+
+    public bool IsBeatable { get; set; } = false; // 플레이어 무적 상태 컨트롤
 }

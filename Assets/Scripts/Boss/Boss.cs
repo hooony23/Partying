@@ -17,44 +17,45 @@ using UnityEngine.AI;
 namespace Boss
 {
     public class Boss : BossUtil
-{
-    
-
-    private void Awake()
     {
-        GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
-        Animator = GetComponent<Animator>();
 
-        ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();
-        OctaL = GameObject.Find("Octa Laser").GetComponent<ParticleSystem>();
 
-        PlayerMask = LayerMask.GetMask("Player");
-
-        NavMeshAgent = GetComponent<NavMeshAgent>();
-
-        InitParticleSystem();
-        // UpdatePlayersList();
-
-    }
-
-    void Start()
-    {
-        Debug.Log(GM.PlayerList.Count);
-        if (GM.PlayerList.Count > 0)
+        private void Awake()
         {
-            StartCoroutine(WakeUp());
-        }
-    }
-    void Update()
-    {
-        TargetList.Clear();
-        foreach(var player in GM.PlayerList){TargetList.Add(player.GetComponent<Transform>());}
-    }
-    void OnTriggerEnter(Collider other) {
-        TakeHit(other,1);
-    }
+            GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+            Animator = GetComponent<Animator>();
 
-    
-}
+            ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();
+            OctaL = GameObject.Find("Octa Laser").GetComponent<ParticleSystem>();
+
+            PlayerMask = LayerMask.GetMask("Player");
+
+            NavMeshAgent = GetComponent<NavMeshAgent>();
+
+            InitParticleSystem();
+            // UpdatePlayersList();
+
+        }
+
+        void Start()
+        {
+            Debug.Log(GM.PlayerList.Count);
+            if (GM.PlayerList.Count > 0)
+            {
+                StartCoroutine(WakeUp());
+            }
+        }
+        void Update()
+        {
+            TargetList.Clear();
+            foreach (var player in GM.PlayerList) { TargetList.Add(player.GetComponent<Transform>()); }
+        }
+        void OnTriggerEnter(Collider other)
+        {
+            TakeHit(other, 1);
+        }
+
+
+    }
 
 }

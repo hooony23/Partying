@@ -12,7 +12,7 @@ public class HoleTrap : BaseTrap
 
     public void OnTriggerStay(Collider other)
     {
-        TrapEvent(other,holeActivate);
+        TrapEvent(other, holeActivate);
     }
     public override void TrapEvent(Collider other, params object[] obj)
     {

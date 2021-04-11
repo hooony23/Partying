@@ -13,7 +13,7 @@ namespace Communication.JsonFormat
         public string uuid = "";
         public Division3 vec = new Division3();
         public Division3 loc = new Division3();
-        public PlayerInfo() : this(new Vector3(0,0,0),new Vector3(0,0,0),"None","None"){}
+        public PlayerInfo() : this(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "None", "None") { }
         public PlayerInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
         {
             ///<summary>
@@ -96,7 +96,7 @@ namespace Communication.JsonFormat
             return JsonConvert.SerializeObject(this);
         }
 
-        
+
 
 
     }

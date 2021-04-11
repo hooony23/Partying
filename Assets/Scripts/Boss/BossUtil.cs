@@ -9,9 +9,9 @@ namespace Boss
     public class BossUtil : BossController
     {
 
-        private enum Patterns {CHANGINGELAGER,OCTALASER,BODYSLAM}
+        private enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM }
 
-            // 주변의 Layer : Player 인 오브젝트 4개 검출
+        // 주변의 Layer : Player 인 오브젝트 4개 검출
 
         // 모든 자식 파티클 시스템 정지상태로 초기화
         public void InitParticleSystem()
@@ -126,7 +126,7 @@ namespace Boss
         {
             Animator.SetTrigger("BodySlam1");
             yield return new WaitForSeconds(8f);
-        
+
             StartCoroutine(Think());
         }
 
@@ -136,13 +136,12 @@ namespace Boss
             yield return null;
         }
 
-        
-    public void TakeHit(Collider collider,float damage)
-    {
-        var player = collider.gameObject.GetComponent<Player>();
-        var reactVec = (collider.transform.position - this.transform.position).normalized;
-        player.PlayerHealth -= damage;
-        StartCoroutine(player.OnAttacked(reactVec));
-    }
+        public void TakeHit(Collider collider, float damage)
+        {
+            var player = collider.gameObject.GetComponent<Player>();
+            var reactVec = (collider.transform.position - this.transform.position).normalized;
+            player.PlayerHealth -= damage;
+            StartCoroutine(player.OnAttacked(reactVec));
+        }
     }
 }

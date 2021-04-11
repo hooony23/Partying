@@ -11,7 +11,7 @@ public class Room : MonoBehaviour
 {
     [SerializeField] private Text title = null;
     [SerializeField] private Button startButton = null;
-    
+
     // 현재 방의 정보
     private RoomInfo currentRoom = null;
 
@@ -21,7 +21,7 @@ public class Room : MonoBehaviour
     // 현재 방의 유저 UI
     [SerializeField] GameObject[] players = null;
 
-    
+
     private void Start()
     {
         // 서버에서 받아온 roomInfo
@@ -77,7 +77,7 @@ public class Room : MonoBehaviour
             startButton.interactable = false;
     }
 
-     public void OnClickGameStart() //private으로 하려 했으나, 이벤트 요소는 public으로만 끌어올 수 있는듯.
+    public void OnClickGameStart() //private으로 하려 했으나, 이벤트 요소는 public으로만 끌어올 수 있는듯.
     {
         SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
         // Game Scene 으로 넘어감

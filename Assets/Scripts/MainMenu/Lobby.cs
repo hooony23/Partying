@@ -10,8 +10,8 @@ public class Lobby : MonoBehaviour
     [SerializeField] private GameObject roomPrefab = null;
     [SerializeField] private Transform content = null;
     [SerializeField] private GameObject nextScreen = null; // RoomUI
-    
-    
+
+
 
     // 예시) 받아올 방들의 정보
     List<RoomInfo> rooms;
@@ -30,7 +30,7 @@ public class Lobby : MonoBehaviour
     [SerializeField] private Button check = null;
     [SerializeField] private Button cancel = null;
 
-    
+
 
     // 선택한 방의 정보
     private RoomInfo clickroomInfo = null;
@@ -56,7 +56,7 @@ public class Lobby : MonoBehaviour
         AddElement(); // 방 목록 갱신
 
         popup.SetActive(false); // 팝업 메뉴 비활성화로 초기화
- 
+
 
     }
 
@@ -101,7 +101,7 @@ public class Lobby : MonoBehaviour
             // 인원 꽉 찼을 시 비활성화
             if (headcount == 4)
             {
-                button.interactable = false; 
+                button.interactable = false;
             }
         }
 

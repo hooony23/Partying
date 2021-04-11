@@ -17,14 +17,13 @@ namespace GameManager
             Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
-        void Update() 
+        
+        void Update()
         {
             DelUser();
             DeathUser();
             ClearGame();
         }
-
-
 
         void OnApplicationQuit()
         {

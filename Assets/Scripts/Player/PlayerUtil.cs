@@ -275,7 +275,7 @@ public class PlayerUtil : PlayerController
 
         yield return new WaitForSeconds(2f);
         IsBeatable = false;
-        
+
     }
     // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
     public IEnumerator Blink(int count)

@@ -16,7 +16,7 @@ public class FirstScreen : MonoBehaviour
     {
 #if UNITY_EDITOR
         // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
-        UnityEditor.EditorApplication.isPlaying = false; 
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit(); 
 #endif

@@ -31,9 +31,9 @@ namespace Communication.JsonFormat
             /// </returns>
             string _type = type;
             object _data = data;
-            if (data==null)
-             _data = new {};
-            return JsonConvert.SerializeObject(new { type = type,uuid = Config.userUuid, data =  _data});
+            if (data == null)
+                _data = new { };
+            return JsonConvert.SerializeObject(new { type = type, uuid = Config.userUuid, data = _data });
         }
         public void SetValues(string type, string uuid, object data)
         {

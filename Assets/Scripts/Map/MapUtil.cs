@@ -92,34 +92,34 @@ public class MapUtil : MapController
         CellInfo[] trapInfo = MInfo.trap;
 
         GameObject grandParent = GameObject.Find("Map");
-        foreach(CellInfo item in trapInfo)
+        foreach (CellInfo item in trapInfo)
         {
-                GameObject Trap;
-                switch ((string)item.data)
-                {
-                    case "spike":
-                        Trap = Instantiate(MapObjects.SpikeTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "SpikeTrap";
-                        break;
-                    case "hole":
-                        Trap = Instantiate(MapObjects.HoleTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "HoleTrap";
-                        break;
-                    case "slow":
-                        Trap = Instantiate(MapObjects.SlowTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "SlowTrap";
-                        break;
-                    case "danger":
-                        Trap = Instantiate(MapObjects.DangerZone, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "DangerZone";
-                        break;
-                    default:
-                        Trap = null;
-                        break;
-                }
-                if (Trap == null)
-                    continue;
-                Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
+            GameObject Trap;
+            switch ((string)item.data)
+            {
+                case "spike":
+                    Trap = Instantiate(MapObjects.SpikeTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "SpikeTrap";
+                    break;
+                case "hole":
+                    Trap = Instantiate(MapObjects.HoleTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "HoleTrap";
+                    break;
+                case "slow":
+                    Trap = Instantiate(MapObjects.SlowTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "SlowTrap";
+                    break;
+                case "danger":
+                    Trap = Instantiate(MapObjects.DangerZone, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "DangerZone";
+                    break;
+                default:
+                    Trap = null;
+                    break;
+            }
+            if (Trap == null)
+                continue;
+            Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
         }
     }
 

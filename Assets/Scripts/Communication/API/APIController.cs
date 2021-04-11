@@ -11,12 +11,12 @@ namespace Communication.API
     public class APIController : MonoBehaviour
     {
 
-
-        public static void SendController( String type, params String[] requestJson)
+        public static void SendController(String type, params String[] requestJson)
         {
-            if (Enum.IsDefined(typeof(Config.SendAPINames),type))
+            if (Enum.IsDefined(typeof(Config.SendAPINames), type))
                 Common.CallAPI("Send", type, requestJson);
         }
+        
         public static void ReceiveController(String json)
         {
             JObject responseJson = null;
@@ -33,8 +33,8 @@ namespace Communication.API
 
             string type = Common.ToPascalCase(responseJson.Value<string>("type"));
             string data = JsonConvert.SerializeObject((JObject)responseJson["data"]);
-            if (Enum.IsDefined(typeof(Config.ReceiveAPINames),type))
-                Common.CallAPI("Receive",type, data);
+            if (Enum.IsDefined(typeof(Config.ReceiveAPINames), type))
+                Common.CallAPI("Receive", type, data);
         }
     }
 }

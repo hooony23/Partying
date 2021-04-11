@@ -36,9 +36,9 @@ public class PauseControl : MonoBehaviour
             {
                 PauseObject.SetActive(true);
                 IsUiPoen = true;
-                
-                
-                Debug.Log(IsUiPoen+"========================================================");
+
+
+                Debug.Log(IsUiPoen + "========================================================");
             }
             else if (IsUiPoen)
             {

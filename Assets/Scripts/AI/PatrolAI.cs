@@ -19,7 +19,7 @@ public class PatrolAI : PatrolAIUtil
 
     NavMeshAgent navPatrol;
     private void Awake()
-    {   
+    {
         pac.LayerMaskPlayer = LayerMask.GetMask("Player");
         pac.LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
         pac.Patrol = GetComponent<NavMeshAgent>();
@@ -28,17 +28,17 @@ public class PatrolAI : PatrolAIUtil
     void Start()
     {
         pac.LastPpoint = transform;
-        
+
         InvokeRepeating("FindPatrolPoint", 0f, 1.5f);
     }
 
     void Update()
     {
-        
+
         UpdatePatrolTarget();
         Move(); // 순찰, 추격, 위험지역 확인
-        
-        
+
+
     }
 
     private void FixedUpdate()
@@ -53,5 +53,5 @@ public class PatrolAI : PatrolAIUtil
 
     }
 
-    
+
 }

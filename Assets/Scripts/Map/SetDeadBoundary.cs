@@ -7,7 +7,7 @@ using Communication.API;
 
 public class SetDeadBoundary : MonoBehaviour
 {
-    
+
     // DeadBoundary 에 Player 닿으면 죽음 처리
     private void OnCollisionEnter(Collision collision)
     {

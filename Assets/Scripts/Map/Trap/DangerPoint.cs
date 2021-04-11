@@ -7,13 +7,13 @@ public class DangerPoint : BaseTrap
 
     public void OnTriggerEnter(Collider other)
     {
-        TrapEvent(other,other.transform);
+        TrapEvent(other, other.transform);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        
-        TrapEvent(other,null);
+
+        TrapEvent(other, null);
     }
     public override void TrapEvent(Collider other, params object[] obj)
     {

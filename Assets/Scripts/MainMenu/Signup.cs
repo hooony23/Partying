@@ -17,7 +17,7 @@ public class Signup : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     // 아이디 중복확인 클릭
@@ -60,7 +60,7 @@ public class Signup : MonoBehaviour
             eaInput.text = "";
             warning.text = "";
             warning.color = Color.black;
-            
+
             // 다음화면으로
             this.gameObject.SetActive(false);
             nextScreen.SetActive(true);

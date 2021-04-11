@@ -4,7 +4,7 @@ namespace Item
 {
     public class BaseItem : MonoBehaviour, IItem
     {
-        public float WaitTime {get; set;}
+        public float WaitTime { get; set; }
 
         public void FixedUpdate()
         {
@@ -17,21 +17,21 @@ namespace Item
             if (other.CompareTag("Player"))
             {
                 Player player = other.transform.gameObject.GetComponent<Player>();
-                ItemApply(player,WaitTime);
+                ItemApply(player, WaitTime);
 
 
             }
         }
-        public virtual void DisAppear(){}
-        public virtual void ItemApply(Player player, float time=0)
+        public virtual void DisAppear() { }
+        public virtual void ItemApply(Player player, float time = 0)
         {
-            Invoke("DisAppear",time);
+            Invoke("DisAppear", time);
             // 아이템 이벤트 실행보다 먼저 사라지지 않도록 하기 위해 0.5f 추가.
-            for(int i=0;i<this.transform.childCount;i++)
+            for (int i = 0; i < this.transform.childCount; i++)
             {
                 Destroy(this.transform.GetChild(i).gameObject);
             }
-            StartCoroutine(Lib.Common.WaitThenCallback(time+0.5f,() => {Destroy(this.gameObject);}));
+            StartCoroutine(Lib.Common.WaitThenCallback(time + 0.5f, () => { Destroy(this.gameObject); }));
         }
-}
+    }
 }

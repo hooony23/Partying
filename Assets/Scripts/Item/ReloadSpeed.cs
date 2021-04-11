@@ -7,12 +7,12 @@ namespace Item
         {
             WaitTime = 10f;
         }
-        public override void ItemApply(Player player,float time = 0)
+        public override void ItemApply(Player player, float time = 0)
         {
-            
+
             _player = player;
             player.ShotSpeed = Util.Config.shotSpeed * 3;
-            base.ItemApply(player,time);
+            base.ItemApply(player, time);
         }
         public override void DisAppear()
         {
