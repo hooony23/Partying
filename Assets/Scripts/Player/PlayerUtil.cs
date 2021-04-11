@@ -265,17 +265,13 @@ public class PlayerUtil : PlayerController
     public IEnumerator OnAttacked(Vector3 reactVec)
     {
         Debug.Log("플레이어가 공격받음");
-
-        if (IsBeatable == false)
-        {
-            IsBeatable = true;
-            StartCoroutine(Blink(5));
-            KnockBack(reactVec, 8f);
-        }
+        Debug.Log(PlayerHealth);
+        
+        StartCoroutine(Blink(5));
+        KnockBack(reactVec, 8f);
 
         yield return new WaitForSeconds(2f);
-        IsBeatable = false;
-
+        IsBeatable = true;
     }
     // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
     public IEnumerator Blink(int count)

@@ -36,6 +36,7 @@ namespace Boss
             {
                 StartCoroutine(WakeUp());
             }
+
         }
         void Update()
         {

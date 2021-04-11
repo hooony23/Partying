@@ -47,5 +47,5 @@ public class PlayerController : MonoBehaviour
     // 플레이어 피격 효과
     public Material Mat { get; set; }
 
-    public bool IsBeatable { get; set; } = false; // 플레이어 무적 상태 컨트롤
+    public bool IsBeatable { get; set; } = true; // 플레이어 무적 상태 컨트롤
 }
