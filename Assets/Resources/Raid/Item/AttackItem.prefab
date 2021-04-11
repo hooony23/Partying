@@ -205,11 +205,7 @@ GameObject:
   - component: {fileID: 8826679448728283487}
   - component: {fileID: 3636830324870832249}
   m_Layer: 0
-<<<<<<< HEAD:Assets/Resources/Raid/Item/AttackItem.prefab
   m_Name: AttackItem
-=======
-  m_Name: AttckItem
->>>>>>> e43938e0cb367f0f39f83c5869fb7f649f7ee415:Assets/Resources/Raid/Item/AttckItem.prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

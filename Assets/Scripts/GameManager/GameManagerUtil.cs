@@ -13,7 +13,7 @@ namespace GameManager
             Config.userUuid = responseJson["data"].Value<string>("uuid");
         }
         protected void InitializeLabylinth()
-        {
+        {   
             // 플레이어에게 부착할 카메라 생성
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
@@ -26,6 +26,22 @@ namespace GameManager
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
 
+        }
+        protected void InitializeRaid()
+        {
+            InitUserList();
+
+            GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
+            playerCamera.name = Resources.Load("Player/CameraArm").name;
+
+            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,0,150), Quaternion.identity) as GameObject;
+            Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
+            
+            GameObject Map = Instantiate(Resources.Load("Raid/Map/RaidTerrain"), Vector3.zero, Quaternion.identity) as GameObject;
+            Map.name = Resources.Load("Raid/Map/RaidTerrain").name;
+
+            GameObject ItemManager = Instantiate(Resources.Load("Raid/Item/ItemManager"), Vector3.zero, Quaternion.identity) as GameObject;
+            ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
         }
         protected void DelUser()
         {

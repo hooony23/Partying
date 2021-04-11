@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
+using GameManager;
 
 // ++ : 패턴은 8초 이후에 동작하도록
 // 0. 플레이어 피격 처리
@@ -19,10 +18,9 @@ namespace Boss
     public class Boss : BossUtil
     {
 
-
-        private void Awake()
+        void Start()
         {
-            GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+            GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
             Animator = GetComponent<Animator>();
 
             ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();
@@ -33,12 +31,6 @@ namespace Boss
             NavMeshAgent = GetComponent<NavMeshAgent>();
 
             InitParticleSystem();
-            // UpdatePlayersList();
-
-        }
-
-        void Start()
-        {
             Debug.Log(GM.PlayerList.Count);
             if (GM.PlayerList.Count > 0)
             {
