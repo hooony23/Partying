@@ -12,10 +12,9 @@ namespace Item
             
             _player = player;
             player.ShotSpeed = Util.Config.shotSpeed * 3;
-            Invoke("DisAppear",WaitTime);
             base.ItemApply(player,time);
         }
-        public void DisAppear()
+        public override void DisAppear()
         {
             _player.ShotSpeed = Util.Config.shotSpeed;
         }

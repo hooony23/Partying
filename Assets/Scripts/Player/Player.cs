@@ -5,7 +5,6 @@ using Communication;
 using Boss;
 public class Player : PlayerUtil
 {
-    [SerializeField] float speed = 0f;
     void Awake()
     {
         
@@ -24,7 +23,6 @@ public class Player : PlayerUtil
     }
     void Update()
     {
-        speed = PlayerSpeed;
         GetInput();
         Move();
         Turn();

@@ -13,10 +13,9 @@ namespace Item
             
             _player = player;
             player.AttackDamage = Util.Config.playerAttackDamage * 2;
-            Invoke("DisAppear",WaitTime);
             base.ItemApply(player,time);
         }
-        public void DisAppear()
+        public override void DisAppear()
         {
             _player.AttackDamage = Util.Config.playerAttackDamage;
         }
