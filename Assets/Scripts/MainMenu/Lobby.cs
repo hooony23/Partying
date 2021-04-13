@@ -11,9 +11,27 @@ public class Lobby : BaseMainMenu, IMainMenu
 {
     // SerializeField : 인스펙터에서만 접근 가능
     // 방목록 동적생성
+<<<<<<< HEAD
     [SerializeField]private GameObject roomPrefab = null;
     private Transform content = null;
 
+=======
+    [SerializeField] private GameObject roomPrefab = null;
+    [SerializeField] private Transform content = null;
+    [SerializeField] private GameObject nextScreen = null; // RoomUI
+
+
+
+    // 예시) 받아올 방들의 정보
+    List<RoomInfo> rooms;
+    RoomInfo room1 = new RoomInfo(0, "안녕안녕", "hooony23", "1234", 1);
+    RoomInfo room2 = new RoomInfo(1, "드루와드루와", "skine134", "", 3);
+    RoomInfo room3 = new RoomInfo(2, "자신있는 사람만", "prawn12", "", 4);
+    RoomInfo room4 = new RoomInfo(3, "아무나", "sunkyu", "", 1);
+    RoomInfo room5 = new RoomInfo(4, "신세계", "newt", "", 3);
+    RoomInfo room6 = new RoomInfo(5, "아모르파티", "dynamic", "", 2);
+    RoomInfo room7 = new RoomInfo(6, "바보바보바보", "hasse", "", 1);
+>>>>>>> origin/dev-SungyuHwang
 
     // 비밀번호 입력 창
     private GameObject popup = null;
@@ -23,6 +41,10 @@ public class Lobby : BaseMainMenu, IMainMenu
     [SerializeField]Image locker = null;
     [SerializeField]Text headcount = null;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev-SungyuHwang
 
     // 선택한 방의 정보
     private RoomInfo clickRoomInfo = null;
@@ -51,8 +73,13 @@ public class Lobby : BaseMainMenu, IMainMenu
         backUINum = 4;
         UINum = 6;
 
+<<<<<<< HEAD
         // Set GUIObject
         content = this.transform.Find("Scroll View RoomList").Find("Viewport").Find("Content");
+=======
+        popup.SetActive(false); // 팝업 메뉴 비활성화로 초기화
+
+>>>>>>> origin/dev-SungyuHwang
 
         popup = this.transform.Find("Popup Password").gameObject;
         inputPassword = popup.transform.Find("InputField Password").gameObject.GetComponent<InputField>();

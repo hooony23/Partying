@@ -14,7 +14,7 @@ namespace Communication.JsonFormat
             return JsonConvert.SerializeObject(this);
         }
 
-        public static string ObjectToJson(string type, string server, object data = null)
+        public static string ObjectToJson(string type, object data = null)
         {
             /// <summary>
             /// 현재 오브젝트를 json 형식의 string으로 반환합니다.
@@ -30,12 +30,10 @@ namespace Communication.JsonFormat
             /// }
             /// </returns>
             string _type = type;
-            string _server = server;
-            string _uuid = Config.userUuid;
             object _data = data;
-            if (data==null)
-             _data = new {};
-            return JsonConvert.SerializeObject(new { type = _type, server = _server,uuid = _uuid, data =  _data});
+            if (data == null)
+                _data = new { };
+            return JsonConvert.SerializeObject(new { type = type, uuid = Config.userUuid, data = _data });
         }
         public void SetValues(string type, string uuid, object data)
         {

@@ -8,7 +8,7 @@ public class MapUtil : MapController
 {
     protected void InitializeMap()
     {
-        MapInfo = NetworkInfo.mapInfo;
+        MInfo = NetworkInfo.mapInfo;
         MapObjects = new MapObjects();
         MapObjects.wall = Resources.Load("Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
         MapObjects.UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;// 위 아래 벽
@@ -42,7 +42,7 @@ public class MapUtil : MapController
         // 결과를 확인하기 위한 구문 
         // Dictionary<int, string> type = new Dictionary<int, string>() { { 0, "왼쪽" }, { 1, "오른쪽" }, { 2, "위" }, { 3, "아래" } };
         // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
-        int[,,] labylinthArray = MapInfo.labylinthArray;
+        int[,,] labylinthArray = MInfo.labylinthArray;
         // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
         Config.labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
         //wall localScale = (10,5,1)
@@ -92,37 +92,37 @@ public class MapUtil : MapController
     }
     public void TrapRespawn()
     { //함정생성
-        CellInfo[] trapInfo = MapInfo.trap;
+        CellInfo[] trapInfo = MInfo.trap;
 
         GameObject grandParent = GameObject.Find("Map");
-        foreach(CellInfo item in trapInfo)
+        foreach (CellInfo item in trapInfo)
         {
-                GameObject Trap;
-                switch ((string)item.data)
-                {
-                    case "spike":
-                        Trap = Instantiate(MapObjects.SpikeTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "SpikeTrap";
-                        break;
-                    case "hole":
-                        Trap = Instantiate(MapObjects.HoleTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "HoleTrap";
-                        break;
-                    case "slow":
-                        Trap = Instantiate(MapObjects.SlowTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "SlowTrap";
-                        break;
-                    case "danger":
-                        Trap = Instantiate(MapObjects.DangerZone, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                        Trap.name = "DangerZone";
-                        break;
-                    default:
-                        Trap = null;
-                        break;
-                }
-                if (Trap == null)
-                    continue;
-                Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
+            GameObject Trap;
+            switch ((string)item.data)
+            {
+                case "spike":
+                    Trap = Instantiate(MapObjects.SpikeTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "SpikeTrap";
+                    break;
+                case "hole":
+                    Trap = Instantiate(MapObjects.HoleTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "HoleTrap";
+                    break;
+                case "slow":
+                    Trap = Instantiate(MapObjects.SlowTrap, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "SlowTrap";
+                    break;
+                case "danger":
+                    Trap = Instantiate(MapObjects.DangerZone, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                    Trap.name = "DangerZone";
+                    break;
+                default:
+                    Trap = null;
+                    break;
+            }
+            if (Trap == null)
+                continue;
+            Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
         }
     }
 
@@ -142,7 +142,7 @@ public class MapUtil : MapController
 
     public void PlayerRespawn()
     {
-        CellInfo[] playerInfo = MapInfo.playerLocs;
+        CellInfo[] playerInfo = MInfo.playerLocs;
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);

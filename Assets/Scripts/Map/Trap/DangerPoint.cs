@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DangerPoint : MonoBehaviour
+public class DangerPoint : BaseTrap
 {
     // 위험지역으로 달려갈 Enemy를 지정
     PatrolAI enemy = null;
@@ -9,20 +9,22 @@ public class DangerPoint : MonoBehaviour
         enemy = GameObject.Find("Patrol").GetComponent<PatrolAI>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            enemy.CheckDanger(other.transform);
-        }
+        TrapEvent(other, other.transform);
     }
 
     private void OnTriggerExit(Collider other)
     {
+
+        TrapEvent(other, null);
+    }
+    public override void TrapEvent(Collider other, params object[] obj)
+    {
+        Transform transform = obj[0] != null ? (Transform)obj[0] : null;
         if (other.CompareTag("Player"))
         {
-            enemy.CheckDanger(null);
+            enemy.CheckDanger(transform);
         }
     }
-
 }

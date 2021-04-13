@@ -8,10 +8,11 @@ public class UserScoreInfo
     private string text;
     private int score;
 
-    public UserScoreInfo(string name, int score) {
+    public UserScoreInfo(string name, int score)
+    {
         this.text = name;
         this.score = score;
     }
-    public string Text { get => text; set => text = value;}
+    public string Text { get => text; set => text = value; }
     public int Score { get => score; set => score = value; }
 }

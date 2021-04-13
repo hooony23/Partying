@@ -44,7 +44,10 @@ public class FirstScreen : BaseMainMenu, IMainMenu
     public void OnClickQuit()
     {
         // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
+<<<<<<< HEAD
 #if UNITY_EDITOR
+=======
+>>>>>>> origin/dev-SungyuHwang
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit(); 

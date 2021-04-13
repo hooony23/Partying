@@ -8,6 +8,7 @@ using Communication.MainServer;
 
 public class Signup : BaseMainMenu, IMainMenu
 {
+<<<<<<< HEAD
     private Button idCheck = null;
 
     private InputField nameInput = null;
@@ -16,6 +17,15 @@ public class Signup : BaseMainMenu, IMainMenu
     private InputField idInput = null;
 
     private Button signup = null;
+=======
+    [SerializeField] private Text warning = null;
+    [SerializeField] private Button idCheck = null;
+    [SerializeField] private InputField idInput = null;
+    [SerializeField] private InputField pwInput = null;
+    [SerializeField] private InputField eaInput = null; // email address
+    [SerializeField] private Button signup = null;
+    [SerializeField] private GameObject nextScreen = null;
+>>>>>>> origin/dev-SungyuHwang
 
     private bool idValid = false;
 
@@ -24,11 +34,15 @@ public class Signup : BaseMainMenu, IMainMenu
 
     private void Start()
     {
+<<<<<<< HEAD
         SetUp();
     }
     private void OnEnable()
     {
         UINum = 3;
+=======
+
+>>>>>>> origin/dev-SungyuHwang
     }
     public void SetUp()
     {
@@ -105,8 +119,23 @@ public class Signup : BaseMainMenu, IMainMenu
 
         if (serverMsg.Equals("True"))
         {
+<<<<<<< HEAD
             SetwarningText("회원가입에 성공하셨습니다");
             Invoke("NextUI",2f);
+=======
+            // 등록절차 ~~
+
+            // 입력내용 초기화
+            idInput.text = "";
+            pwInput.text = "";
+            eaInput.text = "";
+            warning.text = "";
+            warning.color = Color.black;
+
+            // 다음화면으로
+            this.gameObject.SetActive(false);
+            nextScreen.SetActive(true);
+>>>>>>> origin/dev-SungyuHwang
         }
 
     }

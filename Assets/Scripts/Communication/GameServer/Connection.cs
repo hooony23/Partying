@@ -17,7 +17,7 @@ namespace Communication.GameServer
         // Client socket.  
         public Socket workSocket = null;
         // Size of receive buffer.  
-        public const int BufferSize = 1024*8;
+        public const int BufferSize = 1024 * 8;
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
         // Received data string.  
@@ -45,11 +45,19 @@ namespace Communication.GameServer
             try
             {
                 // TODO Test끝나면 주석 해제
+<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/Connection.cs
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.defaultDNS);
                 //  IPAddress ipAddress = ipHostInfo.AddressList[0];
                 //  IPEndPoint remoteEP = new IPEndPoint(ipAddress, Config.gameServerPort);
                 IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
+=======
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.serverIP);
+                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
+>>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/Connection.cs
 
                 // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,
@@ -155,8 +163,16 @@ namespace Communication.GameServer
                         List<string> tmp = new List<string>(receiveDatas);
                         tmp.Remove("");
                         receiveDatas = tmp.ToArray();
-                        foreach(string data in receiveDatas)
+                        foreach (string data in receiveDatas)
                         {
+<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/Connection.cs
+=======
+                            if (data.Contains("connected"))
+                            {
+                                response = data;
+                                continue;
+                            }
+>>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/Connection.cs
                             APIController.ReceiveController(data);
                         }
                         receiveDone.Set();
@@ -175,7 +191,7 @@ namespace Communication.GameServer
         public static void Send(String data)
         {
             // Convert the string data to byte data using ASCII encoding.  
-            byte[] byteData = Encoding.UTF8.GetBytes(data+"<EOF>");
+            byte[] byteData = Encoding.UTF8.GetBytes(data + "<EOF>");
             // Console.WriteLine("send {0}", data);
 
             // Begin sending the data to the remote device.  
