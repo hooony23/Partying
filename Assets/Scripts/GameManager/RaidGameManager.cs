@@ -1,4 +1,4 @@
-using Communication;
+using Communication.GameServer;
 
 namespace GameManager
 {

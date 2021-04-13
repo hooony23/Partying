@@ -3,11 +3,7 @@
 public class DangerPoint : BaseTrap
 {
     // 위험지역으로 달려갈 Enemy를 지정
-    PatrolAI enemy = null;
-    private void Start()
-    {
-        enemy = GameObject.Find("Patrol").GetComponent<PatrolAI>();
-    }
+    [SerializeField] PatrolAI enemy = null;
 
     public void OnTriggerEnter(Collider other)
     {

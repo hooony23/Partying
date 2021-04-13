@@ -1,3 +1,5 @@
+using Lib;
+using Communication.JsonFormat;
 using Communication.GameServer;
 using Communication.GameServer.API;
 
@@ -15,10 +17,6 @@ namespace GameManager
             // var temp2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Communication.JsonFormat.MapInfo>(temp);
             // temp2.playerLocs[0].data = Util.Config.userUuid;
             // Communication.NetworkInfo.mapInfo = temp2;
-
-            SetUserUuid(Connection.Connected());
-            APIController.SendController("CreateMap");
-            Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
         
