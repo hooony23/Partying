@@ -10,15 +10,9 @@ using Communication.JsonFormat;
 public class RoomSetting : BaseMainMenu, IMainMenu
 {
 
-<<<<<<< HEAD
     private InputField roomTitleInput = null;
     private InputField roomPasswordInput = null;
     private string Title = "";
-=======
-    [SerializeField] private InputField roomTitleInput = null;
-    [SerializeField] private InputField roomPasswordInput = null;
-    private string title = "";
->>>>>>> origin/dev-SungyuHwang
     private string password = "";
 
 

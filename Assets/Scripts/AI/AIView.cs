@@ -44,19 +44,19 @@ public class AIView : MonoBehaviour
                     {
                         // 장애물 없음, 몬스터가 점점 가까이 감
                         transform.position = Vector3.Lerp(transform.position, targetHit.transform.position, 0.02f);
-
+                        
 
                     }
-
+                    
                     // 장애물이 플레이어가 아닐 때
                     else
                     {
-
+                        
                     }
                 }
             }
         }
     }
 
-
+    
 }

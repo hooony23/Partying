@@ -12,8 +12,7 @@ using Util;
     private string BGMSound;*/
 
 [System.Serializable]
-public class Sound
-{
+public class Sound {
     public string name;
     public AudioClip clip;
 }
@@ -24,7 +23,7 @@ public class Sound
 public class SoundManager : MonoBehaviour
 {
 
-    public static SoundManager instance; //전역변수로 설정하여 어디서든 참조 
+public static SoundManager instance; //전역변수로 설정하여 어디서든 참조 
     public AudioSource[] audioSourceSFX;
     public AudioSource audioSourceBGM;
     public AudioMixer audioMixer;
@@ -46,20 +45,18 @@ public class SoundManager : MonoBehaviour
             UiSliderBgm.value = Config.Bgmvol;
             UiSliderSfx.value = Config.Sfxvol;
         }
-        else
-        { //씬 이동후 SoundManager 중복방지를 위한 기존 SoundManger 파괴
+        else { //씬 이동후 SoundManager 중복방지를 위한 기존 SoundManger 파괴
             Destroy(gameObject);
         }
     }
     private void Start()
     {
         //효과음의 갯수와 동일화
-        playSoundName = new string[audioSourceSFX.Length];
+        playSoundName = new string[audioSourceSFX.Length]; 
         audioMixer.SetFloat("SFX", Mathf.Log10(UiSliderBgm.value) * 20); // 오디오 설정에 슬라이더 값 대입
         audioMixer.SetFloat("BGM", Mathf.Log10(UiSliderSfx.value) * 20);
     }
-    public void IsPlaySound(string name)
-    { //음원재생
+    public void IsPlaySound(string name) { //음원재생
         for (int i = 0; i < EffectSound.Length; i++)
         {
 
@@ -71,12 +68,10 @@ public class SoundManager : MonoBehaviour
                 audioSourceBGM.Play();
                 return;
             }
-            if (name.Equals(EffectSound[i].name))
-            {//SFX재생
-                for (int j = 0; j < audioSourceSFX.Length; j++)
+            if (name.Equals(EffectSound[i].name)) {//SFX재생
+                for (int j = 0;  j < audioSourceSFX.Length;  j++)
                 {
-                    if (!audioSourceSFX[j].isPlaying)
-                    {
+                    if (!audioSourceSFX[j].isPlaying) {
                         playSoundName[j] = EffectSound[i].name;
                         audioSourceSFX[j].clip = EffectSound[i].clip;
                         audioSourceSFX[j].Play();
@@ -87,20 +82,18 @@ public class SoundManager : MonoBehaviour
                 return;
             }
         }
-        Debug.Log(name + "사운드에 등록되지 않거나 이름이 틀림");
+        Debug.Log(name+"사운드에 등록되지 않거나 이름이 틀림");
         return;
     }
 
-    public void StopAllSound()
-    { //실행중인 효과음들 모두 정지
+    public void StopAllSound() { //실행중인 효과음들 모두 정지
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             audioSourceSFX[i].Stop();
         }
     }
-    public void IsStopSound(string name)
-    { //해당 이름과 일치하는 음원 정지
-
+    public void IsStopSound(string name) { //해당 이름과 일치하는 음원 정지
+        
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             if (playSoundName[i].Equals(name))
@@ -110,9 +103,9 @@ public class SoundManager : MonoBehaviour
                 audioSourceBGM.Stop();
                 return;
             }
-            /*else { //StopAllSound와 합칠 수 있을 경우 제거후 추가
-                 audioSourceSFX[i].Stop();
-             }*/
+           /*else { //StopAllSound와 합칠 수 있을 경우 제거후 추가
+                audioSourceSFX[i].Stop();
+            }*/
         }
         Debug.Log("재생중인" + name + "사운드가 없습니다.");
     }

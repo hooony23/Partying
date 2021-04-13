@@ -40,7 +40,7 @@ public class AIMove
         loc["z"] = tz;
 
         // "vec"
-        vec["x"] = vx;
+        vec["x"] = vx; 
         vec["y"] = vy;
         vec["z"] = vz;
 

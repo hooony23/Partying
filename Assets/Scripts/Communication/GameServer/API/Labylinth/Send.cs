@@ -4,29 +4,25 @@ using Communication.JsonFormat;
 using Lib;
 
 
-<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/API/Labylinth/Send.cs
 namespace Communication.GameServer.API.Labylinth
-=======
-namespace Communication.API
->>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/API/Send.cs
 {
     public class Send : Controller
     {
         public void Move(string request)
         {
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server, request));
         }
         public void CreateMap()
         {
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server));
         }
         public void GetItem()
         {
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server));
         }
         public void Death()
         {
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server));
         }
         public void Connected()
         {

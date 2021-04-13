@@ -2,51 +2,71 @@ using UnityEngine;
 using Util;
 using Communication.GameServer.API;
 using Communication.JsonFormat;
-using Boss;
 public class PlayerController : MonoBehaviour
 {
-    public string CurrentStage { get; set; } = "Labyrinth";
-    public bool IsStun { get; set; } = false;
-    public bool IsDead { get; set; } = false;
-    public bool GetItem { get; set; } = false; // 클리어 아이템 획득 표시
-    public string UserUuid { get; set; }
-    public PlayerInfo PInfo { get; set; } = new PlayerInfo();
+    
+
+    private string userUuid = null;
+    private PlayerInfo pInfo = new PlayerInfo();
+
+    private bool isStun = false;
+    private bool isDead = false;
+    private bool getItem = false; // 클리어 아이템 획득 표시
 
     // 기본 움직임(w,a,s,d, spacebar)
-    public bool JDown { get; set; } // sacebar키 입력 여부
-    public float HAxis { get; set; }
-    public float VAxis { get; set; }
-    public Vector3 MoveVec { get; set; }
-    public Vector3 MoveDir { get; set; }
-    public Vector2 MoveInput { get; set; }
+    private float hAxis;
+    private float vAxis;
+    private Vector3 moveVec;
+    private Vector3 moveDir;
+    private Vector2 moveInput;
+
+    //private string walkSound = "Walk";
+
+    private bool jDown; // sacebar키 입력 여부
 
     // 움직임 상태, 플레이어 상태
-    public bool IsMove { get; set; }
-    public bool IsDodge { get; set; } // 회피동작 상태 여부
-    public string PlayerState { get; set; } // 플레이어 이벤트, 상태(run, dodge, ...)
-    public float PlayerSpeed { get; set; } = Config.playerSpeed;
-    public float PlayerMaxHealth { get; set; } = Config.playerHealth;
-    public float PlayerHealth { get; set; } = Config.playerHealth;
-    public float AttackDamage { get; set; } = Config.playerAttackDamage;
-    public float ShotSpeed { get; set; } = Config.shotSpeed;
+    private string playerState; // 플레이어 이벤트, 상태(run, dodge, ...)
+    private float playerSpeed = Config.playerSpeed;
+    private float playerHealth = Config.playerHealth;
+    private bool isMove;
+    private bool isDodge; // 회피동작 상태 여부
 
     // 상호작용
-    public bool EDown { get; set; } // E키 입력 여부
-    public GameObject NearObject { get; set; } // 아이템 습득로직을 위한 오브젝트 정의
+    private bool eDown; // E키 입력 여부
+    private GameObject nearObject; // 아이템 습득로직을 위한 오브젝트 정의
 
     // 애니메이션
-    public Animator Anim { get; set; }
+    private Animator anim;
 
     // 물리효과
-    public bool IsBorder { get; set; }
-    public Rigidbody Rigid { get; set; }
+    private Rigidbody rigid;
+    private bool isBorder;
 
     // 캐릭터 시점
-    public Transform CameraArm { get; set; }
-    public Vector2 MouseDelta { get; set; }
+    private Transform cameraArm;
+    private Vector2 mouseDelta;
 
-    // 플레이어 피격 효과
-    public Material Mat { get; set; }
-
-    public bool IsBeatable { get; set; } = true; // 플레이어 무적 상태 컨트롤
+    public string UserUuid { get => userUuid; set => userUuid = value; }
+    public PlayerInfo PInfo { get => pInfo; set => pInfo = value; }
+    public bool IsStun { get => isStun; set => isStun = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
+    public bool GetItem { get => getItem; set => getItem = value; }
+    public float HAxis { get => hAxis; set => hAxis = value; }
+    public float VAxis { get => vAxis; set => vAxis = value; }
+    public Vector3 MoveVec { get => moveVec; set => moveVec = value; }
+    public Vector3 MoveDir { get => moveDir; set => moveDir = value; }
+    public Vector2 MoveInput { get => moveInput; set => moveInput = value; }
+    public bool JDown { get => jDown; set => jDown = value; }
+    public string PlayerState { get => playerState; set => playerState = value; }
+    public float PlayerSpeed { get => playerSpeed; set => playerSpeed = value; }
+    public float PlayerHealth { get => playerHealth; set => playerHealth = value; }
+    public bool IsMove { get => isMove; set => isMove = value; }
+    public bool IsDodge { get => isDodge; set => isDodge = value; }
+    public bool EDown { get => eDown; set => eDown = value; }
+    public GameObject NearObject { get => nearObject; set => nearObject = value; }
+    public Animator Anim { get => anim; set => anim = value; }
+    public Rigidbody Rigid { get => rigid; set => rigid = value; }
+    public bool IsBorder { get => isBorder; set => isBorder = value; }
+    public Transform CameraArm { get => cameraArm; set => cameraArm = value; }
+    public Vector2 MouseDelta { get => mouseDelta; set => mouseDelta = value; }
 }

@@ -14,15 +14,10 @@ namespace Util
         public static string mainServerDNS = $"https://{defaultDNS}:{mainServerPort}";
         public static string chatServerDNS = $"htpps://{defaultDNS}:{chatServerPort}";
 
-        // boss
-        public static float radarRange = 60f;
-        public static float bossHP = 6000f;
         // player
         public static float playerMoveVector = 3f;
         public static float playerSpeed = 14f;
-        public static float playerHealth = 3;
-        public static float playerAttackDamage = 1f;
-        public static float shotSpeed = 1f;
+        public static float playerHealth = 100;
         public static string userUuid = "";
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각
@@ -31,10 +26,7 @@ namespace Util
         // map
         public static int ROW = 20;
         public static int COL = 20;
-        // 
-        public static int defaultStage = 2;
         public static float labylinthOnSpaceSize = 0f;
-
         public enum InputKey
         {
             A = KeyCode.A,
@@ -43,6 +35,7 @@ namespace Util
             W = KeyCode.W,
             E = KeyCode.E,
             Space = KeyCode.Space,
+
         }
 
         public enum SendAPINames

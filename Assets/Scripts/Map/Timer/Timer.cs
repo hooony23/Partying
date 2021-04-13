@@ -14,7 +14,7 @@ public class Timer : MonoBehaviour
     private bool TimeOver = false;
     private bool Mintime = false;
     private bool isTimerStart = true;
-
+    
     //BGM 실행
     [SerializeField] private string BGMSound;
     AudioSource audioSource;
@@ -24,16 +24,15 @@ public class Timer : MonoBehaviour
         timeText = TimerObject.transform.Find("TimeText").GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
         Time = Config.Timer;
-
+        
     }
     private void Update()
     {
-        TimeCount();
+            TimeCount();
     }
-    private void TimeCount()
-    {
+    private void TimeCount() {
         //게임시작과 함께 BGM실행
-        if (Config.StartGame && isTimerStart)
+        if (Config.StartGame&& isTimerStart)
         {
             SoundManager.instance.IsPlaySound(BGMSound);
             timeText.gameObject.SetActive(true);
@@ -66,16 +65,13 @@ public class Timer : MonoBehaviour
     }
 
     //타이머 작동
-    private void CountDownTimer()
-    {
+    private void CountDownTimer() {
         Time -= UnityEngine.Time.deltaTime;
-        timeText.text = string.Format("{0:D2}:{1:D2}", (int)(Time / 60 % 60), (int)(Time % 60));
-        if (Time < 0)
-        {
+        timeText.text = string.Format("{0:D2}:{1:D2}", (int)(Time/60%60), (int)(Time % 60));
+        if (Time < 0) {
             TimeOver = true;
         }
-        if (Time < 60 && Time > 59.9)
-        {
+        if (Time<60&&Time>59.9) {
             Mintime = true;
         }
     }

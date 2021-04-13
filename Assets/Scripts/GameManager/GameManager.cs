@@ -7,8 +7,10 @@ namespace GameManager
 
     public class GameManager : GameManagerUtil
     {
+
         void Awake()
         {
+            
             // TODO: Test시 주석 지울 것
             // Util.Config.userUuid = System.Guid.NewGuid().ToString();
             // string temp= System.IO.File.ReadAllText(@".\Assets\Scripts\temp.json");
@@ -16,18 +18,16 @@ namespace GameManager
             // temp2.playerLocs[0].data = Util.Config.userUuid;
             // Communication.NetworkInfo.mapInfo = temp2;
 
-            SetUserUuid(Connection.Connected());
-            APIController.SendController("CreateMap");
-            Connection.receiveDone.WaitOne();
             InitializeLabylinth();
         }
-        
-        void Update()
+        void Update() 
         {
             DelUser();
             DeathUser();
             ClearGame();
         }
+
+
 
         void OnApplicationQuit()
         {

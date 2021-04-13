@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class PatrolAIUtil : MonoBehaviour
 {
     protected PatrolAIController pac = new PatrolAIController();
-
+    
     public void UpdatePatrolTarget()
     {
         Collider[] cols = Physics.OverlapSphere(pac.Patrol.transform.position, pac.DetectDistance, pac.LayerMaskPlayer); // (중심, 반경, layer)

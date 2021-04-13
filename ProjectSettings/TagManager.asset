@@ -7,8 +7,6 @@ TagManager:
   - Item
   - PatrolPoint
   - CameraArm
-  - Laser
-  - Boss
   layers:
   - Default
   - TransparentFX

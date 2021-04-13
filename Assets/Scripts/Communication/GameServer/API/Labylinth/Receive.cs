@@ -7,17 +7,14 @@ using Communication.JsonFormat;
 using Util;
 
 
-<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/API/Labylinth/Receive.cs
 namespace Communication.GameServer.API.Labylinth
-=======
-namespace Communication.API
->>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/API/Receive.cs
 {
     public class Receive : Controller
     {
         public void CreateMap(string response)
         {
             MapInfo mapInfo = JsonConvert.DeserializeObject<MapInfo>(response);
+
             //TODO 더 좋은 방법 찾아야함
             NetworkInfo.mapInfo = mapInfo;
 

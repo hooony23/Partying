@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraSet : MonoBehaviour
 {
-    [SerializeField] private Camera[] cameras = null;
+    [SerializeField] private Camera[] cameras;
     private int funcKeysNum = 2;                    // 입력받는 f 키 활성화 개수
     private int funcKey;                            // 0 : f1, 1 : f2 ...
 
@@ -14,8 +14,7 @@ public class CameraSet : MonoBehaviour
         CameraChange();
     }
 
-    void GetInput()
-    {
+    void GetInput() {
 
         /*funcKeys[0] = Input.GetButtonDown("f1");
         funcKeys[1] = Input.GetButtonDown("f2");

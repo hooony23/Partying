@@ -17,13 +17,11 @@ public class LevelLoader : MonoBehaviour
     public void Start()
     {
         LoadLevel(Config.LodingSence);
-    }
-    public void LoadLevel(int scenceIndex)
-    {
+}
+    public void LoadLevel(int scenceIndex) {
         StartCoroutine(LoadAsynchronously(scenceIndex));
     }
-    IEnumerator LoadAsynchronously(int scenceIndex)
-    {
+    IEnumerator LoadAsynchronously(int scenceIndex) {
         AsyncOperation operation = SceneManager.LoadSceneAsync(scenceIndex);
         //operation.allowSceneActivation = false; //로딩이 다되어도 미실행함, 실행원할시 true
         loadingScreen.SetActive(true);
@@ -35,6 +33,6 @@ public class LevelLoader : MonoBehaviour
             Debug.Log(progress);
             yield return null;
         }
-    }
+        }
 
 }
