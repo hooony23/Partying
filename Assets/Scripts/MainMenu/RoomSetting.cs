@@ -10,15 +10,9 @@ using Communication.JsonFormat;
 public class RoomSetting : BaseMainMenu, IMainMenu
 {
 
-<<<<<<< HEAD
     private InputField roomTitleInput = null;
     private InputField roomPasswordInput = null;
     private string Title = "";
-=======
-    [SerializeField] private InputField roomTitleInput = null;
-    [SerializeField] private InputField roomPasswordInput = null;
-    private string title = "";
->>>>>>> origin/dev-SungyuHwang
     private string password = "";
 
 
@@ -70,7 +64,7 @@ public class RoomSetting : BaseMainMenu, IMainMenu
         if (NetworkInfo.connectionId.Equals(""))
             throw new Exception("not found connectionId");
         info.ConnectionId = NetworkInfo.connectionId;
-        var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", "center_server", info);
+        var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", info);
 
         response = MServer.Communicate("POST", createRoomUri, requestJson);
         JObject json = JObject.Parse(response);

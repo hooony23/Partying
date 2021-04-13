@@ -4,11 +4,7 @@ using Communication.JsonFormat;
 using Lib;
 
 
-<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/API/Labylinth/Send.cs
 namespace Communication.GameServer.API.Labylinth
-=======
-namespace Communication.API
->>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/API/Send.cs
 {
     public class Send : Controller
     {

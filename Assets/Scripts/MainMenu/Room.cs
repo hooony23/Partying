@@ -13,18 +13,9 @@ using Util;
 
 public class Room : BaseMainMenu, IMainMenu
 {
-<<<<<<< HEAD
     private Text title = null;
     private Button startButton = null;
     private Text playerCount = null;
-
-=======
-    [SerializeField] private Text title = null;
-    [SerializeField] private Button startButton = null;
-
-    // 현재 방의 정보
-    private RoomInfo currentRoom = null;
->>>>>>> origin/dev-SungyuHwang
 
     // 서버 통신용
     private string getMemInfoMsg;
@@ -33,14 +24,9 @@ public class Room : BaseMainMenu, IMainMenu
     // 현재 방의 유저 UI
     GameObject[] players = null;
 
-<<<<<<< HEAD
     // 현재 방의 정보
     public string roomUuid = "";
     public void Start()
-=======
-
-    private void Start()
->>>>>>> origin/dev-SungyuHwang
     {
         SetUp();
     }
@@ -139,8 +125,6 @@ public class Room : BaseMainMenu, IMainMenu
     {
         APIController.SendController("Labylinth","Connected");
     }
-
-<<<<<<< HEAD
      public void OnClickGameStart()
     {
         APIController.SendController("Labylinth","Connected");
@@ -158,9 +142,7 @@ public class Room : BaseMainMenu, IMainMenu
         return false;
     }
     public void GameStart()
-=======
-    public void OnClickGameStart() //private으로 하려 했으나, 이벤트 요소는 public으로만 끌어올 수 있는듯.
->>>>>>> origin/dev-SungyuHwang
+
     {
         SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
     }

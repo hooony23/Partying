@@ -18,11 +18,6 @@ namespace GameManager
             AIPatrol.name = Resources.Load("Labyrinth/Patrol/Patrol").name;
 
             // 플레이어, 맵, 함정, patrol point 생성
-<<<<<<< HEAD
-            GameObject Map = Instantiate(Resources.Load("Map/Map"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
-            Map.name = Resources.Load("Map/Map").name;
-
-=======
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
 
@@ -46,7 +41,6 @@ namespace GameManager
             InitUserList();
             GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,30,150), Quaternion.identity) as GameObject;
             Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
->>>>>>> origin/dev-SungyuHwang
         }
         protected void DelUser()
         {
@@ -96,18 +90,10 @@ namespace GameManager
             {
                 foreach (var deathUserUuid in NetworkInfo.deathUserQueue)
                 {
-<<<<<<< HEAD
-                    string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
-                    Debug.Log("Game Clear");
-                    break;
-                }
-                    Application.Quit(0);
-=======
                     PlayerList.Remove(GameObject.Find(deathUserUuid));
                     DeathPlayerList.Add(GameObject.Find(deathUserUuid));
                 }
             }
->>>>>>> origin/dev-SungyuHwang
         }
     }
 }

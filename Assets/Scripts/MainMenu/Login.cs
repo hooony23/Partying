@@ -61,7 +61,7 @@ public class Login : BaseMainMenu, IMainMenu
 
         SignInInfo info = new SignInInfo();
         info.UpdateInfo(id, pw);
-        var requestJson = BaseJsonFormat.ObjectToJson("signIn", "center_server", info);
+        var requestJson = BaseJsonFormat.ObjectToJson("signIn", info);
         response = MServer.Communicate("POST", signInUri, requestJson);
 
         json = JObject.Parse(response);

@@ -7,11 +7,8 @@ using Communication.JsonFormat;
 using Util;
 
 
-<<<<<<< HEAD:Assets/Scripts/Communication/GameServer/API/Labylinth/Receive.cs
+
 namespace Communication.GameServer.API.Labylinth
-=======
-namespace Communication.API
->>>>>>> origin/dev-SungyuHwang:Assets/Scripts/Communication/API/Receive.cs
 {
     public class Receive : Controller
     {

@@ -128,7 +128,7 @@ public class MapUtil : MapController
 
     public void PatrolPointRespawn()
     { //함정생성
-        CellInfo[] patrolPintsInfo = MapInfo.patrolPoints;
+        CellInfo[] patrolPintsInfo = MInfo.patrolPoints;
 
         GameObject grandParent = GameObject.Find("Map");
         foreach(CellInfo item in patrolPintsInfo)
@@ -159,7 +159,7 @@ public class MapUtil : MapController
     }
     public void ClearItemRespawn()
     {
-        Division2 clearLoc = MapInfo.clearItem;
+        Division2 clearLoc = MInfo.clearItem;
         Instantiate(MapObjects.MapClearItem, Grid[(int)clearLoc.X,(int)clearLoc.Y].Respwan.transform.position, Quaternion.identity);
 
     }

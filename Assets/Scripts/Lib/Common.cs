@@ -2,20 +2,15 @@ using System;
 using System.Reflection;
 using System.Collections;
 using UnityEngine;
-<<<<<<< HEAD
 using Newtonsoft.Json.Linq;
 using Communication.JsonFormat;
 using Communication.GameServer.API.Labylinth;
 using Util;
-=======
-
->>>>>>> origin/dev-SungyuHwang
 
 namespace Lib
 {
     public static class Common
     {
-<<<<<<< HEAD
 
         public static void SetUserUuid(string uuid)
         {
@@ -25,44 +20,29 @@ namespace Lib
         {
             return JObject.Parse(request.ToString())[name] as JObject;
         }
-        public static void CallAPI(string server, string tranferFlag, string APIName, params object[] list)
-=======
         public static IEnumerator WaitThenCallback(float time, Action callback)
         {
             yield return new WaitForSeconds(time);
             callback();
         }
         public static void CallAPI(string tranferFlag, string APIName, params object[] list)
->>>>>>> origin/dev-SungyuHwang
         {
             /// <summary>
             /// param : "namespace.className"
-            /// returm : Type
+            /// /// returm : Type
             /// </summary>
-<<<<<<< HEAD
-            Type controller = CallClass(server, tranferFlag);
-            CallMethod(controller, APIName, list);
-        }
-
-        public static Type CallClass(string server, string tranferFlag)
-=======
             Type controller = CallClass(tranferFlag);
             CallMethod(controller, APIName, list);
         }
 
         public static Type CallClass(string tranferFlag)
->>>>>>> origin/dev-SungyuHwang
         {
             /// <summary>
             /// param : "namespace.className"
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-<<<<<<< HEAD
-            Type type = Type.GetType($"Communication.GameServer.API.{server}.{tranferFlag}");
-=======
             Type type = Type.GetType($"Communication.API.{tranferFlag}");
->>>>>>> origin/dev-SungyuHwang
             return type;
         }
 
