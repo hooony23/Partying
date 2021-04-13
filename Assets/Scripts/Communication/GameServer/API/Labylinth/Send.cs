@@ -26,7 +26,7 @@ namespace Communication.GameServer.API.Labylinth
         }
         public void Connected()
         {
-            string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), _server);
+            string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name));
             Connection.Connected(request);
         }
     }
