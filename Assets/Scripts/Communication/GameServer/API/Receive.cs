@@ -8,7 +8,7 @@ using Util;
 
 
 
-namespace Communication.GameServer.API.Labylinth
+namespace Communication.GameServer.API
 {
     public class Receive : Controller
     {
@@ -101,6 +101,20 @@ namespace Communication.GameServer.API.Labylinth
             }
             string isGetUserUuid = responseJson.Value<string>("uuid");
             NetworkInfo.GetItemUserQueue.Enqueue(isGetUserUuid);
+        }
+        public void SpawnItem(string response)
+        {
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            NetworkInfo.itemRespawn = responseJson.ToObject<ItemInfo>();
         }
     }
 }

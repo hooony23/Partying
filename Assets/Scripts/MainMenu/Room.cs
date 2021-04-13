@@ -123,14 +123,14 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void OnClickReady()
     {
-        APIController.SendController("Labylinth","Connected");
+        APIController.SendController("Connected");
     }
      public void OnClickGameStart()
     {
-        APIController.SendController("Labylinth","Connected");
+        APIController.SendController("Connected");
         if(IsAdmin())
         {
-            APIController.SendController("Labylinth", "CreateMap");
+            APIController.SendController("CreateMap");
             // Game Scene 으로 넘어감
             GameStart();
         }

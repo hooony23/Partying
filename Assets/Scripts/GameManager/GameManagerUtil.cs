@@ -1,6 +1,7 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Communication;
+using Communication.GameServer.API;
 using Util;
 
 namespace GameManager

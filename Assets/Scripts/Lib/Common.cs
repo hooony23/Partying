@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Communication.JsonFormat;
-using Communication.GameServer.API.Labylinth;
+using Communication.GameServer.API;
 using Util;
 
 namespace Lib

@@ -233,7 +233,7 @@ public class PlayerUtil : PlayerController
             if (GetItem == true)
             {
                 Destroy(NearObject, 7f); // 이동과 동시에 아이템 오브젝트가 사라짐
-                APIController.SendController("Labylinth", "GetItem");
+                APIController.SendController("GetItem");
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 namespace Item
@@ -5,10 +6,12 @@ namespace Item
     public class BaseItem : MonoBehaviour, IItem
     {
         public float WaitTime { get; set; }
+        public DateTime RemoveTime { get; set; }
 
         public void FixedUpdate()
         {
             transform.Rotate(new Vector3(0, 20f, 0) * Time.deltaTime, Space.World);
+            RemoveItem();
         }
 
 
@@ -20,6 +23,13 @@ namespace Item
                 ItemApply(player, WaitTime);
 
 
+            }
+        }
+        private void RemoveItem()
+        {
+            if(DateTime.Now>RemoveTime)
+            {
+                StartCoroutine(Lib.Common.WaitThenCallback(0, () => { Destroy(this.gameObject); }));
             }
         }
         public virtual void DisAppear() { }

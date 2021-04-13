@@ -4,7 +4,7 @@ using Communication.JsonFormat;
 using Lib;
 
 
-namespace Communication.GameServer.API.Labylinth
+namespace Communication.GameServer.API
 {
     public class Send : Controller
     {
@@ -28,6 +28,10 @@ namespace Communication.GameServer.API.Labylinth
         {
             string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name));
             Connection.Connected(request);
+        }
+        public void InitStage2()
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   
         }
     }
 }
