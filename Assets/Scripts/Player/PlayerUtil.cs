@@ -69,7 +69,7 @@ public class PlayerUtil : PlayerController
 
         if ((IsKeyInput() || MoveDir != preMoveDir)&& !IsDead)
         {
-            APIController.SendController("Move", PInfo.ObjectToJson());
+            APIController.SendController("Move", PInfo);
         }
         preMoveDir = MoveDir;
     }

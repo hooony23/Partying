@@ -11,7 +11,7 @@ namespace Communication.GameServer.API
     public class APIController : MonoBehaviour
     {
 
-        public static void SendController(String type, params String[] requestJson)
+        public static void SendController(String type, params object[] requestJson)
         {
             if (Enum.IsDefined(typeof(Config.SendAPINames), type))
                 Common.CallAPI("Send", type, requestJson);

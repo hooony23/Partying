@@ -15,8 +15,9 @@ public class PopupSystem : BaseMainMenu
 
     public static PopupSystem Instance { get; set; }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         Instance = this;
     }
 

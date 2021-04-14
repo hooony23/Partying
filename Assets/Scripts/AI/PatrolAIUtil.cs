@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class PatrolAIUtil : MonoBehaviour
 {
     protected PatrolAIController pac = new PatrolAIController();
-
     public void UpdatePatrolTarget()
     {
         Collider[] cols = Physics.OverlapSphere(pac.Patrol.transform.position, pac.DetectDistance, pac.LayerMaskPlayer); // (중심, 반경, layer)
@@ -80,7 +79,10 @@ public class PatrolAIUtil : MonoBehaviour
     // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적
     public void CheckDanger(Transform dangerTarget)
     {
-        pac.Target = dangerTarget;
+        if(dangerTarget==null)
+            FindPatrolPoint();
+        else
+            pac.Target = dangerTarget;
     }
 
     // 최초 순찰지역 인식 기능
@@ -93,7 +95,7 @@ public class PatrolAIUtil : MonoBehaviour
             List<Collider> points = new List<Collider>(cols);
             if (cols.Length > 0)
             {
-            Debug.Log(points[0].transform.position);
+                Debug.Log(points[0].transform.position);
                 // 인식된 PatrolPoints 들중 1개만 랜덤으로 선택
                 int ridx = Random.Range(0, points.Count);
                 pac.Target = points[ridx].transform;

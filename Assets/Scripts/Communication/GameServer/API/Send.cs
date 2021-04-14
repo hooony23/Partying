@@ -8,13 +8,14 @@ namespace Communication.GameServer.API
 {
     public class Send : Controller
     {
-        public void Move(string request)
+        public void Move(object request)
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
         }
         public void CreateMap()
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));
+            Connection.receiveDone.WaitOne();
         }
         public void GetItem()
         {

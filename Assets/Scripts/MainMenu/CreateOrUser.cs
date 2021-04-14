@@ -5,10 +5,10 @@ using Util;
 using UnityEngine.UI;
 public class CreateOrUser : BaseMainMenu, IMainMenu
 {
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
-
         //TODO: 속도 느림 개선 필요
         new WebSocketModule().Start();
     }
@@ -22,9 +22,6 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
         this.transform.Find("RoomSetting").Find("Button RoomSetting").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
         this.transform.Find("Lobby").Find("Button Lobby").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
-    }
-    private void OnApplicationQuit() {
-        MServer.Communicate("GET","api/v1/session/signOut",$"userUuid={Util.Config.userUuid}");    
     }
     protected override void BackUI()
     {

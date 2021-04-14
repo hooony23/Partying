@@ -14,14 +14,13 @@ public class SlowPoint : BaseTrap
     }
     private void OnTriggerExit(Collider other)
     {
-        TrapEvent(other, 5f);
+        TrapEvent(other, 1f);
     }
     public override void TrapEvent(Collider other, params object[] obj)
     {
-
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().PlayerSpeed = Util.Config.playerSpeed * (int)obj[0];
+            other.gameObject.GetComponent<Player>().PlayerSpeed = (float)Util.Config.playerSpeed * (float)obj[0];
         }
     }
 }

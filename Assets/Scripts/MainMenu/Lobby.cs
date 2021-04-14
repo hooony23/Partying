@@ -30,19 +30,19 @@ public class Lobby : BaseMainMenu, IMainMenu
 
     private List<RoomInfo> rooms = new List<RoomInfo>();
     private string preRoomList = ""; // 리스트 정보가 변경되었을 때만 업데이트 하기 위함
-
+    protected override void Awake()
+    {
+        base.Awake();
+        SetUp();
+    }    
     private void OnEnable()
     {
-        SetUp();
         GetRoomsList();
+        UpdateRoomsList(NetworkInfo.roomList);
     }
     void Update()
     {
         OnUpdateRoomList(NetworkInfo.roomList);
-    }
-    void OnApplicationQuit()
-    {
-        MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Config.userUuid}");
     }
     public void SetUp()
     {
@@ -61,8 +61,6 @@ public class Lobby : BaseMainMenu, IMainMenu
         popup.transform.Find("Button Check").gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnClickCheck();});
         popup.transform.Find("Button Cancel").gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnClickCancel();});
 
-        //Another
-        UpdateRoomsList(NetworkInfo.roomList);
     }
     public void OnUpdateRoomList(JArray roomList)
     {
@@ -114,12 +112,7 @@ public class Lobby : BaseMainMenu, IMainMenu
 
         // 이전에 받아둔 방 목록들 제거
         rooms.Clear();
-        List<RoomInfo> roomList = roomArray.ToObject<List<RoomInfo>>();
-        // roomList 배열 파싱
-        foreach (RoomInfo room in roomList)
-        {
-            rooms.Add(room);
-        }
+        rooms.AddRange(roomArray.ToObject<List<RoomInfo>>());
     }
 
     // 방 목록 리스트 데이터를 프리팹(방 버튼)화 시키는 기능

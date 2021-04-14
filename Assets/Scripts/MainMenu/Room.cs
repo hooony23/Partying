@@ -16,7 +16,6 @@ public class Room : BaseMainMenu, IMainMenu
     private Text title = null;
     private Button startButton = null;
     private Text playerCount = null;
-
     // 서버 통신용
     private string getMemInfoMsg;
     private JArray users;
@@ -26,17 +25,15 @@ public class Room : BaseMainMenu, IMainMenu
 
     // 현재 방의 정보
     public string roomUuid = "";
-    public void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
     }
     public void OnEnable()
     {
         UINum = 7;
-        Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
-    }
-    public void OnApplicationQuit() {
-        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        SetText();
     }
     public void SetUp()
     {
@@ -54,27 +51,29 @@ public class Room : BaseMainMenu, IMainMenu
                                     playerGrid.GetChild(3).gameObject};
         title = this.transform.Find("RoomTitle").Find("Text RoomTitle").gameObject.GetComponent<Text>();
         playerCount = this.transform.Find("PlayerCount").Find("Text PlayerCount").GetComponent<Text>();
-        if(IsAdmin())
-            startButtonTransfom.Find("Text").GetComponent<Text>().text = "Game Start";
-        startButton = startButtonTransfom.transform.GetComponent<Button>();
+        startButton = startButtonTransfom.GetComponent<Button>();
         
         // Set Button Event
         this.transform.Find("Button Back").GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
         startButton.onClick.AddListener(delegate {OnClickGameStart();});
-        
-        // Another
+    }
+    private void SetText()
+    {
+        Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
         title.text = NetworkInfo.roomInfo.RoomName;
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
+        if(IsAdmin())
+            startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
         UpdatePlayerBannerList();
     }
-
     private void OnUpdateMemberInfo()
     {
-        if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString())){
+        if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString()))
+        {
             Debug.Log($"users : {users.ToString()}");
             Debug.Log($"network.memberInfo : {NetworkInfo.memberInfo.ToString()}");
-            UpdatePlayerBannerList();
             users = NetworkInfo.memberInfo;
+            UpdatePlayerBannerList();
         }
     }
     // OnEnable : Hierachy 에서 활성화 될 때마다 실행
@@ -137,6 +136,8 @@ public class Room : BaseMainMenu, IMainMenu
     }
     private bool IsAdmin()
     {
+        
+        Debug.Log($"RoomUuid : {NetworkInfo.roomInfo.Admin.UserUuid} && myUuid : {NetworkInfo.myData.UserUuid} ");
         if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))
             return true;
         return false;
@@ -151,6 +152,11 @@ public class Room : BaseMainMenu, IMainMenu
         NetworkInfo.roomInfo = new RoomInfo();
         MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
         base.BackUI();
+    }
+    protected override void OnApplicationQuit()
+    {
+        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        base.OnApplicationQuit();
     }
 }
 

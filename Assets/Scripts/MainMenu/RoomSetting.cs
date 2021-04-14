@@ -16,18 +16,15 @@ public class RoomSetting : BaseMainMenu, IMainMenu
     private string password = "";
 
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
     }
     private void OnEnable() 
     {
         UINum = 5;
         nextUINum = 7;    
-    }
-    private void OnApplicationQuit()
-    {
-        MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
     }
     public void SetUp()
     {

@@ -15,8 +15,9 @@ public class Login : BaseMainMenu, IMainMenu
     private InputField pwdInput = null;
 
     // 서버 통신용
-    public void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
     }
     public void OnEnable()
@@ -72,7 +73,10 @@ public class Login : BaseMainMenu, IMainMenu
             SetwarningText(json["data"]["errorMsg"].ToString());
             return;
         }
-        var temp = Lib.Common.GetData(response);
+        //TODO: Test용으로 추후 jwt로 변경해야함
+        // var temp = Lib.Common.GetData(response);
+        var temp = new JObject();
+        temp["nickname"] = JObject.Parse(requestJson)["data"]["nickname"];
         NetworkInfo.myData = new MemberInfo(Util.Config.userUuid, temp["nickname"].ToString());
 
         SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");

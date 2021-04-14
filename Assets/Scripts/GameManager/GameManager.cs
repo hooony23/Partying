@@ -31,7 +31,6 @@ namespace GameManager
         {
             /* 서버 연결 해제 */
             Connection.ConnectedExit();
-            
         }
 
     }

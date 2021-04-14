@@ -10,15 +10,15 @@ public class MapUtil : MapController
     {
         MInfo = NetworkInfo.mapInfo;
         MapObjects = new MapObjects();
-        MapObjects.wall = Resources.Load("Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
-        MapObjects.UpDownWall = Resources.Load("Map/UpDownWall") as GameObject;// 위 아래 벽
+        MapObjects.wall = Resources.Load("Labyrinth/Map/Wall") as GameObject; // 왼쪽 오른쪽 벽
+        MapObjects.UpDownWall = Resources.Load("Labyrinth/Map/UpDownWall") as GameObject;// 위 아래 벽
        
-        MapObjects.PatrolPoint = Resources.Load("Map/PatrolPoint") as GameObject;
-        MapObjects.MapClearItem = Resources.Load("Map/MapClearItem") as GameObject;
-        MapObjects.SpikeTrap = Resources.Load("Trap/SpikeTrap") as GameObject;// 가시함정
-        MapObjects.HoleTrap = Resources.Load("Trap/HoleTrap") as GameObject;// 바닥함정
-        MapObjects.SlowTrap = Resources.Load("Trap/SlowTrap") as GameObject;// 슬로우함정
-        MapObjects.DangerZone = Resources.Load("Trap/DangerZone") as GameObject;// 위험 지역
+        MapObjects.PatrolPoint = Resources.Load("Labyrinth/Map/PatrolPoint") as GameObject;
+        MapObjects.MapClearItem = Resources.Load("Labyrinth/Map/MapClearItem") as GameObject;
+        MapObjects.SpikeTrap = Resources.Load("Labyrinth/Trap/SpikeTrap") as GameObject;// 가시함정
+        MapObjects.HoleTrap = Resources.Load("Labyrinth/Trap/HoleTrap") as GameObject;// 바닥함정
+        MapObjects.SlowTrap = Resources.Load("Labyrinth/Trap/SlowTrap") as GameObject;// 슬로우함정
+        MapObjects.DangerZone = Resources.Load("Labyrinth/Trap/DangerZone") as GameObject;// 위험 지역
         MapObjects.AIPoint = new GameObject("AIPoint");// 오브젝트 리스폰 확인 오브젝트
         MapObjects.MazePoint = new GameObject("MazePoint");// 유닛 오브젝트 리스폰 지점확인 오브젝트
         MapObjects.TrapPoint = new GameObject("TrapPoint");// 함정오브젝트 리스폰 확인 오브젝트
@@ -133,7 +133,6 @@ public class MapUtil : MapController
         GameObject grandParent = GameObject.Find("Map");
         foreach(CellInfo item in patrolPintsInfo)
         {
-                Debug.Log($"{item.col}, {item.row}");
                 GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
                 patrolPoint.name = "patrolPoint";
                 patrolPoint.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));

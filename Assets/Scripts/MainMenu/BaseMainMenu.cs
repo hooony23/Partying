@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Communication.MainServer;
 public class BaseMainMenu : MonoBehaviour
 {
     protected GameObject mainMenuCanvas;
@@ -10,7 +10,7 @@ public class BaseMainMenu : MonoBehaviour
     protected int backUINum = -1;
     protected int UINum = 0;
     protected int nextUINum = -1;
-    protected void Awake()
+    protected virtual void Awake()
     {
         mainMenuCanvas = GameObject.Find("Main Menu Canvas");
         GameObject parent = this.gameObject;
@@ -48,5 +48,9 @@ public class BaseMainMenu : MonoBehaviour
     private void SetActive(bool active)
     {
         this.gameObject.SetActive(active);
+    }
+    protected virtual void OnApplicationQuit()
+    {
+        MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
     }
 }

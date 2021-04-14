@@ -6,8 +6,9 @@ using Communication.MainServer;
 
 public class FirstScreen : BaseMainMenu, IMainMenu
 {
-    public void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
         Debug.Log($"uuid : {Util.Config.userUuid}");
     }

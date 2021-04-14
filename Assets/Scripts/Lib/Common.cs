@@ -42,7 +42,7 @@ namespace Lib
             /// returm : Type
             /// </summary>
             /// <returns></returns>
-            Type type = Type.GetType($"Communication.API.{tranferFlag}");
+            Type type = Type.GetType($"Communication.GameServer.API.{tranferFlag}");
             return type;
         }
 

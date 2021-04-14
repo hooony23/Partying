@@ -22,8 +22,9 @@ public class Signup : BaseMainMenu, IMainMenu
 
     // 서버 통신용
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         SetUp();
     }
     private void OnEnable()
@@ -97,7 +98,11 @@ public class Signup : BaseMainMenu, IMainMenu
             var requestJson = BaseJsonFormat.ObjectToJson("signUp", info);
             response = MServer.Communicate("POST", signupUri, requestJson);
             JObject json = JObject.Parse(response);
-            var temp = Lib.Common.GetData(response);
+
+            //TODO: Test용으로 추후 jwt로 변경해야함
+            // var temp = Lib.Common.GetData(response);
+            var temp = new JObject();
+            temp["nickname"] = JObject.Parse(requestJson)["data"]["nickname"];
             Communication.NetworkInfo.myData = new MemberInfo(Util.Config.userUuid,temp["nickname"].ToString());
             // 서버로 부터 받은 메세지 
             serverMsg = json["data"]["isSuccess"].ToString();
