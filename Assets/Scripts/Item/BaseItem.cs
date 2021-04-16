@@ -1,13 +1,17 @@
 using System;
 using UnityEngine;
-using System.Collections.Generic;
+using Lib;
+using Communication;
 namespace Item
 {
     public class BaseItem : MonoBehaviour, IItem
     {
         public float WaitTime { get; set; }
         public DateTime RemoveTime { get; set; }
-
+        public virtual void Awake()
+        {
+            GetComponent<BaseItem>().RemoveTime = Common.ConvertFromUnixTimestamp(NetworkInfo.itemRespawn.LifeTime);
+        }
         public void FixedUpdate()
         {
             transform.Rotate(new Vector3(0, 20f, 0) * Time.deltaTime, Space.World);

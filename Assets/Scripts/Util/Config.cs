@@ -53,6 +53,7 @@ namespace Util
             Death,
             Move,
             GetItem,
+            InitStage2,
         }
         public enum ReceiveAPINames
         {
@@ -62,6 +63,7 @@ namespace Util
             Death,
             SyncPacket,
             GetItem,
+            SpawnItem
         }
         public static int LodingSence = 1; //씬 로드 순서파악을 위한 숫자
 
