@@ -13,7 +13,7 @@ public class ChatQueue<T> : Queue<T>
     public ChatQueue() : this(0) { }
     public void Push(T item)
     {
-        if (this.Count > MaxCount)
+        if (this.Count < MaxCount)
             base.Dequeue();
         base.Enqueue(item);
     }

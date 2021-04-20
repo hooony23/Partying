@@ -14,5 +14,15 @@ public class ChatInfo {
         {
             return JsonConvert.SerializeObject(this);
         }
+        public void SetChatInfo(string nickname,string message)
+        {
+            Nickname = nickname;
+            Message = message;
+        }
+        public void SetChatInfo(ChatInfo chatInfo)
+        {
+            Nickname = chatInfo.Nickname;
+            Message = chatInfo.Message;
+        }
     }
 }

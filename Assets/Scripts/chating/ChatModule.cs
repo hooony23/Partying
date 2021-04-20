@@ -19,7 +19,7 @@ namespace signalR_Test_Client
             .Build();*/
         HubConnection connection = new HubConnectionBuilder()
                     .WithUrl($"https://skine134.iptime.org:42460/chat").Build();
-        // staticÀ¸·Î ÇöÀç½Ã°£ º¯¼ö ¼±¾ð
+        // staticï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         public string ReceiveData { get; set; } = null;
         static DateTime dateTime = DateTime.Now;
         static string currentTime = dateTime.ToString("HH:mm:ss");
@@ -39,13 +39,12 @@ namespace signalR_Test_Client
             await connection.StartAsync();
         }
 
-        public void SendMessage(string message)
+        public void SendMsg(string message)
         {
 
             ChatInfo requestData = new ChatInfo();
             requestData.Nickname = "asdf";//myData.NickName;
             requestData.Message = message;
-            //var request = JObject.FromObject(requestData);
             var request = JsonConvert.SerializeObject(new { type = "SendMessage", uuid = Util.Config.userUuid, data = requestData });
             Debug.Log(request);
             connection.InvokeAsync("SendMessage", request.ToString());
@@ -55,56 +54,32 @@ namespace signalR_Test_Client
             //Console.WriteLine($"###SendMessage complete### message: {message}");*/
         
 
-        public void SendMessageToGroup(string groupName, string message)
+        public void SendMessageToGroup(string message, string groupName = "main")
         {
-            JObject JB = new JObject();
-            JObject data = new JObject();
-
-            data.Add("groupName", groupName);
-            data.Add("message", message);
-            data.Add("time", currentTime);
-            data.Add("nickname", "nickname");
-
-            JB.Add("type", "SendMessageToGroup");
-            JB.Add("uuid", "uuid");
-            JB.Add("data", data);
-            string JBST = JB.ToString();
-            connection.InvokeAsync("SendMessageToGroup", JBST);
-            Console.WriteLine($"###SendMessageToGroup complete### groupName: {groupName} / message: {message}");
+            // NetworkInfo.roomInfo.RoomUuid;
+            
+            ChatInfo requestData = new ChatInfo();
+            requestData.Nickname = "asdf";//myData.NickName;
+            requestData.Message = message;
+            JObject dataJson = JObject.FromObject(requestData);
+            dataJson["groupName"] = groupName;
+            var request = JsonConvert.SerializeObject(new { type = "SendMessageToGroup", uuid = Util.Config.userUuid, data = dataJson });
+            Debug.Log(request);
+            connection.InvokeAsync("SendMessageToGroup", request.ToString());
         }
 
-        public void AddToGroup(string groupName)
+        public void AddToGroup(string groupName="main")
         {
-            JObject JB = new JObject();
-            JObject data = new JObject();
-
-            data.Add("groupName", groupName);
-            data.Add("time", currentTime);
-            data.Add("nickname", "nickname");
-
-            JB.Add("type", "AddToGroup");
-            JB.Add("uuid", "uuid");
-            JB.Add("data", data);
-            string JBST = JB.ToString();
-            connection.InvokeAsync("AddToGroup", JBST);
-            Console.WriteLine($"###AddToGroup complete### groupName: {groupName}");
+            var temp = new {groupName=groupName};
+            var data = JsonConvert.SerializeObject(new { type = "AddToGroup", uuid = Util.Config.userUuid, data = temp });
+            connection.InvokeAsync("AddToGroup", data);
         }
 
-        public void RemoveFromGroup(string groupName)
+        public void RemoveFromGroup(string groupName="main")
         {
-            JObject JB = new JObject();
-            JObject data = new JObject();
-
-            data.Add("groupName", groupName);
-            data.Add("time", currentTime);
-            data.Add("nickname", "nickname");
-
-            JB.Add("type", "RemoveFromGroup");
-            JB.Add("uuid", "uuid");
-            JB.Add("data", data);
-            string JBST = JB.ToString();
-            connection.InvokeAsync("RemoveFromGroup", JBST);
-            Console.WriteLine($"###RemoveFromGroup complete### groupName: {groupName}");
+            var temp = new {groupName=groupName};
+            var data = JsonConvert.SerializeObject(new { type = "RemoveFromGroup", uuid = Util.Config.userUuid, data = temp });
+            connection.InvokeAsync("RemoveFromGroup", data);
         }
     }
 }
