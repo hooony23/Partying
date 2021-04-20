@@ -136,12 +136,13 @@ namespace Boss
             yield return null;
         }
 
-        public void TakeHit(Collider collider, float damage)
+        /*public void TakeHit(Collider collider, float damage)
         {
             var player = collider.gameObject.GetComponent<Player>();
             var reactVec = (collider.transform.position - this.transform.position).normalized;
             player.PlayerHealth -= damage;
             StartCoroutine(player.OnAttacked(reactVec));
-        }
+        }*/
+
     }
 }

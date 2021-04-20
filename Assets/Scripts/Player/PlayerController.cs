@@ -18,10 +18,12 @@ public class PlayerController : MonoBehaviour
     public Vector3 MoveVec { get; set; }
     public Vector3 MoveDir { get; set; }
     public Vector2 MoveInput { get; set; }
+    public bool MouseClickInput { get; set; }
 
     // 움직임 상태, 플레이어 상태
     public bool IsMove { get; set; }
     public bool IsDodge { get; set; } // 회피동작 상태 여부
+    public bool IsAttack { get; set; }
     public string PlayerState { get; set; } // 플레이어 이벤트, 상태(run, dodge, ...)
     public float PlayerSpeed { get; set; } = Config.playerSpeed;
     public float PlayerMaxHealth { get; set; } = Config.playerHealth;
@@ -48,4 +50,10 @@ public class PlayerController : MonoBehaviour
     public Material Mat { get; set; }
 
     public bool IsBeatable { get; set; } = true; // 플레이어 무적 상태 컨트롤
+
+    // 총
+    public MusslePoint Pistol { get; set; }
+
+    public Transform ShotPoint { get; set; }
+
 }

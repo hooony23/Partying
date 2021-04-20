@@ -18,11 +18,16 @@ public class Player : PlayerUtil
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
 
+        // 플레이어 공격
+        Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
+        ShotPoint = CameraArm.Find("Shot Point").transform;
+
     }
 
     void Update()
     {
         GetInput();
+        Attack();
         Move();
         Turn();
         IsGetItem();
@@ -33,6 +38,7 @@ public class Player : PlayerUtil
 
         // 피격 처리
         CheckHP();
+        
     }
 
     private void FixedUpdate() // default : 50fps
