@@ -53,7 +53,6 @@ public class RoomSetting : BaseMainMenu, IMainMenu
         SetwarningText("방을 생성하였습니다");
 
         // [createRoom API] uri : api/v1/rooms/createRoom , method : POST
-        string createRoomUri = "api/v1/rooms/createRoom";
         string response = "";
 
         CreateRoomInfo info = new CreateRoomInfo();
@@ -61,9 +60,7 @@ public class RoomSetting : BaseMainMenu, IMainMenu
         if (NetworkInfo.connectionId.Equals(""))
             throw new Exception("not found connectionId");
         info.ConnectionId = NetworkInfo.connectionId;
-        var requestJson = Communication.JsonFormat.BaseJsonFormat.ObjectToJson("creatRoom", info);
-
-        response = MServer.Communicate("POST", createRoomUri, requestJson);
+        response = MServer.CreateRoom(info);
         JObject json = JObject.Parse(response);
         serverMsg = json["data"]["isSuccess"].ToString();
 
