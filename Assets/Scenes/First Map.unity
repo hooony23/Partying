@@ -211,8 +211,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1264513678}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -340,17 +340,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073987264cd8cba48baabd54c4ca7186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: All
+  tag: "\uBAA8\uB450"
   maxMessages: 25
   chatPanel: {fileID: 0}
   isTextBox: {fileID: 7032959506719058380, guid: 653a7a04aa365834993a65999f029f2b,
     type: 3}
   isInputChatBox: {fileID: 0}
-  Tag: {fileID: 0}
-  Nickname: {fileID: 0}
-  Text: {fileID: 0}
-  aa: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  Chatmodecount: 1
   chatBox: {fileID: 0}
+  bb: {fileID: 0}
   messagesList: []
 --- !u!4 &1264513678
 Transform:
@@ -362,7 +361,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 960, y: 540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 424853407}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

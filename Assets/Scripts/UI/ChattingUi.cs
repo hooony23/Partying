@@ -14,15 +14,17 @@ namespace Partying.UI
         private bool emptychat = false;
 
         //채팅창의 입력자와 채팅최대길이
-        [SerializeField] private string tag = "All";
+        [SerializeField] private string tag = "모두";
         /*[SerializeField]*/
         private string username = "asdfgh";
         [SerializeField] private int maxMessages = 25;
 
         //메세지의 동적생성
         [SerializeField] GameObject chatPanel, isTextBox, isInputChatBox;
-        [SerializeField] Text aa;
+        [SerializeField] CanvasGroup canvasGroup;
+        [SerializeField] int Chatmodecount = 1;
         [SerializeField] private InputField chatBox;
+        [SerializeField] private Text bb;
         [SerializeField] List<Message> messagesList = new List<Message>();
 
         //ChatModule chatModule = new ChatModule();
@@ -32,18 +34,18 @@ namespace Partying.UI
             //채팅 오브젝트사용을 위한 오브젝트 가져오기
             GameObject ChatingObject = Instantiate(Resources.Load("Chat/ChatUI")) as GameObject;
             GameObject ChatingText = ChatingObject.transform.Find("Canvas").gameObject;
+            canvasGroup = ChatingText.GetComponent<CanvasGroup>();
             isTextBox = Resources.Load("Chat/Chat Text Form") as GameObject;
             isInputChatBox = ChatingText.transform.Find("Chat View").gameObject;
             GameObject ChatInfoScrollView = isInputChatBox.transform.Find("Viewport").gameObject;
             chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
             chatBox = ChatingText.transform.Find("User Input").transform.Find("InputField Chat").GetComponent<InputField>();
-        }
-        void Start()
-        {
+            bb = ChatingText.transform.Find("User Input").transform.Find("Button Group").transform.Find("Text").GetComponent<Text>();
         }
         void Update()
         {
             chatactive();
+            chatTap();
         }
         /// <summary>
         /// 채팅을 서버로 보내는 부분
@@ -53,24 +55,61 @@ namespace Partying.UI
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                chatBox.ActivateInputField();
+
+                canvasGroup.alpha = 0.8f;
                 //input창에 문자가 있을시
-                if (!chatBox.text.Equals(""))
+                if (emptychat)
                 {
-                    //GameObject newText = Instantiate(isTextBox, chatPanel.transform);
-                    Allmassage(tag, username, chatBox.text);
-                    chatLoad(chatBox.text);
-                    emptychat = false;
-                    chatBox.text = "";
-                    return;
+                    if (!chatBox.text.Equals(""))
+                    {
+                        //GameObject newText = Instantiate(isTextBox, chatPanel.transform);
+                        Allmassage(tag, username, chatBox.text);
+                        chatLoad(chatBox.text);
+                        chatBox.text = "";
+
+                        chatBox.ActivateInputField();
+                        return;
+                    }
+                    //input창에 아무것도 입력안할시
+                    else if (emptychat && chatBox.text.Equals(""))
+                    {
+                        emptychat = false;
+                        chatBox.DeactivateInputField();
+                        canvasGroup.alpha = 0.1f;
+                        canvasGroup.blocksRaycasts = false;
+                        return;
+                    }
                 }
-                //input창에 아무것도 입력안할시
-                if (emptychat && chatBox.text.Equals(""))
+                else if (!emptychat) {
+                    chatBox.ActivateInputField();
+                    emptychat = true;
+                }
+            }
+        }
+        public void chatTap() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                if (emptychat)
                 {
-                    emptychat = false;
-                    return;
+                    switch (Chatmodecount)
+                    {        
+                        case 0:
+                            Chatmodecount = 1;
+                            tag = "모두";
+                            bb.text = "<color=#FFFFFF>" + tag + "</color>";
+                            break;
+                        case 1:
+                            tag = "전체"; 
+                            bb.text = "<color=#80FFFF>" + tag + "</color>";
+                            Chatmodecount = 2;
+                            break;
+                        case 2:
+                            tag = "방"; 
+                            bb.text = "<color=#FF80FF>" + tag + "</color>";
+                            Chatmodecount = 0;
+                            break;
+                    }
                 }
-                emptychat = true;
+                    
             }
         }
         public void chatLoad(string sendMessage)
