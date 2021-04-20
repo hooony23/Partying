@@ -94,5 +94,22 @@ namespace Lib
             }
             return str;
         }
+        public static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+            return origin.AddSeconds(timestamp);
+        }
+
+        public static double ConvertToUnixTimestamp(DateTime date)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+            TimeSpan diff = date - origin;
+            return Math.Floor(diff.TotalSeconds);
+        }
+        public static string GetType(object request)
+        {
+
+            return JObject.Parse(request.ToString())["type"].ToString();
+        }
     }
 }

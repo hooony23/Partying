@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Partying.UI;
 using Newtonsoft.Json.Linq;
+using Communication.JsonFormat;
+using Communication;
+using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 
 namespace Partying.UI
 {
@@ -24,13 +28,14 @@ namespace Partying.UI
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] int Chatmodecount = 1;
         [SerializeField] private InputField chatBox;
+        public string aa;
         [SerializeField] private Text bb;
         [SerializeField] List<Message> messagesList = new List<Message>();
 
-        //ChatModule chatModule = new ChatModule();
+        ChatModule chatModule = new ChatModule();
         private void Awake()
         {
-            //chatModule.Start();
+            chatModule.Start();
             //채팅 오브젝트사용을 위한 오브젝트 가져오기
             GameObject ChatingObject = Instantiate(Resources.Load("Chat/ChatUI")) as GameObject;
             GameObject ChatingText = ChatingObject.transform.Find("Canvas").gameObject;
@@ -45,7 +50,12 @@ namespace Partying.UI
         void Update()
         {
             chatactive();
-            chatTap();
+            Chattapmode();
+            if (chatModule.ReceiveData != null) {
+                var data = chatModule.ReceiveData;
+                chatModule.ReceiveData = null;
+                ReceiveMessageToChat(data);
+            }
         }
         /// <summary>
         /// 채팅을 서버로 보내는 부분
@@ -63,12 +73,20 @@ namespace Partying.UI
                     if (!chatBox.text.Equals(""))
                     {
                         //GameObject newText = Instantiate(isTextBox, chatPanel.transform);
-                        Allmassage(tag, username, chatBox.text);
-                        chatLoad(chatBox.text);
+                        //Allmassage(tag, username, chatBox.text);
+                        aa = chatBox.text;
+                        
+                        if (Chatmodecount == 1 || Chatmodecount == 0) {
+                            chatModule.SendMessage(aa);
+                        }
+                        else if (Chatmodecount == 2)
+                        {
+                            var a = NetworkInfo.roomInfo.RoomName;
+                            chatModule.SendMessageToGroup(a,aa);
+                        }
                         chatBox.text = "";
-
                         chatBox.ActivateInputField();
-                        return;
+                        //return;
                     }
                     //input창에 아무것도 입력안할시
                     else if (emptychat && chatBox.text.Equals(""))
@@ -77,7 +95,7 @@ namespace Partying.UI
                         chatBox.DeactivateInputField();
                         canvasGroup.alpha = 0.1f;
                         canvasGroup.blocksRaycasts = false;
-                        return;
+                        //return;
                     }
                 }
                 else if (!emptychat) {
@@ -86,7 +104,7 @@ namespace Partying.UI
                 }
             }
         }
-        public void chatTap() {
+        public void Chattapmode() {
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (emptychat)
                 {
@@ -94,16 +112,16 @@ namespace Partying.UI
                     {        
                         case 0:
                             Chatmodecount = 1;
-                            tag = "모두";
+                            tag = "All";
                             bb.text = "<color=#FFFFFF>" + tag + "</color>";
                             break;
                         case 1:
-                            tag = "전체"; 
+                            tag = "All"; 
                             bb.text = "<color=#80FFFF>" + tag + "</color>";
                             Chatmodecount = 2;
                             break;
                         case 2:
-                            tag = "방"; 
+                            tag = "Room"; 
                             bb.text = "<color=#FF80FF>" + tag + "</color>";
                             Chatmodecount = 0;
                             break;
@@ -117,52 +135,37 @@ namespace Partying.UI
             //chatModule.SendMessage(sendMessage);
             //채팅을 서버로부터 받을 부분 구현예정
         }
-        public void SendMessageToChat(string data) 
+        public void ReceiveMessageToChat(string data) 
             //get set으로 주고받는 방식 구현필요(get set구현시 UI의 Text를 List에 추가하는 부분이 오류 생김 수정및 갱신필요)
         {
             //최대길이의 채팅내역이 생기면 가장 오래된 채팅 내역제거
-
-            JObject JsonData = JObject.Parse(data);
-
-            string typestring = JsonData["type"].Value<string>();
-            string nickname = "";
             string Tag = "";
-            string message = "";
-            switch (typestring)
+            string type = Lib.Common.GetType(data);
+            ChatInfo chatInfo = Lib.Common.GetData(data).ToObject<ChatInfo>();
+            switch (type)
             {
                 case "SendMessage":
                     Tag = "All";
-                    message = JsonData["data"]["message"].Value<string>();
-                    nickname = "";
-                    Allmassage(Tag, nickname, message);
+                    ChattingMassegeInfo.Allchat.Push(chatInfo);
+                    Allmassage(chatInfo, Tag);
+                    Allmassage(a, Tag);
                     break;
                 case "SendMessageToGroup":
-                    message = JsonData["data"]["message"].Value<string>();
+                    Tag = "room";
+                    ChattingMassegeInfo.Groupchat.Push(chatInfo);
+                    var b = ChattingMassegeInfo.Groupchat.Dequeue();
+                    Debug.Log(b);
+                    Allmassage(b, Tag);
                     break;
-                case "AddToGroup":
-                    message = JsonData["data"]["message"].Value<string>();
-                    break;
-                case "RemoveFromGroup":
-                    message = JsonData["data"]["message"].Value<string>();
-                    break;
-            }
 
-            Tag = typestring;
-            if (messagesList.Count >= maxMessages)
-            {
-                Destroy(messagesList[0].textObject.gameObject);
-                Destroy(messagesList[0].Nickname.gameObject);
-                Destroy(messagesList[0].colum.gameObject);
-                Destroy(messagesList[0].Tag.gameObject);
-                messagesList.Remove(messagesList[0]);
             }
-            //text에 있는 내용을 messagesList추가함
         }
-        public void Allmassage(string Tag,string nickname, string chattext) {
+        public void Allmassage(ChatInfo chatInfo,string Tag) {
             Message newMessage = new Message();
-            newMessage.text = chattext;
-            newMessage.nickname = nickname;
+            newMessage.text = chatInfo.Message;
+            newMessage.nickname = chatInfo.Nickname;
             newMessage.tag = Tag;
+            Debug.Log(newMessage.tag + " " + newMessage.text + " " + newMessage.nickname);
             GameObject newText = Instantiate(isTextBox, chatPanel.transform);
             newMessage.Tag = newText.transform.Find("Tag").GetComponent<Text>();
             newMessage.Nickname = newText.transform.Find("Nickname").GetComponent<Text>();
