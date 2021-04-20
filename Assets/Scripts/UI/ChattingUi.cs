@@ -1,107 +1,144 @@
-﻿using System.Collections;
+﻿using signalR_Test_Client;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Partying.UI;
+using Newtonsoft.Json.Linq;
 
-public class ChattingUi : MonoBehaviour
+namespace Partying.UI
 {
-    //채팅 메세지창 배경 조정
-    private bool emptychat = false;
-    Color color;
-    Image image1, image2;
+    public class ChattingUi : MonoBehaviour
+    {
+        //채팅 메세지창 배경 조정
+        private bool emptychat = false;
 
-    //채팅창의 입력자와 채팅최대길이
-    [SerializeField] private string username;
-    [SerializeField] private int maxMessages = 25;
+        //채팅창의 입력자와 채팅최대길이
+        [SerializeField] private string tag = "All";
+        /*[SerializeField]*/
+        private string username = "asdfgh";
+        [SerializeField] private int maxMessages = 25;
 
-    //메세지의 동적생성
-    [SerializeField] GameObject chatPanel, isTextBox, isInputChatBox;
-    [SerializeField] private InputField chatBox;
-    [SerializeField] List<Message> messagesList = new List<Message>();
-    private string ScoreResult;
-    private void Awake()
-    {
-        //채팅 오브젝트사용을 위한 오브젝트 가져오기
-        GameObject ChatingObject = Instantiate(Resources.Load("GameUi/ChatUi")) as GameObject;
-        GameObject ChatingText = ChatingObject.transform.Find("ChatingText").gameObject;
-        isTextBox = Resources.Load("GameUi/Text") as GameObject;
-        isInputChatBox = ChatingText.transform.Find("ChatScroll View").gameObject;
-        GameObject ChatInfoScrollView = isInputChatBox.transform.Find("Viewport").gameObject;
-        chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
-        chatBox = ChatingText.transform.Find("InputField").GetComponent<InputField>();
-    }
-    void Start()
-    {
-        image1 = isInputChatBox.GetComponent<Image>();
-        image2 = chatBox.GetComponent<Image>();
-    }
-    void Update()
-    {
-        chatactive();
-    }
-    /// <summary>
-    /// 채팅을 서버로 보내는 부분
-    /// </summary>
-    /// <param name="text">채팅의 내용을 서버로 전송하는 부분 구현예정. chatBox에 채팅내용은 서버수신부분 구현 후 수정예정</param>
-    public void SendMessageToChat(string chattext) //get set으로 주고받는 방식 구현필요(get set구현시 UI의 Text를 List에 추가하는 부분이 오류 생김 수정및 갱신필요)
-    {
-        //최대길이의 채팅내역이 생기면 가장 오래된 채팅 내역제거
-        if (messagesList.Count >= maxMessages)
+        //메세지의 동적생성
+        [SerializeField] GameObject chatPanel, isTextBox, isInputChatBox;
+        [SerializeField] Text aa;
+        [SerializeField] private InputField chatBox;
+        [SerializeField] List<Message> messagesList = new List<Message>();
+
+        //ChatModule chatModule = new ChatModule();
+        private void Awake()
         {
-            Destroy(messagesList[0].textObject.gameObject);
-            messagesList.Remove(messagesList[0]);
+            //chatModule.Start();
+            //채팅 오브젝트사용을 위한 오브젝트 가져오기
+            GameObject ChatingObject = Instantiate(Resources.Load("Chat/ChatUI")) as GameObject;
+            GameObject ChatingText = ChatingObject.transform.Find("Canvas").gameObject;
+            isTextBox = Resources.Load("Chat/Chat Text Form") as GameObject;
+            isInputChatBox = ChatingText.transform.Find("Chat View").gameObject;
+            GameObject ChatInfoScrollView = isInputChatBox.transform.Find("Viewport").gameObject;
+            chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
+            chatBox = ChatingText.transform.Find("User Input").transform.Find("InputField Chat").GetComponent<InputField>();
         }
-        //text에 있는 내용을 messagesList추가함
-        Message newMessage = new Message();
-        newMessage.text = chattext;
-        GameObject newText = Instantiate(isTextBox, chatPanel.transform);
-        newMessage.textObject = newText.GetComponent<Text>();
-        newMessage.textObject.text = newMessage.text;
-        messagesList.Add(newMessage);
-    }
-    public void chatactive()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
+        void Start()
         {
-            color.a = 0.5f;
-            image2.color = color;
-            image1.color = color;
-            chatBox.enabled = true;
-            chatBox.ActivateInputField();
-            //input창에 문자가 있을시
-            if (!chatBox.text.Equals(""))
+        }
+        void Update()
+        {
+            chatactive();
+        }
+        /// <summary>
+        /// 채팅을 서버로 보내는 부분
+        /// </summary>
+        /// <param name="text">채팅의 내용을 서버로 전송하는 부분 구현예정. chatBox에 채팅내용은 서버수신부분 구현 후 수정예정</param>
+        public void chatactive()
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                string ScoreResult = string.Format("{0} : {1}", username, chatBox.text);
-                SendMessageToChat(ScoreResult);
-                chatBox.text = "";
-                color.a = 0f;
-                image1.color = color;
-                image2.color = color;
-                chatBox.enabled = false;
-                emptychat = false;
-                return;
+                chatBox.ActivateInputField();
+                //input창에 문자가 있을시
+                if (!chatBox.text.Equals(""))
+                {
+                    //GameObject newText = Instantiate(isTextBox, chatPanel.transform);
+                    Allmassage(tag, username, chatBox.text);
+                    chatLoad(chatBox.text);
+                    emptychat = false;
+                    chatBox.text = "";
+                    return;
+                }
+                //input창에 아무것도 입력안할시
+                if (emptychat && chatBox.text.Equals(""))
+                {
+                    emptychat = false;
+                    return;
+                }
+                emptychat = true;
             }
-            //input창에 아무것도 입력안할시
-            if (emptychat && chatBox.text.Equals(""))
+        }
+        public void chatLoad(string sendMessage)
+        {
+            //chatModule.SendMessage(sendMessage);
+            //채팅을 서버로부터 받을 부분 구현예정
+        }
+        public void SendMessageToChat(string data) 
+            //get set으로 주고받는 방식 구현필요(get set구현시 UI의 Text를 List에 추가하는 부분이 오류 생김 수정및 갱신필요)
+        {
+            //최대길이의 채팅내역이 생기면 가장 오래된 채팅 내역제거
+
+            JObject JsonData = JObject.Parse(data);
+
+            string typestring = JsonData["type"].Value<string>();
+            string nickname = "";
+            string Tag = "";
+            string message = "";
+            switch (typestring)
             {
-                color.a = 0f;
-                image1.color = color;
-                image2.color = color;
-                chatBox.enabled = false;
-                emptychat = false;
-                return;
+                case "SendMessage":
+                    Tag = "All";
+                    message = JsonData["data"]["message"].Value<string>();
+                    nickname = "";
+                    Allmassage(Tag, nickname, message);
+                    break;
+                case "SendMessageToGroup":
+                    message = JsonData["data"]["message"].Value<string>();
+                    break;
+                case "AddToGroup":
+                    message = JsonData["data"]["message"].Value<string>();
+                    break;
+                case "RemoveFromGroup":
+                    message = JsonData["data"]["message"].Value<string>();
+                    break;
             }
-            emptychat = true;
+
+            Tag = typestring;
+            if (messagesList.Count >= maxMessages)
+            {
+                Destroy(messagesList[0].textObject.gameObject);
+                Destroy(messagesList[0].Nickname.gameObject);
+                Destroy(messagesList[0].colum.gameObject);
+                Destroy(messagesList[0].Tag.gameObject);
+                messagesList.Remove(messagesList[0]);
+            }
+            //text에 있는 내용을 messagesList추가함
+        }
+        public void Allmassage(string Tag,string nickname, string chattext) {
+            Message newMessage = new Message();
+            newMessage.text = chattext;
+            newMessage.nickname = nickname;
+            newMessage.tag = Tag;
+            GameObject newText = Instantiate(isTextBox, chatPanel.transform);
+            newMessage.Tag = newText.transform.Find("Tag").GetComponent<Text>();
+            newMessage.Nickname = newText.transform.Find("Nickname").GetComponent<Text>();
+            newMessage.textObject = newText.transform.Find("Text").GetComponent<Text>();
+            newMessage.colum = newText.transform.Find(":").GetComponent<Text>();
+            newMessage.textObject.text = newMessage.text;
+            newMessage.Nickname.text = newMessage.nickname;
+            newMessage.Tag.text = newMessage.tag;
+            messagesList.Add(newMessage);
         }
     }
-    public void chatLoad()
+    [System.Serializable]
+    public class Message
     {
-        //채팅을 서버로부터 받을 부분 구현예정
+        public string text, tag, nickname;
+        public Text textObject, Tag, Nickname, colum;
     }
-}
-[System.Serializable]
-public class Message
-{
-    public string text;
-    public Text textObject;
 }
