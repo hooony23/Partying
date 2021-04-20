@@ -83,12 +83,11 @@ public class Lobby : BaseMainMenu, IMainMenu
     }
     public void GetRoomsList()
     {
-        string roomsListUri = "api/v1/rooms/main";
         string response = "";
         JArray roomList;
         if (NetworkInfo.connectionId.Equals(""))
             throw new Exception("not found connectionId");
-        response = MServer.Communicate("GET", roomsListUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
+        response = MServer.GetRoomsList();
         JObject json = JObject.Parse(response);
 
         serverMsg = json["data"]["isSuccess"].ToString();
@@ -164,7 +163,7 @@ public class Lobby : BaseMainMenu, IMainMenu
     {
         this.clickRoomInfo = selectRoom;
         NetworkInfo.roomInfo = selectRoom;
-        NetworkInfo.memberInfo = MServer.GetMemberInfoFromRoom(selectRoom.RoomUuid);
+        NetworkInfo.memberInfo = MServer.GetMemberInfo(selectRoom.RoomUuid);
         // 해당 방의 인원 정보 재확인
         List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
         if (roomMemberList.Count >= 4)

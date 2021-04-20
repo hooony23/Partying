@@ -23,7 +23,7 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
     }
     protected override void BackUI()
     {
-        MServer.Communicate("GET","api/v1/session/signOut",$"userUuid={Config.userUuid}");
+        MServer.SignOut();
         SelectUI(2);
     }
     protected override void SelectUI(int selectUINum)

@@ -150,12 +150,12 @@ public class Room : BaseMainMenu, IMainMenu
     protected override void BackUI()
     {
         NetworkInfo.roomInfo = new RoomInfo();
-        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        MServer.LeaveRoom(roomUuid);
         base.BackUI();
     }
     protected override void OnApplicationQuit()
     {
-        MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        MServer.LeaveRoom(roomUuid);
         base.OnApplicationQuit();
     }
 }

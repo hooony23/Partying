@@ -26,6 +26,8 @@ public class Login : BaseMainMenu, IMainMenu
         UINum = 2;
         nextUINum = 4;
     }
+    
+    protected override void OnApplicationQuit(){}
     public void SetUp()
     {
         // Initialize variable
@@ -36,9 +38,9 @@ public class Login : BaseMainMenu, IMainMenu
         pwdInput = this.transform.Find("Password").Find("InputField Password").GetComponent<InputField>();
 
         // Set Button Event
-        Menu.Find("Button SignIn").gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnClickLogin(); });
-        Menu.Find("Button SignUp").gameObject.GetComponent<Button>().onClick.AddListener(delegate { NextUI(); });
-        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate { BackUI(); });
+        Menu.Find("Button SignIn").gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnClickLogin(); }); // 로비, 방만들기 선택창 이동
+        Menu.Find("Button SignUp").gameObject.GetComponent<Button>().onClick.AddListener(delegate { NextUI(); });       // 회원가입 창 이동
+        this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate { BackUI(); });// 게임 시작, 종료 화면 이동
     }
     public void OnClickLogin()
     {
@@ -48,22 +50,19 @@ public class Login : BaseMainMenu, IMainMenu
         JObject json = null;
         // 서버에 로그인 요청
 
-        if (id.Equals("") && pw.Equals(""))
+        if (id.Equals("") || pw.Equals(""))
         {
             SetwarningText("입력 값을 확인해 주세요");
             return;
         }
         // TODO : id, pw, 정규식 필요
 
-        // MServer SignIn API,uri : api/v1/session/signIn ,method : POST
         // 서버에 전송
-        string signInUri = "api/v1/session/signIn";
         string response = "";
 
         SignInInfo info = new SignInInfo();
         info.UpdateInfo(id, pw);
-        var requestJson = BaseJsonFormat.ObjectToJson("signIn", info);
-        response = MServer.Communicate("POST", signInUri, requestJson);
+        response = MServer.SignIn(info);
 
         json = JObject.Parse(response);
         serverMsg = json["data"]["isSuccess"].ToString();
@@ -76,7 +75,7 @@ public class Login : BaseMainMenu, IMainMenu
         //TODO: Test용으로 추후 jwt로 변경해야함
         // var temp = Lib.Common.GetData(response);
         var temp = new JObject();
-        temp["nickname"] = JObject.Parse(requestJson)["data"]["nickname"];
+        temp["nickname"] = "";
         NetworkInfo.myData = new MemberInfo(Util.Config.userUuid, temp["nickname"].ToString());
 
         SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
@@ -84,17 +83,20 @@ public class Login : BaseMainMenu, IMainMenu
     }
 
 
-    // 화면 넘어가기
     protected override void NextUI()
     {
-        idInput.text = "";
-        pwdInput.text = "";
+        ClearInputField();
         base.NextUI();
     }
+
     protected override void SelectUI(int UINum)
+    {
+        ClearInputField();
+        base.SelectUI(UINum);
+    }
+    private void ClearInputField()
     {
         idInput.text = "";
         pwdInput.text = "";
-        base.SelectUI(UINum);
     }
 }

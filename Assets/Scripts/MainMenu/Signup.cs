@@ -56,7 +56,7 @@ public class Signup : BaseMainMenu, IMainMenu
     // 아이디 중복확인 클릭
     public void OnClickIdCheck()
     {
-
+        //TODO: idCheck api를 만들어서, 포커싱이 풀리면 자동으로 idcheck하도록 할 것.
         string id = nickNameInput.text;
 
         if (id.Equals(""))
@@ -94,15 +94,13 @@ public class Signup : BaseMainMenu, IMainMenu
             info.UpdateInfo(id, pw, mobile, name);
 
             // json 형태로 서버에 전송
-            string signupUri = "api/v1/session/signUp";
-            var requestJson = BaseJsonFormat.ObjectToJson("signUp", info);
-            response = MServer.Communicate("POST", signupUri, requestJson);
+            response = MServer.SignUp(info);
             JObject json = JObject.Parse(response);
 
             //TODO: Test용으로 추후 jwt로 변경해야함
             // var temp = Lib.Common.GetData(response);
             var temp = new JObject();
-            temp["nickname"] = JObject.Parse(requestJson)["data"]["nickname"];
+            temp["nickname"] = "";
             Communication.NetworkInfo.myData = new MemberInfo(Util.Config.userUuid,temp["nickname"].ToString());
             // 서버로 부터 받은 메세지 
             serverMsg = json["data"]["isSuccess"].ToString();
@@ -124,5 +122,6 @@ public class Signup : BaseMainMenu, IMainMenu
         ResetMessage();
         base.NextUI();
     }
+    protected override void OnApplicationQuit(){}
 
 }

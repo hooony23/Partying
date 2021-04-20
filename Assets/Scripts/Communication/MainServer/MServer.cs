@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Util;
+using Communication.JsonFormat;
 // JSON 정보를 서버로 보내는 클래스 입니다
 namespace Communication.MainServer
 {
@@ -70,7 +71,7 @@ namespace Communication.MainServer
             return json;
         }
 
-        public static JArray GetMemberInfoFromRoom(string roomUuid)
+        public static JArray GetMemberInfo(string roomUuid)
         {
 
             string memInfoUri = "api/v1/rooms/" + roomUuid;
@@ -86,9 +87,42 @@ namespace Communication.MainServer
 
             return jsonArray;
         }
-        static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
+        }
+        public static string SignUp(object requestJson)
+        {
+            var requestString = BaseJsonFormat.ObjectToJson("signUp", requestJson);
+            return MServer.Communicate("POST", "api/v1/session/signUp", requestString);
+        }
+        public static string SignIn(object requestJson)
+        {
+            var requestString = BaseJsonFormat.ObjectToJson("signIn", requestJson);
+            return MServer.Communicate("POST", "api/v1/session/signIn", requestJson);
+        }
+        public static string SignOut()
+        {
+            return MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
+        }
+        public static string Pingpong()
+        {
+            return MServer.Communicate("GET", "api/v1/util/pingpong");
+        }
+
+        public static string CreateRoom(object requestJson)
+        {
+            var requestString = BaseJsonFormat.ObjectToJson("creatRoom", requestJson);
+            return MServer.Communicate("POST", "api/v1/rooms/createRoom", requestString);
+        }
+        public static void LeaveRoom(string roomUuid)
+        {
+            MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+        }
+        public static string GetRoomsList()
+        {
+            return MServer.Communicate("GET", "api/v1/rooms/main", $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
         }
     }
     public class WebRequestCert : UnityEngine.Networking.CertificateHandler

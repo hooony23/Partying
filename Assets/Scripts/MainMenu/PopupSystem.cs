@@ -39,4 +39,5 @@ public class PopupSystem : BaseMainMenu
         yield return new WaitForSeconds(0.15f);
         forPopup.SetActive(false);
     }
+    protected override void OnApplicationQuit(){}
 }

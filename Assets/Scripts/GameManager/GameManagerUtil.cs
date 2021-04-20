@@ -105,7 +105,7 @@ namespace GameManager
         protected virtual void OnApplicationQuit()
         {
             /* 서버 연결 해제 */
-            MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
+            MServer.SignOut();
             Connection.ConnectedExit();
         }
     }

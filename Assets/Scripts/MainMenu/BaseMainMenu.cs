@@ -51,6 +51,16 @@ public class BaseMainMenu : MonoBehaviour
     }
     protected virtual void OnApplicationQuit()
     {
-        MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
+            MServer.SignOut();
+    }
+
+    protected void OnQuit()
+    {
+        // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit(); 
+        #endif
     }
 }

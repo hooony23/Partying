@@ -24,14 +24,14 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         // Communication Test
         try
         {
-            MServer.Communicate("GET", "api/v1/util/pingpong");
+            MServer.Pingpong();
+            new WebSocketModule().Start();
         }
         catch
         {
             SetwarningText("서버와 통신 할 수 없습니다. 다시 접속해주세요.");
-            Invoke("OnClickQuit", 3f);
+            Invoke("OnQuit", 3f);
         }
-        new WebSocketModule().Start();
         // Set Button Event
         this.transform.Find("Button Start").GetComponent<Button>().onClick.AddListener(delegate {OnClickStart();});
         this.transform.Find("Button Quit").GetComponent<Button>().onClick.AddListener(delegate {OnClickQuit();});
@@ -44,11 +44,7 @@ public class FirstScreen : BaseMainMenu, IMainMenu
 
     public void OnClickQuit()
     {
-        // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); 
-#endif
+        OnQuit();
     }
+    protected override void OnApplicationQuit() {}
 }
