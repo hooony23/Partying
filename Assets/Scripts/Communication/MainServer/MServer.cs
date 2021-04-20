@@ -74,20 +74,14 @@ namespace Communication.MainServer
         public static JArray GetMemberInfo(string roomUuid)
         {
 
-            string memInfoUri = "api/v1/rooms/" + roomUuid;
-            string response;
-
-
+            string memberInfoUri = $"api/v1/rooms/{roomUuid}";
             if (NetworkInfo.connectionId.Equals(""))
                 throw new Exception("not found connectionId");
-            response = MServer.Communicate("GET", memInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
-            JObject json = JObject.Parse(response);
-            JToken arrData = json["data"]["memberInfo"];
-            JArray jsonArray = (JArray)arrData;
-
-            return jsonArray;
+            var response = Communicate("GET", memberInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
+            return JObject.Parse(response)["data"]["memberInfo"] as JArray;
         }
         
+        // ValidationCheckFunction
         private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
@@ -95,44 +89,46 @@ namespace Communication.MainServer
         public static string SignUp(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("signUp", requestJson);
-            return MServer.Communicate("POST", "api/v1/session/signUp", requestString);
+            return Communicate("POST", "api/v1/session/signUp", requestString);
         }
         public static string SignIn(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("signIn", requestJson);
-            return MServer.Communicate("POST", "api/v1/session/signIn", requestJson);
+            return Communicate("POST", "api/v1/session/signIn", requestJson);
         }
         public static string SignOut()
         {
-            return MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
+            return Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
         }
         public static string Pingpong()
         {
-            return MServer.Communicate("GET", "api/v1/util/pingpong");
+            return Communicate("GET", "api/v1/util/pingpong");
         }
 
         public static string CreateRoom(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("creatRoom", requestJson);
-            return MServer.Communicate("POST", "api/v1/rooms/createRoom", requestString);
+            return Communicate("POST", "api/v1/rooms/createRoom", requestString);
         }
         public static void LeaveRoom(string roomUuid)
         {
-            MServer.Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+            Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
         }
         public static string GetRoomsList()
         {
-            return MServer.Communicate("GET", "api/v1/rooms/main", $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
-        }
-    }
-    public class WebRequestCert : UnityEngine.Networking.CertificateHandler
-    {
-        protected override bool ValidateCertificate(byte[] certificateData)
-        {
-            //return base.ValidateCertificate(certificateData);
-            return true;
+            return Communicate("GET", "api/v1/rooms/main", $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
         }
 
     }
+
+    // // ValidationCheckClass
+    // public class WebRequestCert : UnityEngine.Networking.CertificateHandler
+    // {
+    //     protected override bool ValidateCertificate(byte[] certificateData)
+    //     {
+    //         //return base.ValidateCertificate(certificateData);
+    //         return true;
+    //     }
+    // }
 
 }
