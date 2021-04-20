@@ -108,8 +108,11 @@ public class PlayerUtil : PlayerController
     {
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
 
-        if (IsStun == false && !MouseClickInput && !IsAttack && !IsDodge)
+        if (IsStun == false && !MouseClickInput && !IsAttack)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
             if (this.UserUuid.Equals(Config.userUuid))

@@ -36,6 +36,8 @@ namespace Boss
                 StartCoroutine(WakeUp());
             }
 
+            BossCollider = GetComponent<SphereCollider>();
+
         }
         void Update()
         {

@@ -44,7 +44,7 @@ namespace GameManager
             ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
             
             InitUserList();
-            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,30,150), Quaternion.identity) as GameObject;
+            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,26,150), Quaternion.identity) as GameObject;
             Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
         }
         protected void DelUser()
