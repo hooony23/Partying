@@ -11,7 +11,7 @@ namespace Util
 
         // boss
         public static float radarRange = 60f;
-        public static float bossHP = 6000f;
+        public static float bossHP = 3f;
         // player
         public static float playerMoveVector = 3f;
         public static float playerSpeed = 14f;

@@ -12,9 +12,11 @@ namespace GameManager
     {
         void Awake()
         {
-            SetUserUuid(Connection.Connected());
-            APIController.SendController("CreateMap");
-            Connection.receiveDone.WaitOne();
+            Util.Config.userUuid = System.Guid.NewGuid().ToString();
+            string temp = System.IO.File.ReadAllText(@".\Assets\Scripts\Map\temp.json");
+            var temp2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Communication.JsonFormat.MapInfo>(temp);
+            temp2.playerLocs[0].data = Util.Config.userUuid;
+            Communication.NetworkInfo.mapInfo = temp2;
             InitializeLabylinth();
         }
         

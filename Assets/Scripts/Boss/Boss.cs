@@ -43,6 +43,8 @@ namespace Boss
         {
             TargetList.Clear();
             foreach (var player in GM.PlayerList) { TargetList.Add(player.GetComponent<Transform>()); }
+
+            CheckHP();
         }
 
 

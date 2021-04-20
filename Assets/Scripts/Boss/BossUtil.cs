@@ -155,5 +155,14 @@ namespace Boss
             return idx;
         }
 
+        public void CheckHP()
+        {
+            if (BossHP <= 0)
+            {
+                InitParticleSystem();
+                Animator.Play("Destroyed");
+            }
+        }
+
     }
 }
