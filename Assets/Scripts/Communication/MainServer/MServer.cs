@@ -94,7 +94,7 @@ namespace Communication.MainServer
         public static string SignIn(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("signIn", requestJson);
-            return Communicate("POST", "api/v1/session/signIn", requestJson);
+            return Communicate("POST", "api/v1/session/signIn", requestString);
         }
         public static string SignOut()
         {

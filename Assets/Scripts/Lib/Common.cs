@@ -20,6 +20,11 @@ namespace Lib
         {
             return JObject.Parse(request.ToString())[name] as JObject;
         }
+        public static string GetType(object request)
+        {
+            
+            return JObject.Parse(request.ToString())["type"].ToString();
+        }
         public static IEnumerator WaitThenCallback(float time, Action callback)
         {
             yield return new WaitForSeconds(time);

@@ -9,7 +9,7 @@ namespace Communication.JsonFormat
         private string server;
         private string uuid;
         private object data;
-        public string ObjectToJson()
+        public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
         }

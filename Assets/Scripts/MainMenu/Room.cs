@@ -109,6 +109,7 @@ public class Room : BaseMainMenu, IMainMenu
             pText.text = usersName[i];
             pImage.color = Color.white;
         }
+        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
     }
 
     // 멤버가 다 차면 시작 버튼 활성화
@@ -137,7 +138,7 @@ public class Room : BaseMainMenu, IMainMenu
     private bool IsAdmin()
     {
         
-        Debug.Log($"RoomUuid : {NetworkInfo.roomInfo.Admin.UserUuid} && myUuid : {NetworkInfo.myData.UserUuid} ");
+        Debug.Log($"AdminUuid : {NetworkInfo.roomInfo.Admin.UserUuid} && myUuid : {NetworkInfo.myData.UserUuid} ");
         if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))
             return true;
         return false;

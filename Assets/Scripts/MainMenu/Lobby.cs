@@ -162,8 +162,33 @@ public class Lobby : BaseMainMenu, IMainMenu
     private void OnClickRoom(RoomInfo selectRoom)
     {
         this.clickRoomInfo = selectRoom;
+
+        // 비공개/공개 방 입장
+        if (!selectRoom.Pwd.Equals(""))
+        {
+            Debug.Log(selectRoom.Pwd);
+            popup.SetActive(true);
+            return;
+        }
         NetworkInfo.roomInfo = selectRoom;
-        NetworkInfo.memberInfo = MServer.GetMemberInfo(selectRoom.RoomUuid);
+        NextUI();
+    }
+    // 비밀번호 팝업 메뉴 확인 버튼
+    public void OnClickCheck()
+    {
+        if (inputPassword.text.Equals(""))
+        {
+            SetwarningText("비밀번호를 입력해주세요");
+            return;
+        }
+        else if(!inputPassword.text.Equals(clickRoomInfo.Pwd))
+        {
+            SetwarningText("비밀번호가 틀렸습니다");
+            return;
+        }
+        inputPassword.text = "";
+        popup.SetActive(false);
+        NetworkInfo.memberInfo = MServer.GetMemberInfo(clickRoomInfo.RoomUuid);
         // 해당 방의 인원 정보 재확인
         List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
         if (roomMemberList.Count >= 4)
@@ -171,33 +196,8 @@ public class Lobby : BaseMainMenu, IMainMenu
             SetwarningText("해당 방의 인원수가 초과하였습니다");
             return;
         }
-
-        // 비공개/공개 방 입장
-        if (!selectRoom.Pwd.Equals(""))
-        {
-            Debug.Log(selectRoom.Pwd);
-            popup.SetActive(true);
-        }
-        else
-        {
-            NextUI();
-        }
-    }
-    // 비밀번호 팝업 메뉴 확인 버튼
-    public void OnClickCheck()
-    {
-        if (inputPassword.text.Equals(clickRoomInfo.Pwd))
-        {
-            SetwarningText("비밀번호를 확인하였습니다");
-            inputPassword.text = "";
-            popup.SetActive(false);
-            NextUI();
-        }
-        else
-        {
-            SetwarningText("비밀번호가 틀렸습니다");
-        }
-        SetwarningText("비밀번호를 입력해주세요");
+        SetwarningText("비밀번호를 확인하였습니다");
+        NextUI();
     }
 
     // 비밀번호 팝업 메뉴 취소 버튼
