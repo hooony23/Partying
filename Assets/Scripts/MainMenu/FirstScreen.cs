@@ -31,7 +31,7 @@ public class FirstScreen : BaseMainMenu, IMainMenu
             SetwarningText("서버와 통신 할 수 없습니다. 다시 접속해주세요.");
             Invoke("OnClickQuit", 3f);
         }
-        
+        new WebSocketModule().Start();
         // Set Button Event
         this.transform.Find("Button Start").GetComponent<Button>().onClick.AddListener(delegate {OnClickStart();});
         this.transform.Find("Button Quit").GetComponent<Button>().onClick.AddListener(delegate {OnClickQuit();});

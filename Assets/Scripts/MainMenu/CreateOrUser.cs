@@ -9,8 +9,6 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
     {
         base.Awake();
         SetUp();
-        //TODO: 속도 느림 개선 필요
-        new WebSocketModule().Start();
     }
     void OnEnable()
     {
@@ -41,7 +39,7 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
     {
         if(NetworkInfo.connectionId.Equals(""))
         {
-            SetwarningText("연결이 확실치 않습니다 잠시만 기다려 주세요.");
+            SetwarningText("서버와 통신이 원활하지 않습니다. 잠시만 기다려 주세요.");
             return;
         }
         base.NextUI();
