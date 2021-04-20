@@ -53,9 +53,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f7b8fca837df84b8449a7457911122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScreen: {fileID: 0}
-  roomTitleInput: {fileID: 0}
-  roomPasswordInput: {fileID: 0}
 --- !u!1001 &43480828158866192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650402899294713051, guid: 3fc8f422608e4804fa23174a3494aa7c,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8342175313392137158, guid: 3fc8f422608e4804fa23174a3494aa7c,
         type: 3}
@@ -213,6 +215,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5234087304983240997}
     m_Modifications:
+    - target: {fileID: 144707578016428264, guid: 67c48fded76b3f047ac5df14f452e4f7,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1794870801547772778, guid: 67c48fded76b3f047ac5df14f452e4f7,
         type: 3}
       propertyPath: m_Name

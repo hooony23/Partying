@@ -55,13 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6207b726b502f3418db972729ae3f66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idCheck: {fileID: 0}
-  nameInput: {fileID: 0}
-  idInput: {fileID: 0}
-  pwInput: {fileID: 0}
-  mobileInput: {fileID: 0}
-  signup: {fileID: 0}
-  nextScreen: {fileID: 0}
 --- !u!1001 &958115633507929778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +123,11 @@ PrefabInstance:
       value: 'NickName
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617024738063843769, guid: 9ba18f2fd7751134b9f6d9cad1b04f83,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8111214296623413025, guid: 9ba18f2fd7751134b9f6d9cad1b04f83,
         type: 3}
@@ -211,6 +209,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: ID
       objectReference: {fileID: 0}
+    - target: {fileID: 3714184330207795954, guid: 696a801a60bdc514d92c71bc565ac89b,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5197860282369960243, guid: 696a801a60bdc514d92c71bc565ac89b,
         type: 3}
       propertyPath: m_Name
@@ -235,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Password
+      objectReference: {fileID: 0}
+    - target: {fileID: 130148778411724345, guid: 47e3728d2a693f846870d9518edc93f5,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1510132361112151965, guid: 47e3728d2a693f846870d9518edc93f5,
         type: 3}
@@ -452,6 +460,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8719683390012777092}
     m_Modifications:
+    - target: {fileID: 3218504670710599600, guid: 498154d479a2a4149aa239455230e640,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4515863568673828205, guid: 498154d479a2a4149aa239455230e640,
         type: 3}
       propertyPath: m_Name

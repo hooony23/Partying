@@ -20,17 +20,11 @@ namespace GameManager
             InitializeLabylinth();
         }
         
-        void Update()
+        protected override void Update()
         {
             DelUser();
             DeathUser();
-            ClearGame();
-        }
-
-        void OnApplicationQuit()
-        {
-            /* 서버 연결 해제 */
-            Connection.ConnectedExit();
+            base.Update();
         }
 
     }

@@ -1,6 +1,4 @@
 using Lib;
-using Communication.JsonFormat;
-using Communication.GameServer;
 using Communication.GameServer.API;
 namespace GameManager
 {
@@ -8,22 +6,18 @@ namespace GameManager
     {
         void Awake()
         {
+            // TODO: Test시 주석 지울 것
             Common.SetUserUuid(System.Guid.NewGuid().ToString());
             APIController.SendController("Connected");
             APIController.SendController("InitStage2");
+
             InitializeRaid();
         }
         
-        void Update()
+        protected override void Update()
         {
             UpdateUserList();
-            ClearGame();
-        }
-
-        void OnApplicationQuit()
-        {
-            /* 서버 연결 해제 */
-            Connection.ConnectedExit();
+            base.Update();
         }
     }
 }

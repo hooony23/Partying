@@ -1,7 +1,7 @@
 using UnityEngine;
-using Newtonsoft.Json.Linq;
 using Communication;
-using Communication.GameServer.API;
+using Communication.MainServer;
+using Communication.GameServer;
 using Util;
 
 namespace GameManager
@@ -95,6 +95,18 @@ namespace GameManager
                     DeathPlayerList.Add(GameObject.Find(deathUserUuid));
                 }
             }
+        }
+
+        protected virtual void Update()
+        {
+            ClearGame();
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            /* 서버 연결 해제 */
+            MServer.Communicate("GET", "api/v1/session/signOut", $"userUuid={Util.Config.userUuid}");
+            Connection.ConnectedExit();
         }
     }
 }
