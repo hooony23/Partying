@@ -178,6 +178,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 7515280000852303109, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Button Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012376635482685409, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Button Lobby
+      objectReference: {fileID: 0}
     - target: {fileID: 8716213001967793814, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -495,7 +505,37 @@ PrefabInstance:
     - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
         type: 3}
       propertyPath: m_Text
-      value: "\uBAA8\uB450"
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481400023531302859, guid: 7ba691826abe7f44ebc59c13ee74f70e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba691826abe7f44ebc59c13ee74f70e, type: 3}
@@ -630,7 +670,7 @@ PrefabInstance:
     - target: {fileID: 2821588161854305779, guid: 454eadba4872ccf44b9621fd7b3166d2,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4642899572326079386, guid: 454eadba4872ccf44b9621fd7b3166d2,
         type: 3}
