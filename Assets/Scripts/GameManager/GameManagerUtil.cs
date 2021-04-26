@@ -2,12 +2,17 @@ using UnityEngine;
 using Communication;
 using Communication.MainServer;
 using Communication.GameServer;
+using Communication.GameServer.API;
 using Util;
 
 namespace GameManager
 {
     public class GameManagerUtil : GameManagerController
     {
+        // protected void Start()
+        // {
+        //     APIController.SendController("SyncStart");
+        // }
         protected void InitializeLabylinth()
         {   
             // 플레이어에게 부착할 카메라 생성

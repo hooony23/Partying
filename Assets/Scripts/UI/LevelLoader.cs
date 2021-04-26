@@ -10,16 +10,14 @@ public class LevelLoader : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
     public Text progressText;
-    public void Awake()
-    {
-        Config.LodingSence = 2;
-    }
     public void Start()
     {
-        LoadLevel(Config.LodingSence);
+        LoadLevel(++Config.defaultStage);
     }
     public void LoadLevel(int scenceIndex)
     {
+        if(SceneManager.GetActiveScene().buildIndex == scenceIndex)
+            scenceIndex = 0;
         StartCoroutine(LoadAsynchronously(scenceIndex));
     }
     IEnumerator LoadAsynchronously(int scenceIndex)
