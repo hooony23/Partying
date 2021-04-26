@@ -38,7 +38,6 @@ public class Lobby : BaseMainMenu, IMainMenu
     private void OnEnable()
     {
         GetRoomsList();
-        UpdateRoomsList(NetworkInfo.roomList);
     }
     void Update()
     {
@@ -107,11 +106,13 @@ public class Lobby : BaseMainMenu, IMainMenu
     // 서버에 받아온 roomList 정보를 rooms배열에 갱신
     private void UpdateRoomsList(JArray roomArray)
     {
-        // 받은 JSON 의 roomList 데이터
 
         // 이전에 받아둔 방 목록들 제거
-        rooms.Clear();
+        ClearRoomList();
+
+        // 받은 JSON 의 roomList 데이터
         rooms.AddRange(roomArray.ToObject<List<RoomInfo>>());
+        Debug.Log($"room count : {rooms.Count},rooms : {roomArray.ToString()}");
     }
 
     // 방 목록 리스트 데이터를 프리팹(방 버튼)화 시키는 기능
@@ -199,7 +200,12 @@ public class Lobby : BaseMainMenu, IMainMenu
         SetwarningText("비밀번호를 확인하였습니다");
         NextUI();
     }
-
+    private void ClearRoomList()
+    {
+        rooms=new List<RoomInfo>();
+        for(var i =0;i<content.childCount;i++)
+            Destroy(content.GetChild(i).gameObject);
+    }
     // 비밀번호 팝업 메뉴 취소 버튼
     public void OnClickCancel()
     {

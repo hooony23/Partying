@@ -32,6 +32,7 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void OnEnable()
     {
+        roomUuid = NetworkInfo.roomInfo.RoomUuid;
         UINum = 7;
         SetText();
     }
@@ -40,7 +41,6 @@ public class Room : BaseMainMenu, IMainMenu
         //Initialize Variable
         var playerGrid = this.transform.Find("Player Grid");
         var startButtonTransfom = this.transform.Find("Button Start");
-        roomUuid = NetworkInfo.roomInfo.RoomUuid;
         users = NetworkInfo.memberInfo;
         
         // Set GUI Object
@@ -70,7 +70,7 @@ public class Room : BaseMainMenu, IMainMenu
     {
         if (!users.ToString().Equals(NetworkInfo.memberInfo.ToString()))
         {
-            Debug.Log($"users : {users.ToString()}");
+            Debug.Log($"membersInfo : {users.ToString()}");
             Debug.Log($"network.memberInfo : {NetworkInfo.memberInfo.ToString()}");
             users = NetworkInfo.memberInfo;
             UpdatePlayerBannerList();
