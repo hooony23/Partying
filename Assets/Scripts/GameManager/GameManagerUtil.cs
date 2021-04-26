@@ -105,6 +105,7 @@ namespace GameManager
         protected virtual void OnApplicationQuit()
         {
             /* 서버 연결 해제 */
+            MServer.LeaveRoom(NetworkInfo.roomInfo.RoomUuid);
             MServer.SignOut();
             Connection.ConnectedExit();
         }
