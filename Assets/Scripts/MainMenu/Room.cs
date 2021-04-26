@@ -36,6 +36,11 @@ public class Room : BaseMainMenu, IMainMenu
         UINum = 7;
         SetText();
     }
+    public void Update()
+    {
+        // if()
+        // ActiveGameStartButton()
+    }
     public void SetUp()
     {
         //Initialize Variable
@@ -63,7 +68,10 @@ public class Room : BaseMainMenu, IMainMenu
         title.text = NetworkInfo.roomInfo.RoomName;
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
         if(IsAdmin())
+        {
             startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
+            startButton.gameObject.GetComponent<Button>().interactable = false;
+        }
         UpdatePlayerBannerList();
     }
     private void OnUpdateMemberInfo()

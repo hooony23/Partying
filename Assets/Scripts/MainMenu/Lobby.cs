@@ -88,11 +88,11 @@ public class Lobby : BaseMainMenu, IMainMenu
             throw new Exception("not found connectionId");
         response = MServer.GetRoomsList();
         JObject json = JObject.Parse(response);
-
         serverMsg = json["data"]["isSuccess"].ToString();
         roomList = json["data"]["roomList"] as JArray;
         if (serverMsg.Equals("True"))
         {
+            NetworkInfo.roomList = roomList;
             OnUpdateRoomList(roomList);
         }
         else
