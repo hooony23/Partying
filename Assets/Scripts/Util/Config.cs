@@ -46,26 +46,6 @@ namespace Util
             Space = KeyCode.Space,
         }
 
-        public enum SendAPINames
-        {
-            Connected,
-            ConnectedExit,
-            CreateMap,
-            Death,
-            Move,
-            GetItem,
-            InitStage2,
-        }
-        public enum ReceiveAPINames
-        {
-            Connected,
-            CreateMap,
-            ConnectedExit,
-            Death,
-            SyncPacket,
-            GetItem,
-            SpawnItem
-        }
         public static int LodingSence = 1; //씬 로드 순서파악을 위한 숫자
 
         //Sound

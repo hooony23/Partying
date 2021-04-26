@@ -34,5 +34,9 @@ namespace Communication.GameServer.API
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   
         }
+        public void SyncStart()
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   
+        }
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Communication.JsonFormat;
 using Util;
-
+using System.Globalization;
 
 
 namespace Communication.GameServer.API
@@ -115,6 +115,20 @@ namespace Communication.GameServer.API
                 return;
             }
             NetworkInfo.itemRespawn = responseJson.ToObject<ItemInfo>();
+        }
+        public void SyncStart(string response)
+        {
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            NetworkInfo.startTime = responseJson.Value<double>("startTime");
         }
     }
 }

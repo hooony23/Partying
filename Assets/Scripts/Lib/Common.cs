@@ -65,7 +65,12 @@ namespace Lib
             object classObject = constructor.Invoke(new object[] { });
             // private, protected, public에 관계없이 취득한다.
             MethodInfo info = type.GetMethod(APIName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            try{
             info.Invoke(classObject, list);
+            }catch(NullReferenceException)
+            {
+                throw new Exception("존재하지 않는 메소드 입니다.");
+            }
         }
 
         public static string ToPascalCase(string str)

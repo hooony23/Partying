@@ -7,7 +7,7 @@ namespace Communication
 {
     public static class NetworkInfo
     {
-
+        public static double startTime = 0d;
         public static MapInfo mapInfo = null;
         public static Dictionary<string, PlayerInfo> playersInfo = new Dictionary<string, PlayerInfo>(){{"Player",null}};
         public static Queue<string> connectedExitQueue = new Queue<string>();

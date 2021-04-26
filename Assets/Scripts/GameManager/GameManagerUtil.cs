@@ -9,10 +9,10 @@ namespace GameManager
 {
     public class GameManagerUtil : GameManagerController
     {
-        // protected void Start()
-        // {
-        //     APIController.SendController("SyncStart");
-        // }
+        protected void Start()
+        {
+            APIController.SendController("SyncStart");
+        }
         protected void InitializeLabylinth()
         {   
             // 플레이어에게 부착할 카메라 생성

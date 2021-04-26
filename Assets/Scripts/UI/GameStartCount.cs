@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 using UnityEngine.UIElements;
+using Communication;
+using System.Globalization;
 
 public class GameStartCount : MonoBehaviour
 {
@@ -12,20 +14,28 @@ public class GameStartCount : MonoBehaviour
     /* private int firsttime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds+5;
      private int endtime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds;
      private int CountDownTime;*/
+    CultureInfo cultureInfo = new CultureInfo("ko-KR");
     private void Start()
     {
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/CountDownUi")) as GameObject;
         CountDownDisplay = TimerObject.transform.Find("CountDownText").GetComponent<Text>();
-        StartCoroutine(CountDownToStart());
     }
     //Coroutine을 이용하여 카운트 다운을 실행함.
     //timeScale이 0이 되면 Update문이 실행불가.
     //WaitForSecondsRealtime을 통해 현재 초만큼 움직이도록 실행.
-    IEnumerator CountDownToStart()
+    private void Update()
+    {
+        if(NetworkInfo.startTime!=0d){
+                var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
+                StartCoroutine(CountDownToStart((int)seconds));
+            }
+            
+    }
+    IEnumerator CountDownToStart(int seconds)
     {
         //현재 게임의 배속을 0으로 만들고 2초뒤 실행, 물리적 시간도 함께 조정
         Time.timeScale = 0.0f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = seconds * 0.01f * Time.timeScale;
         yield return new WaitForSecondsRealtime(2f);
         CountDownDisplay.gameObject.SetActive(true);
 
