@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AI;
+using Communication;
+using Communication.JsonFormat;
+using Communication.GameServer;
+using Communication.GameServer.API;
+using Lib;
+using Util;
 
 /* 순찰자의 순찰, 인식, 추격 기능 
  * Target을 Player로 둘수 있고, 다른것을 쫒게 할 수도 있음
@@ -16,26 +22,58 @@ public class PatrolAI : PatrolAIUtil
     //@@@ 서버 @@@
     AIMove aiMove = new AIMove();
 
-
     NavMeshAgent navPatrol;
     private void Awake()
     {
-        pac.LayerMaskPlayer = LayerMask.GetMask("Player");
-        pac.LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
-        pac.Patrol = gameObject.GetComponent<NavMeshAgent>();
+        LayerMaskPlayer = LayerMask.GetMask("Player");
+        LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
+        Patrol = gameObject.GetComponent<NavMeshAgent>();
     }
     void Start()
     {
-        pac.LastPpoint = transform;
+        LastPpoint = transform;
 
         InvokeRepeating("FindPatrolPoint", 0f, 1.5f);
     }
 
     void Update()
     {
-        // Debug.Log(pac.Patrol.);
+        /*
+        "aiUuid": "af2b16e7-b829-4721-8c8d-e85e4381a4fd",
+        "loc": "{}",
+        "vec": "{}",
+        "targetPoint": "{x,y,z}"
+        */
+
+        /*
+                      "x": 12,
+            "y": 1,
+            "z": 8
+        },
+        "vec": {
+            "x": 1.0,
+            "y": 0,
+            "z": -0.5
+        },
+        "movement": "Move",
+        "uuid": "af2b16e7-b829-4721-8c8d-e85e4381a4fd",
+        "isDetected": true,
+        "targe": "b2a6938e-8285-48b9-b0cd-017df4ed029b"
+        */
+        var currentVec = Patrol.desiredVelocity;
+        if(this.AiInfo.GetVecToVector3()!= currentVec){
+            this.AiInfo.Vec=new Division3(currentVec);
+            this.AiInfo.Loc = new Division3(this.gameObject.transform.position);
+            APIController.SendController("AiMove",new Division3(currentVec));
+        }
         UpdatePatrolTarget();
-        Move(); // 순찰, 추격, 위험지역 확인
+        if(!NetworkInfo.roomInfo.Admin.UserUuid.Equals(Config.userUuid))
+        {
+            NetworkSync();
+            NetworkMove();
+        }
+        else
+            Move(); // 순찰, 추격, 위험지역 확인
 
 
     }

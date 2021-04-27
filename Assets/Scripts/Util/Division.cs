@@ -26,6 +26,8 @@ namespace Util
             this.y = y;
             this.z = z;
         }
+        public Division3(UnityEngine.Vector3 vec):this(vec.x,vec.y,vec.z){}
+        
         public float X { get => x; set => x = value; }
         public float Y { get => y; set => y = value; }
         public float Z { get => z; set => z = value; }

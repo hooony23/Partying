@@ -30,6 +30,10 @@ namespace Communication.GameServer.API
             string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name));
             Connection.Connected(request);
         }
+        public void AiMove(object request)
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
+        }
         public void InitStage2()
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   

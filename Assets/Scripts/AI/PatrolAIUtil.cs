@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Communication;
+using Communication.JsonFormat;
 
-public class PatrolAIUtil : MonoBehaviour
+public class PatrolAIUtil :PatrolAIController
 {
-    protected PatrolAIController pac = new PatrolAIController();
     public void UpdatePatrolTarget()
     {
-        Collider[] cols = Physics.OverlapSphere(pac.Patrol.transform.position, pac.DetectDistance, pac.LayerMaskPlayer); // (중심, 반경, layer)
+        Collider[] cols = Physics.OverlapSphere(Patrol.transform.position, DetectDistance, LayerMaskPlayer); // (중심, 반경, layer)
         List<Collider> cols_visible = new List<Collider>();
         if (cols.Length > 0) // 주변에 감지된 Player콜라이더 1개이상이면
         {
@@ -18,11 +19,11 @@ public class PatrolAIUtil : MonoBehaviour
             for (int i = 0; i < cols.Length; i++)
             {
                 Vector3 target_visible = cols[i].transform.position;
-                Vector3 targetDirection = (target_visible - pac.Patrol.transform.position).normalized;
-                float targetAngle = Vector3.Angle(targetDirection, pac.Patrol.transform.forward);
+                Vector3 targetDirection = (target_visible - Patrol.transform.position).normalized;
+                float targetAngle = Vector3.Angle(targetDirection, Patrol.transform.forward);
 
                 // 0.5f : 시야각 forward 기준으로 한쪽방향 * 2
-                if (targetAngle < pac.ViewAngle * 0.5f)
+                if (targetAngle < ViewAngle * 0.5f)
                 {
                     cols_visible.Add(cols[i]);
                 }
@@ -33,47 +34,60 @@ public class PatrolAIUtil : MonoBehaviour
             if (cols_visible.Count > 0)
             {
                 int minIndex = 0;
-                float minDistance = (pac.Patrol.transform.position - cols_visible[0].transform.position).magnitude;
+                float minDistance = (Patrol.transform.position - cols_visible[0].transform.position).magnitude;
                 for (int i = 0; i < cols_visible.Count; i++)
                 {
                     // 추출된 콜라이더(플레이어위치) 와 순찰자 위치 비교하여 제일 가까운 플레이어를 타겟으로
-                    if ((pac.Patrol.transform.position - cols[i].transform.position).magnitude < minDistance)
+                    if ((Patrol.transform.position - cols[i].transform.position).magnitude < minDistance)
                     {
                         minIndex = i;
-                        minDistance = (pac.Patrol.transform.position - cols[i].transform.position).magnitude;
+                        minDistance = (Patrol.transform.position - cols[i].transform.position).magnitude;
                     }
                 }
-                pac.NearestPlayer = cols_visible[minIndex].transform;
+                NearestPlayer = cols_visible[minIndex].transform;
 
                 // 주변에 플레이어 감지되었고, 시야각 안에 들어옴
                 Debug.Log("플레이어 발견");
-                pac.IsPatrol = false;
-                pac.Target = pac.NearestPlayer;
+                IsPatrol = false;
+                Target = NearestPlayer;
             }
 
             // 주변에 플레이어 감지 되었고, 시야각에서 사라짐
             else
             {
                 Debug.Log("플레이어 놓침");
-                pac.IsPatrol = true;
+                IsPatrol = true;
 
             }
         }
 
         // 주변에 플레이어 없음
         // Debug.Log("순찰 재시작");
-        pac.IsPatrol = true;
+        IsPatrol = true;
 
     }
 
     public void Move()
     {
         // 레이저로 순찰지역 인식 distance 표시
-        Debug.DrawRay(pac.Patrol.transform.position, pac.Patrol.transform.forward * pac.DetectDistance, Color.red);
+        Debug.DrawRay(Patrol.transform.position, Patrol.transform.forward * DetectDistance, Color.red);
         //Debug.DrawRay(transform.position, transform.forward * patrol_distance, Color.blue);
-        if (pac.Target)
-            pac.Patrol.SetDestination(pac.Target.position);
+        if (Target)
+            Patrol.SetDestination(Target.position);
 
+    }
+    public void NetworkSync()
+    {
+        if(NetworkInfo.aiInfo != null)
+        {
+            AiInfo = NetworkInfo.aiInfo;
+            this.gameObject.transform.position = AiInfo.GetLocToVector3();
+            NetworkInfo.aiInfo=null;
+        }
+    }
+    public void NetworkMove()
+    {
+        this.gameObject.transform.position += AiInfo.GetVecToVector3();
     }
 
     // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적
@@ -82,29 +96,28 @@ public class PatrolAIUtil : MonoBehaviour
         if(dangerTarget==null)
             FindPatrolPoint();
         else
-            pac.Target = dangerTarget;
+            Target = dangerTarget;
     }
 
     // 최초 순찰지역 인식 기능
     public void FindPatrolPoint()
     {
-        if (pac.Patrol.velocity == Vector3.zero || pac.IsPatrol == true)
+        if (Patrol.velocity == Vector3.zero || IsPatrol == true)
         {
             // 주변 패트롤 포인트 인식
-            Collider[] cols = Physics.OverlapSphere(pac.Patrol.transform.position, pac.PatrolDistance, pac.LayerMaskPpoint); // (중심, 반경, layer)
+            Collider[] cols = Physics.OverlapSphere(Patrol.transform.position, PatrolDistance, LayerMaskPpoint); // (중심, 반경, layer)
             List<Collider> points = new List<Collider>(cols);
             if (cols.Length > 0)
             {
-                Debug.Log(points[0].transform.position);
                 // 인식된 PatrolPoints 들중 1개만 랜덤으로 선택
                 int ridx = Random.Range(0, points.Count);
-                pac.Target = points[ridx].transform;
-                pac.LastPpoint = pac.Target;
+                Target = points[ridx].transform;
+                LastPpoint = Target;
             }
             else // 주변에 PatrolPoint 가 없는 Patrol은
             {
                 // 플레이어 올때까지 기다린다
-                pac.Target = null;
+                Target = null;
             }
         }
 

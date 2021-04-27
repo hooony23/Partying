@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Util;
+using Communication.JsonFormat;
 
-
-public class PatrolAIController
+public class PatrolAIController: MonoBehaviour
 {
 
     // 시야각 에 따른 순찰
@@ -23,4 +23,5 @@ public class PatrolAIController
     // 추격
     public NavMeshAgent Patrol { get; set ; }
     public Transform Target { get; set; } // 타켓이 정해지면 움직임 ( target : player, ppoint ...)
+    public AiInfo AiInfo{get;set;}
 }
