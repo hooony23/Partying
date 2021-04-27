@@ -7,30 +7,20 @@ using Util;
 
 public class PatrolAIController
 {
+
     // 시야각 에 따른 순찰
-    private LayerMask layerMaskPlayer = 0; // OverlapSphere : LayerMask를 통해 인식함
-    private Transform nearestPlayer;
-    private float viewAngle = Config.patrolVisionAngle; // 시야각
-    private float detectDistance = Config.playerDetectDistance; // 반경
-
+    public LayerMask LayerMaskPlayer { get; set; } = 0; // OverlapSphere : LayerMask를 통해 인식함
+    public Transform NearestPlayer { get; set; }
+    public float ViewAngle { get; set; } = Config.patrolVisionAngle; // 시야각
+    public float DetectDistance { get; set; } = Config.playerDetectDistance; // 반경
+    
     // 주변의 패트롤포인트를 인식하고 인식된 포인트에서만 순찰
-    private LayerMask layerMaskPpoint = 0; // Ppoint LayerMask
-    private Transform lastPpoint;
-    private float patrolDistance = Config.patrolPointFindDistance; // 순찰지역 인식 거리
-    private bool isPatrol;
-
+    public LayerMask LayerMaskPpoint { get; set; } = 0; // Ppoint LayerMask
+    public Transform LastPpoint { get; set; }
+    public float PatrolDistance { get; set; }= Config.patrolPointFindDistance; // 순찰지역 인식 거리
+    public bool IsPatrol { get; set ; }
+    
     // 추격
-    private NavMeshAgent patrol;
-    private Transform target; // 타켓이 정해지면 움직임 ( target : player, ppoint ...)
-
-    public LayerMask LayerMaskPlayer { get => layerMaskPlayer; set => layerMaskPlayer = value; }
-    public Transform NearestPlayer { get => nearestPlayer; set => nearestPlayer = value; }
-    public float ViewAngle { get => viewAngle; set => viewAngle = value; }
-    public float DetectDistance { get => detectDistance; set => detectDistance = value; }
-    public LayerMask LayerMaskPpoint { get => layerMaskPpoint; set => layerMaskPpoint = value; }
-    public Transform LastPpoint { get => lastPpoint; set => lastPpoint = value; }
-    public float PatrolDistance { get => patrolDistance; set => patrolDistance = value; }
-    public bool IsPatrol { get => isPatrol; set => isPatrol = value; }
-    public NavMeshAgent Patrol { get => patrol; set => patrol = value; }
-    public Transform Target { get => target; set => target = value; }
+    public NavMeshAgent Patrol { get; set ; }
+    public Transform Target { get; set; } // 타켓이 정해지면 움직임 ( target : player, ppoint ...)
 }

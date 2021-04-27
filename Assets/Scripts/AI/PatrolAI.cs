@@ -33,7 +33,7 @@ public class PatrolAI : PatrolAIUtil
 
     void Update()
     {
-
+        // Debug.Log(pac.Patrol.);
         UpdatePatrolTarget();
         Move(); // 순찰, 추격, 위험지역 확인
 
