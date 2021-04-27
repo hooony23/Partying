@@ -19,7 +19,7 @@ public class OtherPlayer : PlayerUtil
         GetNetWorkInput();
         Move();
         Turn();
-        IsGetItem();
+        GetItem();
         Dodge();
         PlayerStateUpdate();
     }
@@ -28,16 +28,5 @@ public class OtherPlayer : PlayerUtil
     {
         FreezeRotation();
         StopToWall();
-    }
-
-    private void OnTriggerStay(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
-    {
-        IsClear(other);
-
-    }
-    
-    private void OnTriggerExit(Collider other) //플레이어 범위에 아이템이 벗어났는지 확인
-    {
-        IsGetItem(other);
     }
 }

@@ -19,32 +19,33 @@ public class GameStartCount : MonoBehaviour
     {
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/CountDownUi")) as GameObject;
         CountDownDisplay = TimerObject.transform.Find("CountDownText").GetComponent<Text>();
+        
+        if(NetworkInfo.startTime!=0d){
+                var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
+                StartCoroutine(CountDownToStart((int)seconds));
+        }
     }
     //Coroutine을 이용하여 카운트 다운을 실행함.
     //timeScale이 0이 되면 Update문이 실행불가.
     //WaitForSecondsRealtime을 통해 현재 초만큼 움직이도록 실행.
     private void Update()
     {
-        if(NetworkInfo.startTime!=0d){
-                var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
-                StartCoroutine(CountDownToStart((int)seconds));
-            }
             
     }
     IEnumerator CountDownToStart(int seconds)
     {
         //현재 게임의 배속을 0으로 만들고 2초뒤 실행, 물리적 시간도 함께 조정
         Time.timeScale = 0.0f;
-        Time.fixedDeltaTime = seconds * 0.01f * Time.timeScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
         yield return new WaitForSecondsRealtime(2f);
         CountDownDisplay.gameObject.SetActive(true);
 
         //1초마다 넘어가며 카운트 다운
-        while (Config.CountDownTime > 0)
+        while (seconds > 0)
         {
-            CountDownDisplay.text = Config.CountDownTime.ToString();
+            CountDownDisplay.text = seconds.ToString();
             yield return new WaitForSecondsRealtime(1f);
-            Config.CountDownTime--;
+            seconds--;
         }
 
         //start 화면과 함께 게임시작

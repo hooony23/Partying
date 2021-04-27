@@ -88,7 +88,7 @@ namespace Communication.GameServer.API
         }
         public void GetItem(string response)
         {
-
+            Debug.Log(response);
             JObject responseJson = null;
             try
             {
@@ -117,7 +117,8 @@ namespace Communication.GameServer.API
             NetworkInfo.itemRespawn = responseJson.ToObject<ItemInfo>();
         }
         public void SyncStart(string response)
-        {
+        { 
+            Debug.Log(response);
             JObject responseJson = null;
             try
             {

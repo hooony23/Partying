@@ -25,7 +25,7 @@ public class Player : PlayerUtil
         GetInput();
         Move();
         Turn();
-        IsGetItem();
+        GetItem();
         CameraTurn();
         Dodge();
         PlayerStateUpdate();
@@ -41,13 +41,13 @@ public class Player : PlayerUtil
         StopToWall();
     }
 
-    private void OnTriggerStay(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
+    private void OnTriggerEnter(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
     {
-        IsClear(other);
+        NearbyObject(other);
     }
 
     private void OnTriggerExit(Collider other) //플레이어 범위에 아이템이 벗어났는지 확인
     {
-        IsGetItem(other);
+        MoveAnyFromObject(other);
     }
 }

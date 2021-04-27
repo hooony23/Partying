@@ -79,7 +79,7 @@ public class PlayerUtil : PlayerController
                         .Cast<Config.InputKey>()
                         .Select(k => (KeyCode)k)
                         .ToList()
-                        where Input.GetKeyDown(input) == true || Input.GetKeyUp(input)
+                        where Input.GetKeyDown(input) || Input.GetKeyUp(input)
                         select input;
         if (inputData.Count() <= 0)
             return false;
@@ -91,7 +91,7 @@ public class PlayerUtil : PlayerController
                         .Cast<Config.InputKey>()
                         .Select(k => (KeyCode)k)
                         .ToList()
-                        where Input.GetKey(input) == true
+                        where Input.GetKey(input)
                         select input;
         return inputData;
     }
@@ -172,16 +172,6 @@ public class PlayerUtil : PlayerController
         CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
 
     }
-    public void IsGetItem() // 아이템 획득을 위한 로직
-    {
-        if (EDown && NearObject != null)
-        { //아이템을 먹었을 때 실행하는 문장
-            if (NearObject.CompareTag("Item"))
-            {
-                GetItem = true;
-            }
-        }
-    }
     public void Dodge() // 플레이어 회피
     {
         if (JDown && IsDodge == false && MoveDir != Vector3.zero)
@@ -230,19 +220,22 @@ public class PlayerUtil : PlayerController
         if (other.CompareTag("Item"))
         {
             NearObject = other.gameObject;
-            if (GetItem == true)
+            if (HaveItem == true)
             {
-                Destroy(NearObject, 7f); // 이동과 동시에 아이템 오브젝트가 사라짐
-                APIController.SendController("GetItem");
             }
         }
     }
-    public void IsGetItem(Collider other)
+    
+    public void GetItem()
     {
-
-        if (other.CompareTag("Item"))
+        if (EDown && NearObject != null)
+        if (NearObject.CompareTag("Item"))
         {
+            Debug.Log("IsItem");
             NearObject = null;
+            HaveItem = true;
+            Destroy(NearObject, 1f); // 이동과 동시에 아이템 오브젝트가 사라짐
+            APIController.SendController("GetItem");
         }
     }
     // 플레이어의 HP를 프레임별로 확인
@@ -301,6 +294,17 @@ public class PlayerUtil : PlayerController
         reactVec += Vector3.up;
         Rigid.AddForce(reactVec * force, ForceMode.Impulse);
     }
-
+    public void NearbyObject(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+        NearObject = other.gameObject;
+    }
+    
+    public void MoveAnyFromObject(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+        if(NearObject == other.gameObject)
+            NearObject =null;
+    }
     /// 플레이어 피격 처리 ///
 }

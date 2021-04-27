@@ -31,7 +31,7 @@ namespace Communication.GameServer.API
             // RegularExpression.jsonValidation(responseJson);
 
             string type = Common.ToPascalCase(responseJson.Value<string>("type"));
-            string data = JsonConvert.SerializeObject((JObject)responseJson["data"]);
+            string data = responseJson["data"].ToString();
             Common.CallAPI("Receive", type, data);
         }
     }

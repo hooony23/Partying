@@ -55,8 +55,6 @@ namespace Util
         public static float Timer = 65f;
         public static int CountDownTime = 3;
         public static bool StartGame = false;
-
-        public static bool GameClear = false;
     }
 
 }

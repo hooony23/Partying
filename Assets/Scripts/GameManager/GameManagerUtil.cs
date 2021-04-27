@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Communication;
 using Communication.MainServer;
 using Communication.GameServer;
@@ -11,6 +13,10 @@ namespace GameManager
     {
         protected void Start()
         {
+            var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
+            GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+            ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
+            ContinueButton.onClick.AddListener(UserClearButton); 
             APIController.SendController("SyncStart");
         }
         protected void InitializeLabylinth()
@@ -72,11 +78,14 @@ namespace GameManager
         }
         protected void ClearGame()
         {
-            while (NetworkInfo.GetItemUserQueue.Count != 0)
+            if (NetworkInfo.GetItemUserQueue.Count != 0)
             {
+                gameClear = true;
                 string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
+                IsGameClear();
+                // Lib.Common.WaitThenCallback(1f,);
                 Debug.Log("Game Clear");
-                Application.Quit(0);
+
             }
         }
         protected void InitUserList()
@@ -101,7 +110,16 @@ namespace GameManager
                 }
             }
         }
-
+    //게임 클리어 UI 활성화
+    public void IsGameClear()
+    {
+        GameClearUi.SetActive(true);
+    }
+    public void UserClearButton()
+    {
+        ContinueButton.interactable = false;
+        SceneManager.LoadScene("LodingScene");
+    }
         protected virtual void Update()
         {
             ClearGame();

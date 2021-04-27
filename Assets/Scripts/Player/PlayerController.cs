@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public string CurrentStage { get; set; } = "Labyrinth";
     public bool IsStun { get; set; } = false;
     public bool IsDead { get; set; } = false;
-    public bool GetItem { get; set; } = false; // 클리어 아이템 획득 표시
+    public bool HaveItem { get; set; } = false; // 클리어 아이템 획득 표시
     public string UserUuid { get; set; }
     public PlayerInfo PInfo { get; set; } = new PlayerInfo();
 
