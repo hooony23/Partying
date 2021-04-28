@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameUi;
 
 public class BossLaser : MonoBehaviour, IDamageable
 {
@@ -16,12 +17,14 @@ public class BossLaser : MonoBehaviour, IDamageable
     }
     public void TakeHit(Collider collider, float damage)
     {
+        UserScore aa =GameObject.Find("GameManager").GetComponent<UserScore>();
         var player = collider.gameObject.GetComponent<Player>();
         var reactVec = (collider.transform.position - this.transform.position).normalized;
         if (!player.IsBeatable)
             return;
         player.PlayerHealth -= damage;
         StartCoroutine(player.OnAttacked(reactVec));
+        aa.PlayerHeart(player);
     }
 
 
