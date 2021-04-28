@@ -42,12 +42,10 @@ public class MapUtil : MapController
         for(int row=0;row<grid.GetLength(0);row++)
             for(int col=0;col<grid[0].Length;col++)
             {
-                Debug.Log($"{row},{col} = {System.Convert.ToInt32($"{grid[row][col]}",16)}");
                 parseArray[row,col,0]=(System.Convert.ToInt32($"{grid[row][col]}",16)&8)>>3;
                 parseArray[row,col,1]=(System.Convert.ToInt32($"{grid[row][col]}",16)&4)>>2;
                 parseArray[row,col,2]=(System.Convert.ToInt32($"{grid[row][col]}",16)&2)>>1;
                 parseArray[row,col,3]=(System.Convert.ToInt32($"{grid[row][col]}",16)&1);
-                Debug.Log($"{parseArray[row,col,0]}{parseArray[row,col,1]}{parseArray[row,col,2]}{parseArray[row,col,3]}");
             }
         return parseArray;
     }
