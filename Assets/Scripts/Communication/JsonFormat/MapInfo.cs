@@ -4,7 +4,7 @@ namespace Communication.JsonFormat
 {
     public class MapInfo
     {
-        public int[,,] labylinthArray;
+        public string[] labylinthArray;
         public CellInfo[] patrolPoints;
         public CellInfo[] trap;
         public CellInfo[] playerLocs;

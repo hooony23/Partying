@@ -23,5 +23,5 @@ public class PatrolAIController: MonoBehaviour
     // 추격
     public NavMeshAgent Patrol { get; set ; }
     public Transform Target { get; set; } // 타켓이 정해지면 움직임 ( target : player, ppoint ...)
-    public AiInfo AiInfo{get;set;}
+    public AiInfo AiInfo{get;set;} = new AiInfo();
 }

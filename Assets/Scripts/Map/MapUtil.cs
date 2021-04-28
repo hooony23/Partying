@@ -36,13 +36,28 @@ public class MapUtil : MapController
     {
         CreateGrid(size, size);
     }
+        public int[,,] GridConverToIntegerArray(string[] grid)
+    {
+        int[,,] parseArray = new int[grid.Length,grid[0].Length,4];
+        for(int row=0;row<grid.GetLength(0);row++)
+            for(int col=0;col<grid[0].Length;col++)
+            {
+                Debug.Log($"{row},{col} = {System.Convert.ToInt32($"{grid[row][col]}",16)}");
+                parseArray[row,col,0]=(System.Convert.ToInt32($"{grid[row][col]}",16)&8)>>3;
+                parseArray[row,col,1]=(System.Convert.ToInt32($"{grid[row][col]}",16)&4)>>2;
+                parseArray[row,col,2]=(System.Convert.ToInt32($"{grid[row][col]}",16)&2)>>1;
+                parseArray[row,col,3]=(System.Convert.ToInt32($"{grid[row][col]}",16)&1);
+                Debug.Log($"{parseArray[row,col,0]}{parseArray[row,col,1]}{parseArray[row,col,2]}{parseArray[row,col,3]}");
+            }
+        return parseArray;
+    }
     public void CreateGrid(int Rows, int Columns)
     {
         //TODO wall -> left-right wall로 바꿀 것
         // 결과를 확인하기 위한 구문 
         // Dictionary<int, string> type = new Dictionary<int, string>() { { 0, "왼쪽" }, { 1, "오른쪽" }, { 2, "위" }, { 3, "아래" } };
         // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
-        int[,,] labylinthArray = MInfo.labylinthArray;
+        int[,,] labylinthArray = GridConverToIntegerArray(MInfo.labylinthArray);
         // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
         Config.labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
         //wall localScale = (10,5,1)
