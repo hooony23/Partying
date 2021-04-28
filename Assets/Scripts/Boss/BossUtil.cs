@@ -143,8 +143,12 @@ namespace Boss
 
         public IEnumerator Destroyed()
         {
-            Animator.SetTrigger("Destroyed");
-            yield return null;
+            Animator.Play("Destroyed");
+            BossCollider.enabled = false;
+            yield return new WaitForSeconds(10f);
+
+            // 보스 게임오브젝트 제거
+            Destroy(this.gameObject);
         }
 
         // BodySlam 랜덤 타겟 선택 
@@ -160,7 +164,7 @@ namespace Boss
             if (BossHP <= 0)
             {
                 InitParticleSystem();
-                Animator.Play("Destroyed");
+                StartCoroutine(Destroyed());
             }
         }
 
