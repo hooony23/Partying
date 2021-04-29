@@ -217,6 +217,7 @@ public class PlayerUtil : PlayerController
     {
         Rigid.angularVelocity = Vector3.zero;
     }
+
     public void StopToWall()
     {
         float raydis = 1.5f;
@@ -256,6 +257,7 @@ public class PlayerUtil : PlayerController
     {
         if (IsDead)
         {
+            Stun(4f);
             this.gameObject.layer = default; // 보스가 인식 못함
             Anim.Play("dead");
             //TODO: 나중에 GM으로 수정 필요.

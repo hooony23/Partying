@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BaseTrap : MonoBehaviour, ITrapEvent, IDamageable
 {
+    protected bool IsActive { get; set; } = false;
     protected Animator anim { get; set; }
     public virtual void TrapEvent(Collider other, params object[] obj) { }
     public virtual void TakeHit(Collider col, float damage = 999)
