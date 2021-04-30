@@ -23,26 +23,29 @@ namespace Partying.UI
 
         /*[SerializeField]*/
         private string username = "asdfgh";
-        [SerializeField] private int maxMessages = 25;
 
         //메세지의 동적생성
-        [SerializeField] GameObject chatPanel, isTextBox, isInputChatBox;
-        [SerializeField] CanvasGroup canvasGroup;
+        private GameObject chatPanel, isTextBox, isInputChatBox;
+        private CanvasGroup canvasGroup;
+        private RectTransform rectTransform;
 
         //상단 채팅 버튼 클릭 시 변경.
-        [SerializeField] int chatViewMode = 0;
+        private int chatViewMode = 0;
 
         //채팅창 입력 활성화 상태에서 tab 키 누를 시 변경.
-        [SerializeField] int chatMode = 1;
-        [SerializeField] private InputField chatBox;
-        public string userMessage;
-        [SerializeField] private Text chatModeButton;
+         private int chatMode = 1;
+        private InputField chatBox;
+        private string userMessage;
+        private Text chatModeButton;
+
+        //채팅 송수신을 위한 채팅모듈
         ChatModule chatModule = new ChatModule();
         private void Awake()
         {
             chatModule.Start();
             GameObject ChatingText = this.transform.Find("Canvas").gameObject;
             canvasGroup = ChatingText.GetComponent<CanvasGroup>();
+            rectTransform = this.transform.Find("Canvas").GetComponent<RectTransform>();
             isTextBox = Resources.Load("Chat/Chat Text Form") as GameObject;
             isInputChatBox = ChatingText.transform.Find("Chat View").gameObject;
             GameObject ChatInfoScrollView = isInputChatBox.transform.Find("Viewport").gameObject;
@@ -54,6 +57,8 @@ namespace Partying.UI
             chatViewGroup.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(ALLCHATVIEW); });
             chatViewGroup.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(LOBBYCHATVIEW); });
             chatViewGroup.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(ROOMCHATVIEW); });
+            //TODO: 채팅UI를 생성하는 곳에서 값을 넘겨주거나, 현재 LodingSence의 정보를 수신하여 설정하는 방식이 필요.
+            //CanvasRecent(0);
         }
         void Update()
         {
@@ -78,7 +83,20 @@ namespace Partying.UI
             SendMessage();
             
         }
-        
+        //TODO: 메인메뉴와 게임일때 활성화 하는 것에 대한 코드 생성 필요
+        public void CanvasRecent(int scenesNumber) { //채팅창 Canvas의 피벗과 앵커를 설정하여 채팅창의 위치를 바꿈
+            if (scenesNumber == 1) {//오른쪽 채팅창
+                rectTransform.anchorMin = new Vector2(1,0);
+                rectTransform.anchorMax = new Vector2(1,0);
+                rectTransform.pivot = new Vector2(1f, 0f);
+            }
+            else if (scenesNumber == 0) {//왼쪽 채팅창
+                rectTransform.anchorMin = new Vector2(0, 0);
+                rectTransform.anchorMax = new Vector2(0, 0);
+                rectTransform.pivot = new Vector2(0f, 0f);
+            }
+           
+        }
         public void ChatTabMode()
         {
             if (!(canvasGroup.blocksRaycasts&&IsTabKeyDown()))
