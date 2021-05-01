@@ -67,7 +67,7 @@ public class Room : BaseMainMenu, IMainMenu
         Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
         title.text = NetworkInfo.roomInfo.RoomName;
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
-        if(IsAdmin())
+        if(Lib.Common.IsAdmin())
         {
             startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
             startButton.gameObject.GetComponent<Button>().interactable = false;
@@ -136,20 +136,12 @@ public class Room : BaseMainMenu, IMainMenu
      public void OnClickGameStart()
     {
         APIController.SendController("Connected");
-        if(IsAdmin())
+        if(Lib.Common.IsAdmin())
         {
             APIController.SendController("CreateMap");
             // Game Scene 으로 넘어감
             GameStart();
         }
-    }
-    private bool IsAdmin()
-    {
-        
-        Debug.Log($"AdminUuid : {NetworkInfo.roomInfo.Admin.UserUuid} && myUuid : {NetworkInfo.myData.UserUuid} ");
-        if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))
-            return true;
-        return false;
     }
     public void GameStart()
 

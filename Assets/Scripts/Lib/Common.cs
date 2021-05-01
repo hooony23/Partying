@@ -3,8 +3,7 @@ using System.Reflection;
 using System.Collections;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
-using Communication.JsonFormat;
-using Communication.GameServer.API;
+using Communication;
 using Util;
 
 namespace Lib
@@ -73,6 +72,12 @@ namespace Lib
             }
         }
 
+        public static bool IsAdmin()
+        {
+            if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))
+                return true;
+            return false;
+        }
         public static string ToPascalCase(string str)
         {
             // If there are 0 or 1 characters, just return the string.

@@ -69,6 +69,10 @@ public class PatrolAIUtil :PatrolAIController
 
     public void Move()
     {
+        if(!Lib.Common.IsAdmin()){
+            NetworkMove();
+            return;
+        }
         // 레이저로 순찰지역 인식 distance 표시
         Debug.DrawRay(Patrol.transform.position, Patrol.transform.forward * DetectDistance, Color.red);
         //Debug.DrawRay(transform.position, transform.forward * patrol_distance, Color.blue);

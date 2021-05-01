@@ -160,12 +160,6 @@ public class MapUtil : MapController
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
             //TODO: 추후 테스트 완료 후 삭제
             Debug.Log($"player uuid :{Config.userUuid}\n other player uuid : {(string)item.data}");
-            if (!Config.userUuid.Equals((string)item.data))
-            {
-                Destroy(player.GetComponent<Player>());
-                player.AddComponent<OtherPlayer>();
-                player.GetComponent<OtherPlayer>().UserUuid = (string)item.data;
-            }
             player.name = (string)item.data;
         }
     }

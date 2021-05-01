@@ -40,6 +40,10 @@ public class PlayerUtil : PlayerController
             }
         MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
     }
+    public bool IsMyCharacter()
+    {
+        return this.gameObject.name == Config.userUuid;
+    }
     public void InputEvent(KeyCode key)
     {
         switch (key)

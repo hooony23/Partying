@@ -7,6 +7,7 @@ namespace Communication
 {
     public static class NetworkInfo
     {
+        //TODO: 가능하면 값 저장 없이 Receive단에서 바로 처리할 수 있도록 바꿔야함
         public static double startTime = 0d;
         public static MapInfo mapInfo = null;
         public static Dictionary<string, PlayerInfo> playersInfo = new Dictionary<string, PlayerInfo>(){{"Player",null}};

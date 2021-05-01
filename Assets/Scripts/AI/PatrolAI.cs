@@ -17,11 +17,6 @@ using Util;
 
 public class PatrolAI : PatrolAIUtil
 {
-
-
-    //@@@ 서버 @@@
-    AIMove aiMove = new AIMove();
-
     NavMeshAgent navPatrol;
     private void Awake()
     {
@@ -38,28 +33,6 @@ public class PatrolAI : PatrolAIUtil
 
     void Update()
     {
-        /*
-        "aiUuid": "af2b16e7-b829-4721-8c8d-e85e4381a4fd",
-        "loc": "{}",
-        "vec": "{}",
-        "targetPoint": "{x,y,z}"
-        */
-
-        /*
-                      "x": 12,
-            "y": 1,
-            "z": 8
-        },
-        "vec": {
-            "x": 1.0,
-            "y": 0,
-            "z": -0.5
-        },
-        "movement": "Move",
-        "uuid": "af2b16e7-b829-4721-8c8d-e85e4381a4fd",
-        "isDetected": true,
-        "targe": "b2a6938e-8285-48b9-b0cd-017df4ed029b"
-        */
         var currentVec = Patrol.desiredVelocity;
         if(this.AiInfo.GetVecToVector3()!= currentVec){
             this.AiInfo.Vec=new Division3(currentVec);
@@ -67,26 +40,12 @@ public class PatrolAI : PatrolAIUtil
             APIController.SendController("AiMove",new Division3(currentVec));
         }
         UpdatePatrolTarget();
-        if(!NetworkInfo.roomInfo.Admin.UserUuid.Equals(Config.userUuid))
+        if(!Lib.Common.IsAdmin())
         {
             NetworkSync();
-            NetworkMove();
         }
-        else
-            Move(); // 순찰, 추격, 위험지역 확인
+        Move(); // 순찰, 추격, 위험지역 확인
 
-
-    }
-
-    private void FixedUpdate()
-    {
-        // AI정보 서버에 보냄
-        //string aiUuid = "aiUuid-123123-123123";
-        //Vector3 moveVec = Vector3.zero;
-        //aiMove.UpdateAiInfo(aiUuid, transform.position, moveVec, target);
-        //string jsonData = aiMove.ObjectToJson(aiMove);
-        //Debug.Log(jsonData);
-        //AsynchronousClient.Send(jsonData);
 
     }
 
