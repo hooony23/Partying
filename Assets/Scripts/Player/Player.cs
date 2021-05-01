@@ -10,7 +10,6 @@ public class Player : PlayerUtil
 
         if (IsMyCharacter())
         {
-
             // 피격 처리
             if (NetworkInfo.currentStage == 2)
             {

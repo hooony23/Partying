@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using Communication;
 using Communication.JsonFormat;
+using Communication.GameServer.API;
+using Lib;
+using Util;
 
 public class PatrolAIUtil :PatrolAIController
 {
@@ -69,7 +72,7 @@ public class PatrolAIUtil :PatrolAIController
 
     public void Move()
     {
-        if(!Lib.Common.IsAdmin()){
+        if(!Common.IsAdmin()){
             NetworkMove();
             return;
         }
@@ -79,6 +82,15 @@ public class PatrolAIUtil :PatrolAIController
         if (Target)
             Patrol.SetDestination(Target.position);
 
+    }
+    public void MoveChangeSend()
+    {
+        var currentVec = Patrol.desiredVelocity;
+        if(this.AiInfo.GetVecToVector3()!= currentVec){
+            this.AiInfo.Vec=new Division3(currentVec);
+            this.AiInfo.Loc = new Division3(this.gameObject.transform.position);
+            APIController.SendController("AiMove",this.AiInfo);
+        }
     }
     public void NetworkSync()
     {
@@ -114,7 +126,7 @@ public class PatrolAIUtil :PatrolAIController
             if (cols.Length > 0)
             {
                 // 인식된 PatrolPoints 들중 1개만 랜덤으로 선택
-                int ridx = Random.Range(0, points.Count);
+                int ridx = UnityEngine.Random.Range(0, points.Count);
                 Target = points[ridx].transform;
                 LastPpoint = Target;
             }

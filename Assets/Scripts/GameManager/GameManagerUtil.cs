@@ -64,21 +64,18 @@ namespace GameManager
         }
         protected void DeathUser()
         {
-            while (NetworkInfo.deathUserQueue.Count != 0)
+            while (NetworkInfo.deathUserQueue.Count >= 0)
             {
                 string userUuid = NetworkInfo.deathUserQueue.Dequeue();
                 GameObject player = GameObject.Find(userUuid);
-                if (Config.userUuid == userUuid)
-                    player.GetComponent<Player>().IsDead = true;
-                else
-                    player.GetComponent<OtherPlayer>().IsDead = true;
+                player.GetComponent<Player>().IsDead = true;
                 Debug.Log($"{userUuid} 가 죽었습니다!");
                 player.transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
             }
         }
         protected void ClearGame()
         {
-            if (NetworkInfo.GetItemUserQueue.Count != 0)
+            if (NetworkInfo.GetItemUserQueue.Count >= 0)
             {
                 gameClear = true;
                 string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
