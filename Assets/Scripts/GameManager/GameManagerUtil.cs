@@ -70,6 +70,19 @@ namespace GameManager
         }
         protected void ClearGame()
         {
+            switch(currentStage)
+            {
+                case 1:
+                    Stage1Clear();
+                    break;
+                case 2:
+                    Stage2Clear();
+                    break;
+            }
+        }
+        protected void Stage1Clear()
+        {
+            
             if (NetworkInfo.GetItemUserQueue.Count != 0)
             {
                 gameClear = true;
@@ -79,6 +92,15 @@ namespace GameManager
                 Debug.Log("Game Clear");
 
             }
+        }
+        protected void Stage2Clear()
+        {
+            
+                if (GameObject.Find("Boss")==null)
+                {
+                    gameClear=true;
+                    IsGameClear();
+                }
         }
         protected void InitUserList()
         {

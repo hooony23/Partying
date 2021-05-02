@@ -5,9 +5,7 @@ namespace GameManager
 {
     public class GameManagerController : MonoBehaviour
     {
-
-        
-        
+        public int currentStage=Util.Config.defaultStage;
         public GameObject GameClearUi {get;set;} = null;
         public Button ContinueButton = null;
         public bool gameClear {get;set;} = false;
