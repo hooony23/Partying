@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Communication;
+using Communication.MainServer;
 using UnityEngine.UI;
 using Util;
 
@@ -17,7 +19,10 @@ public class LevelLoader : MonoBehaviour
     public void LoadLevel(int scenceIndex)
     {
         if(SceneManager.GetActiveScene().buildIndex == scenceIndex)
+        {
+            NetworkInfo.memberInfo = MServer.GetMemberInfo(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
+        }
         StartCoroutine(LoadAsynchronously(scenceIndex));
     }
     IEnumerator LoadAsynchronously(int scenceIndex)

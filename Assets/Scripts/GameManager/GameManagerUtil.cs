@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Communication;
+using Communication.JsonFormat;
 using Communication.MainServer;
 using Communication.GameServer;
 using Communication.GameServer.API;
@@ -96,7 +97,7 @@ namespace GameManager
         protected void Stage2Clear()
         {
             
-                if (GameObject.Find("Boss")==null)
+                if (GameObject.Find("Boss").GetComponent<Boss.Boss>().Pattern==BossInfo.Patterns.DIE)
                 {
                     gameClear=true;
                     IsGameClear();
