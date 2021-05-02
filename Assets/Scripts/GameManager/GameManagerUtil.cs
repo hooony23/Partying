@@ -114,8 +114,9 @@ namespace GameManager
                 //     boss.Animator.SetTriger("Hit");
                 // }
                 var bossInfo = boss.GetComponent<Boss.Boss>();
-                bossInfo.Pattern = NetworkInfo.bossInfo.Pattern;
+                bossInfo.Pattern = NetworkInfo.bossInfo.pattern;
                 bossInfo.BossHP =NetworkInfo.bossInfo.BossHP;
+                NetworkInfo.bossInfo = null;
             }
         }
     //게임 클리어 UI 활성화
