@@ -34,15 +34,13 @@ public class Player : PlayerUtil
             GetInput();
         else
             GetNetWorkInput();
-        GetInput();
-        Attack();
         Move();
         Turn();
+        Attack();
+        Dodge();
         GetItem();
         CameraTurn();
-        Dodge();
-        PlayerStateUpdate();
-
+        AnimationStart();
         if (IsMyCharacter())
             MoveChangeSend();
 

@@ -6,6 +6,14 @@ using Boss;
 using Weapon;
 public class PlayerController : MonoBehaviour
 {
+    public enum Movement 
+    {
+        Idle,
+        Shot,
+        Run,
+        Dodge,
+        Dead,
+    }
     public string CurrentStage { get; set; } = "Labyrinth";
     public bool IsStun { get; set; } = false;
     public bool IsDead { get; set; } = false;
@@ -26,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool IsMove { get; set; }
     public bool IsDodge { get; set; } // 회피동작 상태 여부
     public bool IsAttack { get; set; }
-    public string PlayerState { get; set; } // 플레이어 이벤트, 상태(run, dodge, ...)
+    public PlayerController.Movement PlayerState { get; set; } // 플레이어 이벤트, 상태(run, dodge, ...)
     public float PlayerSpeed { get; set; } = Config.playerSpeed;
     public float PlayerMaxHealth { get; set; } = Config.playerHealth;
     public float PlayerHealth { get; set; } = Config.playerHealth;

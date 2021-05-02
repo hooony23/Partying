@@ -9,12 +9,12 @@ namespace Communication.JsonFormat
 
     public class PlayerInfo
     {
-        public string movement = "";
+        public PlayerController.Movement movement = 0;
         public string uuid = "";
         public Division3 vec = new Division3();
         public Division3 loc = new Division3();
-        public PlayerInfo() : this(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "None", "None") { }
-        public PlayerInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
+        public PlayerInfo() : this(new Vector3(0, 0, 0), new Vector3(0, 0, 0), PlayerController.Movement.Idle, "None") { }
+        public PlayerInfo(Vector3 location, Vector3 moveVec, PlayerController.Movement playerEvent, string userID)
         {
             ///<summary>
             /// Description
@@ -42,7 +42,7 @@ namespace Communication.JsonFormat
 
 
         }
-        public void SetInfo(Vector3 location, Vector3 moveVec, string playerEvent, string userID)
+        public void SetInfo(Vector3 location, Vector3 moveVec, PlayerController.Movement playerEvent, string userID)
         {
             ///<summary>
             /// Description

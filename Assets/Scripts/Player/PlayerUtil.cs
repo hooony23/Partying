@@ -15,18 +15,20 @@ public class PlayerUtil : PlayerController
     private string BGMSound;
     public void GetInput()
     {
-        if (!IsDead)
+        if (IsDead)
+            return;
+        HAxis = 0f;
+        VAxis = 0f;
+        foreach (var key in GetInputKeys())
         {
-            HAxis = 0f;
-            VAxis = 0f;
-            foreach (var key in GetInputKeys())
-            {
-                InputEvent(key);
-            }
-            MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
-            MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
-            MouseClickInput = Input.GetMouseButton(0);
+            InputEvent(key);
+            PlayerState = Movement.Run;
         }
+        MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
+        MouseClickInput = Input.GetMouseButton(0);
+        MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
+        
     }
     public void GetNetWorkInput()
     {
@@ -40,6 +42,7 @@ public class PlayerUtil : PlayerController
                 this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);
             }
         MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
+        PlayerState = PInfo.movement;
     }
     public bool IsMyCharacter()
     {
@@ -87,7 +90,9 @@ public class PlayerUtil : PlayerController
                         where Input.GetKeyDown(input) || Input.GetKeyUp(input)
                         select input;
         if (inputData.Count() <= 0)
+        {
             return false;
+        }
         return true;
     }
     public IEnumerable<KeyCode> GetInputKeys()
@@ -100,19 +105,8 @@ public class PlayerUtil : PlayerController
                         select input;
         return inputData;
     }
-    // 플레이어 상태를 프레임마다 업데이트(네트워크 애니메이션 연계 용도)
-    public void PlayerStateUpdate()
-    {
-        // 애니메이션 : run, dodge 의 bool값 확인후 true 가 되면 "상태" 전송
-        if (IsMove == true)
-            PlayerState = "Move";
-        else if (IsDodge == true)
-            PlayerState = "Dodge";
-    }
     public void Move()
     {
-        MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
-
         if (IsStun == false && !MouseClickInput && !IsAttack)
         {
             Cursor.visible = false;
@@ -142,14 +136,11 @@ public class PlayerUtil : PlayerController
             MoveDir *= 0.1f;
         }
 
-        // run 애니메이션
-        Anim.SetBool("isRun", MoveDir != Vector3.zero && !IsAttack); // 움직이는 상태 -> isRun 애니메이션 실행
-
         if (MoveInput == Vector2.zero)
         {
             IsMove = false;
         }
-        if (this.UserUuid.Equals(Config.userUuid))
+        if (IsMyCharacter())
             PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
     public void Turn()
@@ -181,9 +172,7 @@ public class PlayerUtil : PlayerController
         {
             IsDodge = true;
             PlayerSpeed *= 2;
-
-            Anim.SetTrigger("doDodge");
-
+            PlayerState = Movement.Dodge;
             Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
         }
     }
@@ -314,11 +303,36 @@ public class PlayerUtil : PlayerController
     }
     public void Attack()
     {
+        if(!IsMyCharacter())
+        {
+            if(PlayerState==Movement.Shot)
+            {
+                transform.LookAt(ShotPoint);
+                IsAttack = true;
+                Pistol.Shot();
+            }
+            return;
+        }
+
         if (MouseClickInput && !IsAttack && !IsDodge)
         {
             transform.LookAt(ShotPoint);
             IsAttack = true;
             Pistol.Shot();
+            PlayerState = Movement.Shot;
         }
+    }
+    public void AnimationStart()
+    {
+        if(PlayerState==Movement.Run){
+            Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),MoveDir != Vector3.zero && !IsAttack);
+            return;
+        }
+        if(System.Enum.IsDefined(typeof(Movement),PlayerState))
+            Anim.SetTrigger(System.Enum.GetName(typeof(Movement),PlayerState));
+        else{
+            Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),false);
+            }
+        PlayerState=Movement.Idle;
     }
 }

@@ -30,8 +30,6 @@ public class MusslePoint : MonoBehaviour
 
     private IEnumerator Shooting(float speed)
     {
-        
-        player.Anim.SetTrigger("Shot");
 
         GameObject intantBullet = Instantiate(bulletPrefab, this.transform.position, this.transform.rotation);
         
