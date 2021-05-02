@@ -16,13 +16,13 @@ namespace Util
 
         // boss
         public static float radarRange = 60f;
-        public static float bossHP = 6000f;
+        public static float bossHP = 3f;
         // player
         public static float playerMoveVector = 3f;
         public static float playerSpeed = 14f;
         public static float playerHealth = 3;
         public static float playerAttackDamage = 1f;
-        public static float shotSpeed = 1f;
+        public static float shotSpeed = 0.4f;
         public static string userUuid = "";
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각

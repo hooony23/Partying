@@ -106,6 +106,7 @@ public class SoundManager : MonoBehaviour
             if (playSoundName[i].Equals(name))
             {
                 Debug.Log(playSoundName + " 소리 중지");
+                Debug.Log(playSoundName[i].ToString() + " 소리 중지");
                 audioSourceSFX[i].Stop();
                 audioSourceBGM.Stop();
                 return;

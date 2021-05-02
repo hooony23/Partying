@@ -9,6 +9,8 @@ TagManager:
   - CameraArm
   - Laser
   - Boss
+  - RaidMap
+  - Bullet
   layers:
   - Default
   - TransparentFX

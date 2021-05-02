@@ -35,7 +35,6 @@ namespace GameManager
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
 
-
             //TODO: Test용 소환 삭제해야함
             GameObject player = Instantiate(Resources.Load("Player/Player"), new Vector3(150,0,150), Quaternion.identity) as GameObject;
             player.name = Resources.Load("Player/Player").name;
@@ -47,7 +46,7 @@ namespace GameManager
             ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
             
             InitUserList();
-            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,30,150), Quaternion.identity) as GameObject;
+            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,26,150), Quaternion.identity) as GameObject;
             Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
         }
         protected void DelUser()

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Plugin.meta
 guid: 46e3b2b7033d891478808d2875e3c6a9
+=======
+guid: 67fc0ea4c42584540b62df62a49d21eb
+>>>>>>> origin/dev-SungyuHwang:Assets/Resources/Raid/Gun.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

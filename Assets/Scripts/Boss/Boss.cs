@@ -36,15 +36,15 @@ namespace Boss
                 StartCoroutine(WakeUp());
             }
 
+            BossCollider = GetComponent<SphereCollider>();
+
         }
         void Update()
         {
             TargetList.Clear();
             foreach (var player in GM.PlayerList) { TargetList.Add(player.GetComponent<Transform>()); }
-        }
-        void OnTriggerEnter(Collider other)
-        {
-            TakeHit(other, 1);
+
+            CheckHP();
         }
 
 

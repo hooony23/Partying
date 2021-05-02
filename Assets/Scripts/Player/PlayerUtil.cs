@@ -25,6 +25,7 @@ public class PlayerUtil : PlayerController
             }
             MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
             MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
+            MouseClickInput = Input.GetMouseButton(0);
         }
     }
     public void GetNetWorkInput()
@@ -112,8 +113,11 @@ public class PlayerUtil : PlayerController
     {
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
 
-        if (IsStun == false)
+        if (IsStun == false && !MouseClickInput && !IsAttack)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
             if (IsMyCharacter())
@@ -139,7 +143,7 @@ public class PlayerUtil : PlayerController
         }
 
         // run 애니메이션
-        Anim.SetBool("isRun", MoveDir != Vector3.zero); // 움직이는 상태 -> isRun 애니메이션 실행
+        Anim.SetBool("isRun", MoveDir != Vector3.zero && !IsAttack); // 움직이는 상태 -> isRun 애니메이션 실행
 
         if (MoveInput == Vector2.zero)
         {
@@ -150,27 +154,22 @@ public class PlayerUtil : PlayerController
     }
     public void Turn()
     {
-        transform.LookAt(transform.position + MoveDir);
+        if(!IsAttack)
+            transform.LookAt(transform.position + MoveDir);
     }
     public void CameraTurn()
     {
-        ///<summary>
-        ///
-        /// 마우스 이동에 의한 카메라 각도 제한
-        /// 
-        /// <summary>
-        // transform 의 z축을(z : 앞뒤, x : 좌우, y : 상하) vector 가 생기는 방향쪽으로 바라보게 함
-        // transform.LookAt(transform.position + moveVec);
+        // 카메라 각도 제한
         Vector3 camAngle = CameraArm.rotation.eulerAngles;
         float x = camAngle.x - MouseDelta.y * mouseSensitivity;
 
         if (x < 180f)
         {
-            x = Mathf.Clamp(x, -1f, 70f);
+            x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
         }
         else
         {
-            x = Mathf.Clamp(x, 335f, 361f);
+            x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
         }
         CameraArm.transform.position = this.transform.position;
         CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
@@ -213,6 +212,7 @@ public class PlayerUtil : PlayerController
     {
         Rigid.angularVelocity = Vector3.zero;
     }
+
     public void StopToWall()
     {
         float raydis = 1.5f;
@@ -256,6 +256,7 @@ public class PlayerUtil : PlayerController
     {
         if (IsDead)
         {
+            Stun(4f);
             this.gameObject.layer = default; // 보스가 인식 못함
             Anim.Play("dead");
             //TODO: 나중에 GM으로 수정 필요.
@@ -311,5 +312,13 @@ public class PlayerUtil : PlayerController
         if(NearObject == other.gameObject)
             NearObject =null;
     }
-    /// 플레이어 피격 처리 ///
+    public void Attack()
+    {
+        if (MouseClickInput && !IsAttack && !IsDodge)
+        {
+            transform.LookAt(ShotPoint);
+            IsAttack = true;
+            Pistol.Shot();
+        }
+    }
 }

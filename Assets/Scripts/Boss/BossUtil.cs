@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Boss
 {
@@ -55,9 +56,7 @@ namespace Boss
 
         public IEnumerator Aim()
         {
-
-            int ranIdx = Random.Range(0, GM.PlayerList.Count);
-            Transform targetPlayer = TargetList[ranIdx];
+            Transform targetPlayer = GM.PlayerList[GetRanPlayerIdx()].transform;
             float rotationSpeed = 100f;
 
             Quaternion targetRotation = Quaternion.identity;
@@ -94,8 +93,9 @@ namespace Boss
         public IEnumerator WakeUp()
         {
             Animator.SetTrigger("WakeUp");
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(7f);
             Animator.SetTrigger("Idle");
+            BossCollider.enabled = true;
             yield return new WaitForSeconds(3f);
 
             StartCoroutine(Think());
@@ -124,24 +124,49 @@ namespace Boss
 
         public IEnumerator BodySlam()
         {
+            float atkSpeed = 2f;
+            int targetIdx = GetRanPlayerIdx();
+ 
             Animator.SetTrigger("BodySlam1");
-            yield return new WaitForSeconds(8f);
+            BossCollider.enabled = false;           // 보스 지면으로 내려옴, 지면에서 보스 무적
+            yield return new WaitForSeconds(1.5f);
+
+            // 추격 루틴
+
+            yield return new WaitForSeconds(8);
+            BossCollider.enabled = true;
+
+           
 
             StartCoroutine(Think());
         }
 
         public IEnumerator Destroyed()
         {
-            Animator.SetTrigger("Destroyed");
-            yield return null;
+            Animator.Play("Destroyed");
+            BossCollider.enabled = false;
+            yield return new WaitForSeconds(10f);
+
+            // 보스 게임오브젝트 제거
+            Destroy(this.gameObject);
         }
 
-        public void TakeHit(Collider collider, float damage)
+        // BodySlam 랜덤 타겟 선택 
+        public int GetRanPlayerIdx()
         {
-            var player = collider.gameObject.GetComponent<Player>();
-            var reactVec = (collider.transform.position - this.transform.position).normalized;
-            player.PlayerHealth -= damage;
-            StartCoroutine(player.OnAttacked(reactVec));
+            int idx = Random.Range(0, GM.PlayerList.Count);
+
+            return idx;
         }
+
+        public void CheckHP()
+        {
+            if (BossHP <= 0)
+            {
+                InitParticleSystem();
+                StartCoroutine(Destroyed());
+            }
+        }
+
     }
 }
