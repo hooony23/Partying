@@ -42,7 +42,7 @@ public class PlayerUtil : PlayerController
     }
     public bool IsMyCharacter()
     {
-        return this.gameObject.name == Config.userUuid;
+        return this.UserUuid == Config.userUuid;
     }
     public void InputEvent(KeyCode key)
     {
@@ -116,7 +116,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
-            if (this.UserUuid.Equals(Config.userUuid))
+            if (IsMyCharacter())
             {
                 Debug.DrawRay(CameraArm.position, CameraArm.forward, Color.red);
 
@@ -238,6 +238,7 @@ public class PlayerUtil : PlayerController
             Debug.Log("IsItem");
             NearObject = null;
             HaveItem = true;
+            GameObject.Find("MapClearItem").GetComponent<MapClearItem>().isOpened=true;
             Destroy(NearObject, 1f); // 이동과 동시에 아이템 오브젝트가 사라짐
             APIController.SendController("GetItem");
         }

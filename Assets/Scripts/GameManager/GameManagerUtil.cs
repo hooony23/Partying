@@ -25,11 +25,7 @@ namespace GameManager
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
 
-            // 순찰 npc
-            GameObject AIPatrol = Instantiate(Resources.Load("Labyrinth/Patrol/Patrol"), new Vector3(0, 3, 0), Quaternion.identity) as GameObject;
-            AIPatrol.name = Resources.Load("Labyrinth/Patrol/Patrol").name;
-
-            // 플레이어, 맵, 함정, patrol point 생성
+            // 플레이어, 맵, 함정, 순찰 npc, patrol point 생성
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
 
@@ -64,7 +60,7 @@ namespace GameManager
         }
         protected void DeathUser()
         {
-            while (NetworkInfo.deathUserQueue.Count >= 0)
+            while (NetworkInfo.deathUserQueue.Count > 0)
             {
                 string userUuid = NetworkInfo.deathUserQueue.Dequeue();
                 GameObject player = GameObject.Find(userUuid);
@@ -75,7 +71,7 @@ namespace GameManager
         }
         protected void ClearGame()
         {
-            if (NetworkInfo.GetItemUserQueue.Count >= 0)
+            if (NetworkInfo.GetItemUserQueue.Count != 0)
             {
                 gameClear = true;
                 string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();

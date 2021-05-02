@@ -104,6 +104,7 @@ public class PatrolAIUtil :PatrolAIController
     public void NetworkMove()
     {
         this.gameObject.transform.position += AiInfo.GetVecToVector3();
+        this.gameObject.transform.forward = AiInfo.GetVecToVector3().normalized;
     }
 
     // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적

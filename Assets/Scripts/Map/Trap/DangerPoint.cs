@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class DangerPoint : BaseTrap
 {
     // 위험지역으로 달려갈 Enemy를 지정
-    [SerializeField] PatrolAI enemy = null;
+    [SerializeField] List<PatrolAI> enemys;
     public void Awake()
     {
-        enemy = GameObject.Find("Patrol").GetComponent<PatrolAI>();
+        enemys = new List<PatrolAI>();
+        GameObject AIs = GameObject.Find("AIs");
+        for(var i =0;i<AIs.transform.childCount;i++)
+            enemys.Add(AIs.transform.GetChild(i).GetComponent<PatrolAI>());
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -25,7 +29,8 @@ public class DangerPoint : BaseTrap
             transform = (Transform)obj[0];
         if (other.CompareTag("Player"))
         {
-            enemy.CheckDanger(transform);
+            foreach(var enemy in enemys)
+                enemy.CheckDanger(transform);
         }
     }
 }

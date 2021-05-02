@@ -11,7 +11,10 @@ public class MapObjects
     public GameObject MapClearItem;
     public GameObject DangerZone;
 
+    public GameObject PatrolUnit;
+
     // 생성자에서 생성
+    public GameObject AIs;
     public GameObject MazePoint; // 오브젝트 리스폰 확인 오브젝트
     public GameObject MazeRespwan;// 유닛 오브젝트 리스폰 지점확인 오브젝트
     public GameObject TrapPoint;// 함정오브젝트 리스폰 확인 오브젝트

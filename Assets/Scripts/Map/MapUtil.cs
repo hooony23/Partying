@@ -19,12 +19,16 @@ public class MapUtil : MapController
         MapObjects.HoleTrap = Resources.Load("Labyrinth/Trap/HoleTrap") as GameObject;// 바닥함정
         MapObjects.SlowTrap = Resources.Load("Labyrinth/Trap/SlowTrap") as GameObject;// 슬로우함정
         MapObjects.DangerZone = Resources.Load("Labyrinth/Trap/DangerZone") as GameObject;// 위험 지역
-        MapObjects.AIPoint = new GameObject("AIPoint");// 오브젝트 리스폰 확인 오브젝트
-        MapObjects.MazePoint = new GameObject("MazePoint");// 유닛 오브젝트 리스폰 지점확인 오브젝트
-        MapObjects.TrapPoint = new GameObject("TrapPoint");// 함정오브젝트 리스폰 확인 오브젝트
+        MapObjects.PatrolUnit = Resources.Load("Labyrinth/Patrol/Patrol") as GameObject;// AI
+
+        MapObjects.AIs = new GameObject("AIs");// AI 집합
+        MapObjects.AIPoint = new GameObject("AIPoint");// 오브젝트 리스폰 집합
+        MapObjects.MazePoint = new GameObject("MazePoint");// 유닛 오브젝트 리스폰 집합
+        MapObjects.TrapPoint = new GameObject("TrapPoint");// 함정오브젝트 리스폰 집합
         MapObjects.MazeRespwan = new GameObject("MazeRespwan");// AI 이동 지점
         MapObjects.MazeBake = new GameObject("MazeBake");// Bake 생성
         MapObjects.MazeBake.AddComponent<NavMeshSurface>();
+        MapObjects.AIs.transform.SetParent(this.transform);
         MapObjects.AIPoint.transform.SetParent(this.transform);
         MapObjects.MazePoint.transform.SetParent(this.transform);
         MapObjects.TrapPoint.transform.SetParent(this.transform);
@@ -138,18 +142,12 @@ public class MapUtil : MapController
             Trap.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
         }
     }
+    public void ClearItemRespawn()
+    {
+        Division2 clearLoc = MInfo.clearItem;
+        GameObject mapClearItem = Instantiate(MapObjects.MapClearItem, Grid[(int)clearLoc.X,(int)clearLoc.Y].Respwan.transform.position, Quaternion.identity);
+        mapClearItem.name = Resources.Load("Labyrinth/Map/MapClearItem").name;
 
-    public void PatrolPointRespawn()
-    { //함정생성
-        CellInfo[] patrolPintsInfo = MInfo.patrolPoints;
-
-        GameObject grandParent = GameObject.Find("Map");
-        foreach(CellInfo item in patrolPintsInfo)
-        {
-                GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                patrolPoint.name = "patrolPoint";
-                patrolPoint.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
-        }
     }
 
     public void PlayerRespawn()
@@ -162,11 +160,31 @@ public class MapUtil : MapController
             Debug.Log($"player uuid :{Config.userUuid}\n other player uuid : {(string)item.data}");
             player.name = (string)item.data;
         }
-    }
-    public void ClearItemRespawn()
-    {
-        Division2 clearLoc = MInfo.clearItem;
-        Instantiate(MapObjects.MapClearItem, Grid[(int)clearLoc.X,(int)clearLoc.Y].Respwan.transform.position, Quaternion.identity);
+    } 
+    public void PatrolUnitRespawn()
+    { //함정생성
+        CellInfo[] patrolPintsInfo = MInfo.patrolUnits;
+        GameObject grandParent = GameObject.Find("Map");
+        foreach(CellInfo item in patrolPintsInfo)
+        {
+            GameObject patrolUnit =  Instantiate(MapObjects.PatrolUnit, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            patrolUnit.name = item.data.ToString();
+            patrolUnit.GetComponent<PatrolAI>().AiInfo.Uuid = item.data.ToString();
 
+            patrolUnit.transform.SetParent(grandParent.transform.Find("AIs"));
+        }
+    }
+
+    public void PatrolPointRespawn()
+    { //함정생성
+        CellInfo[] patrolPintsInfo = MInfo.patrolPoints;
+
+        GameObject grandParent = GameObject.Find("Map");
+        foreach(CellInfo item in patrolPintsInfo)
+        {
+                GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                patrolPoint.name = "patrolPoint";
+                patrolPoint.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
+        }
     }
 }

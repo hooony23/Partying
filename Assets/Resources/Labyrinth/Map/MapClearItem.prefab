@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 6518096196474976347}
   - component: {fileID: 5554570721471857241}
   - component: {fileID: 4887415646891256256}
+  - component: {fileID: 5659539755997376778}
   m_Layer: 12
   m_Name: MapClearItem
   m_TagString: Item
@@ -313,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemType: 0
+  isOpened: 0
 --- !u!65 &4887415646891256256
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -326,6 +328,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 3, z: 2.5}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!95 &5659539755997376778
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4588791984172576450}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b63cf1869e31b0242ba2c7cf38541398, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5042007726203519608
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,10 @@ public class Map : MapUtil
         InitializeMap();
         CreateGrid(Config.ROW, Config.COL);
         TrapRespawn();
-        PlayerRespawn();
+        PatrolUnitRespawn();
         PatrolPointRespawn();
         ClearItemRespawn();
+        PlayerRespawn();
         NavMeshSurface surface = GameObject.Find("Floor").GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
     }

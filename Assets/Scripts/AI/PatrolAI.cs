@@ -18,20 +18,20 @@ public class PatrolAI : PatrolAIUtil
     void Start()
     {
         LastPpoint = transform;
-
         InvokeRepeating("FindPatrolPoint", 0f, 1.5f);
     }
 
     void Update()
     {
         
-        if(!Lib.Common.IsAdmin())
+        if(Lib.Common.IsAdmin())
         {
-            NetworkSync();
-        }
-        else{
+            
             UpdatePatrolTarget();
             MoveChangeSend();
+        }
+        else{
+            NetworkSync();
         }
         Move(); // 순찰, 추격, 위험지역 확인
 

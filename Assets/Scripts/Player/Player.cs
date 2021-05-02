@@ -7,7 +7,9 @@ public class Player : PlayerUtil
 {
     void Awake()
     {
-
+        UserUuid = Config.userUuid;
+        Anim = GetComponent<Animator>();
+        Rigid = GetComponent<Rigidbody>();
         if (IsMyCharacter())
         {
             // 피격 처리
@@ -16,17 +18,14 @@ public class Player : PlayerUtil
                 CurrentStage = "Raid";
                 Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
             }
-            UserUuid = Config.userUuid;
             CameraArm = GameObject.Find("CameraArm").transform;
         }
-        Anim = GetComponent<Animator>();
-        Rigid = GetComponent<Rigidbody>();
 
     }
 
     void Update()
     {
-        if (Lib.Common.IsAdmin())
+        if (IsMyCharacter())
             GetInput();
         else
             GetNetWorkInput();

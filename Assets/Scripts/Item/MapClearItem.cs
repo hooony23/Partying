@@ -13,7 +13,7 @@ public class MapClearItem : MonoBehaviour
 
     //게임클리어 Ui
     private Animator animator;
-    private bool isOpened=false;
+    public bool isOpened=false;
     private void Awake()
     {
         animator = this.GetComponent<Animator>();
@@ -21,11 +21,7 @@ public class MapClearItem : MonoBehaviour
     private void Update()
     {
         //TODO: 만약 아이템이 추가되면 이 부분 수정 필요.
-        if (isOpened)
-            Debug.Log("animation");
-            isOpened = animator.GetBool("IsBoxOpen");
-            animator.SetBool("IsBoxOpen", !isOpened);
-            // animator.Play();
+        animator.SetBool("IsBoxOpen", isOpened);
     }
 }
 
