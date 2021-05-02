@@ -36,13 +36,11 @@ public class PauseControl : MonoBehaviour
             {
                 PauseObject.SetActive(true);
                 IsUiPoen = true;
-
-
-                Debug.Log(IsUiPoen + "========================================================");
+                // Debug.Log(IsUiPoen + "========================================================");
             }
             else if (IsUiPoen)
             {
-                Debug.Log("종료실행 ======================================================== ");
+                // Debug.Log("종료실행 ======================================================== ");
                 if (OptionMenu.activeSelf == true) // 초기메뉴 화면으로 가기위함
                 {
                     MainMenu.SetActive(true);

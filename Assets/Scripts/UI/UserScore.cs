@@ -48,7 +48,7 @@ namespace GameUi
             //유저 스코어 갱신
             SendUserScore();
             //TODO: 테스트용이 아닌 현재 사용중인 유저로 변경할것.
-            player = GameObject.Find("Player").GetComponent<Player>();
+            player = GameObject.Find(Config.userUuid).GetComponent<Player>();
 
             PlayerHeart(player);
         }

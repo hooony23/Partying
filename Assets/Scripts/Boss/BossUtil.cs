@@ -161,6 +161,7 @@ namespace Boss
 
         public void CheckHP()
         {
+            //TODO: 보스 패턴이 죽음으면 클리어.
             if (BossHP <= 0)
             {
                 InitParticleSystem();

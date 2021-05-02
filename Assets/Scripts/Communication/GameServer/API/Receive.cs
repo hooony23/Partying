@@ -50,6 +50,22 @@ namespace Communication.GameServer.API
             }
 
         }
+        public void SyncAiPacket(string response)
+        {
+            Debug.Log(response);
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            NetworkInfo.aiInfo = ((JObject)responseJson["data"]).ToObject<AiInfo>();
+
+        }
         public void Death(string response)
         {
 

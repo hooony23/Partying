@@ -155,6 +155,7 @@ namespace Communication.GameServer
                         List<string> tmp = new List<string>(receiveDatas);
                         tmp.Remove("");
                         receiveDatas = tmp.ToArray();
+                        UnityEngine.Debug.Log(content.ToString());
                         foreach (string data in receiveDatas)
                         {
                             APIController.ReceiveController(data);
