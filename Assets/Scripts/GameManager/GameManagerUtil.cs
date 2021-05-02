@@ -102,6 +102,22 @@ namespace GameManager
                 }
             }
         }
+        protected void UpdateBossInfo()
+        {
+            if (NetworkInfo.bossInfo !=null)
+            {
+                var boss = GameObject.Find("Boss");//.GetComponent<Boss.Boss>()
+                boss.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
+                boss.GetComponent<Rigidbody>().velocity = NetworkInfo.bossInfo.GetVecToVector3();
+                // if(boss.GetComponent<Boss.Boss>().BossHP!= NetworkInfo.bossInfo.BossHP)
+                // {
+                //     boss.Animator.SetTriger("Hit");
+                // }
+                var bossInfo = boss.GetComponent<Boss.Boss>();
+                bossInfo.Pattern = NetworkInfo.bossInfo.Pattern;
+                bossInfo.BossHP =NetworkInfo.bossInfo.BossHP;
+            }
+        }
     //게임 클리어 UI 활성화
     public void IsGameClear()
     {

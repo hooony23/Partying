@@ -35,7 +35,7 @@ public class MusslePoint : MonoBehaviour
         
         // 탄환 생성 후 Bullet의 ID 와 Damage 설정
         Bullet bullet = intantBullet.transform.GetComponent<Bullet>();
-        bullet.BulletID = "아닌데요, 전 뚱~인데요";
+        bullet.BulletID = Config.userUuid;
         bullet.Damage = 4;
 
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();

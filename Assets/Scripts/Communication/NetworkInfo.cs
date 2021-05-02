@@ -22,6 +22,7 @@ namespace Communication
         public static RoomInfo roomInfo = new RoomInfo();
         public static ItemInfo itemRespawn = new ItemInfo();
         public static AiInfo aiInfo = null;
+        public static BossInfo bossInfo = null;
         public static int currentStage = Config.defaultStage;
     }
 }

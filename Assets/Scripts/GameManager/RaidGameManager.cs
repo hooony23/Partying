@@ -6,7 +6,7 @@ namespace GameManager
     {
         void Awake()
         {
-            // TODO: Test시 주석 지울 것
+            // TODO: Test시 주석
             APIController.SendController("InitStage2");
 
             InitializeRaid();
@@ -15,6 +15,7 @@ namespace GameManager
         protected override void Update()
         {
             UpdateUserList();
+            UpdateBossInfo();
             base.Update();
         }
     }

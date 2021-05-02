@@ -147,5 +147,19 @@ namespace Communication.GameServer.API
             }
             NetworkInfo.startTime = responseJson.Value<double>("startTime");
         }
+        public void SyncBoss(string response)
+        {
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            NetworkInfo.bossInfo = responseJson.ToObject<BossInfo>();
+        }
     }
 }

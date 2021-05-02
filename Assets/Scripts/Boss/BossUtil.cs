@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Communication.JsonFormat;
 namespace Boss
 {
     // 작동순서
@@ -10,7 +11,6 @@ namespace Boss
     public class BossUtil : BossController
     {
 
-        private enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM,IDLE }
 
         // 주변의 Layer : Player 인 오브젝트 4개 검출
 
@@ -38,17 +38,19 @@ namespace Boss
             }
             else
             {
-                int ranAction = Random.Range(0, 3);
-                switch (ranAction)
+                switch (Pattern)
                 {
-                    case (int)Patterns.CHANGINGELAGER:
+                    case BossInfo.Patterns.CHANGINGELAGER:
                         StartCoroutine(ChargingLaser());
                         break;
-                    case (int)Patterns.OCTALASER:
+                    case BossInfo.Patterns.OCTALASER:
                         StartCoroutine(OctaLaser());
                         break;
-                    case (int)Patterns.BODYSLAM:
+                    case BossInfo.Patterns.BODYSLAM:
                         StartCoroutine(BodySlam());
+                        break;
+                    default:
+                        Animator.SetTrigger("Idle");
                         break;
                 }
             }
@@ -124,7 +126,7 @@ namespace Boss
 
         public IEnumerator BodySlam()
         {
-            float atkSpeed = 2f;
+            // float atkSpeed = 2f;
             int targetIdx = GetRanPlayerIdx();
  
             Animator.SetTrigger("BodySlam1");

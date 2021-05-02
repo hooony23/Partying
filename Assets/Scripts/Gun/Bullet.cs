@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Boss;
+using Communication.GameServer.API;
 
 // 
 namespace Weapon
@@ -23,11 +24,8 @@ public class Bullet : MonoBehaviour, IDamageable
     // 보스에게 데미지를 입힘
     public void TakeHit(Collider collider, float damage)
     {
-        var boss = collider.gameObject.GetComponent<Boss.Boss>();
-        boss.BossHP -= damage;
-        Debug.Log(boss.BossHP);
-        Debug.Log(BulletID);
-        Debug.Log(Damage);
+        if(BulletID.Equals(Util.Config.userUuid))
+            APIController.SendController("Attack",new {damage=damage});
     }
 
     private void OnEnable()

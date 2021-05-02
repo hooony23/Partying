@@ -168,18 +168,32 @@ public class PlayerUtil : PlayerController
     }
     public void Dodge() // 플레이어 회피
     {
-        if (JDown && IsDodge == false && MoveDir != Vector3.zero)
+        if(!IsMyCharacter())
         {
-            IsDodge = true;
-            PlayerSpeed *= 2;
-            PlayerState = Movement.Dodge;
-            Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
+            if(PlayerState == Movement.Dodge)
+            {
+                DodgeIn();
+            }
+
         }
+        else{
+            if (JDown && IsDodge == false && MoveDir != Vector3.zero)
+            {
+                DodgeIn();
+                PlayerState = Movement.Dodge;
+            }
+        }
+    }
+    public void DodgeIn()
+    {
+        IsDodge = true;
+        PlayerSpeed = Config.playerSpeed*2;
+        Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
     {
         IsDodge = false;
-        PlayerSpeed *= 0.5f;
+        PlayerSpeed = Config.playerSpeed;
     }
     // 플레이어 스턴
     public void Stun(float time) // 구멍함정은 타임을 3초로 줄 것
@@ -307,32 +321,37 @@ public class PlayerUtil : PlayerController
         {
             if(PlayerState==Movement.Shot)
             {
-                transform.LookAt(ShotPoint);
-                IsAttack = true;
-                Pistol.Shot();
+                AttackEvent();
             }
             return;
         }
 
         if (MouseClickInput && !IsAttack && !IsDodge)
         {
-            transform.LookAt(ShotPoint);
-            IsAttack = true;
-            Pistol.Shot();
+            AttackEvent();
             PlayerState = Movement.Shot;
         }
     }
+    public void AttackEvent()
+    {
+        
+        transform.LookAt(ShotPoint);
+        IsAttack = true;
+        Pistol.Shot();
+    }
     public void AnimationStart()
     {
-        if(PlayerState==Movement.Run){
+        if(PlayerState==Movement.Run)
+        {
             Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),MoveDir != Vector3.zero && !IsAttack);
             return;
         }
         if(System.Enum.IsDefined(typeof(Movement),PlayerState))
             Anim.SetTrigger(System.Enum.GetName(typeof(Movement),PlayerState));
-        else{
+        else
+        {
             Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),false);
-            }
+        }
         PlayerState=Movement.Idle;
     }
 }
