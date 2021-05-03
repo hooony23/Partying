@@ -1,4 +1,5 @@
 ﻿
+using Communication;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +10,8 @@ namespace GameUi
     public class UserScore : MonoBehaviour
     {
         //스코어 목록 동적생성
-        private GameObject infoPanel, textObject, scrollPanel;
-        private static GameObject playerHp;
+        private GameObject infoPanel, textObject, scrollPanel, otherUserLive;
+        private static GameObject playerHp, playerBuff;
         Player player;
 
         //유저 스코어창 오픈 애니메이션
@@ -18,15 +19,17 @@ namespace GameUi
         private bool userInfoOpen = false;
 
         //예시) 받아올 유저들의 이름과 점수
-        private string playername = "sunsub";
-        List<UserScoreInfo> userInfo = new List<UserScoreInfo>();
-        UserScoreInfo userInfo1 = new UserScoreInfo("kevin", 0);
-        UserScoreInfo userInfo2 = new UserScoreInfo("sunsub", 0);
-        UserScoreInfo userInfo3 = new UserScoreInfo("tarios", 100);
-        UserScoreInfo userInfo4 = new UserScoreInfo("resviosa", 0);
+        private string playerName = "sunsub";
+        private Dictionary<string, string> UserLive = new Dictionary<string, string>();
+
+        //TODO: 스코어 관련 여부 보류
+        //List<UserScoreInfo> userInfo = new List<UserScoreInfo>();
+        GameManager.GameManager gameManager;
+
 
         public void Awake()
         {
+
             GameObject UserScoreInfoObject = Instantiate(Resources.Load("GameUi/UserUi")) as GameObject;
             infoPanel = UserScoreInfoObject.transform.Find("UsersScoreUi").gameObject;
             textObject = Resources.Load("GameUi/UserText") as GameObject;
@@ -34,24 +37,44 @@ namespace GameUi
             scrollPanel = UserInfoScrollView.transform.Find("Content").gameObject;
             GameObject UserUi = UserScoreInfoObject.transform.Find("UserInfoUi").gameObject;
             playerHp = UserUi.transform.Find("PlayerHp").gameObject;
+            playerBuff = UserUi.transform.Find("PlayerBuff").gameObject;
+            otherUserLive = UserScoreInfoObject.transform.Find("OtherUser").gameObject;
             animator = infoPanel.GetComponent<Animator>();
+
 
         }
         public void Start()
         {
-            Debug.Log(userInfo1);
+
+            //Debug.Log(userInfo1);
             //예시
-            userInfo.Add(userInfo1);
-            userInfo.Add(userInfo2);
-            userInfo.Add(userInfo3);
-            userInfo.Add(userInfo4);
+            UserLive.Add("kevin", "live");
+            UserLive.Add("sunsub", "live");
+            UserLive.Add("tarios", "live");
+            UserLive.Add("resviosa", "live");
 
             //유저 스코어 갱신
-            SendUserScore();
+            //TODO: 스코어 관련 여부 보류
+            //SendUserScore();
             //TODO: 테스트용이 아닌 현재 사용중인 유저로 변경할것.
-            player = GameObject.Find("Player").GetComponent<Player>();
+            //player = GameObject.Find("Player").GetComponent<Player>();
+            //PlayerHeart(player);
 
-            PlayerHeart(player);
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+
+            foreach (KeyValuePair<string, string> kvp in UserLive)
+            {
+                string UserName = kvp.Key;
+                Debug.Log(UserLive.ContainsKey(kvp.Key));
+                if (!UserName.Equals(playerName))
+                {
+                    GameObject UserliveInfo = Instantiate(Resources.Load("GameUi/UserLive"), otherUserLive.transform) as GameObject;
+                    UserliveInfo.name = UserName;
+                    Text UserliveText = UserliveInfo.transform.Find("Text").GetComponent<Text>();
+                    UserliveText.text = UserName;
+                }
+
+            }
         }
         public void Update()
         {
@@ -60,7 +83,9 @@ namespace GameUi
             {
                 OpenPanel();
             }
+            OtherUserlive();
         }
+
         //Tap키를 이용한 유저스코어창 오픈
         //TODO: 유저 스코어 키 설정, 현재 체력 갱신하며 화면.
         public void OpenPanel()//User Score의 약자의 U를 사용
@@ -78,13 +103,15 @@ namespace GameUi
 
             }
         }
-        public void  PlayerHeart(Player player)
+        public void PlayerHeart(Player player)
         {
             Player playUser = player.gameObject.GetComponent<Player>();
             float currntHp = playUser.PlayerHealth;
             float maxHp = playUser.PlayerMaxHealth;
-            if (0 < playerHp.transform.childCount){
-                for (int i = 0; i < playerHp.transform.childCount; i++) {
+            if (0 < playerHp.transform.childCount)
+            {
+                for (int i = 0; i < playerHp.transform.childCount; i++)
+                {
                     Destroy(playerHp.transform.GetChild(i).gameObject);
                     Debug.Log("하트 초기화");
                 }
@@ -93,17 +120,18 @@ namespace GameUi
             {
                 if (i < currntHp)
                 {
-                    GameObject Heart = Instantiate(Resources.Load("GameUi/Heart"),playerHp.transform)as GameObject;
+                    GameObject Heart = Instantiate(Resources.Load("GameUi/IconPrefabs/Heart"), playerHp.transform) as GameObject;
                     Debug.Log("하트생성");
                 }
                 else
                 {
-                    GameObject EmptyHeart = Instantiate(Resources.Load("GameUi/EmptyHeart"), playerHp.transform) as GameObject;
+                    GameObject EmptyHeart = Instantiate(Resources.Load("GameUi/IconPrefabs/EmptyHeart"), playerHp.transform) as GameObject;
                     Debug.Log("빈하트 생성");
                 }
             }
         }
-        public void SendUserScore()
+        //TODO: 스코어 사용 여부에 따라 삭제
+        /*public void SendUserScore()
         {
             for (int i = 0; i < userInfo.Count; i++)
             {
@@ -116,6 +144,35 @@ namespace GameUi
                 GameObject ScoreTextObject = Instantiate(textObject, scrollPanel.transform);
                 Text ScoreText = ScoreTextObject.GetComponent<Text>();
                 ScoreText.text = ScoreResult;
+            }
+        }*/
+        public void OtherUserlive()
+        {
+            //TODO:GameManagerUtill.cs에서 DeathUser()함수만 deathUserQueue.Count가 실행됨. 문제파악필요함
+            if (NetworkInfo.deathUserQueue.Count != 0)
+            {
+                Debug.Log("죽음 출력");
+                foreach (GameObject name in gameManager.DeathPlayerList)
+                {
+                    if (UserLive.ContainsKey(name.name))
+                    {
+                        UserLive[name.name] = ("dead");
+
+                    }
+                }
+            }
+
+            if (UserLive.ContainsValue("dead")) {
+                foreach (KeyValuePair<string, string> a in UserLive) {
+                    Image User = GameObject.Find(a.Key).GetComponent<Image>();
+                    if (a.Value.Equals("dead"))
+                    {
+                        User.color = new Color32(130, 130, 130, 255);
+                    }
+                    else {
+                        User.color = new Color32(0 , 0, 0, 255);
+                    }
+                }
             }
         }
     }
