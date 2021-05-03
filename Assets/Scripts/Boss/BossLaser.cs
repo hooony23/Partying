@@ -17,7 +17,7 @@ public class BossLaser : MonoBehaviour, IDamageable
     }
     public void TakeHit(Collider collider, float damage)
     {
-        UserScore aa =GameObject.Find("UiManager").GetComponent<UserScore>();
+        UserScore aa =GameObject.Find("GameManager").GetComponent<UserScore>();
         var player = collider.gameObject.GetComponent<Player>();
         var reactVec = (collider.transform.position - this.transform.position).normalized;
         if (!player.IsBeatable)
