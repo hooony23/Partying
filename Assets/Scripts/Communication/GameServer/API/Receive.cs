@@ -161,5 +161,19 @@ namespace Communication.GameServer.API
             }
             NetworkInfo.bossInfo = responseJson.ToObject<BossInfo>();
         }
+        public void InitStage2(string response)
+        {
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            Communication.JsonFormat.InitStage2.value = responseJson.ToObject<Communication.JsonFormat.InitStage2>();
+        }
     }
 }

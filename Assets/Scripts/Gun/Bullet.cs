@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour, IDamageable
     public void TakeHit(Collider collider, float damage)
     {
         if(BulletID.Equals(Util.Config.userUuid))
-            APIController.SendController("Attack",new {damage=damage});
+            APIController.SendController("AttackBoss",new {damage=damage});
     }
 
     private void OnEnable()

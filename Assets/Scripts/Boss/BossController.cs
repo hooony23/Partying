@@ -13,7 +13,7 @@ namespace Boss
         public float RadarRange { get; set; } = Config.radarRange;
         public float BossHP { get; set; }
         public RaidGameManager GM { get; set; }
-        public List<Transform> TargetList { get; set; } = new List<Transform>();
+        public string Target{get;set;}
         public ParticleSystem ChargingL { get; set; }
         public ParticleSystem OctaL { get; set; }
         public Animator Animator { get; set; }

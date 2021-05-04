@@ -35,6 +35,7 @@ public class GameStartCount : MonoBehaviour
     IEnumerator CountDownToStart(int seconds)
     {
         //현재 게임의 배속을 0으로 만들고 2초뒤 실행, 물리적 시간도 함께 조정
+        Debug.Log(seconds);
         Time.timeScale = 0.0f;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         yield return new WaitForSecondsRealtime(2f);

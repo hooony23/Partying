@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class StopEvent : StateMachineBehaviour
+using Communication;
+using GameManager;
+namespace Animation
+{
+    
+public class ItemDestroyEvent : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,7 +23,11 @@ public class StopEvent : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.speed = 0;  
+            Debug.Log("item destroyed");
+            var gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+            gameManager.GameClear = true;
+            string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
+            Destroy(GameObject.Find("GameClearItem"));
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
@@ -33,4 +41,6 @@ public class StopEvent : StateMachineBehaviour
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+}
+
 }

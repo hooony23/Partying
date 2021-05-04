@@ -7,6 +7,7 @@ using Communication.MainServer;
 using Communication.GameServer;
 using Communication.GameServer.API;
 using Util;
+using GameUi;
 
 namespace GameManager
 {
@@ -14,6 +15,9 @@ namespace GameManager
     {
         protected void Start()
         {
+            currentStage=Config.defaultStage;
+            
+            Debug.Log($"current stage : {currentStage}");
             var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
             GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
             ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
@@ -29,16 +33,21 @@ namespace GameManager
             // 플레이어, 맵, 함정, 순찰 npc, patrol point 생성
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
+            this.gameObject.AddComponent<UserScore>();
 
         }
         protected void InitializeRaid()
         {
+            var stage2Info = Communication.JsonFormat.InitStage2.GetInitStage2();
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
-
+            NetworkInfo.bossInfo = stage2Info.BossInfo;
             //TODO: Test용 소환 삭제해야함
-            GameObject player = Instantiate(Resources.Load("Player/Player"), new Vector3(150,0,150), Quaternion.identity) as GameObject;
-            player.name = Resources.Load("Player/Player").name;
+            foreach(var playerInfo in stage2Info.PlayerLocs)
+            {
+                GameObject player = Instantiate(Resources.Load("Player/Player"), new Vector3(playerInfo.col,5,playerInfo.row), Quaternion.identity) as GameObject;
+                player.name = playerInfo.data.ToString();
+            }
             
             GameObject Map = Instantiate(Resources.Load("Raid/Map/RaidTerrain"), Vector3.zero, Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Raid/Map/RaidTerrain").name;
@@ -47,7 +56,7 @@ namespace GameManager
             ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
             
             InitUserList();
-            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), new Vector3(150,26,150), Quaternion.identity) as GameObject;
+            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), stage2Info.BossInfo.GetLocToVector3(), Quaternion.identity) as GameObject;
             Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
         }
         protected void DelUser()
@@ -71,40 +80,17 @@ namespace GameManager
         }
         protected void ClearGame()
         {
-            switch(currentStage)
-            {
-                case 1:
-                    Stage1Clear();
-                    break;
-                case 2:
-                    Stage2Clear();
-                    break;
-            }
-        }
-        protected void Stage1Clear()
-        {
-            
-            if (NetworkInfo.GetItemUserQueue.Count != 0)
-            {
-                gameClear = true;
-                string userUuid = NetworkInfo.GetItemUserQueue.Dequeue();
+           if(GameClear)
+           {
+               
                 IsGameClear();
                 // Lib.Common.WaitThenCallback(1f,);
                 Debug.Log("Game Clear");
-
-            }
-        }
-        protected void Stage2Clear()
-        {
-            
-                if (GameObject.Find("Boss").GetComponent<Boss.Boss>().Pattern==BossInfo.Patterns.DIE)
-                {
-                    gameClear=true;
-                    IsGameClear();
-                }
+           }
         }
         protected void InitUserList()
         {
+            PlayerList.Add(GameObject.Find(Config.userUuid));
             if (NetworkInfo.playersInfo.Count > 0)
             {
                 foreach (var playerUuid in NetworkInfo.playersInfo.Keys)
@@ -125,23 +111,6 @@ namespace GameManager
                 }
             }
         }
-        protected void UpdateBossInfo()
-        {
-            if (NetworkInfo.bossInfo !=null)
-            {
-                var boss = GameObject.Find("Boss");//.GetComponent<Boss.Boss>()
-                boss.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
-                boss.GetComponent<Rigidbody>().velocity = NetworkInfo.bossInfo.GetVecToVector3();
-                // if(boss.GetComponent<Boss.Boss>().BossHP!= NetworkInfo.bossInfo.BossHP)
-                // {
-                //     boss.Animator.SetTriger("Hit");
-                // }
-                var bossInfo = boss.GetComponent<Boss.Boss>();
-                bossInfo.Pattern = NetworkInfo.bossInfo.pattern;
-                bossInfo.BossHP =NetworkInfo.bossInfo.BossHP;
-                NetworkInfo.bossInfo = null;
-            }
-        }
     //게임 클리어 UI 활성화
     public void IsGameClear()
     {
@@ -152,6 +121,17 @@ namespace GameManager
         ContinueButton.interactable = false;
         SceneManager.LoadScene("LodingScene");
     }
+    public GameObject GetPlayerGameObject(string userUuid)
+    {
+        foreach(var gameObject in PlayerList)
+        {
+            if(gameObject.name == userUuid)
+            {
+                return gameObject;
+            }
+        }
+        return null;
+    }
         protected virtual void Update()
         {
             ClearGame();
@@ -160,9 +140,9 @@ namespace GameManager
         protected virtual void OnApplicationQuit()
         {
             /* 서버 연결 해제 */
+            APIController.SendController("ConnectedExit");
             MServer.LeaveRoom(NetworkInfo.roomInfo.RoomUuid);
             MServer.SignOut();
-            Connection.ConnectedExit();
         }
     }
 }

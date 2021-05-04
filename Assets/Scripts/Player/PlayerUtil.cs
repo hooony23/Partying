@@ -241,7 +241,9 @@ public class PlayerUtil : PlayerController
             Debug.Log("IsItem");
             NearObject = null;
             HaveItem = true;
-            GameObject.Find("MapClearItem").GetComponent<MapClearItem>().isOpened=true;
+            
+     
+            
             // Destroy(NearObject, 1f); // 이동과 동시에 아이템 오브젝트가 사라짐
             APIController.SendController("GetItem");
         }

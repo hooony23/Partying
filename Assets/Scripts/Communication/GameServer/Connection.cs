@@ -72,11 +72,11 @@ namespace Communication.GameServer
             }
         }
 
-        public static void ConnectedExit()
+        public static void ConnectedExit(string request)
         {
             try
             {
-                Send("{'type':'ConnectedExit'}");
+                Send(request);
                 sendDone.WaitOne();
                 // Release the socket.  
                 client.Shutdown(SocketShutdown.Both);
@@ -147,6 +147,7 @@ namespace Communication.GameServer
                         state.buffer, 0, bytesRead));
 
                     content = state.sb.ToString();
+                    UnityEngine.Debug.Log(content.ToString());
                     if (content.IndexOf("<EOF>") > -1)
                     {
                         // All the data has been read from the
@@ -155,7 +156,6 @@ namespace Communication.GameServer
                         List<string> tmp = new List<string>(receiveDatas);
                         tmp.Remove("");
                         receiveDatas = tmp.ToArray();
-                        UnityEngine.Debug.Log(content.ToString());
                         foreach (string data in receiveDatas)
                         {
                             APIController.ReceiveController(data);

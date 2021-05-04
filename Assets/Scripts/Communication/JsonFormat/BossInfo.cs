@@ -6,7 +6,8 @@ namespace Communication.JsonFormat
 {
     public class BossInfo
     {
-        public enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM, DIE, IDLE }
+        public enum Patterns { CHANGINGELAGER, OCTALASER, BODYSLAM, IDLE, DIE}
+        public string Target { get; set; } = "";
         public Patterns pattern = Patterns.IDLE;
         public Division3 Vec {get; set;}= new Division3();
         public Division3 Loc {get; set;}= new Division3();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using Communication;
 using GameManager;
 
 // ++ : 패턴은 8초 이후에 동작하도록
@@ -20,6 +21,7 @@ namespace Boss
 
         void Start()
         {
+            UpdateBossInfo();
             GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
             Animator = GetComponent<Animator>();
 
@@ -41,10 +43,9 @@ namespace Boss
         }
         void Update()
         {
-            TargetList.Clear();
-            foreach (var player in GM.PlayerList) { TargetList.Add(player.GetComponent<Transform>()); }
-
+            UpdateBossInfo();
             CheckHP();
+            Think();
         }
 
 

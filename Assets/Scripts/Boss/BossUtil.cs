@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Communication;
 using Communication.JsonFormat;
 namespace Boss
 {
@@ -27,38 +28,40 @@ namespace Boss
         }
 
         // 패턴 선택, 드론 Wakeup(10초) 이후에 시작
-        public IEnumerator Think()
+        public void Think()
         {
-            yield return new WaitForSeconds(0.1f);
-
+            Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns),Pattern));
             if (GM.PlayerList.Count <= 0)
             {
                 Animator.SetTrigger("Idle");
-                yield return null;
+                return;
             }
-            else
+            switch (Pattern)
             {
-                switch (Pattern)
-                {
-                    case BossInfo.Patterns.CHANGINGELAGER:
-                        StartCoroutine(ChargingLaser());
-                        break;
-                    case BossInfo.Patterns.OCTALASER:
-                        StartCoroutine(OctaLaser());
-                        break;
-                    case BossInfo.Patterns.BODYSLAM:
-                        StartCoroutine(BodySlam());
-                        break;
-                    default:
-                        Animator.SetTrigger("Idle");
-                        break;
-                }
+                case BossInfo.Patterns.CHANGINGELAGER:
+                    StartCoroutine(ChargingLaser());
+                    break;
+                case BossInfo.Patterns.OCTALASER:
+                    StartCoroutine(OctaLaser());
+                    break;
+                case BossInfo.Patterns.BODYSLAM:
+                    StartCoroutine(BodySlam());
+                    break;
+                default:
+                    Animator.SetTrigger("Idle");
+                    break;
             }
+            Pattern = BossInfo.Patterns.IDLE;
         }
 
         public IEnumerator Aim()
         {
-            Transform targetPlayer = GM.PlayerList[GetRanPlayerIdx()].transform;
+            Transform targetPlayer = GM.GetPlayerGameObject(Target).transform;
+            if(targetPlayer==null)
+            {
+                Animator.SetTrigger("Idle");
+                yield return null;
+            }
             float rotationSpeed = 100f;
 
             Quaternion targetRotation = Quaternion.identity;
@@ -99,8 +102,6 @@ namespace Boss
             Animator.SetTrigger("Idle");
             BossCollider.enabled = true;
             yield return new WaitForSeconds(3f);
-
-            StartCoroutine(Think());
         }
 
         public IEnumerator ChargingLaser()
@@ -112,7 +113,6 @@ namespace Boss
             yield return new WaitForSeconds(8f);
 
             StartCoroutine(AimReset());
-            StartCoroutine(Think());
         }
 
         public IEnumerator OctaLaser()
@@ -120,8 +120,6 @@ namespace Boss
             OctaL.Play();                           // 파티클 시스템 플레이
             Animator.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
             yield return new WaitForSeconds(8f);
-
-            StartCoroutine(Think());
         }
 
         public IEnumerator BodySlam()
@@ -137,10 +135,6 @@ namespace Boss
 
             yield return new WaitForSeconds(8);
             BossCollider.enabled = true;
-
-           
-
-            StartCoroutine(Think());
         }
 
         public IEnumerator Destroyed()
@@ -161,6 +155,22 @@ namespace Boss
             return idx;
         }
 
+        protected void UpdateBossInfo()
+        {
+            if (NetworkInfo.bossInfo !=null)
+            {
+                this.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
+                this.GetComponent<Rigidbody>().velocity = NetworkInfo.bossInfo.GetVecToVector3();
+                // if(boss.GetComponent<Boss.Boss>().BossHP!= NetworkInfo.bossInfo.BossHP)
+                // {
+                //     boss.Animator.SetTriger("Hit");
+                // }
+                Target = NetworkInfo.bossInfo.Target;
+                Pattern = NetworkInfo.bossInfo.pattern;
+                BossHP =NetworkInfo.bossInfo.BossHP;
+                NetworkInfo.bossInfo = null;
+            }
+        }
         public void CheckHP()
         {
             //TODO: 보스 패턴이 죽음으면 클리어.

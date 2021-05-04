@@ -33,7 +33,7 @@ namespace Util
         public static int COL = 20;
         
         public static string startTimeFormat = "mm:ss";
-        public static int defaultStage = 0;
+        public static int defaultStage = 2;
         public static float labylinthOnSpaceSize = 0f;
 
         public enum InputKey
@@ -53,7 +53,6 @@ namespace Util
         public static float Sfxvol = 0.5f;
 
         public static float Timer = 65f;
-        public static int CountDownTime = 3;
         public static bool StartGame = false;
     }
 

@@ -8,15 +8,19 @@ public class Player : PlayerUtil
 {
     void Awake()
     {
+        // TODO: 스테이지 1에서 총 안보이게.
+        // if(Config.defaultStage==1)
+        // {
+        //     Destroy(this.gameObject.transform.Find("아마튜어").Find("spine").Find("handgun").gameObject);
+        // }
         UserUuid = Config.userUuid;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         if (IsMyCharacter())
         {
             // 피격 처리
-            if (NetworkInfo.currentStage == 2)
+            if (Config.defaultStage==2)
             {
-                CurrentStage = "Raid";
                 Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
             }
             CameraArm = GameObject.Find("CameraArm").transform;
