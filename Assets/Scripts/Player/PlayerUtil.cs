@@ -263,7 +263,7 @@ public class PlayerUtil : PlayerController
             Anim.Play("dead");
             //TODO: 나중에 GM으로 수정 필요.
             NetworkInfo.deathUserQueue.Enqueue(this.gameObject.name);
-            Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
+            //Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
         }
     }
 

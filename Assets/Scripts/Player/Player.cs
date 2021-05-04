@@ -38,7 +38,7 @@ public class Player : PlayerUtil
 
         // 피격 처리
         CheckHP();
-        
+
     }
 
     private void FixedUpdate() // default : 50fps
