@@ -33,7 +33,7 @@ namespace Boss
 
             if (GM.PlayerList.Count <= 0)
             {
-                Animator.SetTrigger("Idle");
+                AnimController.SetTrigger("Idle");
                 yield return null;
             }
             else
@@ -92,9 +92,9 @@ namespace Boss
         // 보스 패턴 //
         public IEnumerator WakeUp()
         {
-            Animator.SetTrigger("WakeUp");
-            yield return new WaitForSeconds(7f);
-            Animator.SetTrigger("Idle");
+            AnimController.SetTrigger("WakeUp");
+            yield return new WaitForSeconds(10f);
+            AnimController.SetTrigger("Idle");
             BossCollider.enabled = true;
             yield return new WaitForSeconds(3f);
 
@@ -116,7 +116,7 @@ namespace Boss
         public IEnumerator OctaLaser()
         {
             OctaL.Play();                           // 파티클 시스템 플레이
-            Animator.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
+            AnimController.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
             yield return new WaitForSeconds(8f);
 
             StartCoroutine(Think());
@@ -126,8 +126,8 @@ namespace Boss
         {
             float atkSpeed = 2f;
             int targetIdx = GetRanPlayerIdx();
- 
-            Animator.SetTrigger("BodySlam1");
+
+            AnimController.SetTrigger("BodySlam1");
             BossCollider.enabled = false;           // 보스 지면으로 내려옴, 지면에서 보스 무적
             yield return new WaitForSeconds(1.5f);
 
@@ -143,11 +143,12 @@ namespace Boss
 
         public IEnumerator Destroyed()
         {
-            Animator.Play("Destroyed");
+            AnimController.Play("Destroyed");
             BossCollider.enabled = false;
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(4f);
+            AnimController.speed = 0f;
 
-            // 보스 게임오브젝트 제거
+            yield return new WaitForSeconds(2f);
             Destroy(this.gameObject);
         }
 

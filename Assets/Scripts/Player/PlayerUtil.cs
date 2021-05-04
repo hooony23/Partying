@@ -111,7 +111,6 @@ public class PlayerUtil : PlayerController
         if (IsStun == false && !MouseClickInput && !IsAttack)
         {
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
 
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
@@ -149,8 +148,10 @@ public class PlayerUtil : PlayerController
     }
     public void Turn()
     {
-        if(!IsAttack)
+        if (!IsAttack && MoveVec != Vector3.zero)
+        {
             transform.LookAt(transform.position + MoveDir);
+        }
     }
     public void CameraTurn()
     {
