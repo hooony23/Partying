@@ -3,6 +3,7 @@ using UnityEngine;
 using Util;
 using Communication;
 using Boss;
+using GameUi;
 public class Player : PlayerUtil
 {
     void Awake()
@@ -17,7 +18,7 @@ public class Player : PlayerUtil
         CameraArm = GameObject.Find("CameraArm").transform;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
-
+        UserScore = GameObject.Find("UiManager").GetComponent<UserScore>();
         // 플레이어 공격
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
         ShotPoint = CameraArm.Find("Shot Point").transform;

@@ -30,6 +30,7 @@ namespace GameManager
         void OnApplicationQuit()
         {
             /* 서버 연결 해제 */
+            //APIController.SendController("ConnectedExit");
             Connection.ConnectedExit();
         }
 

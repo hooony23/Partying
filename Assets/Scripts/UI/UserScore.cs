@@ -12,14 +12,14 @@ namespace GameUi
         //스코어 목록 동적생성
         private GameObject infoPanel, textObject, scrollPanel, otherUserLive;
         private static GameObject playerHp, playerBuff;
-        Player player;
+        private Player player;
 
         //유저 스코어창 오픈 애니메이션
         private Animator animator;
         private bool userInfoOpen = false;
 
         //예시) 받아올 유저들의 이름과 점수
-        private string playerName = "sunsub";
+        private string playerName = "Player";
         private Dictionary<string, string> UserLive = new Dictionary<string, string>();
 
         //TODO: 스코어 관련 여부 보류
@@ -49,7 +49,7 @@ namespace GameUi
             //Debug.Log(userInfo1);
             //예시
             UserLive.Add("kevin", "live");
-            UserLive.Add("sunsub", "live");
+            UserLive.Add("Player", "live");
             UserLive.Add("tarios", "live");
             UserLive.Add("resviosa", "live");
 
@@ -57,15 +57,21 @@ namespace GameUi
             //TODO: 스코어 관련 여부 보류
             //SendUserScore();
             //TODO: 테스트용이 아닌 현재 사용중인 유저로 변경할것.
-            //player = GameObject.Find("Player").GetComponent<Player>();
-            //PlayerHeart(player);
+            player = GameObject.Find("Player").GetComponent<Player>();
+            //player = GameObject.Find(Config.userUuid.ToString()).GetComponent<Player>();
+            Config.LodingSence = 2;
+            if (NetworkInfo.currentStage == 2 && Config.LodingSence == 2)
+            {
+                Debug.Log(NetworkInfo.currentStage);
+                PlayerHeart(player);
+            }
 
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
 
             foreach (KeyValuePair<string, string> kvp in UserLive)
             {
                 string UserName = kvp.Key;
-                Debug.Log(UserLive.ContainsKey(kvp.Key));
+                //Debug.Log(UserLive.ContainsKey(kvp.Key));
                 if (!UserName.Equals(playerName))
                 {
                     GameObject UserliveInfo = Instantiate(Resources.Load("GameUi/UserLive"), otherUserLive.transform) as GameObject;
@@ -148,7 +154,6 @@ namespace GameUi
         }*/
         public void OtherUserlive()
         {
-            //TODO:GameManagerUtill.cs에서 DeathUser()함수만 deathUserQueue.Count가 실행됨. 문제파악필요함
             if (NetworkInfo.deathUserQueue.Count != 0)
             {
                 Debug.Log("죽음 출력");
@@ -156,21 +161,26 @@ namespace GameUi
                 {
                     if (UserLive.ContainsKey(name.name))
                     {
+                        Debug.Log("죽은 유저 확인");
                         UserLive[name.name] = ("dead");
 
                     }
                 }
-            }
-
-            if (UserLive.ContainsValue("dead")) {
-                foreach (KeyValuePair<string, string> a in UserLive) {
-                    Image User = GameObject.Find(a.Key).GetComponent<Image>();
-                    if (a.Value.Equals("dead"))
+                if (UserLive.ContainsValue("dead"))
+                {
+                    foreach (KeyValuePair<string, string> a in UserLive)
                     {
-                        User.color = new Color32(130, 130, 130, 255);
-                    }
-                    else {
-                        User.color = new Color32(0 , 0, 0, 255);
+                        Image User = GameObject.Find(a.Key).GetComponent<Image>();
+                        if (a.Value.Equals("dead"))
+                        {
+                            Debug.Log("죽은 유저 확인2222");
+                            User.color = new Color32(130, 130, 130, 255);
+                        }
+                        else
+                        {
+                            Debug.Log("생존 확인");
+                            User.color = new Color32(0, 0, 0, 255);
+                        }
                     }
                 }
             }
