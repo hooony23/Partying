@@ -9,6 +9,7 @@ namespace Communication
     {
         //TODO: 가능하면 값 저장 없이 Receive단에서 바로 처리할 수 있도록 바꿔야함
         public static double startTime = 0d;
+        public static double finishTime = 0d;
         public static MapInfo mapInfo = null;
         public static Dictionary<string, PlayerInfo> playersInfo = new Dictionary<string, PlayerInfo>(){{"Player",null}};
         public static Queue<string> connectedExitQueue = new Queue<string>();
@@ -23,6 +24,5 @@ namespace Communication
         public static ItemInfo itemRespawn = new ItemInfo();
         public static AiInfo aiInfo = null;
         public static BossInfo bossInfo = null;
-        public static int currentStage = Config.defaultStage;
     }
 }

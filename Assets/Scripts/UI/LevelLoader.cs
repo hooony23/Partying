@@ -18,7 +18,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadLevel(int scenceIndex)
     {
-        if(SceneManager.GetActiveScene().buildIndex == scenceIndex)
+        if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
             NetworkInfo.memberInfo = MServer.GetMemberInfo(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
