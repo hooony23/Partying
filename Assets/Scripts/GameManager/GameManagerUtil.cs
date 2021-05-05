@@ -32,6 +32,7 @@ namespace GameManager
 
             // 플레이어, 맵, 함정, 순찰 npc, patrol point 생성
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            InitUserList();
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
             this.gameObject.AddComponent<UserScore>();
 
@@ -72,8 +73,10 @@ namespace GameManager
             while (NetworkInfo.deathUserQueue.Count > 0)
             {
                 string userUuid = NetworkInfo.deathUserQueue.Dequeue();
-                GameObject player = GameObject.Find(userUuid);
-                player.GetComponent<Player>().IsDead = true;
+                var deathUser = GameObject.Find(userUuid);
+                deathUser.GetComponent<Player>().IsDead=true;
+                PlayerList.Remove(deathUser);
+                DeathPlayerList.Add(deathUser);
                 Debug.Log($"{userUuid} 가 죽었습니다!");
             }
         }
@@ -96,17 +99,6 @@ namespace GameManager
                 {
                     Debug.Log(playerUuid);
                     PlayerList.Add(GameObject.Find(playerUuid));
-                }
-            }
-        }
-        protected void UpdateUserList()
-        {
-            if (NetworkInfo.deathUserQueue.Count > 0)
-            {
-                foreach (var deathUserUuid in NetworkInfo.deathUserQueue)
-                {
-                    PlayerList.Remove(GameObject.Find(deathUserUuid));
-                    DeathPlayerList.Add(GameObject.Find(deathUserUuid));
                 }
             }
         }
@@ -133,6 +125,8 @@ namespace GameManager
     }
         protected virtual void Update()
         {
+            DelUser();
+            DeathUser();
             ClearGame();
         }
 

@@ -15,6 +15,10 @@ namespace Communication.GameServer.API
         public void CreateMap(string response)
         {
             MapInfo mapInfo = JsonConvert.DeserializeObject<MapInfo>(response);
+            foreach(var playerInfo in mapInfo.playerLocs)
+            {
+                NetworkInfo.playersInfo[playerInfo.data.ToString()] = null;
+            }
             //TODO 더 좋은 방법 찾아야함
             NetworkInfo.mapInfo = mapInfo;
 
@@ -167,17 +171,21 @@ namespace Communication.GameServer.API
         }
         public void InitStage2(string response)
         {
-            JObject responseJson = null;
+            Communication.JsonFormat.InitStage2 responseJson = null;
             try
             {
-                responseJson = JObject.Parse(response);
+                responseJson = JsonConvert.DeserializeObject<Communication.JsonFormat.InitStage2>(response);
             }
             catch (Exception e)
             {
                 Debug.Log(e.Message);
                 return;
             }
-            Communication.JsonFormat.InitStage2.value = responseJson.ToObject<Communication.JsonFormat.InitStage2>();
+            
+            foreach(var playerInfo in responseJson.PlayerLocs)
+            {
+                NetworkInfo.playersInfo[playerInfo.data.ToString()] = null;
+            }
         }
     }
 }

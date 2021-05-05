@@ -36,7 +36,7 @@ public class PlayerUtil : PlayerController
             // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
-            if (NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
+            if (NetworkInfo.playersInfo[this.gameObject.name] != null&&NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
                 this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);

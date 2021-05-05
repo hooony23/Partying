@@ -19,13 +19,6 @@ namespace GameManager
             // Communication.NetworkInfo.mapInfo = temp2;
             InitializeLabylinth();
         }
-        
-        protected override void Update()
-        {
-            DelUser();
-            DeathUser();
-            base.Update();
-        }
 
     }
 }

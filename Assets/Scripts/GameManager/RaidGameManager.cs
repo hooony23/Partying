@@ -17,12 +17,5 @@ namespace GameManager
             InitializeRaid();
         }
         
-        protected override void Update()
-        {
-            DelUser();
-            DeathUser();
-            UpdateUserList();
-            base.Update();
-        }
     }
 }
