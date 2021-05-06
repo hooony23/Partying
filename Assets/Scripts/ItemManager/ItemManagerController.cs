@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManagerController : MonoBehaviour
@@ -15,4 +16,5 @@ public class ItemManagerController : MonoBehaviour
             baseItemLocation+"ResurrectionItem",
 
     };
+    public HashSet<string> itemSet = new HashSet<string>();
 }

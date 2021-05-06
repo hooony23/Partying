@@ -3,7 +3,7 @@ namespace Item
     public class ReloadSpeed : BaseItem
     {
         private Player _player = null;
-        public void Start()
+        public void Awake()
         {
             WaitTime = 10f;
         }
@@ -13,6 +13,7 @@ namespace Item
             _player = player;
             player.ShotSpeed = Util.Config.shotSpeed * 3;
             base.ItemApply(player, time);
+            itemManager.AddBuffIcon(this.gameObject.name, time);
         }
         public override void DisAppear()
         {

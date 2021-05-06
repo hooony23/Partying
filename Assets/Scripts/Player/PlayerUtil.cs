@@ -272,13 +272,19 @@ public class PlayerUtil : PlayerController
         IsBeatable = false;
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
-        UserScore.PlayerHeart(GetComponent<Player>());
+        SyncHp();
         StartCoroutine(Blink(5));
         KnockBack(reactVec, 8f);
 
         yield return new WaitForSeconds(2f);
         IsBeatable = true;
     }
+    public void SyncHp()
+    {
+        UserScore.PlayerHeart(GetComponent<Player>());
+    }
+
+
     // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
     public IEnumerator Blink(int count)
     {

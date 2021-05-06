@@ -1,3 +1,6 @@
+using GameUi;
+using UnityEngine;
+
 namespace Item
 {
     public class HealthMax : BaseItem
@@ -6,7 +9,9 @@ namespace Item
         {
             player.PlayerMaxHealth += 1;
             player.PlayerHealth += 1;
+            player.SyncHp();
             base.ItemApply(player, time);
+            
         }
     }
 }

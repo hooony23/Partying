@@ -5,6 +5,7 @@ namespace Item
         public override void ItemApply(Player player, float time = 0)
         {
             player.PlayerHealth += 1;
+            player.SyncHp();
             base.ItemApply(player, time);
         }
     }

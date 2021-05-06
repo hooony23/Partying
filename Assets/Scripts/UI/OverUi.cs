@@ -26,20 +26,20 @@ public class OverUi : MonoBehaviour
     {
         //TODO: Test할때는 아래, 사용시는 위의 주석을 지울것.
         //player = GameObject.Find(Config.userUuid.ToString()).GetComponent<Player>();
-        //player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
     private void Update()
-    {/*
+    {
         if (player.IsDead&&!uiActive) {
             uiActive = true;
-            Invoke("UesrDeadUi", 2f);
+            Invoke("GameOverUi", 2f);
             
-        }*/
+        }
     }
     public void UesrDeadUi() {
         uiObject.SetActive(true);
         OveruiText.color = new Color32(243, 102, 77, 255);
-        OveruiText.text = "You Dead";
+        OveruiText.text = "Game Over";
         buttonText.text = "OtherPlayer";
         overUiButton.onClick.AddListener(UserDeadButton);
     }

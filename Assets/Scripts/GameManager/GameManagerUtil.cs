@@ -38,7 +38,7 @@ namespace GameManager
             GameObject player = Instantiate(Resources.Load("Player/Player"), new Vector3(150,0,150), Quaternion.identity) as GameObject;
             player.name = Resources.Load("Player/Player").name;
             
-            GameObject Map = Instantiate(Resources.Load("Raid/Map/RaidTerrain"), Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject Map = Instantiate(Resources.Load("Raid/Map/Raidmap"), Vector3.zero, Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Raid/Map/RaidTerrain").name;
 
             GameObject ItemManager = Instantiate(Resources.Load("Raid/Item/ItemManager"), Vector3.zero, Quaternion.identity) as GameObject;

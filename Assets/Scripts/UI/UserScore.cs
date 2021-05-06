@@ -89,7 +89,7 @@ namespace GameUi
             {
                 OpenPanel();
             }
-            OtherUserlive();
+            //OtherUserlive();
         }
 
         //Tap키를 이용한 유저스코어창 오픈

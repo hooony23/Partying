@@ -1,11 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEditorInternal;
+using ItemManager;
 namespace Item
 {
     public class BaseItem : MonoBehaviour, IItem
     {
+        public ItemManager.ItemManager itemManager;
+
         public float WaitTime { get; set; }
 
+        public void Start()
+        {
+            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager.ItemManager>();
+        }
         public void FixedUpdate()
         {
             transform.Rotate(new Vector3(0, 20f, 0) * Time.deltaTime, Space.World);
@@ -18,8 +28,6 @@ namespace Item
             {
                 Player player = other.transform.gameObject.GetComponent<Player>();
                 ItemApply(player, WaitTime);
-
-
             }
         }
         public virtual void DisAppear() { }
@@ -32,6 +40,7 @@ namespace Item
                 Destroy(this.transform.GetChild(i).gameObject);
             }
             StartCoroutine(Lib.Common.WaitThenCallback(time + 0.5f, () => { Destroy(this.gameObject); }));
+
         }
     }
 }
