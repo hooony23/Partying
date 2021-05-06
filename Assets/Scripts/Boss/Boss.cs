@@ -22,7 +22,6 @@ namespace Boss
         void Start()
         {
             InitBossInfo();
-            UpdateBossInfo();
 
             GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
             Animator = GetComponent<Animator>();

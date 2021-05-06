@@ -171,6 +171,7 @@ namespace Communication.GameServer.API
         }
         public void InitStage2(string response)
         {
+            Debug.Log(response);
             Communication.JsonFormat.InitStage2 responseJson = null;
             try
             {
@@ -181,7 +182,7 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            
+            Communication.JsonFormat.InitStage2.value = responseJson;
             foreach(var playerInfo in responseJson.PlayerLocs)
             {
                 NetworkInfo.playersInfo[playerInfo.data.ToString()] = null;

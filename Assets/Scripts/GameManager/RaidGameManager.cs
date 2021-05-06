@@ -12,8 +12,6 @@ namespace GameManager
             // APIController.SendController("GetItem");
             // Communication.GameServer.Connection.receiveDone.WaitOne();
             //****************************************
-            APIController.SendController("InitStage2");
-            Communication.GameServer.Connection.receiveDone.WaitOne();
             InitializeRaid();
         }
         

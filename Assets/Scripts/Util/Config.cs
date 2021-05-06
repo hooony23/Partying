@@ -8,7 +8,7 @@ namespace Util
     {
         
         public static string defaultDNS = "skine134.iptime.org";//"localhost";
-        public static int mainServerPort = 1215;//42450
+        public static int mainServerPort = 42450;//1215;
         public static int chatServerPort = 42460;
         public static int gameServerPort = 11000;
         public static string mainServerDNS = $"https://{defaultDNS}:{mainServerPort}";

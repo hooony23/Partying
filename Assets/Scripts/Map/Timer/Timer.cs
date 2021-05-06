@@ -24,6 +24,7 @@ public class Timer : MonoBehaviour
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/TimerUi")) as GameObject;
         timeText = TimerObject.transform.Find("TimeText").GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
+        Debug.Log($"finish time : {NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now)}");
         Time = (NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
     }
     private void Update()
@@ -43,9 +44,6 @@ public class Timer : MonoBehaviour
         if (Time > 0)
         {
             CountDownTimer();
-            var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
-            var GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
-            GameClearUi.SetActive(true);
         }
         //60초 이하로 남았을때
         if (Mintime)
