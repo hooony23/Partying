@@ -58,7 +58,7 @@ namespace Partying.UI
             chatViewGroup.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(LOBBYCHATVIEW); });
             chatViewGroup.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(ROOMCHATVIEW); });
             //TODO: 채팅UI를 생성하는 곳에서 값을 넘겨주거나, 현재 LodingSence의 정보를 수신하여 설정하는 방식이 필요.
-            //CanvasRecent(0);
+            //CanvasRecent(1);
         }
         void Update()
         {
@@ -85,12 +85,12 @@ namespace Partying.UI
         }
         //TODO: 메인메뉴와 게임일때 활성화 하는 것에 대한 코드 생성 필요
         public void CanvasRecent(int scenesNumber) { //채팅창 Canvas의 피벗과 앵커를 설정하여 채팅창의 위치를 바꿈
-            if (scenesNumber == 1) {//오른쪽 채팅창
+            if (scenesNumber == 0) {//오른쪽 채팅창
                 rectTransform.anchorMin = new Vector2(1,0);
                 rectTransform.anchorMax = new Vector2(1,0);
                 rectTransform.pivot = new Vector2(1f, 0f);
             }
-            else if (scenesNumber == 0) {//왼쪽 채팅창
+            else if (scenesNumber >=1) {//왼쪽 채팅창
                 rectTransform.anchorMin = new Vector2(0, 0);
                 rectTransform.anchorMax = new Vector2(0, 0);
                 rectTransform.pivot = new Vector2(0f, 0f);
