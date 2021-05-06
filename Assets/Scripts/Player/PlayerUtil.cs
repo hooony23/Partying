@@ -109,7 +109,7 @@ public class PlayerUtil : PlayerController
     {
         if (IsStun == false && !MouseClickInput && !IsAttack)
         {
-            Cursor.visible = false;
+            // Cursor.visible = false;
             // Cursor.lockState = CursorLockMode.Locked;
 
             IsMove = true;
