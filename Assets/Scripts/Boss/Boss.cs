@@ -16,12 +16,14 @@ using GameManager;
 // 플레이어 데미지 입힘
 namespace Boss
 {
-    public class Boss : BossUtil
+    public class Boss : BossUtil, IDamageable
     {
 
         void Start()
         {
+            InitBossInfo();
             UpdateBossInfo();
+
             GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
             Animator = GetComponent<Animator>();
 
@@ -30,25 +32,47 @@ namespace Boss
 
             PlayerMask = LayerMask.GetMask("Player");
 
-            NavMeshAgent = GetComponent<NavMeshAgent>();
-
             InitParticleSystem();
             if (GM.PlayerList.Count > 0)
             {
                 StartCoroutine(WakeUp());
             }
 
-            BossCollider = GetComponent<SphereCollider>();
-
+            BossRigid = GetComponent<Rigidbody>();
+            BossCollider = GetComponentInChildren<SphereCollider>();
+            
         }
         void Update()
         {
             UpdateBossInfo();
             CheckHP();
             Think();
+
+            FreezeVelocity();
         }
 
+        // 보스 플레이어 충돌시(BodySlam, 지나가다가 충돌)
+        private void OnCollisionEnter(Collision collision)
+        {
+            // 총알과 구분하기 위해 Tag 와 name 비교
+            if (collision.transform.CompareTag("Player") && collision.transform.name.Equals(Target))
+            {
+                // 플레이어에게 공격
+                TakeHit(collision.collider, 1);
+            }
 
+        }
+
+        public void TakeHit(Collider collider, float damage)
+        {
+            Debug.Log("플레이어를 공격함");
+            var player = collider.gameObject.GetComponent<Player>();
+            var reactVec = (collider.transform.position - this.transform.position).normalized;
+            if (!player.IsBeatable)
+                return;
+            player.PlayerHealth -= damage;
+            StartCoroutine(player.OnAttacked(reactVec));
+        }
     }
 
 }
