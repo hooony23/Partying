@@ -12,9 +12,6 @@ namespace Boss
     public class BossUtil : BossController
     {
 
-
-        // 주변의 Layer : Player 인 오브젝트 4개 검출
-
         // 모든 자식 파티클 시스템 정지상태로 초기화
         public void InitParticleSystem()
         {
@@ -30,28 +27,27 @@ namespace Boss
         // 패턴 선택, 드론 Wakeup(10초) 이후에 시작
         public void Think()
         {
-            Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns),Pattern));
-            if (GM.PlayerList.Count <= 0)
+            if (!PatternActivated)
             {
-                Animator.SetTrigger("Idle");
-                return;
+                Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns), Pattern));
+
+                Debug.Log("현재패턴 :" + Pattern);
+                switch (Pattern)
+                {
+                    case BossInfo.Patterns.CHANGINGELAGER:
+                        StartCoroutine(ChargingLaser());
+                        break;
+                    case BossInfo.Patterns.OCTALASER:
+                        StartCoroutine(OctaLaser());
+                        break;
+                    case BossInfo.Patterns.BODYSLAM:
+                        PatternActivated = true;
+                        StartCoroutine(BodySlam());
+                        break;
+
+                }
+
             }
-            switch (Pattern)
-            {
-                case BossInfo.Patterns.CHANGINGELAGER:
-                    StartCoroutine(ChargingLaser());
-                    break;
-                case BossInfo.Patterns.OCTALASER:
-                    StartCoroutine(OctaLaser());
-                    break;
-                case BossInfo.Patterns.BODYSLAM:
-                    StartCoroutine(BodySlam());
-                    break;
-                default:
-                    Animator.SetTrigger("Idle");
-                    break;
-            }
-            Pattern = BossInfo.Patterns.IDLE;
         }
 
         public IEnumerator Aim()
@@ -84,7 +80,7 @@ namespace Boss
             Quaternion targetRotation = Quaternion.identity;
             do
             {
-                targetRotation = Quaternion.Euler(0, this.transform.rotation.y, this.transform.rotation.z);
+                targetRotation = Quaternion.Euler(0, 0, 0);
 
                 Quaternion nextRotation = Quaternion.RotateTowards(
                     this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -101,50 +97,74 @@ namespace Boss
             yield return new WaitForSeconds(7f);
             Animator.SetTrigger("Idle");
             BossCollider.enabled = true;
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
+
+            PatternActivated = false;
         }
 
         public IEnumerator ChargingLaser()
         {
             StartCoroutine(Aim());
-            yield return null;
+            yield return new WaitForSeconds(2f);
 
             ChargingL.Play();
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(7f);
 
-            StartCoroutine(AimReset());
+            PatternActivated = false;
         }
 
         public IEnumerator OctaLaser()
         {
             OctaL.Play();                           // 파티클 시스템 플레이
             Animator.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(9f);
+
+            PatternActivated = false;
         }
 
         public IEnumerator BodySlam()
         {
-            // float atkSpeed = 2f;
-            int targetIdx = GetRanPlayerIdx();
- 
-            Animator.SetTrigger("BodySlam1");
-            BossCollider.enabled = false;           // 보스 지면으로 내려옴, 지면에서 보스 무적
-            yield return new WaitForSeconds(1.5f);
+            if (!Target.Equals(""))
+            {
+                StartCoroutine(Aim());
 
-            // 추격 루틴
+                WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+                float duration = 0.3f; // 타겟에 도달하는 시간, 짧을수록 패턴이 빨라짐
+                float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
-            yield return new WaitForSeconds(8);
-            BossCollider.enabled = true;
+                Animator.SetTrigger("BodySlam1");
+                BossCollider.enabled = false;
+                yield return new WaitForSeconds(2.5f);
+
+                Transform target = GameObject.Find(Target.ToString()).GetComponent<Transform>();
+                Vector3 targetPos = new Vector3(target.position.x, this.transform.position.y, target.position.z);
+
+                // 플레이어를 넘어 지나가도록 함
+                Vector3 addDistance = (targetPos - this.transform.position).normalized * distanceRatio;
+                targetPos += addDistance;
+                // 추격 루틴
+                while (duration > 0.0f)
+                {
+                    duration -= Time.deltaTime;
+
+                    this.transform.position = Vector3.Lerp(this.transform.position, targetPos, Time.deltaTime / duration);
+
+                    yield return waitForEndOfFrame;
+                }
+
+                StartCoroutine(AimReset());
+                yield return new WaitForSeconds(7f);
+                BossCollider.enabled = true;
+                PatternActivated = false;
+            }
         }
-
+        
         public IEnumerator Destroyed()
         {
             Animator.Play("Destroyed");
             BossCollider.enabled = false;
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(1f);
 
-            // 보스 게임오브젝트 제거
-            Destroy(this.gameObject);
         }
 
         // BodySlam 랜덤 타겟 선택 
@@ -159,7 +179,7 @@ namespace Boss
         {
             if (NetworkInfo.bossInfo !=null)
             {
-                this.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
+                //this.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
                 this.GetComponent<Rigidbody>().velocity = NetworkInfo.bossInfo.GetVecToVector3();
                 // if(boss.GetComponent<Boss.Boss>().BossHP!= NetworkInfo.bossInfo.BossHP)
                 // {
@@ -167,9 +187,14 @@ namespace Boss
                 // }
                 Target = NetworkInfo.bossInfo.Target;
                 Pattern = NetworkInfo.bossInfo.pattern;
-                BossHP =NetworkInfo.bossInfo.BossHP;
+                BossHP = NetworkInfo.bossInfo.BossHP;
                 NetworkInfo.bossInfo = null;
             }
+        }
+        protected void InitBossInfo()
+        {
+            this.transform.position = NetworkInfo.bossInfo.GetLocToVector3();
+            UpdateBossInfo();
         }
         public void CheckHP()
         {
@@ -178,6 +203,25 @@ namespace Boss
             {
                 InitParticleSystem();
                 StartCoroutine(Destroyed());
+            }
+        }
+
+        // 보스 물리적 충돌 시 떨림 제거
+        public void FreezeVelocity()
+        {
+            BossRigid.velocity = Vector3.zero;
+            BossRigid.angularVelocity = Vector3.zero;
+        }
+
+        // Destroyed2 애니메이션 안에 포함됨
+        public void GameOver()
+        {
+            var boss = GameObject.Find("Boss");
+            var bossInfo = boss.GetComponent<Boss>();
+            if (bossInfo.Pattern == Communication.JsonFormat.BossInfo.Patterns.DIE)
+            {
+                var gameManager = GameObject.Find("GameManager").GetComponent<GameManager.RaidGameManager>();
+                gameManager.GameClear = true;
             }
         }
 

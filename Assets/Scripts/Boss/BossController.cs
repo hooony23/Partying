@@ -18,8 +18,10 @@ namespace Boss
         public ParticleSystem OctaL { get; set; }
         public Animator Animator { get; set; }
         public LayerMask PlayerMask { get; set; } = 0;
-        public NavMeshAgent NavMeshAgent { get; set; }
         public SphereCollider BossCollider { get; set; }
+        public bool PatternActivated { get; set; } = false;
+
+        public Rigidbody BossRigid { get; set; }
     }
 }
 
