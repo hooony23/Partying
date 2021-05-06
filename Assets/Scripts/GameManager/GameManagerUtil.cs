@@ -111,8 +111,6 @@ namespace GameManager
     public void UserClearButton()
     {
         ContinueButton.interactable = false;
-        APIController.SendController("InitStage2");
-        Communication.GameServer.Connection.receiveDone.WaitOne();
         SceneManager.LoadScene("LodingScene");
     }
     public GameObject GetPlayerGameObject(string userUuid)

@@ -35,9 +35,11 @@ namespace Boss
                 switch (Pattern)
                 {
                     case BossInfo.Patterns.CHANGINGELAGER:
+                        PatternActivated = true;
                         StartCoroutine(ChargingLaser());
                         break;
                     case BossInfo.Patterns.OCTALASER:
+                        PatternActivated = true;
                         StartCoroutine(OctaLaser());
                         break;
                     case BossInfo.Patterns.BODYSLAM:
@@ -46,18 +48,12 @@ namespace Boss
                         break;
 
                 }
-
             }
         }
 
         public IEnumerator Aim()
         {
             Transform targetPlayer = GM.GetPlayerGameObject(Target).transform;
-            if(targetPlayer==null)
-            {
-                Animator.SetTrigger("Idle");
-                yield return null;
-            }
             float rotationSpeed = 100f;
 
             Quaternion targetRotation = Quaternion.identity;
@@ -105,11 +101,13 @@ namespace Boss
         public IEnumerator ChargingLaser()
         {
             StartCoroutine(Aim());
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
 
             ChargingL.Play();
-            yield return new WaitForSeconds(7f);
-
+            yield return new WaitForSeconds(8f);
+            
+            StartCoroutine(AimReset());
+            yield return new WaitForSeconds(2f);
             PatternActivated = false;
         }
 
@@ -117,7 +115,7 @@ namespace Boss
         {
             OctaL.Play();                           // 파티클 시스템 플레이
             Animator.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
-            yield return new WaitForSeconds(9f);
+            yield return new WaitForSeconds(8f);
 
             PatternActivated = false;
         }
@@ -126,10 +124,9 @@ namespace Boss
         {
             if (!Target.Equals(""))
             {
-                StartCoroutine(Aim());
 
                 WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-                float duration = 0.3f; // 타겟에 도달하는 시간, 짧을수록 패턴이 빨라짐
+                float duration = 0.5f; // 타겟에 도달하는 시간, 짧을수록 패턴이 빨라짐
                 float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
                 Animator.SetTrigger("BodySlam1");
@@ -152,8 +149,7 @@ namespace Boss
                     yield return waitForEndOfFrame;
                 }
 
-                StartCoroutine(AimReset());
-                yield return new WaitForSeconds(7f);
+                yield return new WaitForSeconds(7.5f);
                 BossCollider.enabled = true;
                 PatternActivated = false;
             }
