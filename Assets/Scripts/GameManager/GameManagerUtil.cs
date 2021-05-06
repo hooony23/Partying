@@ -75,7 +75,6 @@ namespace GameManager
                 GameObject player = GameObject.Find(userUuid);
                 player.GetComponent<Player>().IsDead = true;
                 Debug.Log($"{userUuid} 가 죽었습니다!");
-                player.transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
             }
         }
         protected void ClearGame()

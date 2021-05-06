@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication;
 using Util;
 
 public class Timer : MonoBehaviour
@@ -10,7 +11,7 @@ public class Timer : MonoBehaviour
     private Text timeText;
 
     //타이머 관리를 위한 변수
-    private float Time;
+    private double Time;
     private bool TimeOver = false;
     private bool Mintime = false;
     private bool isTimerStart = true;
@@ -18,13 +19,12 @@ public class Timer : MonoBehaviour
     //BGM 실행
     [SerializeField] private string BGMSound;
     AudioSource audioSource;
-    private void Awake()
+    private void Start()
     {
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/TimerUi")) as GameObject;
         timeText = TimerObject.transform.Find("TimeText").GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
-        Time = Config.Timer;
-
+        Time = (NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
     }
     private void Update()
     {
@@ -43,6 +43,9 @@ public class Timer : MonoBehaviour
         if (Time > 0)
         {
             CountDownTimer();
+            var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
+            var GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+            GameClearUi.SetActive(true);
         }
         //60초 이하로 남았을때
         if (Mintime)

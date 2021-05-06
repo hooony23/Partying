@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Communication.MainServer;
+using Util;
 
 public class FirstScreen : BaseMainMenu, IMainMenu
 {
@@ -11,6 +12,11 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         base.Awake();
         SetUp();
         Debug.Log($"uuid : {Util.Config.userUuid}");
+        if(Config.defaultStage==2)
+        {
+            Config.defaultStage=0;
+            SelectUI(7);   
+        }
     }
     void OnEnable()
     {
