@@ -20,6 +20,7 @@ namespace GameManager
             Debug.Log($"current stage : {currentStage}");
             var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
             GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+            var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
             ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
             ContinueButton.onClick.AddListener(UserClearButton); 
             APIController.SendController("SyncStart");
@@ -120,7 +121,7 @@ namespace GameManager
     {
         foreach(var gameObject in PlayerList)
         {
-            if(gameObject.name == userUuid)
+            if(gameObject.name.Equals(userUuid))
             {
                 return gameObject;
             }
