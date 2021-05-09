@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Util;
+using Communication;
+using GameManager;
 
 public class OverUi : MonoBehaviour
 {
@@ -30,10 +32,9 @@ public class OverUi : MonoBehaviour
     }
     private void Update()
     {
-        if (player.IsDead&&!uiActive) {
+        if (this.gameObject.GetComponent<GameManager.GameManager>().PlayerList.Count<=0&&!uiActive) {
             uiActive = true;
             Invoke("GameOverUi", 2f);
-            
         }
     }
     public void UesrDeadUi() {

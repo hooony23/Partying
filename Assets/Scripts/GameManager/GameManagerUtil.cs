@@ -63,7 +63,12 @@ namespace GameManager
             while (NetworkInfo.connectedExitQueue.Count != 0)
             {
                 string userUuid = NetworkInfo.connectedExitQueue.Dequeue();
-                Destroy(GameObject.Find(userUuid));
+                var exitUser = GameObject.Find(userUuid);
+                if(PlayerList.Contains(exitUser))
+                    PlayerList.Remove(exitUser);
+                else
+                    DeathPlayerList.Remove(exitUser);
+                Destroy(exitUser);
             }
         }
         protected void DeathUser()
