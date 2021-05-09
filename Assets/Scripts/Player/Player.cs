@@ -52,6 +52,7 @@ public class Player : PlayerUtil
 
         // 피격 처리
         CheckHP();
+        CheckDeath();
 
     }
 

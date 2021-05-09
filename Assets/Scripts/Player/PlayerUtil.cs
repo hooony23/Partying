@@ -254,8 +254,7 @@ public class PlayerUtil : PlayerController
     {
         if (PlayerHealth <= 0)
         {
-            IsDead = true;
-            CheckDeath();
+            APIController.SendController("Death");
         }
     }
     public void CheckDeath()
@@ -265,8 +264,6 @@ public class PlayerUtil : PlayerController
             Stun(4f);
             this.gameObject.layer = default; // 보스가 인식 못함
             Anim.Play("dead");
-            //TODO: 나중에 GM으로 수정 필요.
-            NetworkInfo.deathUserQueue.Enqueue(this.gameObject.name);
             Destroy(this.gameObject, 4f); // 4초 뒤 플레이어 오브젝트 제거
         }
     }
