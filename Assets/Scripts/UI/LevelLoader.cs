@@ -13,21 +13,9 @@ public class LevelLoader : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
     public Text progressText;
-<<<<<<< HEAD
     public void Start()
     {
         LoadLevel(++Config.defaultStage);
-=======
-    public int ChangeScne;
-    private bool gameLondingDone = false;
-    public void Awake()
-    {
-        ChangeScne = Config.LodingSence;
-    }
-    public void Start()
-    {
-        LoadLevel(ChangeScne);
->>>>>>> origin/dev-SungyuHwang
     }
     public void LoadLevel(int scenceIndex)
     {
@@ -48,18 +36,7 @@ public class LevelLoader : MonoBehaviour
             float progress = Mathf.Clamp01(operation.progress / .9f);
             slider.value = progress;
             progressText.text = progress * 100f + "%";
-<<<<<<< HEAD
             Debug.Log(Config.defaultStage);
-=======
-            if (operation.progress >= 0.9f&& !gameLondingDone) {
-                Debug.Log(operation.isDone);
-                Debug.Log(operation.progress);
-                gameLondingDone = true;
-                yield return new WaitForSeconds(3f);
-                Debug.Log("active");
-                operation.allowSceneActivation = true;
-            }
->>>>>>> origin/dev-SungyuHwang
             yield return null;
         }
     }

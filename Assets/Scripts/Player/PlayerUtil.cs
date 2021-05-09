@@ -109,12 +109,7 @@ public class PlayerUtil : PlayerController
     {
         if (IsStun == false && !MouseClickInput && !IsAttack)
         {
-<<<<<<< HEAD
-            // Cursor.visible = false;
-            // Cursor.lockState = CursorLockMode.Locked;
-=======
             Cursor.visible = false;
->>>>>>> origin/dev-SungyuHwang
 
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
