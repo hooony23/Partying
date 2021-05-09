@@ -4,6 +4,8 @@ using Communication.GameServer.API;
 using Communication.JsonFormat;
 using Boss;
 using Weapon;
+using GameUi;
+
 public class PlayerController : MonoBehaviour
 {
     public enum Movement 
@@ -19,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public bool HaveItem { get; set; } = false; // 클리어 아이템 획득 표시
     public string UserUuid { get; set; }
     public PlayerInfo PInfo { get; set; } = new PlayerInfo();
+
+    public UserScore UserScore { get; set; } = new UserScore();
 
     // 기본 움직임(w,a,s,d, spacebar)
     public bool JDown { get; set; } // sacebar키 입력 여부

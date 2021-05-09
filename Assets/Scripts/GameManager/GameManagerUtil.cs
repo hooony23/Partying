@@ -29,8 +29,6 @@ namespace GameManager
             // 플레이어에게 부착할 카메라 생성
             GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
             playerCamera.name = Resources.Load("Player/CameraArm").name;
-
-            // 플레이어, 맵, 함정, 순찰 npc, patrol point 생성
             GameObject Map = Instantiate(Resources.Load("Labyrinth/Map/Map"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             InitUserList();
             Map.name = Resources.Load("Labyrinth/Map/Map").name;
@@ -50,7 +48,7 @@ namespace GameManager
                 player.name = playerInfo.data.ToString();
             }
             
-            GameObject Map = Instantiate(Resources.Load("Raid/Map/RaidTerrain"), Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject Map = Instantiate(Resources.Load("Raid/Map/Raidmap"), Vector3.zero, Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Raid/Map/RaidTerrain").name;
 
             GameObject ItemManager = Instantiate(Resources.Load("Raid/Item/ItemManager"), Vector3.zero, Quaternion.identity) as GameObject;

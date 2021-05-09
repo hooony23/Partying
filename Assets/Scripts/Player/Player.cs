@@ -4,6 +4,7 @@ using Util;
 using Communication;
 using Boss;
 using Weapon;
+using GameUi;
 public class Player : PlayerUtil
 {
     void Awake()
@@ -26,6 +27,7 @@ public class Player : PlayerUtil
             CameraArm = GameObject.Find("CameraArm").transform;
         }
 
+        UserScore = GameObject.Find("UiManager").GetComponent<UserScore>();
         // 플레이어 공격
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
         ShotPoint = CameraArm.Find("Shot Point").transform;
@@ -50,7 +52,7 @@ public class Player : PlayerUtil
 
         // 피격 처리
         CheckHP();
-        
+
     }
 
     private void FixedUpdate() // default : 50fps

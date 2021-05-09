@@ -4,7 +4,7 @@ namespace Item
     {
 
         private Player _player = null;
-        public void Start()
+        public void Awake()
         {
             WaitTime = 10f;
         }
@@ -14,6 +14,7 @@ namespace Item
             _player = player;
             player.AttackDamage = Util.Config.playerAttackDamage * 2;
             base.ItemApply(player, time);
+            itemManager.AddBuffIcon(this.gameObject.name, time);
         }
         public override void DisAppear()
         {

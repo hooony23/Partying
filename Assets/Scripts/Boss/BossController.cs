@@ -16,7 +16,7 @@ namespace Boss
         public string Target{get;set;}
         public ParticleSystem ChargingL { get; set; }
         public ParticleSystem OctaL { get; set; }
-        public Animator Animator { get; set; }
+        public Animator AnimController { get; set; }
         public LayerMask PlayerMask { get; set; } = 0;
         public SphereCollider BossCollider { get; set; }
         public bool PatternActivated { get; set; } = false;

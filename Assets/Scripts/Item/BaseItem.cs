@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
-using Lib;
-using Communication;
+using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEditorInternal;
+using ItemManager;
 namespace Item
 {
     public class BaseItem : MonoBehaviour, IItem
     {
+        public ItemManager.ItemManager itemManager;
+
         public float WaitTime { get; set; }
+
         public DateTime RemoveTime { get; set; }
-        public virtual void Awake()
+        public void Start()
         {
-            GetComponent<BaseItem>().RemoveTime = Common.ConvertFromUnixTimestamp(NetworkInfo.itemRespawn.LifeTime);
+            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager.ItemManager>();
         }
         public void FixedUpdate()
         {
@@ -25,8 +31,6 @@ namespace Item
             {
                 Player player = other.transform.gameObject.GetComponent<Player>();
                 ItemApply(player, WaitTime);
-
-
             }
         }
         private void RemoveItem()
@@ -46,6 +50,7 @@ namespace Item
                 Destroy(this.transform.GetChild(i).gameObject);
             }
             StartCoroutine(Lib.Common.WaitThenCallback(time + 0.5f, () => { Destroy(this.gameObject); }));
+
         }
     }
 }

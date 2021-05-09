@@ -109,8 +109,12 @@ public class PlayerUtil : PlayerController
     {
         if (IsStun == false && !MouseClickInput && !IsAttack)
         {
+<<<<<<< HEAD
             // Cursor.visible = false;
             // Cursor.lockState = CursorLockMode.Locked;
+=======
+            Cursor.visible = false;
+>>>>>>> origin/dev-SungyuHwang
 
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
@@ -145,8 +149,10 @@ public class PlayerUtil : PlayerController
     }
     public void Turn()
     {
-        if(!IsAttack)
+        if (!IsAttack && MoveVec != Vector3.zero)
+        {
             transform.LookAt(transform.position + MoveDir);
+        }
     }
     public void CameraTurn()
     {
@@ -275,13 +281,19 @@ public class PlayerUtil : PlayerController
         IsBeatable = false;
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
-        
+        SyncHp();
         StartCoroutine(Blink(5));
         KnockBack(reactVec, 8f);
 
         yield return new WaitForSeconds(2f);
         IsBeatable = true;
     }
+    public void SyncHp()
+    {
+        UserScore.PlayerHeart(GetComponent<Player>());
+    }
+
+
     // 공격을 당하면 플레이어 메테리얼을 깜빡거리게 함
     public IEnumerator Blink(int count)
     {

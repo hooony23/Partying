@@ -24,7 +24,7 @@ namespace Boss
             InitBossInfo();
 
             GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
-            Animator = GetComponent<Animator>();
+            AnimController = GetComponent<Animator>();
 
             ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();
             OctaL = GameObject.Find("Octa Laser").GetComponent<ParticleSystem>();

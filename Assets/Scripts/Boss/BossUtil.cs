@@ -89,9 +89,9 @@ namespace Boss
         // 보스 패턴 //
         public IEnumerator WakeUp()
         {
-            Animator.SetTrigger("WakeUp");
-            yield return new WaitForSeconds(7f);
-            Animator.SetTrigger("Idle");
+            AnimController.SetTrigger("WakeUp");
+            yield return new WaitForSeconds(10f);
+            AnimController.SetTrigger("Idle");
             BossCollider.enabled = true;
             yield return new WaitForSeconds(1f);
 
@@ -114,7 +114,7 @@ namespace Boss
         public IEnumerator OctaLaser()
         {
             OctaL.Play();                           // 파티클 시스템 플레이
-            Animator.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
+            AnimController.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
             yield return new WaitForSeconds(8f);
 
             PatternActivated = false;
@@ -129,7 +129,7 @@ namespace Boss
                 float duration = 0.5f; // 타겟에 도달하는 시간, 짧을수록 패턴이 빨라짐
                 float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
-                Animator.SetTrigger("BodySlam1");
+                AnimController.SetTrigger("BodySlam1");
                 BossCollider.enabled = false;
                 yield return new WaitForSeconds(2.5f);
 
@@ -157,10 +157,9 @@ namespace Boss
         
         public IEnumerator Destroyed()
         {
-            Animator.Play("Destroyed");
+            AnimController.Play("Destroyed");
             BossCollider.enabled = false;
             yield return new WaitForSeconds(1f);
-
         }
 
         // BodySlam 랜덤 타겟 선택 
