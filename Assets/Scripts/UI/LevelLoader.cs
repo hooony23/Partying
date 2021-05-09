@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Communication;
 using Communication.MainServer;
+using Communication.GameServer.API;
 using UnityEngine.UI;
 using Util;
 
@@ -19,6 +19,11 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadLevel(int scenceIndex)
     {
+        if(Config.defaultStage==2)
+        {
+            APIController.SendController("InitStage2");
+            Communication.GameServer.Connection.receiveDone.WaitOne();
+        }
         if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
             NetworkInfo.memberInfo = MServer.GetMemberInfo(NetworkInfo.roomInfo.RoomUuid);
@@ -29,7 +34,7 @@ public class LevelLoader : MonoBehaviour
     IEnumerator LoadAsynchronously(int scenceIndex)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(scenceIndex);
-        operation.allowSceneActivation = false; //로딩이 다되어도 미실행함, 실행원할시 true
+        //operation.allowSceneActivation = false; //로딩이 다되어도 미실행함, 실행원할시 true
         loadingScreen.SetActive(true);
         while (!operation.isDone)
         {

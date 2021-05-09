@@ -124,17 +124,18 @@ namespace Communication.GameServer.API
         }
         public void SpawnItem(string response)
         {
-            JObject responseJson = null;
+            Debug.Log(response);
+            ItemInfo responseJson = null;
             try
             {
-                responseJson = JObject.Parse(response);
+                responseJson = JsonConvert.DeserializeObject<ItemInfo>(response);
             }
             catch (Exception e)
             {
                 Debug.Log(e.Message);
                 return;
             }
-            NetworkInfo.itemRespawn = responseJson.ToObject<ItemInfo>();
+            ItemInfo.value = responseJson;
         }
         public void SyncStart(string response)
         { 
@@ -183,6 +184,7 @@ namespace Communication.GameServer.API
                 return;
             }
             Communication.JsonFormat.InitStage2.value = responseJson;
+            NetworkInfo.bossInfo = responseJson.BossInfo;
             foreach(var playerInfo in responseJson.PlayerLocs)
             {
                 NetworkInfo.playersInfo[playerInfo.data.ToString()] = null;

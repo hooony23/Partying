@@ -26,7 +26,7 @@ public class OverUi : MonoBehaviour
     {
         //TODO: Test할때는 아래, 사용시는 위의 주석을 지울것.
         //player = GameObject.Find(Config.userUuid.ToString()).GetComponent<Player>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.Find(Config.userUuid).GetComponent<Player>();
     }
     private void Update()
     {
@@ -55,6 +55,7 @@ public class OverUi : MonoBehaviour
         //TODO: 유저 시점 변환하는 변수나 함수 참조필요
     }
     public void GameOverButton() {
+        //TODO: 그냥 메인 메뉴가는게 아니라 LodScene 거쳐서 가야함
         SceneManager.LoadScene("MainMenuScene");
     }
 }

@@ -26,8 +26,8 @@ public class Player : PlayerUtil
             }
             CameraArm = GameObject.Find("CameraArm").transform;
         }
-
-        UserScore = GameObject.Find("UiManager").GetComponent<UserScore>();
+        GM = GameObject.Find("GameManager");
+        UserScore = GM.GetComponent<UserScore>();
         // 플레이어 공격
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
         ShotPoint = CameraArm.Find("Shot Point").transform;

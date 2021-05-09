@@ -12,7 +12,7 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         base.Awake();
         SetUp();
         Debug.Log($"uuid : {Util.Config.userUuid}");
-        if(Config.defaultStage==2)
+        if(Config.defaultStage>=2)
         {
             Config.defaultStage=0;
             SelectUI(7);   

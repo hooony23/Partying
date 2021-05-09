@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
         Dodge,
         Dead,
     }
+    public GameObject GM {get;set;}
     public bool IsStun { get; set; } = false;
     public bool IsDead { get; set; } = false;
     public bool HaveItem { get; set; } = false; // 클리어 아이템 획득 표시

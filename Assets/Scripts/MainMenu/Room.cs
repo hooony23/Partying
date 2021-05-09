@@ -29,6 +29,7 @@ public class Room : BaseMainMenu, IMainMenu
     {
         base.Awake();
         SetUp();
+        Communication.NetworkInfo.mapInfo = null;
     }
     public void OnEnable()
     {

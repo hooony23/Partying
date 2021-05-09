@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Communication;
+using Communication.JsonFormat;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -13,11 +14,11 @@ namespace ItemManager
         private string ItemIcon = "GameUi/IconPrefabs/";
         public void Update()
         {
-            if(NetworkInfo.itemRespawn.Name != -1)
+            var itemInfo = ItemInfo.GetItemInfo();
+            if(itemInfo != null)
             {
-                var itemInfo = NetworkInfo.itemRespawn;
-                GameObject spawnedItem = Instantiate(Resources.Load(ItemLocation[itemInfo.Name]),new Vector3(NetworkInfo.itemRespawn.Loc.X,2,NetworkInfo.itemRespawn.Loc.Y),Quaternion.identity) as GameObject;
-                NetworkInfo.itemRespawn.Name = -1;
+                Debug.Log($"spawn Item{Enum.GetName(typeof(EItem),itemInfo.Name)}");
+                GameObject spawnedItem = Instantiate(Resources.Load(ItemLocation[itemInfo.Name]),new Vector3(itemInfo.Loc.X,2,itemInfo.Loc.Y),Quaternion.identity) as GameObject;
             }
         }
         public void AddBuffIcon(string name, float time = 0)
