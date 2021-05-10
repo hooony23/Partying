@@ -121,7 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1001 &394673197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,6 +244,9 @@ PrefabInstance:
 =======
 --- !u!1 &424853403
 >>>>>>> origin/temp_1
+=======
+--- !u!1 &424853403
+>>>>>>> origin/temp_1
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,6 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
 <<<<<<< HEAD
+<<<<<<< HEAD
   - component: {fileID: 400710000}
   - component: {fileID: 400710003}
   - component: {fileID: 400710002}
@@ -260,6 +263,8 @@ GameObject:
   m_Layer: 0
   m_Name: Cube
 =======
+=======
+>>>>>>> origin/temp_1
   - component: {fileID: 424853407}
   - component: {fileID: 424853406}
   - component: {fileID: 424853405}
@@ -272,6 +277,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &400710000
 Transform:
@@ -290,6 +296,8 @@ Transform:
 --- !u!65 &400710001
 BoxCollider:
 =======
+=======
+>>>>>>> origin/temp_1
 --- !u!114 &424853404
 MonoBehaviour:
 >>>>>>> origin/temp_1
@@ -297,6 +305,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 400709999}
   m_Material: {fileID: 0}
@@ -308,6 +317,8 @@ MonoBehaviour:
 --- !u!23 &400710002
 MeshRenderer:
 =======
+=======
+>>>>>>> origin/temp_1
   m_GameObject: {fileID: 424853403}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -326,6 +337,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 400709999}
   m_Enabled: 1
@@ -502,15 +514,21 @@ MonoBehaviour:
 =======
   m_GameObject: {fileID: 424853403}
 >>>>>>> origin/temp_1
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1106899071
 GameObject:
 =======
+=======
+>>>>>>> origin/temp_1
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -528,6 +546,7 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   serializedVersion: 6
   m_Component:
@@ -551,6 +570,9 @@ BoxCollider:
   m_GameObject: {fileID: 1106899071}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
 =======
   m_GameObject: {fileID: 424853403}
 >>>>>>> origin/temp_1
@@ -618,7 +640,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_GameObject: {fileID: 1106899071}
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
 =======
   m_GameObject: {fileID: 424853403}
 >>>>>>> origin/temp_1
@@ -627,8 +653,13 @@ RectTransform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Father: {fileID: 0}
   m_RootOrder: 3
+=======
+  m_Father: {fileID: 1264513678}
+  m_RootOrder: 0
+>>>>>>> origin/temp_1
 =======
   m_Father: {fileID: 1264513678}
   m_RootOrder: 0
