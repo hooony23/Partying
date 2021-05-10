@@ -46,6 +46,7 @@ public class Player : PlayerUtil
         Dodge();
         GetItem();
         CameraTurn();
+        UpdatePInfo();
         AnimationStart();
         if (IsMyCharacter())
             MoveChangeSend();

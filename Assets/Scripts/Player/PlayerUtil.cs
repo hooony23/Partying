@@ -139,6 +139,10 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
+    }
+    public void UpdatePInfo()
+    {
+        
         if (IsMyCharacter())
             PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
     }
