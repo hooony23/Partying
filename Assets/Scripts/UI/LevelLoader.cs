@@ -19,12 +19,12 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadLevel(int scenceIndex)
     {
-        if(Config.defaultStage>=2)
+        if(Config.defaultStage==2)
         {
             APIController.SendController("InitStage2");
             Communication.GameServer.Connection.receiveDone.WaitOne();
         }
-        if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
+        else if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
             NetworkInfo.memberInfo = MServer.GetMemberInfo(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
@@ -41,7 +41,7 @@ public class LevelLoader : MonoBehaviour
             float progress = Mathf.Clamp01(operation.progress / .9f);
             slider.value = progress;
             progressText.text = progress * 100f + "%";
-            Debug.Log(Config.defaultStage);
+            Debug.Log($"current stage : {Config.defaultStage}");
             yield return null;
         }
     }

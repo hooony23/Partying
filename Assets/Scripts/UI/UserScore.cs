@@ -55,9 +55,8 @@ namespace GameUi
             //유저 스코어 갱신
             //TODO: 스코어 관련 여부 보류
             //SendUserScore();
-            //TODO: 테스트용이 아닌 현재 사용중인 유저로 변경할것.
+            Debug.Log($"My uuid :{Config.userUuid}");
             player = GameObject.Find(Config.userUuid).GetComponent<Player>();
-            //player = GameObject.Find(Config.userUuid.ToString()).GetComponent<Player>();
             Config.LodingSence = 2;
             if (Config.defaultStage == 2 && Config.LodingSence == 2)
             {

@@ -7,7 +7,7 @@ using Weapon;
 using GameUi;
 public class Player : PlayerUtil
 {
-    void Awake()
+    void Start()
     {
         // TODO: 스테이지 1에서 총 안보이게.
         // if(Config.defaultStage==1)

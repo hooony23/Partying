@@ -11,10 +11,7 @@ namespace Lib
     public static class Common
     {
 
-        public static void SetUserUuid(string uuid)
-        {
-            Config.userUuid = uuid;
-        }
+
         public static JObject GetData(object request, string name = "data")
         {
             return JObject.Parse(request.ToString())[name] as JObject;

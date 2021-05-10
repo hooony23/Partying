@@ -64,7 +64,7 @@ public class MapUtil : MapController
         Config.labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
         //wall localScale = (10,5,1)
         Grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
-        GameObject grandParent = GameObject.Find("Map");
+        GameObject grandParent = this.gameObject;
 
         for (int i = 0; i < labylinthArray.GetLength(0); i++)
         {
@@ -111,7 +111,7 @@ public class MapUtil : MapController
     { //함정생성
         CellInfo[] trapInfo = MInfo.trap;
 
-        GameObject grandParent = GameObject.Find("Map");
+        GameObject grandParent = this.gameObject;
         foreach (CellInfo item in trapInfo)
         {
             GameObject Trap;
@@ -156,14 +156,14 @@ public class MapUtil : MapController
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-            player.name = (string)item.data;
+            player.name = item.data.ToString();
             player.GetComponent<Player>().UserUuid=player.name;
         }
     } 
     public void PatrolUnitRespawn()
     { //함정생성
         CellInfo[] patrolPintsInfo = MInfo.patrolUnits;
-        GameObject grandParent = GameObject.Find("Map");
+        GameObject grandParent =  this.gameObject;
         foreach(CellInfo item in patrolPintsInfo)
         {
             GameObject patrolUnit =  Instantiate(MapObjects.PatrolUnit, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
@@ -178,7 +178,7 @@ public class MapUtil : MapController
     { //함정생성
         CellInfo[] patrolPintsInfo = MInfo.patrolPoints;
 
-        GameObject grandParent = GameObject.Find("Map");
+        GameObject grandParent =  this.gameObject;
         foreach(CellInfo item in patrolPintsInfo)
         {
                 GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);

@@ -5,16 +5,19 @@ using UnityEngine.AI;
 public class Map : MapUtil
 {
 
-    private void Start()
+    private void Awake()
     {
         InitializeMap();
         CreateGrid(Config.ROW, Config.COL);
+        PlayerRespawn();
         TrapRespawn();
         PatrolUnitRespawn();
         PatrolPointRespawn();
         ClearItemRespawn();
-        PlayerRespawn();
-        NavMeshSurface surface = GameObject.Find("Floor").GetComponent<NavMeshSurface>();
-        surface.BuildNavMesh();
+    }
+    private void Start()
+    {
+        GameObject.Find("Floor").GetComponent<NavMeshSurface>().BuildNavMesh();
+
     }
 }

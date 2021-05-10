@@ -24,8 +24,6 @@ public class FirstScreen : BaseMainMenu, IMainMenu
     }
     public void SetUp()
     {        
-        // Set User Uuid
-        Lib.Common.SetUserUuid(System.Guid.NewGuid().ToString());
         
         // Communication Test
         try

@@ -48,8 +48,8 @@ namespace Communication.GameServer
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Config.defaultDNS);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, Config.gameServerPort);
-                //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-                //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
+                // IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                // IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1045);
 
                 // Create a TCP/IP socket.  
                 client = new Socket(ipAddress.AddressFamily,

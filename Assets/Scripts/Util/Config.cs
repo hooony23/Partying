@@ -23,7 +23,7 @@ namespace Util
         public static float playerHealth = 3;
         public static float playerAttackDamage = 1f;
         public static float shotSpeed = 0.4f;
-        public static string userUuid = "";
+        public static string userUuid = System.Guid.NewGuid().ToString();
         // patrol
         public static float patrolVisionAngle = 110f;        // 패트롤 시야각
         public static float playerDetectDistance = 10f;      // 플레이어 viewAngle 안에 들어왔을시 사정거리
