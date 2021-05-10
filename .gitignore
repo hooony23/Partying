@@ -21,10 +21,7 @@
 
 # Visual Studio cache directory
 .vs/
-<<<<<<< HEAD
-=======
 .vscode
->>>>>>> origin/dev-{sunghoon}
 .vscode/
 # Gradle cache directory
 .gradle/

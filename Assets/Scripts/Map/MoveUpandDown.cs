@@ -10,7 +10,7 @@ public class MoveUpandDown : MonoBehaviour
     [Range(1, 20)] public float moveSpeed;
 
     private int sign = -1;
-  
+
     // Update is called once per frame
     void Update()
     {
@@ -19,8 +19,7 @@ public class MoveUpandDown : MonoBehaviour
             if (transform.position.y <= minY || transform.position.y >= maxY)
             {
                 sign *= -1;
-            
-        }
+            }
             transform.position += new Vector3(0, moveSpeed * Time.deltaTime * sign, 0);
 
             

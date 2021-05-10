@@ -1,8 +1,0 @@
-diff a/Assets/Scripts/Communication/Connection.cs b/Assets/Scripts/Communication/Connection.cs	(rejected hunks)
-@@ -61,9 +61,6 @@
-                 connectDone.WaitOne();
-                 // Send(client, "{'type':'connectedExit'}<EOF>");
-                 Send("{'type':'Connected'}");
-                 sendDone.WaitOne();
-                 Receive(client);
-                 receiveDone.WaitOne();

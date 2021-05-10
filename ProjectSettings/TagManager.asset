@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Item
   - PatrolPoint
-  - CameraArm
   layers:
   - Default
   - TransparentFX
@@ -19,9 +18,9 @@ TagManager:
   - Player
   - Wall
   - PatrolPoint
-  - DeadBoundary
-  - Item
-  - Trap
+  - 
+  - 
+  - 
   - 
   - 
   - 
