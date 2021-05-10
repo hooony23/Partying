@@ -171,6 +171,7 @@ public class Lobby : BaseMainMenu, IMainMenu
             popup.SetActive(true);
             return;
         }
+        NetworkInfo.memberInfo = MServer.GetMemberInfo(clickRoomInfo.RoomUuid);
         NetworkInfo.roomInfo = selectRoom;
         NextUI();
     }
