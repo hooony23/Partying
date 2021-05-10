@@ -36,7 +36,10 @@ public class Player : PlayerUtil
     void Update()
     {
         if (IsMyCharacter())
+        {
             GetInput();
+            CameraTurn();
+        }
         else
             GetNetWorkInput();
         Move();
@@ -44,7 +47,6 @@ public class Player : PlayerUtil
         Attack();
         Dodge();
         GetItem();
-        CameraTurn();
         UpdatePInfo();
         AnimationStart();
         if (IsMyCharacter())
