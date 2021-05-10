@@ -118,6 +118,10 @@ namespace Communication.MainServer
         {
             return Communicate("GET", "api/v1/rooms/main", $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
         }
+        public static string ReturnRoom(string roomUuid)
+        {
+            return Communicate("GET",$"api/v1/rooms/{roomUuid}/returnRoom",$"userUuid={Config.userUuid}");
+        }
 
     }
 
