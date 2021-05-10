@@ -50,10 +50,12 @@ public class Player : PlayerUtil
         UpdatePInfo();
         AnimationStart();
         if (IsMyCharacter())
-            MoveChangeSend();
+        {
+            MoveChangeSend();    
+            // 피격 처리
+            CheckHP();
+        }
 
-        // 피격 처리
-        CheckHP();
         CheckDeath();
 
     }
