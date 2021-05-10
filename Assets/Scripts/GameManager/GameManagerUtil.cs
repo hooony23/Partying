@@ -29,8 +29,8 @@ namespace GameManager
         }
         protected void SpawnCamera()
         {
-            GameObject playerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
-            playerCamera.name = Resources.Load("Player/CameraArm").name;
+            PlayerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
+            PlayerCamera.name = Resources.Load("Player/CameraArm").name;
         }
         protected void InitializeLabylinth()
         {

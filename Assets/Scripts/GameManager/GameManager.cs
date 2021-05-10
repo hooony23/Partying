@@ -37,6 +37,7 @@ namespace GameManager
                     break;
             }
             APIController.SendController("SyncStart");
+            Communication.GameServer.Connection.receiveDone.WaitOne();
         }
 
     }

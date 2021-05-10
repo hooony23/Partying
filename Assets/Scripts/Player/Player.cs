@@ -16,6 +16,7 @@ public class Player : PlayerUtil
         // }
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
+        GM = GameObject.Find("GameManager");
         if (IsMyCharacter())
         {
             // 피격 처리
@@ -23,9 +24,8 @@ public class Player : PlayerUtil
             {
                 Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
             }
-            CameraArm = GameObject.Find("CameraArm").transform;
+            CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
         }
-        GM = GameObject.Find("GameManager");
         UserScore = GM.GetComponent<UserScore>();
         // 플레이어 공격
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();

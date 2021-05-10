@@ -71,11 +71,6 @@ public class Room : BaseMainMenu, IMainMenu
         Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
         title.text = NetworkInfo.roomInfo.RoomName;
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
-        if(Lib.Common.IsAdmin())
-        {
-            startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
-            startButton.gameObject.GetComponent<Button>().interactable = false;
-        }
         UpdatePlayerBannerList();
     }
     private void OnUpdateMemberInfo()
@@ -121,6 +116,17 @@ public class Room : BaseMainMenu, IMainMenu
 
             pText.text = usersName[i];
             pImage.color = Color.white;
+            
+            if(Lib.Common.IsAdmin())
+            {
+                startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
+                startButton.gameObject.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                startButton.transform.Find("Text").GetComponent<Text>().text = "Game Ready";
+                startButton.gameObject.GetComponent<Button>().interactable = false;
+            }
         }
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
     }
