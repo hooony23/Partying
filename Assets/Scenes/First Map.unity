@@ -121,6 +121,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1001 &394673197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,6 +242,9 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c331f023b12e004b8a1e68e4d05721a, type: 3}
 --- !u!1 &400709999
+=======
+--- !u!1 &424853403
+>>>>>>> origin/temp_1
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,17 +252,27 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 400710000}
   - component: {fileID: 400710003}
   - component: {fileID: 400710002}
   - component: {fileID: 400710001}
   m_Layer: 0
   m_Name: Cube
+=======
+  - component: {fileID: 424853407}
+  - component: {fileID: 424853406}
+  - component: {fileID: 424853405}
+  - component: {fileID: 424853404}
+  m_Layer: 5
+  m_Name: Canvas
+>>>>>>> origin/temp_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!4 &400710000
 Transform:
   m_ObjectHideFlags: 0
@@ -275,10 +289,15 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &400710001
 BoxCollider:
+=======
+--- !u!114 &424853404
+MonoBehaviour:
+>>>>>>> origin/temp_1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 400709999}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -288,10 +307,26 @@ BoxCollider:
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &400710002
 MeshRenderer:
+=======
+  m_GameObject: {fileID: 424853403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &424853405
+MonoBehaviour:
+>>>>>>> origin/temp_1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 400709999}
   m_Enabled: 1
   m_CastShadows: 1
@@ -464,17 +499,36 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081954299}
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!1 &1106899071
 GameObject:
+=======
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &424853406
+Canvas:
+>>>>>>> origin/temp_1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106899075}
@@ -497,6 +551,9 @@ BoxCollider:
   m_GameObject: {fileID: 1106899071}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -540,6 +597,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+<<<<<<< HEAD
 --- !u!33 &1106899074
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -550,17 +608,31 @@ MeshFilter:
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1106899075
 Transform:
+=======
+  m_TargetDisplay: 0
+--- !u!224 &424853407
+RectTransform:
+>>>>>>> origin/temp_1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1106899071}
+=======
+  m_GameObject: {fileID: 424853403}
+>>>>>>> origin/temp_1
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
+<<<<<<< HEAD
   m_Father: {fileID: 0}
   m_RootOrder: 3
+=======
+  m_Father: {fileID: 1264513678}
+  m_RootOrder: 0
+>>>>>>> origin/temp_1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1144718965
 GameObject:
@@ -654,6 +726,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1264513676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1264513678}
+  - component: {fileID: 1264513677}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1264513677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264513676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073987264cd8cba48baabd54c4ca7186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: "\uBAA8\uB450"
+  maxMessages: 25
+  chatPanel: {fileID: 0}
+  isTextBox: {fileID: 7032959506719058380, guid: 653a7a04aa365834993a65999f029f2b,
+    type: 3}
+  isInputChatBox: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  Chatmodecount: 1
+  chatBox: {fileID: 0}
+  bb: {fileID: 0}
+  messagesList: []
+--- !u!4 &1264513678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264513676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 424853407}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1412032075
 GameObject:
   m_ObjectHideFlags: 0
