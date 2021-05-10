@@ -14,7 +14,6 @@ public class Player : PlayerUtil
         // {
         //     Destroy(this.gameObject.transform.Find("아마튜어").Find("spine").Find("handgun").gameObject);
         // }
-        UserUuid = Config.userUuid;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         if (IsMyCharacter())

@@ -157,6 +157,7 @@ public class MapUtil : MapController
         {
             GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
             player.name = (string)item.data;
+            player.GetComponent<Player>().UserUuid=player.name;
         }
     } 
     public void PatrolUnitRespawn()
