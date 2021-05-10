@@ -18,6 +18,7 @@ public class Room : BaseMainMenu, IMainMenu
     private Text playerCount = null;
     // 서버 통신용
     private string getMemInfoMsg;
+    private Transform playerGrid;
     private JArray users;
 
     // 현재 방의 유저 UI
@@ -45,7 +46,7 @@ public class Room : BaseMainMenu, IMainMenu
     public void SetUp()
     {
         //Initialize Variable
-        var playerGrid = this.transform.Find("Player Grid");
+        playerGrid = this.transform.Find("Player Grid");
         var startButtonTransfom = this.transform.Find("Button Start");
         users = NetworkInfo.memberInfo;
         
@@ -104,10 +105,15 @@ public class Room : BaseMainMenu, IMainMenu
         Text pText;
         Image pImage;
         List<string> usersName = new List<string>();
+        players = new GameObject[]{
+                                    playerGrid.GetChild(0).gameObject,
+                                    playerGrid.GetChild(1).gameObject,
+                                    playerGrid.GetChild(2).gameObject,
+                                    playerGrid.GetChild(3).gameObject};
         foreach(JObject item in users)
         {
             usersName.Add(item["nickname"].ToString());
-            Debug.Log($"usersName:{item["nickname"].ToString()}");
+            Debug.Log($"user Name:{item["nickname"].ToString()}");
         }
         for (int i = 0; i < users.Count; i++)
         {
@@ -129,10 +135,6 @@ public class Room : BaseMainMenu, IMainMenu
             startButton.interactable = true;
         else
             startButton.interactable = false;
-    }
-    public void OnClickReady()
-    {
-        APIController.SendController("Connected");
     }
      public void OnClickGameStart()
     {

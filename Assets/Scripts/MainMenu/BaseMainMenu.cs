@@ -33,12 +33,12 @@ public class BaseMainMenu : MonoBehaviour
     protected virtual void NextUI()
     {
         SetActive(false);
-        mainMenuCanvas.transform.GetChild(++UINum).gameObject.SetActive(true);
+        mainMenuCanvas.transform.GetChild(UINum + 1).gameObject.SetActive(true);
     }
     protected virtual void BackUI()
     {
         SetActive(false);
-        mainMenuCanvas.transform.GetChild(--UINum).gameObject.SetActive(true);
+        mainMenuCanvas.transform.GetChild(UINum - 1).gameObject.SetActive(true);
     }
     protected virtual void SelectUI(int selectUINum)
     {
@@ -51,16 +51,16 @@ public class BaseMainMenu : MonoBehaviour
     }
     protected virtual void OnApplicationQuit()
     {
-            MServer.SignOut();
+        MServer.SignOut();
     }
 
     protected void OnQuit()
     {
         // 에디터 편집상황이면 게임정지, 어플리케이션 실행상황이면 어플리케이션 종료
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
                 Application.Quit(); 
-        #endif
+#endif
     }
 }
