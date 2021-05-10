@@ -3,6 +3,9 @@ using Communication.MainServer;
 using Communication;
 using Util;
 using UnityEngine.UI;
+using UnityEditor.Build.Content;
+using UnityEngine;
+
 public class CreateOrUser : BaseMainMenu, IMainMenu
 {
     void Start()
@@ -22,6 +25,8 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
         this.transform.Find("RoomSetting").Find("Button RoomSetting").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
         this.transform.Find("Lobby").Find("Button Lobby").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
+        var chatUi = Instantiate(Resources.Load("Chat/ChatUI")) as GameObject;
+        chatUi.transform.SetParent(GameObject.Find("Main Menu Canvas").transform);
     }
     private void OnApplicationQuit() {
         MServer.Communicate("GET","api/v1/session/signOut",$"userUuid={Util.Config.userUuid}");    

@@ -9,6 +9,8 @@ using Communication;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using signalR_Test_Client;
+using Util;
+
 namespace Partying.UI
 {
     public class ChattingUi : MonoBehaviour
@@ -53,12 +55,12 @@ namespace Partying.UI
             chatBox = ChatingText.transform.Find("User Input").transform.Find("InputField Chat").GetComponent<InputField>();
             chatModeButton = ChatingText.transform.Find("User Input").transform.Find("Button Group").transform.Find("Text").GetComponent<Text>();
             chatModeButton.text = "로비";
-            var chatViewGroup = GameObject.Find("ChatUI").transform.GetChild(0).Find("Chat Option");
+            var chatViewGroup = this.transform.GetChild(0).Find("Chat Option");
             chatViewGroup.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(ALLCHATVIEW); });
             chatViewGroup.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(LOBBYCHATVIEW); });
             chatViewGroup.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener(ROOMCHATVIEW); });
             //TODO: 채팅UI를 생성하는 곳에서 값을 넘겨주거나, 현재 LodingSence의 정보를 수신하여 설정하는 방식이 필요.
-            //CanvasRecent(1);
+            CanvasRecent(Config.LodingSence);
         }
         void Update()
         {
