@@ -1,20 +1,32 @@
+using Util;
+using UnityEngine;
+using UnityEngine.AI;
+
 public class Map : MapUtil
 {
+    
     private void Start()
     {
-        //AsynchronousClient.Connected();
-        createMap.CreateGrid();
+        InitializeMap();
+        CreateGrid(Config.ROW,Config.COL);
+        TrapRespawn();
+        PlayerRespawn();
+        PatrolPointRespawn();
+        ClearItemRespawn();
+        NavMeshSurface surface = GameObject.Find("Floor").GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
+        
     }
     void Update() // Bake를 최초 갱신하기 위함
     {
-        if (mapInfo.isMapdone.Equals(true))
-        {
-            for (int i = 0; i < mapInfo.surfaces.Length; i++)
-            {
-                mapInfo.surfaces[i].BuildNavMesh();
-            }
-            createMap.TrapRespwan();
-            mapInfo.isMapdone = false;
-        }
+        // if (IsMapdone.Equals(true))
+        // {
+        //     for (int i = 0; i < Surfaces.Length; i++)
+        //     {
+        //         Surfaces[i].BuildNavMesh();
+        //     }
+        //     CreateMap.TrapRespwan();
+        //     IsMapdone = false;
+        // }
     }
 }

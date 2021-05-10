@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class HoleTrap : MonoBehaviour
 {
-    private bool hole_activate = false;
-    Collider playerColl;
+    private bool holeActivate = false;
+    private Collider playerColl;
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && hole_activate)
+        // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
+        if (other.CompareTag("Player") && !holeActivate)
+        {
+            Debug.Log("함정 발동");
+            anim.SetTrigger("open");
+        }
+
+        // 발동된 함정은 holeActive 가 true 상태
+        if (other.CompareTag("Player") && holeActivate)
         {
             Player player = other.GetComponent<Player>();
             playerColl = player.GetComponent<Collider>();
@@ -24,25 +38,26 @@ public class HoleTrap : MonoBehaviour
         }
     }
 
-    // HoleOpen애니메이션 에서 HoleOpen() 실행함
+    // HoleOpen애니메이션 에서 HoleOpen(), HoleClose() 실행함
     private void HoleOpen()
     {
-        hole_activate = true;
-        Invoke("HoleClose" , 3f);
-        
+        holeActivate = true;
     }
 
     private void HoleClose()
     {
-        hole_activate = false;
-       
+        holeActivate = false;
     }
 
-    // 구멍에 빠지게 하기 위해 콜라이더 n초뒤 활성화
-    void EnableColl()
+    // 구멍에 빠지게 하기 위해 Player 콜라이더 n초뒤 활성화
+    private void EnableColl()
     {
         playerColl.enabled = true;
     }
 
+    private void returnToIdle()
+    {
+        anim.SetTrigger("close");
+    }
     
 }

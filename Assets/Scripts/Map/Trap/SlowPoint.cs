@@ -13,7 +13,7 @@ public class SlowPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Player player = other.GetComponent<Player>();
-            player.getPlayerController().PlayerSpeed *= 0.2f;
+            player.PlayerSpeed *= 0.2f;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -21,7 +21,7 @@ public class SlowPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Player player = other.GetComponent<Player>();
-            player.getPlayerController().PlayerSpeed *= 5f;
+            player.PlayerSpeed *= 5f;
         }
     }
 }
