@@ -68,7 +68,7 @@ public class RoomSetting : BaseMainMenu, IMainMenu
             throw new Exception("서버와 통신중 장애가 발생 했습니다.");
         // 방 진입
         NetworkInfo.roomInfo = ((JObject)json["data"]["roomInfo"]).ToObject<RoomInfo>();
-        Debug.Log($"response roomInfo : ${JObject.FromObject(NetworkInfo.roomInfo).ToString()}");
+        Debug.Log($"response roomInfo : {JObject.FromObject(NetworkInfo.roomInfo).ToString()}");
         NetworkInfo.memberInfo = json["data"]["memberInfo"] as JArray;
         SelectUI(nextUINum);
 

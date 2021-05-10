@@ -242,19 +242,17 @@ public class PlayerUtil : PlayerController
             Debug.Log("IsItem");
             NearObject = null;
             HaveItem = true;
-            
-     
-            
-            // Destroy(NearObject, 1f); // 이동과 동시에 아이템 오브젝트가 사라짐
             APIController.SendController("GetItem");
         }
     }
     // 플레이어의 HP를 프레임별로 확인
+    private bool isSendDeath =false;
     public void CheckHP()
     {
-        if (PlayerHealth <= 0)
+        if (PlayerHealth <= 0 && !isSendDeath)
         {
             APIController.SendController("Death");
+            isSendDeath=true;
         }
     }
     public void CheckDeath()

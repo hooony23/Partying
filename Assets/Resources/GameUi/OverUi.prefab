@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 1386432086869022468}
   - component: {fileID: 6402075363154884631}
   - component: {fileID: 8729965025977735399}
+  - component: {fileID: -2357436455812748835}
   m_Layer: 5
   m_Name: OverUi
   m_TagString: Untagged
@@ -463,6 +464,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-2357436455812748835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299806136146559040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdd413cde49590641aaedc58bd080846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7264345462477305440
 GameObject:
   m_ObjectHideFlags: 0

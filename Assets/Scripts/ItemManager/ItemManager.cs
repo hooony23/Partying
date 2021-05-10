@@ -17,7 +17,7 @@ namespace ItemManager
             var itemInfo = ItemInfo.GetItemInfo();
             if(itemInfo != null)
             {
-                Debug.Log($"spawn Item{Enum.GetName(typeof(EItem),itemInfo.Name)}");
+                Debug.Log($"spawn Item : {Enum.GetName(typeof(EItem),itemInfo.Name)}");
                 GameObject spawnedItem = Instantiate(Resources.Load(ItemLocation[itemInfo.Name]),new Vector3(itemInfo.Loc.X,2,itemInfo.Loc.Y),Quaternion.identity) as GameObject;
             }
         }

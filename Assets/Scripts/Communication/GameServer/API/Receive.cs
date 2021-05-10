@@ -103,8 +103,8 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            string deathUserUuid = responseJson.Value<string>("uuid");
-            NetworkInfo.connectedExitQueue.Enqueue(deathUserUuid);
+            string exitUserUuid = responseJson.Value<string>("uuid");
+            NetworkInfo.connectedExitQueue.Enqueue(exitUserUuid);
         }
         public void GetItem(string response)
         {

@@ -11,7 +11,7 @@ namespace Communication
         public static double startTime = 0d;
         public static double finishTime = 0d;
         public static MapInfo mapInfo = null;
-        public static Dictionary<string, PlayerInfo> playersInfo = new Dictionary<string, PlayerInfo>(){{"Player",null}};
+        public static Dictionary<string, PlayerInfo> playersInfo = new Dictionary<string, PlayerInfo>();//new Dictionary<string, PlayerInfo>(){{"Player",null}};
         public static Queue<string> connectedExitQueue = new Queue<string>();
         public static Queue<string> GetItemUserQueue = new Queue<string>();
         public static Queue<string> deathUserQueue = new Queue<string>();

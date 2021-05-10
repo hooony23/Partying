@@ -9,15 +9,16 @@ using GameManager;
 
 public class OverUi : MonoBehaviour
 {
-    private GameObject overUi, uiObject;
+    private GameObject uiObject;
+    private GameManager.GameManager GM;
     private Button overUiButton;
     private Text buttonText, OveruiText;
     private bool uiActive = false;
     Player player;
     public void Awake()
     {
-        overUi = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
-        uiObject = overUi.transform.GetChild(0).gameObject;
+        GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+        uiObject = this.transform.GetChild(0).gameObject;
         OveruiText = uiObject.transform.Find("OverUiText").GetComponent<Text>();
         overUiButton = uiObject.transform.Find("Button").GetComponent<Button>();
         buttonText = overUiButton.transform.GetChild(0).GetComponent<Text>();
@@ -32,7 +33,7 @@ public class OverUi : MonoBehaviour
     }
     private void Update()
     {
-        if (this.gameObject.GetComponent<GameManager.GameManager>().PlayerList.Count<=0&&!uiActive) {
+        if (GM.PlayerList.Count<=0&&!uiActive) {
             uiActive = true;
             Invoke("GameOverUi", 2f);
         }
@@ -52,11 +53,11 @@ public class OverUi : MonoBehaviour
         overUiButton.onClick.AddListener(GameOverButton);
     }
     public void UserDeadButton() {
-        Destroy(overUi);
+        Destroy(this);
         //TODO: 유저 시점 변환하는 변수나 함수 참조필요
     }
     public void GameOverButton() {
-        //TODO: 그냥 메인 메뉴가는게 아니라 LodScene 거쳐서 가야함
-        SceneManager.LoadScene("MainMenuScene");
+        Config.defaultStage=99;
+        SceneManager.LoadScene("LodingScene");
     }
 }

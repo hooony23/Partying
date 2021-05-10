@@ -12,7 +12,7 @@ namespace Boss
         public BossInfo.Patterns Pattern{ get; set; } = BossInfo.Patterns.IDLE;
         public float RadarRange { get; set; } = Config.radarRange;
         public float BossHP { get; set; }
-        public RaidGameManager GM { get; set; }
+        public GameManager.GameManager GM { get; set; }
         public string Target{get;set;}
         public ParticleSystem ChargingL { get; set; }
         public ParticleSystem OctaL { get; set; }

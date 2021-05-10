@@ -215,7 +215,7 @@ namespace Boss
             var bossInfo = boss.GetComponent<Boss>();
             if (bossInfo.Pattern == Communication.JsonFormat.BossInfo.Patterns.DIE)
             {
-                var gameManager = GameObject.Find("GameManager").GetComponent<GameManager.RaidGameManager>();
+                var gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
                 gameManager.GameClear = true;
             }
         }

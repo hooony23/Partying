@@ -23,7 +23,7 @@ namespace Boss
         {
             InitBossInfo();
 
-            GM = GameObject.Find("GameManager").GetComponent<RaidGameManager>();
+            GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
             AnimController = GetComponent<Animator>();
 
             ChargingL = GameObject.Find("Charging Laser").GetComponent<ParticleSystem>();

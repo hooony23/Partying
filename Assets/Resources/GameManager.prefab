@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4907059054272907078
+--- !u!1 &5090477230893324633
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4446129814374055238}
-  - component: {fileID: 8979680409705833507}
-  - component: {fileID: 5491430113275281079}
-  - component: {fileID: 8336191302509469377}
+  - component: {fileID: 867690299909789400}
+  - component: {fileID: 7779952953010371403}
+  - component: {fileID: 6792661326542540011}
+  - component: {fileID: 7279501045574885103}
+  - component: {fileID: 2630445072975555726}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -19,55 +20,75 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4446129814374055238
+--- !u!4 &867690299909789400
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4907059054272907078}
+  m_GameObject: {fileID: 5090477230893324633}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 94.5, y: 1.5021378, z: -94.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8979680409705833507
+--- !u!114 &7779952953010371403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4907059054272907078}
+  m_GameObject: {fileID: 5090477230893324633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5936f4685f85de4b8960e21e4dbf2e6, type: 3}
+  m_Script: {fileID: 11500000, guid: b9ced9c3748723245b1568ab15244c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 3
+  currentStage: 0
   ContinueButton: {fileID: 0}
---- !u!114 &5491430113275281079
+--- !u!114 &6792661326542540011
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4907059054272907078}
+  m_GameObject: {fileID: 5090477230893324633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd413cde49590641aaedc58bd080846, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f88eda082fa7f941a4f537c6b69c953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8336191302509469377
+  CountDownDisplay: {fileID: 0}
+--- !u!114 &7279501045574885103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4907059054272907078}
+  m_GameObject: {fileID: 5090477230893324633}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3c57bb7c52f9f248881607db845e44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2630445072975555726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090477230893324633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073987264cd8cba48baabd54c4ca7186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: 
+  maxMessages: 25
+  chatPanel: {fileID: 0}
+  isTextBox: {fileID: 0}
+  isInputChatBox: {fileID: 0}
+  chatBox: {fileID: 0}
+  messagesList: []

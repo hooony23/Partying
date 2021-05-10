@@ -17,7 +17,4 @@ public class Map : MapUtil
         NavMeshSurface surface = GameObject.Find("Floor").GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
     }
-    void Update()
-    {
-    }
 }
