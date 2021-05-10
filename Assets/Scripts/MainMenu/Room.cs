@@ -23,6 +23,7 @@ public class Room : BaseMainMenu, IMainMenu
 
     // 현재 방의 유저 UI
     GameObject[] players = null;
+    GameObject[] defaultGridSet = null;
 
     // 현재 방의 정보
     public string roomUuid = "";
@@ -56,6 +57,7 @@ public class Room : BaseMainMenu, IMainMenu
                                     playerGrid.GetChild(1).gameObject,
                                     playerGrid.GetChild(2).gameObject,
                                     playerGrid.GetChild(3).gameObject};
+        defaultGridSet = players;
         title = this.transform.Find("RoomTitle").Find("Text RoomTitle").gameObject.GetComponent<Text>();
         playerCount = this.transform.Find("PlayerCount").Find("Text PlayerCount").GetComponent<Text>();
         startButton = startButtonTransfom.GetComponent<Button>();
@@ -105,11 +107,7 @@ public class Room : BaseMainMenu, IMainMenu
         Text pText;
         Image pImage;
         List<string> usersName = new List<string>();
-        players = new GameObject[]{
-                                    playerGrid.GetChild(0).gameObject,
-                                    playerGrid.GetChild(1).gameObject,
-                                    playerGrid.GetChild(2).gameObject,
-                                    playerGrid.GetChild(3).gameObject};
+        ClearPlayerGrid();
         foreach(JObject item in users)
         {
             usersName.Add(item["nickname"].ToString());
@@ -126,7 +124,14 @@ public class Room : BaseMainMenu, IMainMenu
         }
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
     }
-
+    private void ClearPlayerGrid()
+    {
+        for (int i=0;i<4;i++)
+        {
+            players[i].GetComponentInChildren<Text>().text = $"PLAYER{i+1}";
+            players[i].GetComponentInChildren<Image>().color = new Color(0.45f,0.45f,0.45f);
+        }
+    }
     // 멤버가 다 차면 시작 버튼 활성화
     // 방장이 시작 버튼을 누르면 멤버 전부 화면 이동
     private void ActiveStartButton()
