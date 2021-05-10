@@ -148,7 +148,7 @@ public class PlayerUtil : PlayerController
     }
     public void Turn()
     {
-        if (!IsAttack && MoveVec != Vector3.zero)
+        if (!IsAttack && MoveDir != Vector3.zero)
         {
             transform.LookAt(transform.position + MoveDir);
         }
@@ -349,7 +349,8 @@ public class PlayerUtil : PlayerController
     }
     public void AnimationStart()
     {
-        if(PlayerState==Movement.Run)
+        Debug.Log($"{this.name} status : {System.Enum.GetName(typeof(Movement),PlayerState)}");
+        if((int)PlayerState==(int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),MoveDir != Vector3.zero && !IsAttack);
             return;

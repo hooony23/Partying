@@ -25,12 +25,12 @@ public class Player : PlayerUtil
                 Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
             }
             CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
+            ShotPoint = CameraArm.Find("Shot Point").transform;
+            UserScore = GM.GetComponent<UserScore>();
         }
-        UserScore = GM.GetComponent<UserScore>();
+
         // 플레이어 공격
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
-        ShotPoint = CameraArm.Find("Shot Point").transform;
-
     }
 
     void Update()

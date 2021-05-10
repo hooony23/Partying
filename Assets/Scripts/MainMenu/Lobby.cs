@@ -198,6 +198,7 @@ public class Lobby : BaseMainMenu, IMainMenu
             SetwarningText("해당 방의 인원수가 초과하였습니다");
             return;
         }
+        NetworkInfo.roomInfo = clickRoomInfo;
         SetwarningText("비밀번호를 확인하였습니다");
         NextUI();
     }
