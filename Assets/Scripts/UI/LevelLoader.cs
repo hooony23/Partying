@@ -26,7 +26,7 @@ public class LevelLoader : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
-            NetworkInfo.memberInfo = MServer.GetMemberInfo(NetworkInfo.roomInfo.RoomUuid);
+            NetworkInfo.memberInfo = MServer.ReturnRoom(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
         }
         StartCoroutine(LoadAsynchronously(scenceIndex));
