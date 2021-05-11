@@ -349,7 +349,6 @@ public class PlayerUtil : PlayerController
     }
     public void AnimationStart()
     {
-        Debug.Log($"{this.name} status : {System.Enum.GetName(typeof(Movement),PlayerState)}");
         if((int)PlayerState==(int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),MoveDir != Vector3.zero && !IsAttack);

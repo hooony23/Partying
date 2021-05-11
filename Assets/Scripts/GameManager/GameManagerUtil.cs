@@ -20,11 +20,26 @@ namespace GameManager
             ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
             ContinueButton.onClick.AddListener(UserClearButton);
             var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
+            GameObject ChatingObject = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
+            ChatingObject.name = Resources.Load("GameUi/Chat/ChatUi").name;
             InitUserList();
+        }
+        protected virtual void Update()
+        {
+            DelUser();
+            DeathUser();
+            ClearGame();
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            /* 서버 연결 해제 */
+            APIController.SendController("ConnectedExit");
+            MServer.LeaveRoom(NetworkInfo.roomInfo.RoomUuid);
+            MServer.SignOut();
         }
         protected void SetCurrentStage(int currentStage)
         {
-            
             this.currentStage = currentStage;
         }
         protected void SpawnCamera()
@@ -49,11 +64,15 @@ namespace GameManager
             Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
             GameObject ItemManager = Instantiate(Resources.Load("Raid/Item/ItemManager"), Vector3.zero, Quaternion.identity) as GameObject;
             ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
-
-            foreach (var playerInfo in stage2Info.PlayerLocs)
+            SpawnPlayer(stage2Info.PlayerLocs);
+        }
+        protected void SpawnPlayer(CellInfo[] players)
+        {
+            foreach (var playerInfo in players)
             {
                 GameObject player = Instantiate(Resources.Load("Player/Player"), new Vector3(playerInfo.col, 5, playerInfo.row), Quaternion.identity) as GameObject;
                 player.name = playerInfo.data.ToString();
+                player.GetComponent<Player>().UserUuid = player.name;
             }
         }
         protected void DelUser()
@@ -128,20 +147,6 @@ namespace GameManager
                 }
             }
             return null;
-        }
-        protected virtual void Update()
-        {
-            DelUser();
-            DeathUser();
-            ClearGame();
-        }
-
-        protected virtual void OnApplicationQuit()
-        {
-            /* 서버 연결 해제 */
-            APIController.SendController("ConnectedExit");
-            MServer.LeaveRoom(NetworkInfo.roomInfo.RoomUuid);
-            MServer.SignOut();
         }
     }
 }

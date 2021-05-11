@@ -33,13 +33,11 @@ namespace Partying.UI
         public string aa;
         [SerializeField] private Text bb;
         ChatModule chatModule = new ChatModule();
-        private void Awake()
+        private void Start()
         {
             chatModule.Start();
             //채팅 오브젝트사용을 위한 오브젝트 가져오기
-            GameObject ChatingObject = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
-            ChatingObject.name = Resources.Load("GameUi/ChatUi").name;
-            GameObject ChatingText = ChatingObject.transform.Find("Canvas").gameObject;
+            GameObject ChatingText = this.transform.GetChild(0).gameObject;
             canvasGroup = ChatingText.GetComponent<CanvasGroup>();
             isTextBox = Resources.Load("Chat/Chat Text Form") as GameObject;
             isInputChatBox = ChatingText.transform.Find("Chat View").gameObject;
