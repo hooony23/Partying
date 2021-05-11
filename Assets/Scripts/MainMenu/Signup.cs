@@ -80,7 +80,7 @@ public class Signup : BaseMainMenu, IMainMenu
         string response;
 
         // 인풋값 확인(id 중복 확인 했으면 idValid = True)
-        if (name.Equals("") || id.Equals("") || pw.Equals("") || mobile.Equals("") || !idValid)
+        if (!idValid)
         {
             SetwarningText("입력값을 확인해 주세요");
             if (idValid == false)
