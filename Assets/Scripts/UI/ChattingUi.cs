@@ -220,7 +220,7 @@ namespace Partying.UI
                 ColorUtility.TryParseHtmlString(ROOMCOLOR, out color);
                 }
                 
-            if(viewMode == this.chatMode||isPooling)
+            if(viewMode == chatMode||isPooling)
             {
                 Debug.Log(chatMode);
                 Debug.Log(this.chatMode);
