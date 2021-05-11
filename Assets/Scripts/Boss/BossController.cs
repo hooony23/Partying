@@ -22,6 +22,9 @@ namespace Boss
         public bool PatternActivated { get; set; } = false;
 
         public Rigidbody BossRigid { get; set; }
+
+        public Material BossMatUp { get; set; }
+        public Material BossMatDown { get; set; }
     }
 }
 

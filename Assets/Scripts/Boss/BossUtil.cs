@@ -90,7 +90,7 @@ namespace Boss
         public IEnumerator WakeUp()
         {
             AnimController.SetTrigger("WakeUp");
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(4f);
             AnimController.SetTrigger("Idle");
             BossCollider.enabled = true;
             yield return new WaitForSeconds(1f);
@@ -104,8 +104,9 @@ namespace Boss
             yield return new WaitForSeconds(1f);
 
             ChargingL.Play();
+            AnimController.SetTrigger("ChargingLaser");
             yield return new WaitForSeconds(8f);
-            
+
             StartCoroutine(AimReset());
             yield return new WaitForSeconds(2f);
             PatternActivated = false;
@@ -114,7 +115,7 @@ namespace Boss
         public IEnumerator OctaLaser()
         {
             OctaL.Play();                           // 파티클 시스템 플레이
-            AnimController.SetTrigger("OctaLaser1");      // 레이저 총구 각도 변환 애니메이션
+            AnimController.SetTrigger("OctaLaserR");      // 레이저 총구 각도 변환 애니메이션
             yield return new WaitForSeconds(8f);
 
             PatternActivated = false;
@@ -129,9 +130,8 @@ namespace Boss
                 float duration = 0.5f; // 타겟에 도달하는 시간, 짧을수록 패턴이 빨라짐
                 float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
-                AnimController.SetTrigger("BodySlam1");
-                // BossCollider.enabled = false;
-                yield return new WaitForSeconds(2.5f);
+                AnimController.SetTrigger("BodySlam");
+                yield return new WaitForSeconds(4f);
 
                 Transform target = GameObject.Find(Target.ToString()).GetComponent<Transform>();
                 Vector3 targetPos = new Vector3(target.position.x, this.transform.position.y, target.position.z);
@@ -149,12 +149,11 @@ namespace Boss
                     yield return waitForEndOfFrame;
                 }
 
-                yield return new WaitForSeconds(7.5f);
-                // BossCollider.enabled = true;
+                yield return new WaitForSeconds(6f);
                 PatternActivated = false;
             }
         }
-        
+
         public IEnumerator Destroyed()
         {
             AnimController.Play("Destroyed");
@@ -162,12 +161,24 @@ namespace Boss
             yield return new WaitForSeconds(1f);
         }
 
-        // BodySlam 랜덤 타겟 선택 
-        public int GetRanPlayerIdx()
+        public IEnumerator Blink(int count)
         {
-            int idx = Random.Range(0, GM.PlayerList.Count);
-
-            return idx;
+            if (BossHP > 0)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    BossMatUp.color = Color.red;
+                    BossMatDown.color = Color.red;
+                    yield return new WaitForSeconds(0.1f);
+                    BossMatUp.color = Color.white;
+                    BossMatDown.color = Color.white;
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+        }
+        public void StartBlink(int count)
+        {
+            StartCoroutine(Blink(count));
         }
 
         protected void UpdateBossInfo()

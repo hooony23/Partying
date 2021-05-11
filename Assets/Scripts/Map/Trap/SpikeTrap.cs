@@ -24,7 +24,7 @@ public class SpikeTrap : BaseTrap
     private IEnumerator HitPlayer(Collider col)
     {
         anim.SetTrigger("doActivate");
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(1.1f);
         if (col.CompareTag("Player"))
         {
             TakeHit(col);
