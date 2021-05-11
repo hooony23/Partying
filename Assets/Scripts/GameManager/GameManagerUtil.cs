@@ -28,6 +28,7 @@ namespace GameManager
             ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
             ContinueButton.onClick.AddListener(UserClearButton);
             var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
+            OverObject.name = Resources.Load("GameUi/OverUi").name;
         }
         protected void SetChatting()
         {
