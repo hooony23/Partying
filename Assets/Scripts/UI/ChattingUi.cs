@@ -49,6 +49,10 @@ namespace Partying.UI
             chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
             chatBox = ChatingText.transform.Find("User Input").transform.Find("InputField Chat").GetComponent<InputField>();
             bb = ChatingText.transform.Find("User Input").transform.Find("Button Group").transform.Find("Text").GetComponent<Text>();
+            var tmpColor  = new Color();
+            ColorUtility.TryParseHtmlString(LOBBYCOLOR, out tmpColor);
+            bb.text = "모두";
+            bb.color = tmpColor;
             var chatOption = ChatingText.transform.Find("Chat Option");
             chatOption.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnChangeListener("All");});
             chatOption.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnChangeListener("Room");});
@@ -183,6 +187,8 @@ namespace Partying.UI
             var chatMode = 0;
             var color = new Color();
             if(chatTag.Equals("All")){
+                if(NetworkInfo.roomInfo.RoomUuid==null)
+                    return;
                 chatMode = 2;
                 ColorUtility.TryParseHtmlString(LOBBYCOLOR, out color);
                 }

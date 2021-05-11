@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Net;
+using Communication;
 using Communication.JsonFormat;
 using Newtonsoft.Json;
 using Util;
@@ -47,7 +48,7 @@ namespace Chatting
         {
 
             ChatInfo requestData = new ChatInfo();
-            requestData.Nickname = "asdf";//myData.NickName;
+            requestData.Nickname = NetworkInfo.myData.Nickname;
             requestData.Message = message;
             var request = JsonConvert.SerializeObject(new { type = "SendMessage", uuid = Util.Config.userUuid, data = requestData });
             Debug.Log(request);
@@ -58,15 +59,15 @@ namespace Chatting
             //Console.WriteLine($"###SendMessage complete### message: {message}");*/
         
 
-        public void SendMessageToGroup(string message, string groupName = "main")
+        public void SendMessageToGroup(string message)
         {
             // NetworkInfo.roomInfo.RoomUuid;
             
             ChatInfo requestData = new ChatInfo();
-            requestData.Nickname = "asdf";//myData.NickName;
+            requestData.Nickname = NetworkInfo.myData.Nickname;
             requestData.Message = message;
             JObject dataJson = JObject.FromObject(requestData);
-            dataJson["groupName"] = groupName;
+            dataJson["groupName"] = NetworkInfo.roomInfo.RoomUuid;
             var request = JsonConvert.SerializeObject(new { type = "SendMessageToGroup", uuid = Util.Config.userUuid, data = dataJson });
             Debug.Log(request);
             connection.InvokeAsync("SendMessageToGroup", request.ToString());
