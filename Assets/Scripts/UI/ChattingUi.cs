@@ -128,6 +128,8 @@ namespace Partying.UI
         }
         public void ChatTabMode() {
                 string text = "모두";
+                if(chatMode==1&&NetworkInfo.roomInfo.RoomUuid==null)
+                    return;
                 if (chatMode==1)
                     chatMode=2;
                 else
@@ -187,8 +189,6 @@ namespace Partying.UI
             var chatMode = 0;
             var color = new Color();
             if(chatTag.Equals("All")){
-                if(NetworkInfo.roomInfo.RoomUuid==null)
-                    return;
                 chatMode = 2;
                 ColorUtility.TryParseHtmlString(LOBBYCOLOR, out color);
                 }
