@@ -41,6 +41,7 @@ namespace Partying.UI
         private void Start()
         {
             //채팅 오브젝트사용을 위한 오브젝트 가져오기
+            Debug.Log(this.transform);
             GameObject ChatingText = this.transform.GetChild(0).gameObject;
             UnityEngine.Debug.Log(ChatingText.name);
             canvasGroup = ChatingText.GetComponent<CanvasGroup>();

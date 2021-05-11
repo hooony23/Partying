@@ -74,8 +74,9 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend()
     {
-
-        if ((IsKeyInput() || MoveDir != preMoveDir)&& !IsDead)
+        if(PlayerState==Movement.Shot)
+            Debug.Log("shot test");
+        if ((IsKeyInput() || MoveDir != preMoveDir||PlayerState==Movement.Shot)&& !IsDead)
         {
             APIController.SendController("Move", PInfo);
         }

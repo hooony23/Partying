@@ -48,14 +48,13 @@ public class Player : PlayerUtil
         Dodge();
         GetItem();
         UpdatePInfo();
-        AnimationStart();
         if (IsMyCharacter())
         {
             MoveChangeSend();    
             // 피격 처리
             CheckHP();
         }
-
+        AnimationStart();
         CheckDeath();
 
     }
