@@ -4,7 +4,8 @@ using Communication;
 using Communication.JsonFormat;
 using System.Collections;
 using UnityEngine.UI;
-
+using Item;
+using Lib;
 namespace ItemManager
 {
     public class ItemManager : ItemManagerController
@@ -19,6 +20,8 @@ namespace ItemManager
             {
                 Debug.Log($"spawn Item : {Enum.GetName(typeof(EItem),itemInfo.Name)}");
                 GameObject spawnedItem = Instantiate(Resources.Load(ItemLocation[itemInfo.Name]),new Vector3(itemInfo.Loc.X,2,itemInfo.Loc.Y),Quaternion.identity) as GameObject;
+                spawnedItem.GetComponent<BaseItem>().RemoveTime = Common.ConvertFromUnixTimestamp(itemInfo.LifeTime);
+                ItemInfo.InitItemInfo();
             }
         }
         public void AddBuffIcon(string name, float time = 0)

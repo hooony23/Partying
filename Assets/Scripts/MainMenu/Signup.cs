@@ -82,9 +82,8 @@ public class Signup : BaseMainMenu, IMainMenu
         // 인풋값 확인(id 중복 확인 했으면 idValid = True)
         if (!idValid)
         {
-            SetwarningText("입력값을 확인해 주세요");
-            if (idValid == false)
-                SetwarningText("아이디 중복확인을 해주세요");
+            SetwarningText("입력값을 확인해 주세요");//SetwarningText("아이디 중복확인을 해주세요");
+            return;
         }
         else
         {
@@ -104,13 +103,14 @@ public class Signup : BaseMainMenu, IMainMenu
             Communication.NetworkInfo.myData = new MemberInfo(Util.Config.userUuid,temp["nickname"].ToString());
             // 서버로 부터 받은 메세지 
             serverMsg = json["data"]["isSuccess"].ToString();
+            if(serverMsg.Equals("False"))
+            {
+                SetwarningText(json["data"]["errorMsg"].ToString());
+                return;
+            }
         }
-
-        if (serverMsg.Equals("True"))
-        {
-            SetwarningText("회원가입에 성공하셨습니다");
-            Invoke("NextUI",2f);
-        }
+        SetwarningText("회원가입에 성공하셨습니다");
+        Invoke("NextUI",2f);
 
     }
     protected override void NextUI()

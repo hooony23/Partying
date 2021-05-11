@@ -29,9 +29,9 @@ namespace Boss
         {
             if (!PatternActivated)
             {
-                Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns), Pattern));
+                // Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns), Pattern));
 
-                Debug.Log("현재패턴 :" + Pattern);
+                // Debug.Log("현재패턴 :" + Pattern);
                 switch (Pattern)
                 {
                     case BossInfo.Patterns.CHANGINGELAGER:
@@ -130,7 +130,7 @@ namespace Boss
                 float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
                 AnimController.SetTrigger("BodySlam1");
-                BossCollider.enabled = false;
+                // BossCollider.enabled = false;
                 yield return new WaitForSeconds(2.5f);
 
                 Transform target = GameObject.Find(Target.ToString()).GetComponent<Transform>();
@@ -150,7 +150,7 @@ namespace Boss
                 }
 
                 yield return new WaitForSeconds(7.5f);
-                BossCollider.enabled = true;
+                // BossCollider.enabled = true;
                 PatternActivated = false;
             }
         }

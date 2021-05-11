@@ -135,7 +135,7 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            ItemInfo.value = responseJson;
+            ItemInfo.InitItemInfo(responseJson);
         }
         public void SyncStart(string response)
         { 

@@ -1,14 +1,14 @@
-using System.Net.NetworkInformation;
 using Communication.MainServer;
 using Communication;
-using Util;
 using UnityEngine.UI;
 using UnityEngine;
+using Chatting;
 public class CreateOrUser : BaseMainMenu, IMainMenu
 {
     protected override void Awake()
     {
         base.Awake();
+        ChatModule.GetChatModule().Start();
         SetUp();
     }
     void OnEnable()

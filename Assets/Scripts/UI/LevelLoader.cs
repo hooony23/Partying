@@ -26,6 +26,7 @@ public class LevelLoader : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
+            APIController.SendController("ConnectedExit");
             NetworkInfo.memberInfo = MServer.ReturnRoom(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
         }

@@ -13,23 +13,6 @@ namespace GameManager
 {
     public class GameManagerUtil : GameManagerController
     {
-        protected virtual void Start()
-        {
-            var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
-            GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
-            ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
-            ContinueButton.onClick.AddListener(UserClearButton);
-            var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
-            GameObject ChatingObject = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
-            ChatingObject.name = Resources.Load("GameUi/Chat/ChatUi").name;
-            InitUserList();
-        }
-        protected virtual void Update()
-        {
-            DelUser();
-            DeathUser();
-            ClearGame();
-        }
 
         protected virtual void OnApplicationQuit()
         {
@@ -37,6 +20,18 @@ namespace GameManager
             APIController.SendController("ConnectedExit");
             MServer.LeaveRoom(NetworkInfo.roomInfo.RoomUuid);
             MServer.SignOut();
+        }
+        protected void SetGameUi()
+        {
+            var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
+            GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+            ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
+            ContinueButton.onClick.AddListener(UserClearButton);
+            var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
+        }
+        protected void SetChatting()
+        {
+            var chatUi = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
         }
         protected void SetCurrentStage(int currentStage)
         {
