@@ -369,5 +369,10 @@ public class PlayerUtil : PlayerController
             }
         }
         PlayerState = Movement.Idle;
+        if(!IsMyCharacter())
+        {
+            
+            PInfo.movement=0;
+        }
     }
 }
