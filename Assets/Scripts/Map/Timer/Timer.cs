@@ -61,8 +61,7 @@ public class Timer : MonoBehaviour
         {
             TimeOver = false;
             audioSource.Stop();
-            //Application.Quit();
-
+            // GameObject.Find("OverUi").GetComponent<OverUi>().GameOverUi();
         }
     }
 
