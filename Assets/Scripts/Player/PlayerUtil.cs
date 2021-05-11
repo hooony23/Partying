@@ -28,7 +28,7 @@ public class PlayerUtil : PlayerController
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         MouseClickInput = Input.GetMouseButton(0);
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
-        
+
     }
     public void GetNetWorkInput()
     {
@@ -36,7 +36,7 @@ public class PlayerUtil : PlayerController
             // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
             //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
-            if (NetworkInfo.playersInfo[this.gameObject.name] != null&&NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
+            if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
                 this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);
@@ -74,8 +74,9 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend()
     {
-
-        if ((IsKeyInput() || MoveDir != preMoveDir)&& !IsDead)
+        if (PlayerState == Movement.Shot)
+            Debug.Log("shot test");
+        if ((IsKeyInput() || MoveDir != preMoveDir || PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
         }
@@ -142,9 +143,13 @@ public class PlayerUtil : PlayerController
     }
     public void UpdatePInfo()
     {
-        
+
         if (IsMyCharacter())
+        {
             PInfo = new PlayerInfo(this.transform.position, MoveDir, PlayerState, UserUuid);
+            if (PlayerState == Movement.Shot)
+                PInfo.SetAngle(ShotPoint.position);
+        }
     }
     public void Turn()
     {
@@ -173,15 +178,16 @@ public class PlayerUtil : PlayerController
     }
     public void Dodge() // 플레이어 회피
     {
-        if(!IsMyCharacter())
+        if (!IsMyCharacter())
         {
-            if(PlayerState == Movement.Dodge)
+            if (PlayerState == Movement.Dodge)
             {
                 DodgeIn();
             }
 
         }
-        else{
+        else
+        {
             if (JDown && IsDodge == false && MoveDir != Vector3.zero)
             {
                 DodgeIn();
@@ -192,7 +198,7 @@ public class PlayerUtil : PlayerController
     public void DodgeIn()
     {
         IsDodge = true;
-        PlayerSpeed = Config.playerSpeed*2;
+        PlayerSpeed = Config.playerSpeed * 2;
         Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -237,26 +243,26 @@ public class PlayerUtil : PlayerController
             }
         }
     }
-    
+
     public void GetItem()
     {
         if (EDown && NearObject != null)
-        if (NearObject.CompareTag("Item"))
-        {
-            Debug.Log("IsItem");
-            NearObject = null;
-            HaveItem = true;
-            APIController.SendController("GetItem");
-        }
+            if (NearObject.CompareTag("Item"))
+            {
+                Debug.Log("IsItem");
+                NearObject = null;
+                HaveItem = true;
+                APIController.SendController("GetItem");
+            }
     }
     // 플레이어의 HP를 프레임별로 확인
-    private bool isSendDeath =false;
+    private bool isSendDeath = false;
     public void CheckHP()
     {
         if (PlayerHealth <= 0 && !isSendDeath)
         {
             APIController.SendController("Death");
-            isSendDeath=true;
+            isSendDeath = true;
         }
     }
     public void CheckDeath()
@@ -316,18 +322,18 @@ public class PlayerUtil : PlayerController
         Debug.Log(other.gameObject.name);
         NearObject = other.gameObject;
     }
-    
+
     public void MoveAnyFromObject(Collider other)
     {
         Debug.Log(other.gameObject.name);
-        if(NearObject == other.gameObject)
-            NearObject =null;
+        if (NearObject == other.gameObject)
+            NearObject = null;
     }
     public void Attack()
     {
-        if(!IsMyCharacter())
+        if (!IsMyCharacter())
         {
-            if(PlayerState==Movement.Shot)
+            if (PlayerState == Movement.Shot)
             {
                 AttackEvent();
             }
@@ -342,24 +348,24 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-        
+
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();
     }
     public void AnimationStart()
     {
-        if((int)PlayerState==(int)Movement.Run)
+        if ((int)PlayerState == (int)Movement.Run)
         {
-            Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),MoveDir != Vector3.zero && !IsAttack);
+            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), MoveDir != Vector3.zero && !IsAttack);
             return;
         }
-        if(System.Enum.IsDefined(typeof(Movement),PlayerState))
-            Anim.SetTrigger(System.Enum.GetName(typeof(Movement),PlayerState));
+        if (System.Enum.IsDefined(typeof(Movement), PlayerState))
+            Anim.SetTrigger(System.Enum.GetName(typeof(Movement), PlayerState));
         else
         {
-            Anim.SetBool(System.Enum.GetName(typeof(Movement),PlayerState),false);
+            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), false);
         }
-        PlayerState=Movement.Idle;
+        PlayerState = Movement.Idle;
     }
 }
