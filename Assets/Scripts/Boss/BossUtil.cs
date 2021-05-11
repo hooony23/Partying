@@ -131,7 +131,6 @@ namespace Boss
                 float distanceRatio = 30f; // 플레이어를 넘어 지나가는 거리
 
                 AnimController.SetTrigger("BodySlam");
-                BossCollider.enabled = false;
                 yield return new WaitForSeconds(4f);
 
                 Transform target = GameObject.Find(Target.ToString()).GetComponent<Transform>();
@@ -151,7 +150,6 @@ namespace Boss
                 }
 
                 yield return new WaitForSeconds(6f);
-                BossCollider.enabled = true;
                 PatternActivated = false;
             }
         }
