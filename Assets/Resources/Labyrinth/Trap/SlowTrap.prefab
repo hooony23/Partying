@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 226992893647968005}
   - component: {fileID: 226992893647968006}
   - component: {fileID: 226992893647968000}
-  - component: {fileID: 6374881312452554016}
+  - component: {fileID: 807968797380530002}
   m_Layer: 0
   m_Name: SlowTrap
   m_TagString: Untagged
@@ -311,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 226992893647968001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.949511, y: 0.01, z: 6.1342945}
+  m_LocalScale: {x: 10, y: 0.01, z: 10}
   m_Children:
   - {fileID: 3639753254196455563}
   - {fileID: 4365192143514816084}
@@ -387,19 +387,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfde0030dd6718743b0749cad467e94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &6374881312452554016
-SphereCollider:
+--- !u!65 &807968797380530002
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226992893647968001}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.49
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 1.0000001, y: 100, z: 1.0000002}
+  m_Center: {x: 0.000000059604645, y: 9.37, z: -0.00000008940697}
 --- !u!1 &1415655870418556903
 GameObject:
   m_ObjectHideFlags: 0
