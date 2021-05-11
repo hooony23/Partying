@@ -9,11 +9,11 @@ TerrainLayer:
   m_Name: Orange Layer
   m_DiffuseTexture: {fileID: 2800000, guid: 148b9b3233e79f645a4097a28382f28d, type: 3}
   m_NormalMapTexture: {fileID: 0}
-  m_MaskMapTexture: {fileID: 2800000, guid: af9974673d4246042820c7a952223188, type: 3}
-  m_TileSize: {x: 2, y: 2}
+  m_MaskMapTexture: {fileID: 2800000, guid: b0bf4b01c15e7294ba8740d265da05d4, type: 3}
+  m_TileSize: {x: 30, y: 30}
   m_TileOffset: {x: 0, y: 0}
-  m_Specular: {r: 0, g: 0, b: 0, a: 0}
-  m_Metallic: 0
+  m_Specular: {r: 0.735849, g: 0.64102286, b: 0.38527945, a: 1}
+  m_Metallic: 0.3
   m_Smoothness: 0
   m_NormalScale: 1
   m_DiffuseRemapMin: {x: 0, y: 0, z: 0, w: 0}

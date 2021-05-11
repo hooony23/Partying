@@ -76,13 +76,13 @@ public class MapUtil : MapController
                 Grid[i, j] = new MazeCell();// gird 격자를 초기화
                 if (labylinthArray[i, j, (int)Direction.LEFT] == 1)
                 {
-                    Grid[i, j].LeftWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x - Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2), Quaternion.Euler(0, 90, 0));
+                    Grid[i, j].LeftWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x - Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 +0.5f), Quaternion.Euler(0, 90, 0));
                     Grid[i, j].LeftWall.name = "leftWall";
                     Grid[i, j].LeftWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
                 if (labylinthArray[i, j, (int)Direction.RIGHT] == 1)
                 {
-                    Grid[i, j].RightWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x + Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2), Quaternion.Euler(0, 90, 0));
+                    Grid[i, j].RightWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x + Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 + 0.5f), Quaternion.Euler(0, 90, 0));
                     Grid[i, j].RightWall.name = "rightWall";
                     Grid[i, j].RightWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
