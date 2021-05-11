@@ -4,7 +4,8 @@ using Communication;
 using Communication.JsonFormat;
 using System.Collections;
 using UnityEngine.UI;
-
+using Item;
+using Lib;
 namespace ItemManager
 {
     public class ItemManager : ItemManagerController
@@ -12,6 +13,11 @@ namespace ItemManager
         public GameObject UserUi;
         public Image iconFill;
         private string ItemIcon = "GameUi/IconPrefabs/";
+        public void Start()
+        {
+            UserUi = GameObject.Find("UserUi").transform.Find("UserInfoUi").transform.Find("PlayerBuff").gameObject;
+            
+        }
         public void Update()
         {
             var itemInfo = ItemInfo.GetItemInfo();
@@ -19,6 +25,8 @@ namespace ItemManager
             {
                 Debug.Log($"spawn Item : {Enum.GetName(typeof(EItem),itemInfo.Name)}");
                 GameObject spawnedItem = Instantiate(Resources.Load(ItemLocation[itemInfo.Name]),new Vector3(itemInfo.Loc.X,2,itemInfo.Loc.Y),Quaternion.identity) as GameObject;
+                spawnedItem.GetComponent<BaseItem>().RemoveTime = Common.ConvertFromUnixTimestamp(itemInfo.LifeTime);
+                ItemInfo.InitItemInfo();
             }
         }
         public void AddBuffIcon(string name, float time = 0)
@@ -29,8 +37,7 @@ namespace ItemManager
                 return;
             }
             itemSet.Add(name); //Wind
-            UserUi = GameObject.Find("UserUi(Clone)").transform.Find("UserInfoUi").transform.Find("PlayerBuff").gameObject;
-            string iconName = ItemIcon + name+ "UiIcon"; //GameUi/IconPrefabs/Wind
+            string iconName = ItemIcon + name+ "UiIcon"; //GameUi/IconPrefabs/WindUiIcon
             Debug.Log(iconName);
             GameObject ItemIconObject = Instantiate(Resources.Load(iconName)) as GameObject;
             ItemIconObject.name = Resources.Load(iconName).name; //WindUiIcon

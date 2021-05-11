@@ -135,7 +135,7 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            ItemInfo.value = responseJson;
+            ItemInfo.InitItemInfo(responseJson);
         }
         public void SyncStart(string response)
         { 
@@ -183,7 +183,7 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            Communication.JsonFormat.InitStage2.value = responseJson;
+            Communication.JsonFormat.InitStage2.SetInitStage2(responseJson);
             NetworkInfo.bossInfo = responseJson.BossInfo;
             foreach(var playerInfo in responseJson.PlayerLocs)
             {

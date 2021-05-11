@@ -19,13 +19,14 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadLevel(int scenceIndex)
     {
-        if(Config.defaultStage==2)
+        if(scenceIndex==2)
         {
             APIController.SendController("InitStage2");
             Communication.GameServer.Connection.receiveDone.WaitOne();
         }
         else if(SceneManager.GetActiveScene().buildIndex <= scenceIndex)
         {
+            APIController.SendController("ConnectedExit");
             NetworkInfo.memberInfo = MServer.ReturnRoom(NetworkInfo.roomInfo.RoomUuid);
             scenceIndex = 0;
         }

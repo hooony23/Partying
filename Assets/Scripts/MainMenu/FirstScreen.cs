@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Communication;
 using Communication.MainServer;
 using Util;
 
@@ -29,7 +30,8 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         try
         {
             MServer.Pingpong();
-            new WebSocketModule().Start();
+            if(NetworkInfo.connectionId.Equals(""))
+                new WebSocketModule().Start();
         }
         catch
         {

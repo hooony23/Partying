@@ -6,9 +6,10 @@ using UnityEngine;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Net;
+using Communication;
 using Communication.JsonFormat;
 using Newtonsoft.Json;
-
+using Util;
 namespace Chatting
 {
     public class ChatModule : MonoBehaviour
@@ -18,11 +19,15 @@ namespace Chatting
             // .WithAutomaticReconnect()
             .Build();*/
         HubConnection connection = new HubConnectionBuilder()
-                    .WithUrl($"https://skine134.iptime.org:42460/chat").Build();
-        // static���� ����ð� ���� ����
+                    .WithUrl(Config.chatServerDNS).Build();
         public string ReceiveData { get; set; } = null;
         static DateTime dateTime = DateTime.Now;
         static string currentTime = dateTime.ToString("HH:mm:ss");
+        public static ChatModule value{get;set;} = new ChatModule();
+        public static ChatModule GetChatModule()
+        {
+            return value;
+        }
         private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
@@ -43,7 +48,7 @@ namespace Chatting
         {
 
             ChatInfo requestData = new ChatInfo();
-            requestData.Nickname = "asdf";//myData.NickName;
+            requestData.Nickname = NetworkInfo.myData.Nickname;
             requestData.Message = message;
             var request = JsonConvert.SerializeObject(new { type = "SendMessage", uuid = Util.Config.userUuid, data = requestData });
             Debug.Log(request);
@@ -54,15 +59,15 @@ namespace Chatting
             //Console.WriteLine($"###SendMessage complete### message: {message}");*/
         
 
-        public void SendMessageToGroup(string message, string groupName = "main")
+        public void SendMessageToGroup(string message)
         {
             // NetworkInfo.roomInfo.RoomUuid;
             
             ChatInfo requestData = new ChatInfo();
-            requestData.Nickname = "asdf";//myData.NickName;
+            requestData.Nickname = NetworkInfo.myData.Nickname;
             requestData.Message = message;
             JObject dataJson = JObject.FromObject(requestData);
-            dataJson["groupName"] = groupName;
+            dataJson["groupName"] = NetworkInfo.roomInfo.RoomUuid;
             var request = JsonConvert.SerializeObject(new { type = "SendMessageToGroup", uuid = Util.Config.userUuid, data = dataJson });
             Debug.Log(request);
             connection.InvokeAsync("SendMessageToGroup", request.ToString());

@@ -1,14 +1,14 @@
-using System.Net.NetworkInformation;
 using Communication.MainServer;
 using Communication;
-using Util;
 using UnityEngine.UI;
 using UnityEngine;
+using Chatting;
 public class CreateOrUser : BaseMainMenu, IMainMenu
 {
     protected override void Awake()
     {
         base.Awake();
+        ChatModule.GetChatModule().Start();
         SetUp();
     }
     void OnEnable()
@@ -22,8 +22,7 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         this.transform.Find("RoomSetting").Find("Button RoomSetting").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
         this.transform.Find("Lobby").Find("Button Lobby").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
         //TODO: 로그인 화면으로 돌아가면 비활성화.
-        // var chatUi = Instantiate(Resources.Load("GameUi/ChatUI")) as GameObject;
-        // chatUi.transform.SetParent(GameObject.Find("Main Menu Canvas").transform);
+        var chatUi = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
     }
     protected override void BackUI()
     {

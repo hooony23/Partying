@@ -12,7 +12,7 @@ namespace Util
         public static int chatServerPort = 42460;
         public static int gameServerPort = 11000;
         public static string mainServerDNS = $"https://{defaultDNS}:{mainServerPort}";
-        public static string chatServerDNS = $"htpps://{defaultDNS}:{chatServerPort}";
+        public static string chatServerDNS = $"https://{defaultDNS}:{chatServerPort}/chat";
 
         // boss
         public static float radarRange = 60f;

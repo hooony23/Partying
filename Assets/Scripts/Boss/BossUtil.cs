@@ -29,9 +29,9 @@ namespace Boss
         {
             if (!PatternActivated)
             {
-                Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns), Pattern));
+                // Debug.Log(System.Enum.GetName(typeof(BossInfo.Patterns), Pattern));
 
-                Debug.Log("현재패턴 :" + Pattern);
+                // Debug.Log("현재패턴 :" + Pattern);
                 switch (Pattern)
                 {
                     case BossInfo.Patterns.CHANGINGELAGER:
@@ -106,7 +106,7 @@ namespace Boss
             ChargingL.Play();
             AnimController.SetTrigger("ChargingLaser");
             yield return new WaitForSeconds(8f);
-            
+
             StartCoroutine(AimReset());
             yield return new WaitForSeconds(2f);
             PatternActivated = false;
@@ -155,7 +155,7 @@ namespace Boss
                 PatternActivated = false;
             }
         }
-        
+
         public IEnumerator Destroyed()
         {
             AnimController.Play("Destroyed");
