@@ -20,7 +20,7 @@ namespace Partying.UI
         private bool emptychat = false;
 
         //채팅창의 입력자와 채팅최대길이
-        [SerializeField] private string tag = "모두";
+        [SerializeField] private string chatTag = "모두";
         /*[SerializeField]*/
         private string username = "asdfgh";
         [SerializeField] private int maxMessages = 25;
@@ -81,7 +81,7 @@ namespace Partying.UI
                     if (!chatBox.text.Equals(""))
                     {
                         //GameObject newText = Instantiate(isTextBox, chatPanel.transform);
-                        //AllMessage(tag, username, chatBox.text);
+                        //AllMessage(chatTag, username, chatBox.text);
                         aa = chatBox.text;
                         
                         if (chatMode == 1) {
@@ -134,11 +134,11 @@ namespace Partying.UI
                     switch (chatMode)
                     {
                         case 1:
-                            tag = "All"; 
+                            chatTag = "All"; 
                             ColorUtility.TryParseHtmlString(LOBBYCOLOR, out color);
                             break;
                         case 2:
-                            tag = "Room"; 
+                            chatTag = "Room"; 
                             ColorUtility.TryParseHtmlString(ROOMCOLOR, out color);
                             bb.color =  color;
                             text = "방";
@@ -178,11 +178,11 @@ namespace Partying.UI
 
             }
         }
-        public void AllMessage(ChatInfo chatInfo,string Tag) {      
+        public void AllMessage(ChatInfo chatInfo,string chatTag) {      
             
             var chatMode = 0;
             var color = new Color();
-            if(Tag.Equals("All")){
+            if(chatTag.Equals("All")){
                 chatMode = 2;
                 ColorUtility.TryParseHtmlString(LOBBYCOLOR, out color);
                 }
@@ -193,13 +193,13 @@ namespace Partying.UI
                 
             if(chatMode==this.chatMode)
             {
-                Debug.Log(Tag + " " + chatInfo.Message + " " + chatInfo.Nickname);
+                Debug.Log(chatTag + " " + chatInfo.Message + " " + chatInfo.Nickname);
                 GameObject newText = Instantiate(isTextBox, chatPanel.transform);
                 Text tagText = newText.transform.Find("Tag").GetComponent<Text>();
                 Text nicknameText = newText.transform.Find("Nickname").GetComponent<Text>();
                 Text messageText = newText.transform.Find("Text").GetComponent<Text>();
 
-                tagText.text = Tag;
+                tagText.text = chatTag;
                 nicknameText.text = chatInfo.Nickname;
                 messageText.text = chatInfo.Message;
 
@@ -208,7 +208,7 @@ namespace Partying.UI
                 messageText.color = color;
             }
         }
-        public void ObjectPulling(string tag)
+        public void ObjectPulling(string chatTag)
         {
             ChatQueue<ChatInfo> chatQueue = null;
             for(int i = chatPanel.transform.childCount-1;i>0;i--)
@@ -216,7 +216,7 @@ namespace Partying.UI
                 Debug.Log(chatPanel.transform.childCount);
                 Destroy(chatPanel.transform.GetChild(i).gameObject);
             }
-            if(tag.Equals("All"))   //TODO: AllChat, GroupChat timestamp로 정렬 후 출력.
+            if(chatTag.Equals("All"))   //TODO: AllChat, GroupChat timestamp로 정렬 후 출력.
             {
                 var temp = new ChatQueue<ChatInfo>(400);
                 foreach(var item in ChattingMassegeInfo.Allchat)
@@ -229,20 +229,20 @@ namespace Partying.UI
                 }
                 chatQueue = temp;
             }
-            else if(tag.Equals("Lobby"))
+            else if(chatTag.Equals("Lobby"))
                 chatQueue = ChattingMassegeInfo.Allchat;
             else
                 chatQueue = ChattingMassegeInfo.Groupchat;
             foreach(var item in chatQueue)
             {
                 Debug.Log(item.ToString());
-                AllMessage(item,tag);
+                AllMessage(item,chatTag);
             }
 
         }
-        public void OnChangeListener(string tag)
+        public void OnChangeListener(string chatTag)
         {
-            ObjectPulling(tag);
+            ObjectPulling(chatTag);
         }
     }
 
