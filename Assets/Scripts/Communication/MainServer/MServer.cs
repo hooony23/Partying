@@ -70,16 +70,6 @@ namespace Communication.MainServer
             UnityEngine.Debug.Log($"response : {json}");
             return json;
         }
-
-        public static JArray GetMemberInfo(string roomUuid)
-        {
-
-            string memberInfoUri = $"api/v1/rooms/{roomUuid}";
-            if (NetworkInfo.connectionId.Equals(""))
-                throw new Exception("not found connectionId");
-            var response = Communicate("GET", memberInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
-            return JObject.Parse(response)["data"]["memberInfo"] as JArray;
-        }
         
         // ValidationCheckFunction
         private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
@@ -108,11 +98,26 @@ namespace Communication.MainServer
         public static string CreateRoom(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("creatRoom", requestJson);
-            return Communicate("POST", "api/v1/rooms/createRoom", requestString);
+            var response = Communicate("POST", "api/v1/rooms/createRoom", requestString);
+            var roomInfo = (Lib.Common.GetData(response)["roomInfo"] as JObject).ToObject<RoomInfo>();
+            Chatting.ChatModule.GetChatModule().AddToGroup(roomInfo.RoomUuid);
+            return response;
+        }
+
+        public static JArray GetMemberInfo(string roomUuid)
+        {
+
+            string memberInfoUri = $"api/v1/rooms/{roomUuid}";
+            if (NetworkInfo.connectionId.Equals(""))
+                throw new Exception("not found connectionId");
+            var response = Communicate("GET", memberInfoUri, $"userUuid={Config.userUuid}&connectionId={NetworkInfo.connectionId}");
+            Chatting.ChatModule.GetChatModule().AddToGroup(roomUuid);
+            return JObject.Parse(response)["data"]["memberInfo"] as JArray;
         }
         public static void LeaveRoom(string roomUuid)
         {
             Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+            Chatting.ChatModule.GetChatModule().RemoveFromGroup(roomUuid);
         }
         public static string GetRoomsList()
         {
