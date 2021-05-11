@@ -75,9 +75,9 @@ public class Login : BaseMainMenu, IMainMenu
         //TODO: Test용으로 추후 jwt로 변경해야함
         // var temp = Lib.Common.GetData(response);
         var temp = new JObject();
-        temp["nickname"] = "";
-        NetworkInfo.myData = new MemberInfo(Util.Config.userUuid, temp["nickname"].ToString());
+        temp["nickname"] = json["data"]["nickname"].ToString();
 
+        NetworkInfo.myData = new MemberInfo(json["data"]["userUuid"].ToString(), temp["nickname"].ToString());
         SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
         SelectUI(nextUINum);
     }
