@@ -9,9 +9,6 @@ namespace Item
         public float WaitTime { get; set; }
 
         public DateTime RemoveTime { get; set; }
-        public void Awake()
-        {
-        }
         public void Start()
         {
             itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager.ItemManager>();

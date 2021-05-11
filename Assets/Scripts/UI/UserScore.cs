@@ -31,6 +31,7 @@ namespace GameUi
         {
 
             GameObject UserScoreInfoObject = Instantiate(Resources.Load("GameUi/UserUi")) as GameObject;
+            UserScoreInfoObject.name = Resources.Load("GameUi/UserUi").name;
             infoPanel = UserScoreInfoObject.transform.Find("UsersScoreUi").gameObject;
             textObject = Resources.Load("GameUi/UserText") as GameObject;
             GameObject UserInfoScrollView = infoPanel.transform.Find("UserInfoScroll View").transform.Find("Viewport").gameObject;

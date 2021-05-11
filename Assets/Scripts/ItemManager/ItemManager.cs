@@ -13,6 +13,11 @@ namespace ItemManager
         public GameObject UserUi;
         public Image iconFill;
         private string ItemIcon = "GameUi/IconPrefabs/";
+        public void Start()
+        {
+            UserUi = GameObject.Find("UserUi").transform.Find("UserInfoUi").transform.Find("PlayerBuff").gameObject;
+            
+        }
         public void Update()
         {
             var itemInfo = ItemInfo.GetItemInfo();
@@ -32,8 +37,7 @@ namespace ItemManager
                 return;
             }
             itemSet.Add(name); //Wind
-            UserUi = GameObject.Find("UserUi(Clone)").transform.Find("UserInfoUi").transform.Find("PlayerBuff").gameObject;
-            string iconName = ItemIcon + name+ "UiIcon"; //GameUi/IconPrefabs/Wind
+            string iconName = ItemIcon + name+ "UiIcon"; //GameUi/IconPrefabs/WindUiIcon
             Debug.Log(iconName);
             GameObject ItemIconObject = Instantiate(Resources.Load(iconName)) as GameObject;
             ItemIconObject.name = Resources.Load(iconName).name; //WindUiIcon
