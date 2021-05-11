@@ -36,7 +36,7 @@ namespace Partying.UI
         private void Awake()
         {
             chatModule = ChatModule.GetChatModule();
-            isTextBox = Resources.Load("Chat/Chat Text Form") as GameObject;
+            isTextBox = Resources.Load("GameUi/Chat/Chat Text Form") as GameObject;
         }
         private void Start()
         {
