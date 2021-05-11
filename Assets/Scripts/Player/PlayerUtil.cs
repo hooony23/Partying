@@ -355,16 +355,18 @@ public class PlayerUtil : PlayerController
     }
     public void AnimationStart()
     {
+        Debug.Log($"{this.gameObject.name} state : {PlayerState}");
         if ((int)PlayerState == (int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), MoveDir != Vector3.zero && !IsAttack);
-            return;
         }
-        if (System.Enum.IsDefined(typeof(Movement), PlayerState))
-            Anim.SetTrigger(System.Enum.GetName(typeof(Movement), PlayerState));
-        else
-        {
-            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), false);
+        else{
+            if (System.Enum.IsDefined(typeof(Movement), PlayerState))
+                Anim.SetTrigger(System.Enum.GetName(typeof(Movement), PlayerState));
+            else
+            {
+                Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), false);
+            }
         }
         PlayerState = Movement.Idle;
     }
