@@ -359,19 +359,17 @@ public class PlayerUtil : PlayerController
         if ((int)PlayerState == (int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), MoveDir != Vector3.zero && !IsAttack);
+            return;
         }
-        else{
-            if (System.Enum.IsDefined(typeof(Movement), PlayerState))
-                Anim.SetTrigger(System.Enum.GetName(typeof(Movement), PlayerState));
-            else
-            {
-                Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), false);
-            }
+        if (System.Enum.IsDefined(typeof(Movement), PlayerState))
+            Anim.SetTrigger(System.Enum.GetName(typeof(Movement), PlayerState));
+        else
+        {
+            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), false);
         }
         PlayerState = Movement.Idle;
         if(!IsMyCharacter())
         {
-            
             PInfo.movement=0;
         }
     }
