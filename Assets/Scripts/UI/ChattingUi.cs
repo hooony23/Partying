@@ -45,7 +45,7 @@ namespace Partying.UI
             chatPanel = ChatInfoScrollView.transform.Find("Content").gameObject;
             chatBox = ChatingText.transform.Find("User Input").transform.Find("InputField Chat").GetComponent<InputField>();
             bb = ChatingText.transform.Find("User Input").transform.Find("Button Group").transform.Find("Text").GetComponent<Text>();
-            var chatOption = GameObject.Find("ChatUI").transform.GetChild(0).Find("Chat Option");
+            var chatOption = ChatingText.transform.Find("Chat Option");
             chatOption.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnChangeListener("All");});
             chatOption.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnChangeListener("Room");});
             chatOption.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {OnChangeListener("Lobby");});
