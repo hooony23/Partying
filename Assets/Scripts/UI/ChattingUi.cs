@@ -55,7 +55,7 @@ namespace Partying.UI
             chatBoxButtonText = ChatingText.transform.Find("User Input").transform.Find("Button Group").transform.Find("Text").GetComponent<Text>();
             var tmpColor  = new Color();
             ColorUtility.TryParseHtmlString(LOBBYCOLOR, out tmpColor);
-            chatBoxButtonText.text = "모두";
+            chatBoxButtonText.text = "로비";
             chatBoxButtonText.color = tmpColor;
             var chatOption = ChatingText.transform.Find("Chat Option");
             chatOption.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate { OnChangeListener("Lobby"); });
@@ -150,7 +150,7 @@ namespace Partying.UI
         }
 
         public void ChatTabMode() {
-                string text = "모두";
+                string text = "로비";
                 if(chatMode==1&&NetworkInfo.roomInfo.RoomUuid==null)
                     return;
                 if (chatMode==1)
@@ -196,7 +196,7 @@ namespace Partying.UI
             {
                 case "SendMessage":
                     Tag = "Lobby";
-                    ChattingMassegeInfo.Allchat.Push(chatInfo);
+                    ChattingMassegeInfo.Everychat.Push(chatInfo);
                     AllMessage(chatInfo,Tag);
                     break;
                 case "SendMessageToGroup":
@@ -207,7 +207,7 @@ namespace Partying.UI
 
             }
         }
-        public void AllMessage(ChatInfo chatInfo,string chatTag) {      
+        public void AllMessage(ChatInfo chatInfo,string chatTag,bool isPooling = false) {      
             
             var chatMode = 0;
             var color = new Color();
@@ -220,8 +220,10 @@ namespace Partying.UI
                 ColorUtility.TryParseHtmlString(ROOMCOLOR, out color);
                 }
                 
-            if(chatMode==this.chatMode)
+            if(chatMode==this.chatMode||isPooling)
             {
+                Debug.Log(chatMode);
+                Debug.Log(this.chatMode);
                 Debug.Log(chatTag + " " + chatInfo.Message + " " + chatInfo.Nickname);
                 GameObject newText = Instantiate(isTextBox, chatPanel.transform);
                 Text tagText = newText.transform.Find("Tag").GetComponent<Text>();
@@ -259,13 +261,13 @@ namespace Partying.UI
                 chatQueue = temp;
             }
             else if(chatTag.Equals("Lobby"))
-                chatQueue = ChattingMassegeInfo.Allchat;
+                chatQueue = ChattingMassegeInfo.Everychat;
             else
                 chatQueue = ChattingMassegeInfo.Groupchat;
             foreach(var item in chatQueue)
             {
                 Debug.Log(item.ToString());
-                AllMessage(item,chatTag);
+                AllMessage(item,chatTag,true);
             }
 
         }
