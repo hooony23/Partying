@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1085192120294423223}
   m_Layer: 0
   m_Name: DroneGuard
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
