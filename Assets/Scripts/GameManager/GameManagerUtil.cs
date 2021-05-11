@@ -55,8 +55,8 @@ namespace GameManager
 
             GameObject Map = Instantiate(Resources.Load("Raid/Map/Raidmap"), Vector3.zero, Quaternion.identity) as GameObject;
             Map.name = Resources.Load("Raid/Map/RaidTerrain").name;
-            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/BossPacman"), stage2Info.BossInfo.GetLocToVector3(), Quaternion.identity) as GameObject;
-            Boss.name = Resources.Load("Raid/Boss/BossPrefab/BossPacman").name;
+            GameObject Boss = Instantiate(Resources.Load("Raid/Boss/BossPrefab/Boss"), stage2Info.BossInfo.GetLocToVector3(), Quaternion.identity) as GameObject;
+            Boss.name = Resources.Load("Raid/Boss/BossPrefab/Boss").name;
             GameObject ItemManager = Instantiate(Resources.Load("Raid/Item/ItemManager"), Vector3.zero, Quaternion.identity) as GameObject;
             ItemManager.name = Resources.Load("Raid/Item/ItemManager").name;
             SpawnPlayer(stage2Info.PlayerLocs);
