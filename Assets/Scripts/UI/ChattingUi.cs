@@ -29,7 +29,7 @@ namespace Partying.UI
         //메세지의 동적생성
         [SerializeField] GameObject chatPanel, isTextBox, isInputChatBox;
         [SerializeField] CanvasGroup canvasGroup;
-        [SerializeField] int chatMode = 1;
+        [SerializeField] int chatMode, viewMode = 1;
         [SerializeField] private InputField chatBox;
         private string insertMessage;
         [SerializeField] private Text chatBoxButtonText;
@@ -220,7 +220,7 @@ namespace Partying.UI
                 ColorUtility.TryParseHtmlString(ROOMCOLOR, out color);
                 }
                 
-            if(chatMode==this.chatMode||isPooling)
+            if(viewMode == this.chatMode||isPooling)
             {
                 Debug.Log(chatMode);
                 Debug.Log(this.chatMode);
@@ -247,23 +247,28 @@ namespace Partying.UI
                 Debug.Log(chatPanel.transform.childCount);
                 Destroy(chatPanel.transform.GetChild(i).gameObject);
             }
-            if(chatTag.Equals("All"))   //TODO: AllChat, GroupChat timestamp로 정렬 후 출력.
+            if (chatTag.Equals("All"))   //TODO: AllChat, GroupChat timestamp로 정렬 후 출력.
             {
                 var temp = new ChatQueue<ChatInfo>(400);
-                foreach(var item in ChattingMassegeInfo.Allchat)
+                foreach (var item in ChattingMassegeInfo.Allchat)
                 {
                     temp.Enqueue(item);
                 }
-                foreach(var item in ChattingMassegeInfo.Groupchat)
+                foreach (var item in ChattingMassegeInfo.Groupchat)
                 {
                     temp.Enqueue(item);
                 }
                 chatQueue = temp;
             }
-            else if(chatTag.Equals("Lobby"))
+            else if (chatTag.Equals("Lobby"))
+            {
+                viewMode = 1;
                 chatQueue = ChattingMassegeInfo.Everychat;
-            else
+            }
+            else {
                 chatQueue = ChattingMassegeInfo.Groupchat;
+                viewMode = 2;
+            }
             foreach(var item in chatQueue)
             {
                 Debug.Log(item.ToString());
