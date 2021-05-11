@@ -33,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 6012859315209749664}
   - {fileID: 5626557142140255913}
-  - {fileID: 7050035282750827444}
+  - {fileID: 2006881447545181142}
   - {fileID: 4614768537785061418}
   m_Father: {fileID: 7141144113150590942}
   m_RootOrder: 0
@@ -227,16 +227,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073987264cd8cba48baabd54c4ca7186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chatTag: "\uBAA8\uB450"
   maxMessages: 25
   chatPanel: {fileID: 0}
   isTextBox: {fileID: 0}
   isInputChatBox: {fileID: 0}
   canvasGroup: {fileID: 0}
-  chatViewMode: 0
   chatMode: 1
   chatBox: {fileID: 0}
-  userMessage: 
-  chatModeButton: {fileID: 0}
+  chatBoxButtonText: {fileID: 0}
 --- !u!1001 &2461505521941067386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -869,10 +868,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6474252128687571919}
     m_Modifications:
+    - target: {fileID: 222591046708337213, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -261
+      objectReference: {fileID: 0}
+    - target: {fileID: 318840978641795289, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -181
+      objectReference: {fileID: 0}
     - target: {fileID: 916244313642569016, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
         type: 3}
       propertyPath: m_Text
       value: "\uB85C\uBE44"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253208492184773832, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1852539926545305275, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
         type: 3}
@@ -894,10 +908,35 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 2217354597837943757, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -101
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217354597837943757, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248961952946486267, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186243660758120153, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7515280000852303109, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
         type: 3}
       propertyPath: m_Name
       value: Button Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825992433588469511, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8012376635482685409, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
         type: 3}
@@ -966,9 +1005,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cdcb3d4f11c6864b98ed8244e8275b3, type: 3}
---- !u!224 &7050035282750827444 stripped
+--- !u!224 &2006881447545181142 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1852539926545305275, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
+  m_CorrespondingSourceObject: {fileID: 7186243660758120153, guid: 2cdcb3d4f11c6864b98ed8244e8275b3,
     type: 3}
   m_PrefabInstance: {fileID: 8674859237364688143}
   m_PrefabAsset: {fileID: 0}
