@@ -36,7 +36,6 @@ namespace Boss
             {
                 StartCoroutine(WakeUp());
             }
-
             BossRigid = GetComponent<Rigidbody>();
             BossCollider = GetComponentInChildren<SphereCollider>();
             BossMatUp = transform.Find("Up").GetComponent<SkinnedMeshRenderer>().material;

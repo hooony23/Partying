@@ -12,19 +12,17 @@ public class Bullet : MonoBehaviour, IDamageable
     public int Damage { get; set; } = 1;
     public string BulletID { get; set; }
 
-    public BossUtil bossUtil = null;
 
+    private void Start()
+    {
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Boss"))
         {
             Debug.Log("보스 맞음");
-            if (bossUtil == null)
-            {
-                this.bossUtil = other.GetComponent<BossUtil>();
-            }
             TakeHit(other.GetComponent<Collider>(), Damage);
-            this.bossUtil.StartBlink(2);
+            other.transform.parent.gameObject.GetComponent<Boss.Boss>().StartBlink(2);
         }
     }
 
