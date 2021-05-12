@@ -23,6 +23,7 @@ public class GameStartCount : MonoBehaviour
         if(NetworkInfo.startTime!=0d){
                 var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
                 StartCoroutine(CountDownToStart((int)seconds));
+            NetworkInfo.startTime = 0;
         }
     }
     //Coroutine을 이용하여 카운트 다운을 실행함.
