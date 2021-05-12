@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5635767b05ae4144394b46c819717a33, type: 2}
+  - {fileID: 2100000, guid: 1133520860b4c9e409be42973e3afc04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,7 +153,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5635767b05ae4144394b46c819717a33, type: 2}
+  - {fileID: 2100000, guid: 1133520860b4c9e409be42973e3afc04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 7817040102622945640}
   - component: {fileID: 7817040102622945643}
   - component: {fileID: 7817040102622945647}
-  - component: {fileID: 5358211339052051570}
+  - component: {fileID: 1220768960593542916}
   m_Layer: 0
   m_Name: HoleTrap
   m_TagString: Untagged
@@ -328,19 +328,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c363ba1ab3425c74a980fa87b233f690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!111 &5358211339052051570
-Animation:
+--- !u!95 &1220768960593542916
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7817040102622945642}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 61254dcfd5f118741a23a4e2fabe4cfe, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 61254dcfd5f118741a23a4e2fabe4cfe, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb8c2a45cffcbae4092519925111d603, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
