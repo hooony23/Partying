@@ -70,7 +70,6 @@ public class Room : BaseMainMenu, IMainMenu
     {
         Debug.Log($"RoomName : {NetworkInfo.roomInfo.RoomName}");
         title.text = NetworkInfo.roomInfo.RoomName;
-        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
         UpdatePlayerBannerList();
     }
     private void OnUpdateMemberInfo()
@@ -102,6 +101,7 @@ public class Room : BaseMainMenu, IMainMenu
         Text pText;
         Image pImage;
         List<string> usersName = new List<string>();
+        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
         ClearPlayerGrid();
         foreach(JObject item in users)
         {
