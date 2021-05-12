@@ -70,7 +70,7 @@ namespace Communication.MainServer
             UnityEngine.Debug.Log($"response : {json}");
             return json;
         }
-        
+
         // ValidationCheckFunction
         private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
@@ -116,7 +116,7 @@ namespace Communication.MainServer
         }
         public static void LeaveRoom(string roomUuid)
         {
-            Communicate("GET",$"api/v1/rooms/{roomUuid}/leave",$"userUuid={Config.userUuid}");
+            Communicate("GET", $"api/v1/rooms/{roomUuid}/leave", $"userUuid={Config.userUuid}");
             Chatting.ChatModule.GetChatModule().RemoveFromGroup(roomUuid);
         }
         public static string GetRoomsList()
@@ -125,8 +125,12 @@ namespace Communication.MainServer
         }
         public static JArray ReturnRoom(string roomUuid)
         {
-            var response = Communicate("GET",$"api/v1/rooms/{roomUuid}/returnRoom");
+            var response = Communicate("GET", $"api/v1/rooms/{roomUuid}/returnRoom");
             return JObject.Parse(response)["data"]["memberInfo"] as JArray;
+        }
+        public static void Ready(string roomUuid, bool isReady)
+        {
+            Communicate("GET", $"api/v1/rooms/{roomUuid}/ready", $"userUuid={Config.userUuid}&ready={isReady}");
         }
 
     }

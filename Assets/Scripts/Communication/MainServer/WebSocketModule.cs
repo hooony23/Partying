@@ -4,6 +4,7 @@ using UnityEngine;
 using Util;
 using Lib;
 using Newtonsoft.Json.Linq;
+using Communication.JsonFormat;
 namespace Communication.MainServer
 {
     public class WebSocketModule : MonoBehaviour
@@ -49,6 +50,17 @@ namespace Communication.MainServer
             {
                 try{
                     NetworkInfo.connectionId = Common.GetData(data)["connectionId"].ToString();
+                }catch(Exception e)
+                {
+                    throw e;
+                }
+                Debug.Log($"receive connectionId : {data}");
+            });
+            
+            connection.On<string>("ready", data =>
+            {
+                try{
+                    ReadyUserInfo.SetReadyUserInfo(Common.GetData(data).ToObject<ReadyUserInfo>());
                 }catch(Exception e)
                 {
                     throw e;
