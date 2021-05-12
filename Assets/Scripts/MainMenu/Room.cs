@@ -139,7 +139,7 @@ public class Room : BaseMainMenu, IMainMenu
     // 방장이 시작 버튼을 누르면 멤버 전부 화면 이동
     private void ActiveStartButton()
     {
-        if (readyUserSet.Count >= NetworkInfo.roomInfo.MemberCount-1)
+        if (readyUserSet.Count >= users.Count-1)
             SetStartButtonActive(true);
         else
             SetStartButtonActive(false);
