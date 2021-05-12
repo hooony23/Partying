@@ -100,7 +100,8 @@ public class Room : BaseMainMenu, IMainMenu
 
         //ready 초기화.
         readyUserSet = new HashSet<string>();
-        ReadyReset();
+        if(!Lib.Common.IsAdmin())
+            ReadyReset();
         foreach (JObject item in users)
         {
             usersName.Add(item["nickname"].ToString());
@@ -118,12 +119,10 @@ public class Room : BaseMainMenu, IMainMenu
             if (Lib.Common.IsAdmin())
             {
                 startButton.transform.Find("Text").GetComponent<Text>().text = "Game Start";
-                startButton.gameObject.GetComponent<Button>().interactable = false;
             }
             else
             {
                 startButton.transform.Find("Text").GetComponent<Text>().text = "Game Ready";
-                startButton.gameObject.GetComponent<Button>().interactable = false;
             }
         }
         playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
@@ -183,7 +182,10 @@ public class Room : BaseMainMenu, IMainMenu
     public void ReadyReset()
     {
         if(!startButton.interactable)
+        {
             APIController.SendController("ConnectedExit");
+            SetStartButtonActive(true);
+        }
     }
     public void CheckReadyUser()
     {
