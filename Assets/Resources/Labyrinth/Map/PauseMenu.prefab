@@ -934,9 +934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3531a77878c38b449a25bcc811685a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseObject: {fileID: 4984528205282929729}
-  MainMenu: {fileID: 4984528205068211608}
-  OptionMenu: {fileID: 4984528203862286993}
+  audioMixer: {fileID: 0}
+  UiSliderSfx: {fileID: 0}
+  UiSliderBgm: {fileID: 0}
 --- !u!1 &4984528205037862870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4984528204955133091}
         m_MethodName: BGMVolume
         m_Mode: 0
         m_Arguments:
@@ -1597,7 +1597,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4984528204955133091}
         m_MethodName: SFXVolume
         m_Mode: 0
         m_Arguments:

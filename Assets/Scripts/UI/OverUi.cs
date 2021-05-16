@@ -39,6 +39,7 @@ public class OverUi : MonoBehaviour
         }
     }
     public void UesrDeadUi() {
+        Cursor.visible = true;
         uiObject.SetActive(true);
         OveruiText.color = new Color32(243, 102, 77, 255);
         OveruiText.text = "Game Over";
@@ -46,6 +47,7 @@ public class OverUi : MonoBehaviour
         overUiButton.onClick.AddListener(UserDeadButton);
     }
     public void GameOverUi() {
+        Cursor.visible = true;
         uiObject.SetActive(true);
         OveruiText.color = new Color32(50, 173, 221, 255);
         OveruiText.text = "- Game Over -";
@@ -57,6 +59,7 @@ public class OverUi : MonoBehaviour
         //TODO: 유저 시점 변환하는 변수나 함수 참조필요
     }
     public void GameOverButton() {
+        SoundManager.instance.IsStopSound("stage"+(Config.defaultStage).ToString());
         Config.defaultStage=99;
         SceneManager.LoadScene("LodingScene");
     }

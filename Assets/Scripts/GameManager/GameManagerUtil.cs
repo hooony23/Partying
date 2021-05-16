@@ -126,11 +126,13 @@ namespace GameManager
         //게임 클리어 UI 활성화
         public void IsGameClear()
         {
+            Cursor.visible = true;
             GameClearUi.SetActive(true);
         }
         public void UserClearButton()
         {
             ContinueButton.interactable = false;
+            SoundManager.instance.IsStopSound("stage" + (Config.defaultStage).ToString());
             SceneManager.LoadScene("LodingScene");
         }
         public GameObject GetPlayerGameObject(string userUuid)

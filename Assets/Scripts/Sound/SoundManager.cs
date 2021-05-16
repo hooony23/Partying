@@ -30,11 +30,12 @@ public class SoundManager : MonoBehaviour
     public AudioMixer audioMixer;
 
     public string[] playSoundName;
+    public string[] playBgmSoundName;
 
     public Sound[] EffectSound;
     public Sound[] BgmSound;
-    public Slider UiSliderSfx;
-    public Slider UiSliderBgm;
+    //public Slider UiSliderSfx;
+   // public Slider UiSliderBgm;
 
     private void Awake()
     {
@@ -43,8 +44,10 @@ public class SoundManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject); // 씬 변경후에도 소리를 관리하도록 함
             //환경설정 슬라이더에 초기값 대입
+            /*
             UiSliderBgm.value = Config.Bgmvol;
-            UiSliderSfx.value = Config.Sfxvol;
+            UiSliderSfx.value = Config.Sfxvol;*/
+
         }
         else
         { //씬 이동후 SoundManager 중복방지를 위한 기존 SoundManger 파괴
@@ -53,28 +56,36 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
+ 
         //효과음의 갯수와 동일화
         playSoundName = new string[audioSourceSFX.Length];
-        audioMixer.SetFloat("SFX", Mathf.Log10(UiSliderBgm.value) * 20); // 오디오 설정에 슬라이더 값 대입
-        audioMixer.SetFloat("BGM", Mathf.Log10(UiSliderSfx.value) * 20);
+        playBgmSoundName = new string[BgmSound.Length];
+        if (Config.defaultStage == 0)
+        {
+            IsPlaySound("Main");
+        }
+        audioMixer.SetFloat("SFX", Mathf.Log10(Config.Bgmvol) * 20); // 오디오 설정에 슬라이더 값 대입
+        audioMixer.SetFloat("BGM", Mathf.Log10(Config.Sfxvol) * 20);
     }
     public void IsPlaySound(string name)
     { //음원재생
-        for (int i = 0; i < EffectSound.Length; i++)
+        for (int i = 0; i < audioSourceSFX.Length; i++)
         {
-
-            if (name.Equals(BgmSound[i].name)) //BGM재생
+            for (int j = 0; j < audioSourceSFX.Length; j++)
             {
-                playSoundName[i] = BgmSound[i].name;
-                audioSourceBGM.clip = BgmSound[i].clip;
-                Debug.Log(BgmSound[i].name);
-                audioSourceBGM.Play();
-                return;
-            }
-            if (name.Equals(EffectSound[i].name))
-            {//SFX재생
-                for (int j = 0; j < audioSourceSFX.Length; j++)
+                Debug.Log("Test" + j+" // "+ i);
+                if (name.Equals(BgmSound[i].name)) //BGM재생
                 {
+
+                    playBgmSoundName[j] = BgmSound[i].name;
+                    audioSourceBGM.clip = BgmSound[i].clip;
+                    //Debug.Log(BgmSound[i].name);
+                    Debug.Log(playSoundName[j]);
+                    audioSourceBGM.Play();
+                    return;
+                }
+                if (name.Equals(EffectSound[i].name))
+                {//SFX재생
                     if (!audioSourceSFX[j].isPlaying)
                     {
                         playSoundName[j] = EffectSound[i].name;
@@ -82,21 +93,29 @@ public class SoundManager : MonoBehaviour
                         audioSourceSFX[j].Play();
                         return;
                     }
+                    Debug.Log("모든 효과오디오 소스 사용중");
+                    return;
                 }
-                Debug.Log("모든 효과오디오 소스 사용중");
-                return;
             }
         }
         Debug.Log(name + "사운드에 등록되지 않거나 이름이 틀림");
         return;
     }
 
+    public void StopAllSfxSound()
+    { //실행중인 효과음들 모두 정지
+        for (int i = 0; i < audioSourceSFX.Length; i++)
+        {
+            audioSourceSFX[i].Stop();
+        }
+    }
     public void StopAllSound()
     { //실행중인 효과음들 모두 정지
         for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             audioSourceSFX[i].Stop();
         }
+        audioSourceBGM.Stop();
     }
     public void IsStopSound(string name)
     { //해당 이름과 일치하는 음원 정지
@@ -118,14 +137,5 @@ public class SoundManager : MonoBehaviour
         Debug.Log("재생중인" + name + "사운드가 없습니다.");
     }
     // 환경설정의 스크롤바 조절
-    public void SFXVolume(float volume)
-    {
-        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
-        Config.Sfxvol = volume;
-    }
-    public void BGMVolume(float volume)
-    {
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
-        Config.Bgmvol = volume;
-    }
+   
 }
