@@ -1,13 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Partying.UI;
-using Newtonsoft.Json.Linq;
 using Communication.JsonFormat;
 using Communication;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 using Chatting;
 using Util;
 namespace Partying.UI

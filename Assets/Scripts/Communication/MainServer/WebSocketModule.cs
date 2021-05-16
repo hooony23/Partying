@@ -59,13 +59,15 @@ namespace Communication.MainServer
             
             connection.On<string>("ready", data =>
             {
+                Debug.Log($"receive read data : {data}");
                 try{
-                    ReadyUserInfo.SetReadyUserInfo(Common.GetData(data).ToObject<ReadyUserInfo>());
+                    var responseJson = Common.GetData(data);
+                    responseJson.Remove("isSuccess");
+                    ReadyUserInfo.SetReadyUserInfo(responseJson.ToObject<ReadyUserInfo>());
                 }catch(Exception e)
                 {
                     throw e;
                 }
-                Debug.Log($"receive connectionId : {data}");
             });
             connection.StartAsync();
         }

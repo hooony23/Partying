@@ -33,12 +33,23 @@ public class Room : BaseMainMenu, IMainMenu
         SetUp();
         Communication.NetworkInfo.mapInfo = null;
     }
+    // OnEnable : Hierachy 에서 활성화 될 때마다 실행
     public void OnEnable()
     {
         roomUuid = NetworkInfo.roomInfo.RoomUuid;
         readyUserSet = new HashSet<string>();
         UINum = 7;
         SetText();
+    }
+
+    private void FixedUpdate()
+    {
+        OnUpdateMemberInfo();
+        CheckReadyUser();
+        if(Lib.Common.IsAdmin())
+            ActiveStartButton();
+        if (Communication.NetworkInfo.mapInfo != null)
+            GameStart();
     }
     public void SetUp()
     {
@@ -78,16 +89,7 @@ public class Room : BaseMainMenu, IMainMenu
             UpdatePlayerBannerList();
         }
     }
-    // OnEnable : Hierachy 에서 활성화 될 때마다 실행
 
-    private void FixedUpdate()
-    {
-        OnUpdateMemberInfo();
-        if(Lib.Common.IsAdmin())
-            ActiveStartButton();
-        if (Communication.NetworkInfo.mapInfo != null)
-            GameStart();
-    }
 
     // 플레이어가 들어오면 PLAYER1, PLAYER2, PLAYER3, PLAYER4 UI 업데이트
     private void UpdatePlayerBannerList()
@@ -100,8 +102,7 @@ public class Room : BaseMainMenu, IMainMenu
 
         //ready 초기화.
         readyUserSet = new HashSet<string>();
-        if(!Lib.Common.IsAdmin())
-            ReadyReset();
+        ReadyReset();
         foreach (JObject item in users)
         {
             usersName.Add(item["nickname"].ToString());
@@ -150,14 +151,14 @@ public class Room : BaseMainMenu, IMainMenu
         if(startButton.interactable)
         {
             APIController.SendController("Connected");
-            MServer.Ready(NetworkInfo.roomInfo.RoomUuid,true);
+            MServer.Ready(true);
             SetStartButtonActive(false);
         }
         else
         {
             //레디 해제
             APIController.SendController("ConnectedExit");
-            MServer.Ready(NetworkInfo.roomInfo.RoomUuid,false);
+            MServer.Ready(false);
             SetStartButtonActive(true);
         }
         if (Lib.Common.IsAdmin())
@@ -181,7 +182,7 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void ReadyReset()
     {
-        if(!startButton.interactable)
+        if(!(startButton.interactable||Lib.Common.IsAdmin()))
         {
             APIController.SendController("ConnectedExit");
             SetStartButtonActive(true);
@@ -200,7 +201,7 @@ public class Room : BaseMainMenu, IMainMenu
     protected override void BackUI()
     {
         ReadyReset();
-        MServer.Ready(NetworkInfo.roomInfo.RoomUuid,false);
+        MServer.Ready(false);
         NetworkInfo.roomInfo = new RoomInfo();
         MServer.LeaveRoom(roomUuid);
         base.BackUI();
@@ -208,7 +209,7 @@ public class Room : BaseMainMenu, IMainMenu
     protected override void OnApplicationQuit()
     {
         ReadyReset();
-        MServer.Ready(NetworkInfo.roomInfo.RoomUuid,false);
+        MServer.Ready(false);
         MServer.LeaveRoom(roomUuid);
         base.OnApplicationQuit();
     }

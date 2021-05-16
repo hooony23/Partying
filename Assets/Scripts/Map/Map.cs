@@ -18,6 +18,5 @@ public class Map : MapUtil
     private void Start()
     {
         GameObject.Find("Floor").GetComponent<NavMeshSurface>().BuildNavMesh();
-
     }
 }

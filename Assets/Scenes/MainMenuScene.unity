@@ -6215,6 +6215,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Game Ready
       objectReference: {fileID: 0}
+    - target: {fileID: 7044986711620984760, guid: 4e952425ccbd0bb44820e9e0717b6409,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8014572430067735826, guid: 4e952425ccbd0bb44820e9e0717b6409,
         type: 3}
       propertyPath: m_AnchorMin.y

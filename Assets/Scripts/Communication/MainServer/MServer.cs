@@ -128,9 +128,9 @@ namespace Communication.MainServer
             var response = Communicate("GET", $"api/v1/rooms/{roomUuid}/returnRoom");
             return JObject.Parse(response)["data"]["memberInfo"] as JArray;
         }
-        public static void Ready(string roomUuid, bool isReady)
+        public static void Ready( bool isReady)
         {
-            Communicate("GET", $"api/v1/rooms/{roomUuid}/ready", $"userUuid={Config.userUuid}&ready={isReady}");
+            Communicate("GET", $"api/v1/rooms/{NetworkInfo.roomInfo.RoomUuid}/ready", $"userUuid={Config.userUuid}&ready={isReady}");
         }
 
     }
