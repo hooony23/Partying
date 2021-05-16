@@ -27,6 +27,7 @@ public class Player : PlayerUtil
             CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
             ShotPoint = CameraArm.Find("Shot Point").transform;
             UserScore = GM.GetComponent<UserScore>();
+            CMFollowTarget = this.transform.Find("CM Follow Target");
         }
 
         // 플레이어 공격

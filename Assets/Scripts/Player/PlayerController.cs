@@ -70,4 +70,6 @@ public class PlayerController : MonoBehaviour
 
     public Transform ShotPoint { get; set; }
 
+    public Transform CMFollowTarget { get; set; }
+
 }
