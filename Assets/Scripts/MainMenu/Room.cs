@@ -15,7 +15,6 @@ public class Room : BaseMainMenu, IMainMenu
 {
     private Text title = null;
     private Button startButton = null;
-    private Text playerCount = null;
     // 서버 통신용
     private string getMemInfoMsg;
     private Transform playerGrid;
@@ -66,7 +65,6 @@ public class Room : BaseMainMenu, IMainMenu
                                     playerGrid.GetChild(3).gameObject};
         defaultGridSet = players;
         title = this.transform.Find("RoomTitle").Find("Text RoomTitle").gameObject.GetComponent<Text>();
-        playerCount = this.transform.Find("PlayerCount").Find("Text PlayerCount").GetComponent<Text>();
         startButton = startButtonTransfom.GetComponent<Button>();
 
         // Set Button Event
@@ -97,7 +95,6 @@ public class Room : BaseMainMenu, IMainMenu
         Text pText;
         Image pImage;
         List<string> usersName = new List<string>();
-        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
         ClearPlayerGrid();
 
         //ready 초기화.
@@ -126,7 +123,6 @@ public class Room : BaseMainMenu, IMainMenu
                 startButton.transform.Find("Text").GetComponent<Text>().text = "Game Ready";
             }
         }
-        playerCount.text = NetworkInfo.roomInfo.MemberCount.ToString();
     }
     private void ClearPlayerGrid()
     {
