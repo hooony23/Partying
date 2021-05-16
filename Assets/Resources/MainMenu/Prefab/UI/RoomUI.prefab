@@ -230,6 +230,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8899275603534316607, guid: 2de6d314140a1d242875cc5cf33d270a,
+        type: 3}
+      propertyPath: m_Text
+      value: PLAYER1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899275603534316607, guid: 2de6d314140a1d242875cc5cf33d270a,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.19607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899275603534316607, guid: 2de6d314140a1d242875cc5cf33d270a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.19607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899275603534316607, guid: 2de6d314140a1d242875cc5cf33d270a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.19607843
+      objectReference: {fileID: 0}
     - target: {fileID: 8899275603917548630, guid: 2de6d314140a1d242875cc5cf33d270a,
         type: 3}
       propertyPath: m_AnchorMin.y

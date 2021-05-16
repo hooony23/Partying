@@ -19,7 +19,7 @@ public class Room : BaseMainMenu, IMainMenu
     private string getMemInfoMsg;
     private Transform playerGrid;
     private JArray users;
-
+    private Color readyColor;
     // 현재 방의 유저 UI
     GameObject[] players = null;
     GameObject[] defaultGridSet = null;
@@ -53,6 +53,7 @@ public class Room : BaseMainMenu, IMainMenu
     public void SetUp()
     {
         //Initialize Variable
+        readyColor = new Color(0.7f,0.4f,0.3f);
         playerGrid = this.transform.Find("Player Grid");
         var startButtonTransfom = this.transform.Find("Button Start");
         users = NetworkInfo.memberInfo;
@@ -94,24 +95,22 @@ public class Room : BaseMainMenu, IMainMenu
     {
         Text pText;
         Image pImage;
-        List<string> usersName = new List<string>();
         ClearPlayerGrid();
 
         //ready 초기화.
         readyUserSet = new HashSet<string>();
         ReadyReset();
-        foreach (JObject item in users)
-        {
-            usersName.Add(item["nickname"].ToString());
-            Debug.Log($"user Name:{item["nickname"].ToString()}");
-        }
         for (int i = 0; i < users.Count; i++)
         {
+            var user = users[i].ToObject<MemberInfo>();
+            if(i==0){
+                NetworkInfo.roomInfo.Admin = user;
+            }
             // USER(1~4) UI 초기화
             pText = players[i].GetComponentInChildren<Text>();
             pImage = players[i].GetComponentInChildren<Image>();
 
-            pText.text = usersName[i];
+            pText.text = user.Nickname;
             pImage.color = Color.white;
 
             if (Lib.Common.IsAdmin())
@@ -129,6 +128,7 @@ public class Room : BaseMainMenu, IMainMenu
         for (int i = 0; i < 4; i++)
         {
             players[i].GetComponentInChildren<Text>().text = $"PLAYER{i + 1}";
+            players[i].GetComponentInChildren<Text>().color = new Color(0,0,0);
             players[i].GetComponentInChildren<Image>().color = new Color(0.45f, 0.45f, 0.45f);
         }
     }
@@ -178,7 +178,7 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void ReadyReset()
     {
-        if(!(startButton.interactable||Lib.Common.IsAdmin()))
+        if(!startButton.interactable&&!Lib.Common.IsAdmin())
         {
             APIController.SendController("ConnectedExit");
             SetStartButtonActive(true);
@@ -187,12 +187,32 @@ public class Room : BaseMainMenu, IMainMenu
     public void CheckReadyUser()
     {
         var readyUserInfo = ReadyUserInfo.GetReadyUserInfo();
+        var color = Color.black;
         if(readyUserInfo ==null)
             return;
-        if(readyUserInfo.Ready)
+        
+        if(readyUserInfo.Ready){
             readyUserSet.Add(readyUserInfo.Player);
+            color = readyColor;
+        }
         else
             readyUserSet.Remove(readyUserInfo.Player);
+        SetUserColor(readyUserInfo.Player,color);
+    }
+
+    protected void SetUserColor(string userUuid,Color color)
+    {
+        
+        
+        for(var i=0 ;i< users.Count;i++)
+        {
+            var memberInfo = users[i].ToObject<MemberInfo>();
+            if(userUuid.Equals(memberInfo.UserUuid))
+            {
+                players[i].GetComponentInChildren<Text>().color = color;
+                break;
+            }
+        }
     }
     protected override void BackUI()
     {
