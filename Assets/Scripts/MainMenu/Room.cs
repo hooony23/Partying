@@ -174,7 +174,7 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void GameStart()
     {
-        SoundManager.instance.IsStopSound("Main");
+        SoundManager.instance.StopBgmSound();
         SceneManager.LoadScene("LodingScene"); //Coroutine을 이용해 시간 딜레이 추가 여부 상의 필요
     }
     public void ReadyReset()

@@ -59,7 +59,7 @@ public class OverUi : MonoBehaviour
         //TODO: 유저 시점 변환하는 변수나 함수 참조필요
     }
     public void GameOverButton() {
-        SoundManager.instance.IsStopSound("stage"+(Config.defaultStage).ToString());
+        SoundManager.instance.StopBgmSound();
         Config.defaultStage=99;
         SceneManager.LoadScene("LodingScene");
     }

@@ -132,7 +132,7 @@ namespace GameManager
         public void UserClearButton()
         {
             ContinueButton.interactable = false;
-            SoundManager.instance.IsStopSound("stage" + (Config.defaultStage).ToString());
+            SoundManager.instance.StopBgmSound();
             SceneManager.LoadScene("LodingScene");
         }
         public GameObject GetPlayerGameObject(string userUuid)

@@ -80,7 +80,7 @@ public class SoundManager : MonoBehaviour
                     playBgmSoundName[j] = BgmSound[i].name;
                     audioSourceBGM.clip = BgmSound[i].clip;
                     //Debug.Log(BgmSound[i].name);
-                    Debug.Log(playSoundName[j]);
+                    Debug.Log(playBgmSoundName[j]);
                     audioSourceBGM.Play();
                     return;
                 }
@@ -109,13 +109,10 @@ public class SoundManager : MonoBehaviour
             audioSourceSFX[i].Stop();
         }
     }
-    public void StopAllSound()
-    { //실행중인 효과음들 모두 정지
-        for (int i = 0; i < audioSourceSFX.Length; i++)
-        {
-            audioSourceSFX[i].Stop();
-        }
-        audioSourceBGM.Stop();
+    public void StopBgmSound()
+    { //실행중인 배경음 정지
+                audioSourceBGM.Stop();
+                return;
     }
     public void IsStopSound(string name)
     { //해당 이름과 일치하는 음원 정지
@@ -127,7 +124,6 @@ public class SoundManager : MonoBehaviour
                 Debug.Log(playSoundName + " 소리 중지");
                 Debug.Log(playSoundName[i].ToString() + " 소리 중지");
                 audioSourceSFX[i].Stop();
-                audioSourceBGM.Stop();
                 return;
             }
             /*else { //StopAllSound와 합칠 수 있을 경우 제거후 추가

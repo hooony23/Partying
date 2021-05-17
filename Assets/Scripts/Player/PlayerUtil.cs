@@ -347,7 +347,7 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-
+        SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();
