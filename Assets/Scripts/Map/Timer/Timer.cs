@@ -19,16 +19,20 @@ public class Timer : MonoBehaviour
     //BGM 실행
     [SerializeField] private string BGMSound;
     AudioSource audioSource;
+    bool flag = true;
     private void Start()
     {
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/TimerUi")) as GameObject;
         timeText = TimerObject.transform.Find("TimeText").GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
         Debug.Log($"finish time : {NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now)}");
-        Time = (NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
     }
     private void Update()
     {
+        if(NetworkInfo.finishTime>0&&flag){
+            Time = (NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
+            flag=false;
+        }
         TimeCount();
     }
     private void TimeCount()
