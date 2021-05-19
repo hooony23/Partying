@@ -509,6 +509,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 384282004}
     m_Modifications:
+    - target: {fileID: 171236837612124543, guid: 0a1a48a77945dff44a6527109152f85a,
+        type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 171236837612124543, guid: 0a1a48a77945dff44a6527109152f85a,
+        type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4051259229491794779, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -522,7 +532,7 @@ PrefabInstance:
     - target: {fileID: 4051259229491794779, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4051259229686833261, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
@@ -642,12 +652,12 @@ PrefabInstance:
     - target: {fileID: 4051259231032306978, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4051259231032306978, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4051259231048480824, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
@@ -657,14 +667,15 @@ PrefabInstance:
     - target: {fileID: 4051259231541248541, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4051259231541248541, guid: 0a1a48a77945dff44a6527109152f85a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 171236837612124543, guid: 0a1a48a77945dff44a6527109152f85a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0a1a48a77945dff44a6527109152f85a, type: 3}
 --- !u!224 &1068449593 stripped
 RectTransform:
