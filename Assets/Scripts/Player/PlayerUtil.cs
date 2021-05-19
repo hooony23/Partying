@@ -354,7 +354,7 @@ public class PlayerUtil : PlayerController
         SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
-        Pistol.Shot();
+        MusslePoint.Shot();
     }
     public void AnimationStart()
     {

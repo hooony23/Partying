@@ -38,7 +38,7 @@ public class Player : PlayerUtil
         }
 
         // 플레이어 공격
-        Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
+        MusslePoint = transform.Find("Mussle Point").GetComponent<MusslePoint>();
     }
 
     void Update()
