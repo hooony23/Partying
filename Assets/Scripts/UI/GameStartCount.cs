@@ -16,24 +16,25 @@ public class GameStartCount : MonoBehaviour
     /* private int firsttime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds+5;
      private int endtime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds;
      private int CountDownTime;*/
+     public bool flag=true;
     CultureInfo cultureInfo = new CultureInfo("ko-KR");
     private void Start()
     {
         GameObject TimerObject = Instantiate(Resources.Load("GameUi/CountDownUi")) as GameObject;
         CountDownDisplay = TimerObject.transform.Find("CountDownText").GetComponent<Text>();
         
-        if(NetworkInfo.startTime!=0d){
-                var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
-                StartCoroutine(CountDownToStart((int)seconds));
-            NetworkInfo.startTime = 0;
-        }
     }
     //Coroutine을 이용하여 카운트 다운을 실행함.
     //timeScale이 0이 되면 Update문이 실행불가.
     //WaitForSecondsRealtime을 통해 현재 초만큼 움직이도록 실행.
     private void Update()
     {
-            
+        if(NetworkInfo.startTime!=0d&&flag){
+                var seconds = NetworkInfo.startTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now);
+                StartCoroutine(CountDownToStart((int)seconds));
+            NetworkInfo.startTime = 0;
+            flag=false;
+        }
     }
     IEnumerator CountDownToStart(int seconds)
     {

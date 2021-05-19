@@ -33,7 +33,8 @@ public class Timer : MonoBehaviour
             Time = (NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(NetworkInfo.finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
             flag=false;
         }
-        TimeCount();
+        if(!flag)
+            TimeCount();
     }
     private void TimeCount()
     {
