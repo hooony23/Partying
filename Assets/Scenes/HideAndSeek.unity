@@ -185,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623529556
 GameObject:
@@ -483,6 +483,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 10, z: 0}
+--- !u!114 &951757889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8552772825321894731, guid: ed969b9c8d574364582dd17de8a97385,
+    type: 3}
+  m_PrefabInstance: {fileID: 1870538459}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f8df5927814964e9c0313d4260fff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e228df8e46a16024ba4ef309736b99d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageBgm: Stage1
+  BGMSound: BGMSound
 --- !u!114 &1426102868
 MonoBehaviour:
   m_ObjectHideFlags: 0

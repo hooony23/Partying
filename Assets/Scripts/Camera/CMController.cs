@@ -10,14 +10,11 @@ public class CMController : MonoBehaviour
     public Cinemachine.CinemachineVirtualCamera vcam;
 
     private Animator animator;
-    private GameManager.GameManager GM;
     
     private void Start()
     {
         vcam = this.GetComponent<Cinemachine.CinemachineVirtualCamera>();
         animator = this.GetComponent<Animator>();
-        GM = GameObject.Find("Game Manager").GetComponent<GameManager.GameManager>();
-
     }
 
     private void Update()
