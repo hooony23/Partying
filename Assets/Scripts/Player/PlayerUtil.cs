@@ -10,11 +10,17 @@ using Util;
 public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
-    [Range(0.01f, 10)] public float mouseSensitivity = 1;
     [SerializeField]
+    private string BGMSound;
+
+    [Range(0.01f, 20f)] public float turnSpeed;
+    public float turnSmoothTime = 0.05f;
+    float turnSmoothVelocity;
+    public Cinemachine.AxisState xAxis;
+    public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead)
+        if (IsDead )
             return;
         HAxis = 0f;
         VAxis = 0f;
@@ -107,7 +113,8 @@ public class PlayerUtil : PlayerController
     }
     public void Move()
     {
-        if (IsStun == false && !MouseClickInput && !IsAttack)
+
+        if (MoveVec.magnitude >= 0.1f && !IsStun && !MouseClickInput && !IsAttack)
         {
             Cursor.visible = false;
 
@@ -115,18 +122,19 @@ public class PlayerUtil : PlayerController
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
             if (IsMyCharacter())
             {
-                Debug.DrawRay(CameraArm.position, CameraArm.forward, Color.red);
+                // 키보드 움직임 
+                float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
+                    + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
+                float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
+                    ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                Vector3 lookForward = new Vector3(CameraArm.forward.x, 0f, CameraArm.forward.z).normalized;
-                Vector3 lookRight = new Vector3(CameraArm.right.x, 0f, CameraArm.right.z).normalized;
-                transform.forward = lookForward;
-
-                // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
-                MoveDir = (lookForward * MoveInput.y + lookRight * MoveInput.x).normalized;
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                MoveDir = moveDir;
             }
-            if (!IsBorder)
+            if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
             {
-                this.gameObject.transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
+                this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
             }
         }
 
@@ -150,31 +158,51 @@ public class PlayerUtil : PlayerController
                 PInfo.SetAngle(ShotPoint.position);
         }
     }
-    public void Turn()
-    {
-        if (!IsAttack && MoveDir != Vector3.zero)
-        {
-            transform.LookAt(transform.position + MoveDir);
-        }
-    }
+    //public void Turn()
+    //{
+    //    if (!IsAttack && MoveDir != Vector3.zero)
+    //    {
+    //        transform.LookAt(transform.position + MoveDir);
+    //    }
+    //}
+    //public void CameraTurn()
+    //{
+    //    // 카메라 각도 제한
+    //    Vector3 camAngle = CameraArm.rotation.eulerAngles;
+    //    float x = camAngle.x - MouseDelta.y * mouseSensitivity;
+
+    //    if (x < 180f)
+    //    {
+    //        x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
+    //    }
+    //    else
+    //    {
+    //        x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
+    //    }
+    //    CameraArm.transform.position = this.transform.position;
+    //    CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
+
+    //}
     public void CameraTurn()
     {
-        // 카메라 각도 제한
-        Vector3 camAngle = CameraArm.rotation.eulerAngles;
-        float x = camAngle.x - MouseDelta.y * mouseSensitivity;
+        xAxis.Update(Time.fixedDeltaTime);
+        yAxis.Update(Time.fixedDeltaTime);
 
-        if (x < 180f)
-        {
-            x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
-        }
-        else
-        {
-            x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
-        }
-        CameraArm.transform.position = this.transform.position;
-        CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
-
+        CmFollowTarget.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
     }
+
+    public void Aim()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            CameraArm.Aim();
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            CameraArm.AimOut();
+        }
+    }
+
     public void Dodge() // 플레이어 회피
     {
         if (!IsMyCharacter())
@@ -357,7 +385,7 @@ public class PlayerUtil : PlayerController
         Debug.Log($"{this.gameObject.name} state : {PlayerState}");
         if ((int)PlayerState == (int)Movement.Run)
         {
-            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), MoveDir != Vector3.zero && !IsAttack);
+            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), IsMove && !IsAttack);
             return;
         }
         if (System.Enum.IsDefined(typeof(Movement), PlayerState))

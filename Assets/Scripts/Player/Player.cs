@@ -24,8 +24,16 @@ public class Player : PlayerUtil
             {
                 Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
             }
-            CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
-            ShotPoint = CameraArm.Find("Shot Point").transform;
+
+            //CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
+            CameraMain = GameObject.Find("Main Camera").GetComponent<Camera>();
+            CameraArm = GameObject.Find("CameraArm2").GetComponent<CMController>();
+
+            CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
+
+            CameraArm.InitTarget(CmFollowTarget);
+            ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
+
             UserScore = GM.GetComponent<UserScore>();
         }
 
@@ -33,17 +41,20 @@ public class Player : PlayerUtil
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
     }
 
+ 
+
     void Update()
     {
         if (IsMyCharacter())
         {
             GetInput();
             CameraTurn();
+            Aim();
         }
         else
             GetNetWorkInput();
         Move();
-        Turn();
+        //Turn();
         Attack();
         Dodge();
         GetItem();
