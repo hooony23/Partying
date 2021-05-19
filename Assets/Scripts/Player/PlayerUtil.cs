@@ -12,7 +12,6 @@ public class PlayerUtil : PlayerController
     private Vector3 preMoveDir = Vector3.zero;
     [Range(0.01f, 10)] public float mouseSensitivity = 1;
     [SerializeField]
-    private string BGMSound;
     public void GetInput()
     {
         if (IsDead)
@@ -348,7 +347,7 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-
+        SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();

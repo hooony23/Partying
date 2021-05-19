@@ -58,6 +58,31 @@ MonoBehaviour:
   roomMaster: {fileID: 0}
   locker: {fileID: 0}
   headcount: {fileID: 0}
+--- !u!114 &171236837612124543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4051259231541248540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1001 &1166074368332637429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,6 +94,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Popup Password
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888580579777967954, guid: 62ea4ee64f12fac4fa95d2a04dcd927f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2888580579777967965, guid: 62ea4ee64f12fac4fa95d2a04dcd927f,
         type: 3}
@@ -455,6 +485,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scroll View RoomList
       objectReference: {fileID: 0}
+    - target: {fileID: 1827642522462967055, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4,
+        type: 3}
+      propertyPath: m_VerticalScrollbarSpacing
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 1827642522647811038, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -470,11 +505,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1827642522647811036, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4, type: 3}
 --- !u!224 &4051259230652875979 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1827642522462967048, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2406578059485090243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4051259231541248540 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1827642522647811039, guid: 3f0ab90fb319d8a4b8f2e64a753b2ee4,
     type: 3}
   m_PrefabInstance: {fileID: 2406578059485090243}
   m_PrefabAsset: {fileID: 0}

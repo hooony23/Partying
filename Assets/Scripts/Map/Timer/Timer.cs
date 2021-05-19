@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour
     private bool isTimerStart = true;
 
     //BGM 실행
-    [SerializeField] private string BGMSound;
+    [SerializeField] private string stageBgm = "Stage1";
     AudioSource audioSource;
     bool flag = true;
     private void Start()
@@ -40,7 +40,7 @@ public class Timer : MonoBehaviour
         //게임시작과 함께 BGM실행
         if (Config.StartGame && isTimerStart)
         {
-            SoundManager.instance.IsPlaySound(BGMSound);
+            SoundManager.instance.IsPlaySound(stageBgm);
             timeText.gameObject.SetActive(true);
             isTimerStart = false;
         }
@@ -56,7 +56,7 @@ public class Timer : MonoBehaviour
             if (!audioSource.isPlaying)
             {
                 Mintime = false;
-                SoundManager.instance.IsStopSound(BGMSound);
+                SoundManager.instance.StopBgmSound();
                 audioSource.Play();
             }
         }
