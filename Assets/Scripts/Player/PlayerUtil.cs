@@ -158,31 +158,7 @@ public class PlayerUtil : PlayerController
                 PInfo.SetAngle(ShotPoint.position);
         }
     }
-    //public void Turn()
-    //{
-    //    if (!IsAttack && MoveDir != Vector3.zero)
-    //    {
-    //        transform.LookAt(transform.position + MoveDir);
-    //    }
-    //}
-    //public void CameraTurn()
-    //{
-    //    // 카메라 각도 제한
-    //    Vector3 camAngle = CameraArm.rotation.eulerAngles;
-    //    float x = camAngle.x - MouseDelta.y * mouseSensitivity;
-
-    //    if (x < 180f)
-    //    {
-    //        x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
-    //    }
-    //    else
-    //    {
-    //        x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
-    //    }
-    //    CameraArm.transform.position = this.transform.position;
-    //    CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
-
-    //}
+ 
     public void CameraTurn()
     {
         xAxis.Update(Time.fixedDeltaTime);

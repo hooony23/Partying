@@ -29,9 +29,9 @@ public class Player : PlayerUtil
             CameraMain = GameObject.Find("Main Camera").GetComponent<Camera>();
             CameraArm = GameObject.Find("CameraArm2").GetComponent<CMController>();
 
-            CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
+            CmFollowTarget = this.transform.Find("CM Follow Target");
+            Debug.Log("CmFollowTarget유무 : " + CmFollowTarget);
 
-            CameraArm.InitTarget(CmFollowTarget);
             ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
 
             UserScore = GM.GetComponent<UserScore>();
@@ -41,20 +41,17 @@ public class Player : PlayerUtil
         Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
     }
 
- 
-
     void Update()
     {
         if (IsMyCharacter())
         {
             GetInput();
-            CameraTurn();
             Aim();
         }
         else
             GetNetWorkInput();
         Move();
-        //Turn();
+        CameraTurn();
         Attack();
         Dodge();
         GetItem();
