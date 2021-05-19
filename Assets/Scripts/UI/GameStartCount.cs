@@ -9,6 +9,8 @@ using System.Globalization;
 
 public class GameStartCount : MonoBehaviour
 {
+    public bool isTimerFinished { get; set; } = false;
+
     public Text CountDownDisplay;
     //현재시각을 이용하여 CountDown을 해보았으나, timescale이 0일때 발생하는 오류가 다수발생.
     /* private int firsttime = (int)System.DateTime.Now.TimeOfDay.TotalSeconds+5;
@@ -36,8 +38,8 @@ public class GameStartCount : MonoBehaviour
     IEnumerator CountDownToStart(int seconds)
     {
         //현재 게임의 배속을 0으로 만들고 2초뒤 실행, 물리적 시간도 함께 조정
-        Time.timeScale = 0.0f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        //Time.timeScale = 0.0f;
+        //Time.fixedDeltaTime = 0.02f * Time.timeScale;
         yield return new WaitForSecondsRealtime(2f);
         CountDownDisplay.gameObject.SetActive(true);
 
@@ -50,10 +52,11 @@ public class GameStartCount : MonoBehaviour
         }
 
         //start 화면과 함께 게임시작
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         CountDownDisplay.text = "Start!";
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        //Time.fixedDeltaTime = 0.02f * Time.timeScale;
         Config.StartGame = true;
+        isTimerFinished = true;
         yield return new WaitForSecondsRealtime(1f);
         CountDownDisplay.gameObject.SetActive(false);
     }

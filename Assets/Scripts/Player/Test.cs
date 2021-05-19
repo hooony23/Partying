@@ -27,7 +27,7 @@ public class Test : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera").transform;
         cmFollowTarget = this.transform.Find("CM Follow Target").transform;
         CameraArm = GameObject.Find("CameraArm2");
-        vcam = CameraArm.transform.Find("CM vcam1").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        vcam = CameraArm.GetComponent<Cinemachine.CinemachineVirtualCamera>();
         aimAnimator = vcam.GetComponent<Animator>();
     }
     void Update()

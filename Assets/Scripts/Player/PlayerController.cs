@@ -57,8 +57,11 @@ public class PlayerController : MonoBehaviour
     public Rigidbody Rigid { get; set; }
 
     // 캐릭터 시점
-    public Transform CameraArm { get; set; }
+    public Camera CameraMain { get; set; }
+    public CMController CameraArm { get; set; }
     public Vector2 MouseDelta { get; set; }
+    public bool isAimming { get; set; } = false;
+    public Transform CmFollowTarget { get; set; }
 
     // 플레이어 피격 효과
     public Material Mat { get; set; }
@@ -69,7 +72,5 @@ public class PlayerController : MonoBehaviour
     public MusslePoint Pistol { get; set; }
 
     public Transform ShotPoint { get; set; }
-
-    public Transform CMFollowTarget { get; set; }
 
 }

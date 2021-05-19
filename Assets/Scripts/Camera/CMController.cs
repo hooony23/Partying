@@ -2,31 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using GameManager;
 
 public class CMController : MonoBehaviour
 {
-    public GameObject targetplayer;
-    public GameObject shotpoint;
+    public static CMController CMC { get; set; }
+    public Cinemachine.CinemachineVirtualCamera vcam;
 
-    // cmFreeLook, cmAim 세팅값 설정 변경용
-    private Cinemachine.CinemachineFreeLook freelook; 
-    private Cinemachine.CinemachineFreeLook aim; 
-
-    private GameObject cmFreeLook;
-    private GameObject cmAim;
-    private Camera maincam;
-
+    private Animator animator;
+    private GameManager.GameManager GM;
+    
     private void Start()
     {
-        maincam = Camera.main;                           // 각 씬의 메인 카메라 이름으로 변경
-        cmFreeLook = this.transform.Find("CM FreeLook").gameObject;
-        cmAim = this.transform.Find("CM Aim").gameObject;
-
+        vcam = this.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        animator = this.GetComponent<Animator>();
+        GM = GameObject.Find("Game Manager").GetComponent<GameManager.GameManager>();
 
     }
 
-    void Update()
+    private void Update()
     {
-
+        
     }
+
+    public void InitTarget(Transform target)
+    {
+        vcam.Follow = target;
+    }
+
+    public void Aim()
+    {
+        animator.SetBool("isAimming", true);
+    }
+
+    public void AimOut()
+    {
+        animator.SetBool("isAimming", false);
+    }
+
 }
