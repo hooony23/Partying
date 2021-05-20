@@ -79,11 +79,13 @@ namespace Communication.MainServer
         public static string SignUp(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("signUp", requestJson);
+            requestString = BaseJsonFormat.ObjectToJson("encryptedData",new {encryptedData= CryptoHandler.AESEncrypt(requestString)});
             return Communicate("POST", "api/v1/session/signUp", requestString);
         }
         public static string SignIn(object requestJson)
         {
             var requestString = BaseJsonFormat.ObjectToJson("signIn", requestJson);
+            requestString = BaseJsonFormat.ObjectToJson("encryptedData",new {encryptedData= CryptoHandler.AESEncrypt(requestString)});
             return Communicate("POST", "api/v1/session/signIn", requestString);
         }
         public static string SignOut()
