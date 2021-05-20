@@ -1,36 +1,36 @@
 using UnityEngine;
 using Util;
-
+using Newtonsoft.Json.Linq;
 namespace Communication.JsonFormat
 {
-    public class AiInfo
+    public sealed class AiInfo
     {
+        private static AiInfo value {get;set;}
         public string Uuid {get;set;} = "Patrol";
-        public Division3 Loc {get;set;} = new Division3();
-        public Division3 Vec {get;set;} = new Division3();
-        
-        public AiInfo(float Lx,float Ly, float Lz,float Vx, float Vy, float Vz,string uuid)
-        {
-            Loc.X = Lx;
-            Loc.Y = Ly;
-            Loc.Z = Lz;
-
-            Vec.X = Vx;
-            Vec.Y = Vy;
-            Vec.Z = Vz;
-            Uuid = uuid;
+        public string Target {get;set;} = "Player";
+        private AiInfo(string uuid,string target){
+            this.Uuid = uuid;
+            this.Target = target;
         }
-        public AiInfo(Division3 loc,Division3 vec,string uuid):this(loc.X,loc.Y,vec.X,vec.Y,vec.Y,vec.Z,uuid){}
-        public AiInfo(Vector3 loc,Vector3 vec,string uuid):this(loc.x,loc.y,vec.z,vec.x,vec.y,vec.z,uuid){}
-        public AiInfo():this(0,0,0,0,0,0,"Patrol"){}
-        
-        public Vector3 GetVecToVector3()
+        public static void SetValue(string uuid,string target)
         {
-            return new Vector3(Vec.X,Vec.Y,Vec.Z);
+            value = new AiInfo(uuid,target);
         }
-        public Vector3 GetLocToVector3()
+        public static AiInfo GetInstance(string uuid,string target)
         {
-            return new Vector3(Loc.X,Loc.Y,Loc.Z);
+            return new AiInfo(uuid,target);
+        }
+        public static void SetValue(JObject json)
+        {
+            value = json.ToObject<AiInfo>();
+        }
+        public static AiInfo GetValue()
+        {
+            return value;
+        }
+        public static void ClearValue()
+        {
+            value = null;
         }
     }
 }

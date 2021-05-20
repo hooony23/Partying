@@ -21,7 +21,6 @@ namespace Communication
         // TODO:회원가입 또는 로그인 시 jwt로 가져온 사용자 정보를 저장해야함.
         public static MemberInfo myData = new MemberInfo();
         public static RoomInfo roomInfo = new RoomInfo();
-        public static AiInfo aiInfo = null;
         public static BossInfo bossInfo = null;
     }
 }

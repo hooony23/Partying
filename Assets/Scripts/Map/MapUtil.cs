@@ -168,8 +168,6 @@ public class MapUtil : MapController
         {
             GameObject patrolUnit =  Instantiate(MapObjects.PatrolUnit, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
             patrolUnit.name = item.data.ToString();
-            patrolUnit.GetComponent<PatrolAI>().AiInfo.Uuid = item.data.ToString();
-
             patrolUnit.transform.SetParent(grandParent.transform.Find("AIs"));
         }
     }
@@ -182,7 +180,7 @@ public class MapUtil : MapController
         foreach(CellInfo item in patrolPintsInfo)
         {
                 GameObject patrolPoint =  Instantiate(MapObjects.PatrolPoint, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-                patrolPoint.name = "patrolPoint";
+                patrolPoint.name = item.data.ToString();
                 patrolPoint.transform.SetParent(grandParent.transform.Find($"{item.col}_{item.row}"));
         }
     }

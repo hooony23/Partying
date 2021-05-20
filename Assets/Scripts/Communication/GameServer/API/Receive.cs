@@ -67,7 +67,7 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            NetworkInfo.aiInfo = ((JObject)responseJson["data"]).ToObject<AiInfo>();
+            AiInfo.SetValue(responseJson["data"] as JObject);
 
         }
         public void Death(string response)
