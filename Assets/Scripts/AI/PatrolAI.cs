@@ -14,29 +14,22 @@ public class PatrolAI : PatrolAIUtil
         LayerMaskPlayer = LayerMask.GetMask("Player");
         LayerMaskPpoint = LayerMask.GetMask("PatrolPoint");
         Patrol = gameObject.GetComponent<NavMeshAgent>();
+        LastPpoint = transform;
     }
     void Start()
     {
-        LastPpoint = transform;
         InvokeRepeating("FindPatrolPoint", 0f, 1.5f);
     }
 
     void Update()
     {
-        
-        if(Lib.Common.IsAdmin())
-        {
-            
-            UpdatePatrolTarget();
-            MoveChangeSend();
-        }
-        else{
-            NetworkSync();
-        }
+        SetTargetPoint();
+        SearchPlayers();
         Move(); // 순찰, 추격, 위험지역 확인
-
-
     }
-
+    private void OnCollisionEnter(Collision other) {
+        Debug.Log($"ai hit {other.gameObject.name}");
+        TakeHit(other.collider);
+    }
 
 }

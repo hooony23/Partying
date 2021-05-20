@@ -67,7 +67,29 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            NetworkInfo.aiInfo = ((JObject)responseJson["data"]).ToObject<AiInfo>();
+            var aiInfo = responseJson.ToObject<AiInfo>();
+            NetworkInfo.aisInfo[aiInfo.Uuid] = aiInfo;
+
+        }
+        public void SyncAiPacketArray(string response)
+        {
+            JObject responseJson = null;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return;
+            }
+            var aisInfo = responseJson["syncAiPacketArray"] as JArray;
+            Debug.Log(aisInfo.ToString());
+            foreach(var aiInfo in aisInfo)
+            {
+                var tmp = aiInfo.ToObject<AiInfo>();
+                NetworkInfo.aisInfo[tmp.Uuid] = tmp;
+            }
 
         }
         public void Death(string response)
