@@ -10,6 +10,7 @@ using Util;
 public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
+    private bool sendFlag = true;
     [SerializeField]
     private string BGMSound;
 
@@ -62,11 +63,10 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend()
     {
-        if (PlayerState == Movement.Shot)
-            Debug.Log("shot test");
-        if ((IsKeyInput() || MoveDir != preMoveDir || PlayerState == Movement.Shot) && !IsDead)
+        if ((((MoveDir == preMoveDir)&&sendFlag)|| PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
+            sendFlag=false;
         }
         preMoveDir = MoveDir;
     }
@@ -108,12 +108,15 @@ public class PlayerUtil : PlayerController
                 // 키보드 움직임 
                 float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
                     + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
+                
                 float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
                     ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 MoveDir = moveDir;
+                if(MoveDir != preMoveDir)
+                    sendFlag = true;
             }
             if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
             {
@@ -334,7 +337,7 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-        SoundManager.instance.IsPlaySound("Attack");
+        // SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();
