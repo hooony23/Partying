@@ -67,6 +67,7 @@ public class SoundManager : MonoBehaviour
         audioMixer.SetFloat("SFX", Mathf.Log10(Config.Bgmvol) * 20); // 오디오 설정에 슬라이더 값 대입
         audioMixer.SetFloat("BGM", Mathf.Log10(Config.Sfxvol) * 20);
     }
+
     public void IsPlaySound(string name)
     { //음원재생
         for (int i = 0; i < audioSourceSFX.Length; i++)

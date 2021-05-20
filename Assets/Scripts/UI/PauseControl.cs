@@ -22,13 +22,16 @@ public class PauseControl : MonoBehaviour
         UiSliderSfx = OptionMenu.transform.Find("SFXSlider").GetComponent<Slider>();
         if (pauseMenu == null) //pauseMenu 없을시
         {
-            if (Config.defaultStage != 0) //메인메뉴가 아닐때만 작동
-            {
-                Cursor.visible = false;
+            //if (Config.defaultStage != 0) //메인메뉴가 아닐때만 작동
+            //{
                 pauseMenu = this;
                 DontDestroyOnLoad(gameObject); // 씬 변경후에도 메뉴를 관리하도록 함
                                                // 환경설정 슬라이더에 초기값 대입
-            }
+           // }
+            //else if(Config.defaultStage == 0)
+           // {
+                //Destroy(gameObject);
+            //}
         }
         else
         { //씬 이동후 pauseMenu 중복방지를 위한 기존 pauseMenu 파괴
@@ -55,14 +58,15 @@ public class PauseControl : MonoBehaviour
                 }
                 else if (IsUiPoen)
                 {
-                    Cursor.visible = false;
+                   
                     if (OptionMenu.activeSelf == true) // 초기메뉴 화면으로 가기위함
                     {
                         MainMenu.SetActive(true);
                         OptionMenu.SetActive(false);
                     }
-                    PauseObject.SetActive(false);
-                    IsUiPoen = false;
+                //Cursor.visible = false; 
+                PauseObject.SetActive(false);
+                IsUiPoen = false;
                 }
         }
     }

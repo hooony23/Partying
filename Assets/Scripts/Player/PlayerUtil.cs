@@ -11,8 +11,6 @@ public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
     private bool sendFlag = true;
-    [SerializeField]
-    private string BGMSound;
 
     [Range(0.01f, 20f)] public float turnSpeed;
     public float turnSmoothTime = 0.05f;
