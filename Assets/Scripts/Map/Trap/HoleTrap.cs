@@ -10,7 +10,7 @@ public class HoleTrap : BaseTrap
         anim = GetComponent<Animator>();
     }
 
-    public void OnTriggerStay(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         TrapEvent(other, holeActivate);
     }
@@ -20,7 +20,6 @@ public class HoleTrap : BaseTrap
         // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
         if (other.CompareTag("Player") && !state)
         {
-            Debug.Log("함정 발동");
             anim.SetTrigger("open");
         }
 

@@ -29,7 +29,6 @@ public class PlayerUtil : PlayerController
             InputEvent(key);
             PlayerState = Movement.Run;
         }
-        MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         MouseClickInput = Input.GetMouseButton(0);
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
@@ -161,8 +160,8 @@ public class PlayerUtil : PlayerController
  
     public void CameraTurn()
     {
-        xAxis.Update(Time.fixedDeltaTime);
-        yAxis.Update(Time.fixedDeltaTime);
+        xAxis.Update(Time.deltaTime);
+        yAxis.Update(Time.deltaTime);
 
         CmFollowTarget.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
     }
