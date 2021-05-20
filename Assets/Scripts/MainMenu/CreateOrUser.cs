@@ -21,7 +21,7 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         this.transform.Find("Button Back").gameObject.GetComponent<Button>().onClick.AddListener(delegate {BackUI();});
         this.transform.Find("RoomSetting").Find("Button RoomSetting").gameObject.GetComponent<Button>().onClick.AddListener(delegate {NextUI();});
         this.transform.Find("Lobby").Find("Button Lobby").gameObject.GetComponent<Button>().onClick.AddListener(delegate {SelectUI(nextUINum);});
-        //TODO: 로그인 화면으로 돌아가면 비활성화.
+        //TODO: 로그인 화면으로 돌아가면 비활성화. 채팅창 여부 바꾸기
         var chatUi = Instantiate(Resources.Load("GameUi/Chat/ChatUi")) as GameObject;
     }
     protected override void BackUI()

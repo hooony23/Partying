@@ -198,6 +198,7 @@ public class PlayerUtil : PlayerController
     {
         IsDodge = true;
         PlayerSpeed = Config.playerSpeed * 2;
+        //SoundManager.instance.IsPlaySound3d("Dodge", this.gameObject.transform.position);
         Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -261,6 +262,7 @@ public class PlayerUtil : PlayerController
         if (PlayerHealth <= 0 && !isSendDeath)
         {
             APIController.SendController("Death");
+            SoundManager.instance.IsPlaySound3d("PlayerDead", this.gameObject.transform.position);
             isSendDeath = true;
         }
     }
@@ -281,6 +283,7 @@ public class PlayerUtil : PlayerController
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
         SyncHp();
+        SoundManager.instance.IsPlaySound3d("PlayerHit", this.gameObject.transform.position);
         StartCoroutine(Blink(5));
         KnockBack(reactVec, 8f);
 
@@ -347,7 +350,7 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-        SoundManager.instance.IsPlaySound("Attack");
+        SoundManager.instance.IsPlaySound3d("Attack", this.gameObject.transform.position);
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();

@@ -213,6 +213,21 @@ PrefabInstance:
       propertyPath: BgmSound.Array.data[2].clip
       value: 
       objectReference: {fileID: 8300000, guid: 3d6a33d00d61e5b448da375e53475d58, type: 3}
+    - target: {fileID: 8552772825321894731, guid: ed969b9c8d574364582dd17de8a97385,
+        type: 3}
+      propertyPath: EffectSound.Array.data[4].name
+      value: BoxOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552772825321894731, guid: ed969b9c8d574364582dd17de8a97385,
+        type: 3}
+      propertyPath: EffectSound.Array.data[6].name
+      value: a
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552772825321894731, guid: ed969b9c8d574364582dd17de8a97385,
+        type: 3}
+      propertyPath: EffectSound.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5da9ae2ecfbf37e4ba9d736783e5df6a, type: 3}
     - target: {fileID: 8552772825321894732, guid: ed969b9c8d574364582dd17de8a97385,
         type: 3}
       propertyPath: m_Name

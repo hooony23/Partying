@@ -16,7 +16,9 @@ public class FirstScreen : BaseMainMenu, IMainMenu
         if(Config.defaultStage>=2)
         {
             Config.defaultStage=0;
-            SelectUI(7);   
+            SelectUI(7);
+            //TODO: BGM, 채팅창, 설정할것
+            SoundManager.instance.IsPlaySound2d("Main");
         }
     }
     void OnEnable()

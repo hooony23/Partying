@@ -63,6 +63,32 @@ MonoBehaviour:
     clip: {fileID: 0}
   - name: Attack
     clip: {fileID: 8300000, guid: 4e50cfcdd1377f84b918f9980e94732b, type: 3}
+  - name: PlayerDead
+    clip: {fileID: 8300000, guid: 7033586827f71044782b2f7c9c4d821a, type: 3}
+  - name: PlayerHit
+    clip: {fileID: 8300000, guid: 34f4291ff312fde4890293f101ea5fd1, type: 3}
+  - name: GetItem
+    clip: {fileID: 0}
+  - name: BoxOpen
+    clip: {fileID: 0}
+  - name: Dodge
+    clip: {fileID: 8300000, guid: 0a5ca979d45f82a48981619ebf92ddf7, type: 3}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 0}
   BgmSound:
   - name: Stage1
     clip: {fileID: 8300000, guid: 0dc2687108c8dbe4d965749b1af0bc6a, type: 3}
@@ -70,6 +96,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a917471b4d0ed4c48a6c834494f7ab10, type: 3}
   - name: Main
     clip: {fileID: 8300000, guid: 3a359a98bf50a2745847ff8d77d6a8a3, type: 3}
+  Vec: {x: 0, y: 0, z: 0}
 --- !u!82 &8552772825321894728
 AudioSource:
   m_ObjectHideFlags: 0

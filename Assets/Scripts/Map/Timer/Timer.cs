@@ -36,7 +36,7 @@ public class Timer : MonoBehaviour
         //게임시작과 함께 BGM실행
         if (Config.StartGame && isTimerStart)
         {
-            SoundManager.instance.IsPlaySound(stageBgm);
+            SoundManager.instance.IsPlaySound2d(stageBgm);
             timeText.gameObject.SetActive(true);
             isTimerStart = false;
         }
