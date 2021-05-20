@@ -74,15 +74,20 @@ public class Timer : MonoBehaviour
         CountDownDisplay.gameObject.SetActive(false);
         if(Config.defaultStage==1)
             SetTimer();
+        else if (Config.defaultStage == 2)
+        {
+            stageBgm = "stage2";
+            SoundManager.instance.IsPlaySound(stageBgm);
+        }
     }
     private void TimeCount()
     {
-        
         if(!timerStartFlag)
             return;
         //게임시작과 함께 BGM실행
         if(musicFlag)
         {
+            stageBgm = "stage1";
             SoundManager.instance.IsPlaySound(stageBgm);
             musicFlag=false;
         }

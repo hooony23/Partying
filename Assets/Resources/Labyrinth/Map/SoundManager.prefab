@@ -91,12 +91,11 @@ MonoBehaviour:
     clip: {fileID: 0}
   BgmSound:
   - name: Stage1
-    clip: {fileID: 8300000, guid: 0dc2687108c8dbe4d965749b1af0bc6a, type: 3}
+    clip: {fileID: 8300000, guid: 5df0fc1bab4b2b04fa28bc64d5635f1b, type: 3}
   - name: stage2
     clip: {fileID: 8300000, guid: a917471b4d0ed4c48a6c834494f7ab10, type: 3}
   - name: Main
     clip: {fileID: 8300000, guid: 3a359a98bf50a2745847ff8d77d6a8a3, type: 3}
-  Vec: {x: 0, y: 0, z: 0}
 --- !u!82 &8552772825321894728
 AudioSource:
   m_ObjectHideFlags: 0

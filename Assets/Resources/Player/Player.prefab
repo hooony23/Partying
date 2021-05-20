@@ -491,9 +491,9 @@ MonoBehaviour:
   - {fileID: 3874938137487157898}
   audioclip:
   - name: RightWalk
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0d72c3142ceb8394d8fce0e66a679fee, type: 3}
   - name: LeftWalk
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bb352028f3ad4e14ba66aeb93e12e946, type: 3}
   - name: Dead
     clip: {fileID: 8300000, guid: 7033586827f71044782b2f7c9c4d821a, type: 3}
   - name: Dodge
@@ -501,7 +501,7 @@ MonoBehaviour:
   - name: Fire
     clip: {fileID: 8300000, guid: 4e50cfcdd1377f84b918f9980e94732b, type: 3}
   - name: Hit
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 34f4291ff312fde4890293f101ea5fd1, type: 3}
 --- !u!82 &2863650640500415507
 AudioSource:
   m_ObjectHideFlags: 0

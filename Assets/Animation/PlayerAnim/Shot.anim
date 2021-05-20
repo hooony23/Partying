@@ -900,7 +900,8 @@ AnimationClip:
   - time: 0.016666668
     functionName: FireSound
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 2bee8f485abf48349a8db5dc67885b1f,
+      type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

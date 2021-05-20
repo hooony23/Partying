@@ -7,8 +7,8 @@ public class PlayerSound : MonoBehaviour
 {
     public AudioSource[] audioSourceSFX;
     public Sound[] audioclip;
-    public void start() {
-        for (int i = 0; i <= audioSourceSFX.Length; i++)
+    public void Start() {
+        for (int i = 0; i < audioSourceSFX.Length; i++)
         {
             audioSourceSFX[i].clip = audioclip[i].clip;
             Debug.Log(audioSourceSFX[i].clip);

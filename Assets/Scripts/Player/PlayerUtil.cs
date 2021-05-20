@@ -270,6 +270,7 @@ public class PlayerUtil : PlayerController
         Debug.Log(PlayerHealth);
         SyncHp();
         StartCoroutine(Blink(5));
+        PlayerSound.HitSound();
         KnockBack(reactVec, 8f);
 
         yield return new WaitForSeconds(2f);
