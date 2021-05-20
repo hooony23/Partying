@@ -8,7 +8,7 @@ public class Map : MapUtil
     private void Awake()
     {
         InitializeMap();
-        CreateGrid(Config.ROW, Config.COL);
+        CreateGrid();
         PlayerRespawn();
         TrapRespawn();
         PatrolUnitRespawn();

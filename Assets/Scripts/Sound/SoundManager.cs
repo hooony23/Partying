@@ -73,14 +73,13 @@ public class SoundManager : MonoBehaviour
         {
             for (int j = 0; j < audioSourceSFX.Length; j++)
             {
-                Debug.Log("Test" + j+" // "+ i);
                 if (name.Equals(BgmSound[i].name)) //BGM재생
                 {
 
                     playBgmSoundName[j] = BgmSound[i].name;
                     audioSourceBGM.clip = BgmSound[i].clip;
                     //Debug.Log(BgmSound[i].name);
-                    Debug.Log(playBgmSoundName[j]);
+                    Debug.Log($"start music : {name}");
                     audioSourceBGM.Play();
                     return;
                 }
@@ -111,8 +110,8 @@ public class SoundManager : MonoBehaviour
     }
     public void StopBgmSound()
     { //실행중인 배경음 정지
-                audioSourceBGM.Stop();
-                return;
+        audioSourceBGM.Stop();
+        return;
     }
     public void IsStopSound(string name)
     { //해당 이름과 일치하는 음원 정지
@@ -132,6 +131,5 @@ public class SoundManager : MonoBehaviour
         }
         Debug.Log("재생중인" + name + "사운드가 없습니다.");
     }
-    // 환경설정의 스크롤바 조절
    
 }

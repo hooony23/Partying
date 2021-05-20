@@ -11,7 +11,7 @@ namespace Communication.JsonFormat
         public Patterns pattern = Patterns.IDLE;
         public Division3 Vec {get; set;}= new Division3();
         public Division3 Loc {get; set;}= new Division3();
-        private float bossHP = Config.bossHP;
+        private float bossHP = 0f;
         public float BossHP
         {
             get

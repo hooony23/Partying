@@ -24,7 +24,7 @@ namespace GameUi
 
         //TODO: 스코어 관련 여부 보류
         //List<UserScoreInfo> userInfo = new List<UserScoreInfo>();
-        GameManager.GameManager gameManager;
+        GameManager.GameManager GM;
 
 
         public void Awake()
@@ -58,14 +58,13 @@ namespace GameUi
             //SendUserScore();
             Debug.Log($"My uuid :{Config.userUuid}");
             player = GameObject.Find(Config.userUuid).GetComponent<Player>();
-            Config.LodingSence = 2;
-            if (Config.defaultStage == 2 && Config.LodingSence == 2)
+            if (Config.defaultStage == 2)
             {
                 Debug.Log(Config.defaultStage);
                 PlayerHeart(player);
             }
 
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+            GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
 
             foreach (KeyValuePair<string, string> kvp in UserLive)
             {
@@ -84,7 +83,7 @@ namespace GameUi
         public void Update()
         {
             //게임 시작시 오픈가능
-            if (Config.StartGame)
+            if (GM.GameStart)
             {
                 OpenPanel();
             }
@@ -156,7 +155,7 @@ namespace GameUi
             if (NetworkInfo.deathUserQueue.Count != 0)
             {
                 Debug.Log("죽음 출력");
-                foreach (GameObject name in gameManager.DeathPlayerList)
+                foreach (GameObject name in GM.DeathPlayerList)
                 {
                     if (UserLive.ContainsKey(name.name))
                     {

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
         Dodge,
         Dead,
     }
-    public GameObject GM {get;set;}
+    public GameManager.GameManager GM {get;set;}
     public bool IsStun { get; set; } = false;
     public bool IsDead { get; set; } = false;
     public bool HaveItem { get; set; } = false; // 클리어 아이템 획득 표시
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
     // 캐릭터 시점
     public Camera CameraMain { get; set; }
     public CMController CameraArm { get; set; }
-    public Vector2 MouseDelta { get; set; }
     public bool isAimming { get; set; } = false;
     public Transform CmFollowTarget { get; set; }
 

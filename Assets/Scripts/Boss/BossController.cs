@@ -10,7 +10,6 @@ namespace Boss
     public class BossController : MonoBehaviour
     {
         public BossInfo.Patterns Pattern{ get; set; } = BossInfo.Patterns.IDLE;
-        public float RadarRange { get; set; } = Config.radarRange;
         public float BossHP { get; set; }
         public GameManager.GameManager GM { get; set; }
         public string Target{get;set;}

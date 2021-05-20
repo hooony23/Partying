@@ -20,16 +20,11 @@ public class PlayerUtil : PlayerController
     public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead )
+        if (IsDead||!GM.GameStart)
             return;
         HAxis = 0f;
         VAxis = 0f;
-        foreach (var key in GetInputKeys())
-        {
-            InputEvent(key);
-            PlayerState = Movement.Run;
-        }
-        MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        InputEvent(GetInputKeys());
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         MouseClickInput = Input.GetMouseButton(0);
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
@@ -38,9 +33,6 @@ public class PlayerUtil : PlayerController
     public void GetNetWorkInput()
     {
         if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name) && !IsDead)
-            // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
             if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
@@ -53,29 +45,20 @@ public class PlayerUtil : PlayerController
     {
         return this.UserUuid == Config.userUuid;
     }
-    public void InputEvent(KeyCode key)
+    public void InputEvent(IEnumerable<KeyCode> keyArray)
     {
-        switch (key)
-        {
-            case KeyCode.A:
-                HAxis = -1f;
-                break;
-            case KeyCode.D:
-                HAxis = 1f;
-                break;
-            case KeyCode.W:
-                VAxis = 1f;
-                break;
-            case KeyCode.S:
-                VAxis = -1f;
-                break;
-            case KeyCode.E:
-                EDown = Input.GetKeyDown(key); //E키를 통한 아이템 습득
-                break;
-            case KeyCode.Space:
-                JDown = Input.GetKeyDown(key); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
-                break;
-        }
+        if(keyArray.Contains(KeyCode.A))
+            HAxis = -1f;
+        if(keyArray.Contains(KeyCode.D))
+            HAxis = 1f;
+        if(keyArray.Contains(KeyCode.W))
+            VAxis = 1f;
+        if(keyArray.Contains(KeyCode.S))
+            VAxis = -1f;
+        if(keyArray.Contains(KeyCode.E))
+            EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
+        if(keyArray.Contains(KeyCode.Space))
+            JDown = Input.GetKeyDown(KeyCode.Space); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
     }
     public void MoveChangeSend()
     {
@@ -147,6 +130,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
+        PlayerState = Movement.Run;
     }
     public void UpdatePInfo()
     {
@@ -158,31 +142,6 @@ public class PlayerUtil : PlayerController
                 PInfo.SetAngle(ShotPoint.position);
         }
     }
-    //public void Turn()
-    //{
-    //    if (!IsAttack && MoveDir != Vector3.zero)
-    //    {
-    //        transform.LookAt(transform.position + MoveDir);
-    //    }
-    //}
-    //public void CameraTurn()
-    //{
-    //    // 카메라 각도 제한
-    //    Vector3 camAngle = CameraArm.rotation.eulerAngles;
-    //    float x = camAngle.x - MouseDelta.y * mouseSensitivity;
-
-    //    if (x < 180f)
-    //    {
-    //        x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
-    //    }
-    //    else
-    //    {
-    //        x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
-    //    }
-    //    CameraArm.transform.position = this.transform.position;
-    //    CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
-
-    //}
     public void CameraTurn()
     {
         xAxis.Update(Time.fixedDeltaTime);
@@ -382,7 +341,6 @@ public class PlayerUtil : PlayerController
     }
     public void AnimationStart()
     {
-        Debug.Log($"{this.gameObject.name} state : {PlayerState}");
         if ((int)PlayerState == (int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), IsMove && !IsAttack);
