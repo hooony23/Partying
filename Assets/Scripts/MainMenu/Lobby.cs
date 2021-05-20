@@ -190,14 +190,14 @@ public class Lobby : BaseMainMenu, IMainMenu
         }
         inputPassword.text = "";
         popup.SetActive(false);
-        NetworkInfo.memberInfo = MServer.GetMemberInfo(clickRoomInfo.RoomUuid);
-        // 해당 방의 인원 정보 재확인
-        List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
-        if (roomMemberList.Count >= 4)
+        if (this.clickRoomInfo.MemberCount >= 4)
         {
             SetwarningText("해당 방의 인원수가 초과하였습니다");
             return;
         }
+        NetworkInfo.memberInfo = MServer.GetMemberInfo(clickRoomInfo.RoomUuid);
+        // 해당 방의 인원 정보 재확인
+        List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
         NetworkInfo.roomInfo = clickRoomInfo;
         SetwarningText("비밀번호를 확인하였습니다");
         NextUI();

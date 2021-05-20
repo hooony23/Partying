@@ -150,11 +150,11 @@ namespace Communication.GameServer.API
                 Debug.Log(e.Message);
                 return;
             }
-            NetworkInfo.startTime = responseJson.Value<double>("startTime");
             if(Config.defaultStage==1)
             {
                 NetworkInfo.finishTime = responseJson.Value<double>("finishTime");
             }
+            NetworkInfo.startTime = responseJson.Value<double>("startTime");
         }
         public void SyncBoss(string response)
         {

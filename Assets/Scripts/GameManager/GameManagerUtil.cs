@@ -25,10 +25,10 @@ namespace GameManager
         {
             var ClearObject = Instantiate(Resources.Load("GameUi/GameClearUi")) as GameObject;
             GameClearUi = ClearObject.transform.Find("ClearUi").gameObject;
+            GameOverUi = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
+            GameOverUi.name = Resources.Load("GameUi/OverUi").name;
             ContinueButton = GameClearUi.transform.Find("GameClearButton").GetComponent<Button>();
             ContinueButton.onClick.AddListener(UserClearButton);
-            var OverObject = Instantiate(Resources.Load("GameUi/OverUi")) as GameObject;
-            OverObject.name = Resources.Load("GameUi/OverUi").name;
         }
         protected void SetChatting()
         {
@@ -40,8 +40,8 @@ namespace GameManager
         }
         protected void SpawnCamera()
         {
-            PlayerCamera = Instantiate(Resources.Load("Player/CameraArm"), Vector3.zero, Quaternion.identity) as GameObject;
-            PlayerCamera.name = Resources.Load("Player/CameraArm").name;
+            PlayerCamera = Instantiate(Resources.Load("Player/CameraArm2"), Vector3.zero, Quaternion.identity) as GameObject;
+            PlayerCamera.name = Resources.Load("Player/CameraArm2").name;
         }
         protected void InitializeLabylinth()
         {
@@ -92,24 +92,31 @@ namespace GameManager
                 string userUuid = NetworkInfo.deathUserQueue.Dequeue();
                 var deathUser = GameObject.Find(userUuid);
                 deathUser.GetComponent<Player>().IsDead = true;
-                Debug.Log($"{deathUser.name} in PlayerList? : {PlayerList.Contains(deathUser)}");
                 PlayerList.Remove(deathUser);
                 DeathPlayerList.Add(deathUser);
                 Debug.Log($"{userUuid} 가 죽었습니다!");
                 Debug.Log($"Remain User Count : {PlayerList.Count}");
                 Debug.Log($"Death User Count : {DeathPlayerList.Count}");
             }
+            if(PlayerList.Count<=0)
+                GameOver = true;
         }
         protected void ClearGame()
         {
-            if (GameClear)
-            {
-
-                IsGameClear();
-                // Lib.Common.WaitThenCallback(1f,);
-                Debug.Log("Game Clear");
-                GameClear = false;
-            }
+            if (!GameClear)
+                return;
+            Cursor.visible = true;
+            GameClearUi.SetActive(true);
+            Debug.Log("Game Clear");
+            GameClear = false;
+        }
+        protected void OverGame()
+        {
+            if(!GameOver)
+                return;
+            Cursor.visible = true;
+            Debug.Log("Game Over");
+            GameOverUi.GetComponent<OverUi>().GameOverUi();
         }
         protected void InitUserList()
         {
@@ -122,12 +129,6 @@ namespace GameManager
                 }
                 NetworkInfo.playersInfo.Clear();
             }
-        }
-        //게임 클리어 UI 활성화
-        public void IsGameClear()
-        {
-            Cursor.visible = true;
-            GameClearUi.SetActive(true);
         }
         public void UserClearButton()
         {

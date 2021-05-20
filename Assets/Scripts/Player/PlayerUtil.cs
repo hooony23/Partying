@@ -10,20 +10,22 @@ using Util;
 public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
-    [Range(0.01f, 10)] public float mouseSensitivity = 1;
+    private bool sendFlag = true;
     [SerializeField]
+    private string BGMSound;
+
+    [Range(0.01f, 20f)] public float turnSpeed;
+    public float turnSmoothTime = 0.05f;
+    float turnSmoothVelocity;
+    public Cinemachine.AxisState xAxis;
+    public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead)
+        if (IsDead||!GM.GameStart)
             return;
         HAxis = 0f;
         VAxis = 0f;
-        foreach (var key in GetInputKeys())
-        {
-            InputEvent(key);
-            PlayerState = Movement.Run;
-        }
-        MouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // 마우스를 통해 플레이어 화면 움직임
+        InputEvent(GetInputKeys());
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         MouseClickInput = Input.GetMouseButton(0);
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
@@ -32,9 +34,6 @@ public class PlayerUtil : PlayerController
     public void GetNetWorkInput()
     {
         if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name) && !IsDead)
-            // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
             if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
@@ -47,37 +46,27 @@ public class PlayerUtil : PlayerController
     {
         return this.UserUuid == Config.userUuid;
     }
-    public void InputEvent(KeyCode key)
+    public void InputEvent(IEnumerable<KeyCode> keyArray)
     {
-        switch (key)
-        {
-            case KeyCode.A:
-                HAxis = -1f;
-                break;
-            case KeyCode.D:
-                HAxis = 1f;
-                break;
-            case KeyCode.W:
-                VAxis = 1f;
-                break;
-            case KeyCode.S:
-                VAxis = -1f;
-                break;
-            case KeyCode.E:
-                EDown = Input.GetKeyDown(key); //E키를 통한 아이템 습득
-                break;
-            case KeyCode.Space:
-                JDown = Input.GetKeyDown(key); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
-                break;
-        }
+        if(keyArray.Contains(KeyCode.A))
+            HAxis = -1f;
+        if(keyArray.Contains(KeyCode.D))
+            HAxis = 1f;
+        if(keyArray.Contains(KeyCode.W))
+            VAxis = 1f;
+        if(keyArray.Contains(KeyCode.S))
+            VAxis = -1f;
+        if(keyArray.Contains(KeyCode.E))
+            EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
+        if(keyArray.Contains(KeyCode.Space))
+            JDown = Input.GetKeyDown(KeyCode.Space); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
     }
     public void MoveChangeSend()
     {
-        if (PlayerState == Movement.Shot)
-            Debug.Log("shot test");
-        if ((IsKeyInput() || MoveDir != preMoveDir || PlayerState == Movement.Shot) && !IsDead)
+        if ((((MoveDir == preMoveDir)&&sendFlag)|| PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
+            sendFlag=false;
         }
         preMoveDir = MoveDir;
     }
@@ -107,7 +96,8 @@ public class PlayerUtil : PlayerController
     }
     public void Move()
     {
-        if (IsStun == false && !MouseClickInput && !IsAttack)
+
+        if (MoveVec.magnitude >= 0.1f && !IsStun && !MouseClickInput && !IsAttack)
         {
             Cursor.visible = false;
 
@@ -115,18 +105,22 @@ public class PlayerUtil : PlayerController
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
             if (IsMyCharacter())
             {
-                Debug.DrawRay(CameraArm.position, CameraArm.forward, Color.red);
+                // 키보드 움직임 
+                float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
+                    + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
+                
+                float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
+                    ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                Vector3 lookForward = new Vector3(CameraArm.forward.x, 0f, CameraArm.forward.z).normalized;
-                Vector3 lookRight = new Vector3(CameraArm.right.x, 0f, CameraArm.right.z).normalized;
-                transform.forward = lookForward;
-
-                // 마우스로 바라보고 있는 벡터를 방향벡터로 바꿈
-                MoveDir = (lookForward * MoveInput.y + lookRight * MoveInput.x).normalized;
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                MoveDir = moveDir;
+                if(MoveDir != preMoveDir)
+                    sendFlag = true;
             }
-            if (!IsBorder)
+            if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
             {
-                this.gameObject.transform.position += MoveDir * Time.deltaTime * PlayerSpeed;
+                this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
             }
         }
 
@@ -139,6 +133,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
+        PlayerState = Movement.Run;
     }
     public void UpdatePInfo()
     {
@@ -150,31 +145,26 @@ public class PlayerUtil : PlayerController
                 PInfo.SetAngle(ShotPoint.position);
         }
     }
-    public void Turn()
-    {
-        if (!IsAttack && MoveDir != Vector3.zero)
-        {
-            transform.LookAt(transform.position + MoveDir);
-        }
-    }
     public void CameraTurn()
     {
-        // 카메라 각도 제한
-        Vector3 camAngle = CameraArm.rotation.eulerAngles;
-        float x = camAngle.x - MouseDelta.y * mouseSensitivity;
+        xAxis.Update(Time.fixedDeltaTime);
+        yAxis.Update(Time.fixedDeltaTime);
 
-        if (x < 180f)
-        {
-            x = Mathf.Clamp(x, -1f, 70f); // 수평기준으로 0도~70도
-        }
-        else
-        {
-            x = Mathf.Clamp(x, 300f, 361f); // 수평기준으로 300~360도
-        }
-        CameraArm.transform.position = this.transform.position;
-        CameraArm.rotation = Quaternion.Euler(x, camAngle.y + MouseDelta.x * mouseSensitivity, camAngle.z);
-
+        CmFollowTarget.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
     }
+
+    public void Aim()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            CameraArm.Aim();
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            CameraArm.AimOut();
+        }
+    }
+
     public void Dodge() // 플레이어 회피
     {
         if (!IsMyCharacter())
@@ -198,7 +188,6 @@ public class PlayerUtil : PlayerController
     {
         IsDodge = true;
         PlayerSpeed = Config.playerSpeed * 2;
-        //SoundManager.instance.IsPlaySound3d("Dodge", this.gameObject.transform.position);
         Invoke("DodgeOut", 0.4f); // 회피중인 시간, 후에 원래대로 돌아가는 DodgeOut 실행
     }
     public void DodgeOut() // 플레이어 회피 동작 이후 원래상태로 복구
@@ -262,7 +251,6 @@ public class PlayerUtil : PlayerController
         if (PlayerHealth <= 0 && !isSendDeath)
         {
             APIController.SendController("Death");
-            SoundManager.instance.IsPlaySound3d("PlayerDead", this.gameObject.transform.position);
             isSendDeath = true;
         }
     }
@@ -283,7 +271,6 @@ public class PlayerUtil : PlayerController
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
         SyncHp();
-        SoundManager.instance.IsPlaySound3d("PlayerHit", this.gameObject.transform.position);
         StartCoroutine(Blink(5));
         KnockBack(reactVec, 8f);
 
@@ -350,17 +337,16 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-        SoundManager.instance.IsPlaySound3d("Attack", this.gameObject.transform.position);
+        // SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
         Pistol.Shot();
     }
     public void AnimationStart()
     {
-        Debug.Log($"{this.gameObject.name} state : {PlayerState}");
         if ((int)PlayerState == (int)Movement.Run)
         {
-            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), MoveDir != Vector3.zero && !IsAttack);
+            Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), IsMove && !IsAttack);
             return;
         }
         if (System.Enum.IsDefined(typeof(Movement), PlayerState))

@@ -36,11 +36,7 @@ public class MapUtil : MapController
         MapObjects.MazeBake.transform.SetParent(this.transform);
     }
 
-    public void CreateGrid(int size)
-    {
-        CreateGrid(size, size);
-    }
-        public int[,,] GridConverToIntegerArray(string[] grid)
+    public int[,,] GridConverToIntegerArray(string[] grid)
     {
         int[,,] parseArray = new int[grid.Length,grid[0].Length,4];
         for(int row=0;row<grid.GetLength(0);row++)
@@ -53,7 +49,7 @@ public class MapUtil : MapController
             }
         return parseArray;
     }
-    public void CreateGrid(int Rows, int Columns)
+    public void CreateGrid()
     {
         //TODO wall -> left-right wall로 바꿀 것
         // 결과를 확인하기 위한 구문 
@@ -61,9 +57,9 @@ public class MapUtil : MapController
         // JArray Jpatrolpoint = data.Value<JArray>("patrolpoint");
         int[,,] labylinthArray = GridConverToIntegerArray(MInfo.labylinthArray);
         // int[,] patrolpoint = Jpatrolpoint.ToObject<int[,]>();
-        Config.labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
+        var labylinthOnSpaceSize = this.MapObjects.wall.transform.localScale.x;
         //wall localScale = (10,5,1)
-        Grid = new MazeCell[Rows, Columns]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
+        Grid = new MazeCell[labylinthArray.GetLength(0), labylinthArray.GetLength(1)]; //행과 열을 설정하여 미로를 위한 격자를 초기화함
         GameObject grandParent = this.gameObject;
 
         for (int i = 0; i < labylinthArray.GetLength(0); i++)
@@ -71,31 +67,31 @@ public class MapUtil : MapController
             for (int j = 0; j < labylinthArray.GetLength(1); j++)
             {
                 GameObject parent = new GameObject($"{i}_{j}");
-                parent.transform.position = new Vector3(j * Config.labylinthOnSpaceSize - this.MapObjects.wall.transform.localScale.z / 2, 1.01f, -i * Config.labylinthOnSpaceSize + this.MapObjects.wall.transform.localScale.z / 2);
+                parent.transform.position = new Vector3(j * labylinthOnSpaceSize - this.MapObjects.wall.transform.localScale.z / 2, 1.01f, -i * labylinthOnSpaceSize + this.MapObjects.wall.transform.localScale.z / 2);
                 parent.transform.SetParent(grandParent.transform);
-                Grid[i, j] = new MazeCell();// gird 격자를 초기화
+                Grid[i, j] = new MazeCell();// grid 격자를 초기화
                 if (labylinthArray[i, j, (int)Direction.LEFT] == 1)
                 {
-                    Grid[i, j].LeftWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x - Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 +0.5f), Quaternion.Euler(0, 90, 0));
+                    Grid[i, j].LeftWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x - labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 +0.5f), Quaternion.Euler(0, 90, 0));
                     Grid[i, j].LeftWall.name = "leftWall";
                     Grid[i, j].LeftWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
                 if (labylinthArray[i, j, (int)Direction.RIGHT] == 1)
                 {
-                    Grid[i, j].RightWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x + Config.labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 + 0.5f), Quaternion.Euler(0, 90, 0));
+                    Grid[i, j].RightWall = Instantiate(this.MapObjects.wall, new Vector3(parent.transform.position.x + labylinthOnSpaceSize / 2, 6.0f, parent.transform.position.z - this.MapObjects.wall.transform.localScale.z / 2 + 0.5f), Quaternion.Euler(0, 90, 0));
                     Grid[i, j].RightWall.name = "rightWall";
                     Grid[i, j].RightWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
                 if (labylinthArray[i, j, (int)Direction.UP] == 1)
                 {
 
-                    Grid[i, j].UpWall = Instantiate(this.MapObjects.UpDownWall, new Vector3(parent.transform.position.x, 6.0f, parent.transform.position.z + Config.labylinthOnSpaceSize / 2), Quaternion.identity);
+                    Grid[i, j].UpWall = Instantiate(this.MapObjects.UpDownWall, new Vector3(parent.transform.position.x, 6.0f, parent.transform.position.z + labylinthOnSpaceSize / 2), Quaternion.identity);
                     Grid[i, j].UpWall.name = "UpWall";
                     Grid[i, j].UpWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
                 if (labylinthArray[i, j, (int)Direction.DOWN] == 1)
                 {
-                    Grid[i, j].DownWall = Instantiate(this.MapObjects.UpDownWall, new Vector3(parent.transform.position.x, 6.0f, parent.transform.position.z - Config.labylinthOnSpaceSize / 2), Quaternion.identity);
+                    Grid[i, j].DownWall = Instantiate(this.MapObjects.UpDownWall, new Vector3(parent.transform.position.x, 6.0f, parent.transform.position.z - labylinthOnSpaceSize / 2), Quaternion.identity);
                     Grid[i, j].DownWall.name = "downWall";
                     Grid[i, j].DownWall.transform.SetParent(parent.GetComponent<Transform>());
                 }
@@ -155,7 +151,11 @@ public class MapUtil : MapController
         CellInfo[] playerInfo = MInfo.playerLocs;
         foreach (CellInfo item in playerInfo)
         {
-            GameObject player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            GameObject player = null;
+            if(Config.userUuid.Equals(item.data.ToString()))
+                player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+            else
+                player = Instantiate(Resources.Load("Player/OtherPlayer") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
             player.name = item.data.ToString();
             player.GetComponent<Player>().UserUuid=player.name;
         }

@@ -338,9 +338,9 @@ GameObject:
   - component: {fileID: 835154355892168357}
   - component: {fileID: 1166272526225068413}
   - component: {fileID: 3076247887512171066}
-  - component: {fileID: 3955247473159196902}
+  - component: {fileID: 1051214410630513676}
   m_Layer: 8
-  m_Name: Player
+  m_Name: OtherPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,7 +413,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3955247473159196902
+--- !u!114 &1051214410630513676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2519640154694083333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1798b3f261e2d4aa18604b8fe33bc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 316453b8be22f624ca5133c26734b7fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BGMSound: 
@@ -431,15 +431,15 @@ MonoBehaviour:
   xAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
-    m_InputAxisName: Mouse X
+    m_MaxSpeed: 0
+    m_AccelTime: 0
+    m_DecelTime: 0
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 0
-    m_MinValue: -180
-    m_MaxValue: 180
-    m_Wrap: 1
+    m_MinValue: 0
+    m_MaxValue: 0
+    m_Wrap: 0
     m_Recentering:
       m_enabled: 0
       m_WaitTime: 0
@@ -449,14 +449,14 @@ MonoBehaviour:
   yAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
-    m_InputAxisName: Mouse Y
+    m_MaxSpeed: 0
+    m_AccelTime: 0
+    m_DecelTime: 0
+    m_InputAxisName: 
     m_InputAxisValue: 0
-    m_InvertInput: 1
-    m_MinValue: -85
-    m_MaxValue: 85
+    m_InvertInput: 0
+    m_MinValue: 0
+    m_MaxValue: 0
     m_Wrap: 0
     m_Recentering:
       m_enabled: 0
