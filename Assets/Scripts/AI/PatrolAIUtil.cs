@@ -33,12 +33,16 @@ public class PatrolAIUtil : PatrolAIController, IDamageable
             }
             IsDetectedPlayer(cols_visible[minIndex].transform);
         }
-
         // 주변에 플레이어 감지 되었고, 시야각에서 사라짐
         else
         {
-            Debug.Log("플레이어 놓침");
-            APIController.SendController("UnDetected", AiInfo.GetInstance(this.gameObject.name,Target.gameObject.name));
+            if(Target==null)
+                return;
+            if(!Target.name.Contains("patrolPoint"))
+            {
+                Debug.Log("플레이어 놓침");
+                APIController.SendController("UnDetected",new AiInfo(this.gameObject.name,Target.gameObject.name));
+            }
         }
     }
     public void IsDetectedPlayer(Transform targetPlayerTransform)
@@ -51,7 +55,7 @@ public class PatrolAIUtil : PatrolAIController, IDamageable
         IsPatrol = false;
         isReport=false;
         Target = nearestPlayer;
-        APIController.SendController("IsDetected", AiInfo.GetInstance(this.gameObject.name,Target.gameObject.name));
+        APIController.SendController("IsDetected",new AiInfo(this.gameObject.name,Target.gameObject.name));
     }
     public void Move()
     {
@@ -60,15 +64,6 @@ public class PatrolAIUtil : PatrolAIController, IDamageable
         //Debug.DrawRay(transform.position, transform.forward * patrol_distance, Color.blue);
         if (Target)
             Patrol.SetDestination(Target.position);
-    }
-
-    public void FinishSearch()
-    {
-        if (this.transform == Target && !isReport)
-        {
-            APIController.SendController("AIFinishSearch", AiInfo.GetInstance(this.gameObject.name,Target.gameObject.name));
-            isReport = true;
-        }
     }
 
     // 위험 지역에 플레이어가 들어왔는지 확인, 확인되면 기존 순찰을 취소 후 플레이어 추적
@@ -81,13 +76,14 @@ public class PatrolAIUtil : PatrolAIController, IDamageable
     }
     public void SetTargetPoint()
     {
-        var aiInfo = AiInfo.GetValue();
-        if(aiInfo.Uuid.Equals(this.gameObject.name))
-        {
-            TargetPoint = aiInfo.Target;
-            AiInfo.ClearValue();
-            isReport=false;
-        }
+        if(!NetworkInfo.aisInfo.ContainsKey(this.gameObject.name))
+            return;
+        var aiInfo = NetworkInfo.aisInfo[this.gameObject.name];
+        if(aiInfo==null)
+            return;
+        TargetPoint = aiInfo.Target;
+        NetworkInfo.aisInfo[this.gameObject.name] = null;
+        isReport=false;
     }
     // 최초 순찰지역 인식 기능
     public void FindPatrolPoint()
@@ -115,5 +111,10 @@ public class PatrolAIUtil : PatrolAIController, IDamageable
     {
         if (collider.transform.CompareTag("Player"))
             collider.gameObject.GetComponent<Player>().PlayerHealth -= damage;
+        if (collider.gameObject.name.Equals(Target.gameObject.name) && !isReport)
+        {
+            APIController.SendController("AIFinishSearch",new AiInfo(this.gameObject.name,Target.gameObject.name));
+            isReport = true;
+        }
     }
 }

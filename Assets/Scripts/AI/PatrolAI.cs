@@ -23,12 +23,12 @@ public class PatrolAI : PatrolAIUtil
 
     void Update()
     {
-        
+        SetTargetPoint();
         SearchPlayers();
         Move(); // 순찰, 추격, 위험지역 확인
-        FinishSearch();
     }
     private void OnCollisionEnter(Collision other) {
+        Debug.Log($"ai hit {other.gameObject.name}");
         TakeHit(other.collider);
     }
 

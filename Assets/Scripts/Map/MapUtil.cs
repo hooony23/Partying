@@ -173,7 +173,7 @@ public class MapUtil : MapController
     }
 
     public void PatrolPointRespawn()
-    { //함정생성
+    {
         CellInfo[] patrolPintsInfo = MInfo.patrolPoints;
 
         GameObject grandParent =  this.gameObject;

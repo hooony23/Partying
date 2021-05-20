@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202202789191308074}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: -0.65, z: 0}
   m_LocalScale: {x: 32.652996, y: 32.652996, z: 32.652996}
   m_Children:
   - {fileID: 1718895464325179756}
@@ -817,10 +817,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7686268775316085282}
-  - component: {fileID: -4641018006441132594}
   - component: {fileID: -8951073613792635128}
   - component: {fileID: -3654727523244056001}
   - component: {fileID: 4925705568973272662}
+  - component: {fileID: 7583040765932333771}
   m_Layer: 0
   m_Name: Patrol
   m_TagString: Untagged
@@ -847,19 +847,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &-4641018006441132594
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6696928936052566065}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.37
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &-8951073613792635128
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -913,6 +900,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!135 &7583040765932333771
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6696928936052566065}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.37
+  m_Center: {x: 0, y: -0.65, z: 0}
 --- !u!1 &7185675448455127389
 GameObject:
   m_ObjectHideFlags: 0
