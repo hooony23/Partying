@@ -61,7 +61,7 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend()
     {
-        if ((IsKeyInput()||((MoveDir == preMoveDir)&&sendFlag)|| PlayerState == Movement.Shot) && !IsDead)
+        if ((IsKeyInput()||MoveDir != preMoveDir|| PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
             sendFlag=false;
@@ -94,7 +94,7 @@ public class PlayerUtil : PlayerController
     }
     public void NetworkMove()
     {
-
+        Debug.Log($"Other Player MoveDir:{MoveDir}");
         if (!IsStun && !MouseClickInput && !IsAttack)
         {
             IsMove = true;
@@ -124,22 +124,24 @@ public class PlayerUtil : PlayerController
 
             IsMove = true;
             // 만약 현재 플레이어가 조정하고 있는 캐릭터라면 마우스가 바라보는 방향을 캐릭터가 바라보도록 함
-            // 키보드 움직임 
-            float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
-                + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
-            
-            float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
-                ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (IsMyCharacter())
+            {
+                // 키보드 움직임 
+                float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
+                    + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
+                float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
+                    ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            MoveDir = moveDir;
-            if(MoveDir != preMoveDir)
-                sendFlag = true;
-                
-            if (IsBorder)// 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
-                return;
-            this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                MoveDir = moveDir;
+                if(MoveDir!=preMoveDir)
+                    sendFlag=true;
+            }
+            if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
+            {
+                this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
+            }
         }
 
         if (IsStun == true)
@@ -151,7 +153,6 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
-        PlayerState = Movement.Run;
     }
     public void UpdatePInfo()
     {

@@ -8,7 +8,8 @@ using GameUi;
 public class Player : PlayerUtil
 {
     void Start()
-    {
+    {   
+        turnSpeed = 0.5f;
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
@@ -44,10 +45,13 @@ public class Player : PlayerUtil
             GetInput();
             CameraTurn();
             Aim();
+            Move();
         }
         else
+        {
             GetNetWorkInput();
-        Move();
+            NetworkMove();
+        }
         //Turn();
         Attack();
         Dodge();
