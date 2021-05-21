@@ -53,6 +53,7 @@ public class Login : BaseMainMenu, IMainMenu
         if (id.Equals("") || pw.Equals(""))
         {
             SetwarningText("입력 값을 확인해 주세요");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
         // TODO : id, pw, 정규식 필요
@@ -78,6 +79,7 @@ public class Login : BaseMainMenu, IMainMenu
         temp["nickname"] = json["data"]["nickname"].ToString();
 
         NetworkInfo.myData = new MemberInfo(json["data"]["userUuid"].ToString(), temp["nickname"].ToString());
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         SetwarningText("로그인에 성공하였습니다 잠시 기다려 주세요");
         SelectUI(nextUINum);
     }
@@ -86,12 +88,14 @@ public class Login : BaseMainMenu, IMainMenu
     protected override void NextUI()
     {
         ClearInputField();
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         base.NextUI();
     }
 
     protected override void SelectUI(int UINum)
     {
         ClearInputField();
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         base.SelectUI(UINum);
     }
     private void ClearInputField()

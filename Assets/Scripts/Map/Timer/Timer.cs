@@ -57,7 +57,7 @@ public class Timer : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2f);
         CountDownDisplay.gameObject.SetActive(true);
-
+        SoundManager.instance.IsPlaySfxSound("GameRadeySound");
         //1초마다 넘어가며 카운트 다운
         while (seconds > 0)
         {
@@ -76,8 +76,8 @@ public class Timer : MonoBehaviour
             SetTimer();
         else if (Config.defaultStage == 2)
         {
-            stageBgm = "stage2";
-            SoundManager.instance.IsPlaySound(stageBgm);
+            stageBgm = "Stage2";
+            SoundManager.instance.IsPlayBgmSound(stageBgm);
         }
     }
     private void TimeCount()
@@ -87,8 +87,8 @@ public class Timer : MonoBehaviour
         //게임시작과 함께 BGM실행
         if(musicFlag)
         {
-            stageBgm = "stage1";
-            SoundManager.instance.IsPlaySound(stageBgm);
+            stageBgm = "Stage1";
+            SoundManager.instance.IsPlayBgmSound(stageBgm);
             musicFlag=false;
         }
         timeText.gameObject.SetActive(true);

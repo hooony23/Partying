@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public UserScore UserScore { get; set; } = new UserScore();
 
-    public PlayerSound PlayerSound { get; set; } = new PlayerSound();
+    public PlayerSound PlayerSound { get; set; }
     // 기본 움직임(w,a,s,d, spacebar)
     public bool JDown { get; set; } // sacebar키 입력 여부
     public float HAxis { get; set; }

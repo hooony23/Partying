@@ -181,11 +181,13 @@ public class Lobby : BaseMainMenu, IMainMenu
         if (inputPassword.text.Equals(""))
         {
             SetwarningText("비밀번호를 입력해주세요");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
         else if(!inputPassword.text.Equals(clickRoomInfo.Pwd))
         {
             SetwarningText("비밀번호가 틀렸습니다");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
         inputPassword.text = "";
@@ -193,6 +195,7 @@ public class Lobby : BaseMainMenu, IMainMenu
         if (this.clickRoomInfo.MemberCount >= 4)
         {
             SetwarningText("해당 방의 인원수가 초과하였습니다");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
         NetworkInfo.memberInfo = MServer.GetMemberInfo(clickRoomInfo.RoomUuid);
@@ -200,6 +203,7 @@ public class Lobby : BaseMainMenu, IMainMenu
         List<MemberInfo> roomMemberList = NetworkInfo.memberInfo.ToObject<List<MemberInfo>>();
         NetworkInfo.roomInfo = clickRoomInfo;
         SetwarningText("비밀번호를 확인하였습니다");
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         NextUI();
     }
     private void ClearRoomList()
@@ -212,11 +216,13 @@ public class Lobby : BaseMainMenu, IMainMenu
     public void OnClickCancel()
     {
         inputPassword.text = "";
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         popup.SetActive(false);
     }
     protected override void SelectUI(int selectUINum)
     {
         NetworkInfo.roomList = new JArray();
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         base.SelectUI(selectUINum);
     }
 }

@@ -18,7 +18,7 @@ public class FirstScreen : BaseMainMenu, IMainMenu
             Config.defaultStage=0;
             SelectUI(7);
             //TODO: BGM, 채팅창, 설정할것
-            SoundManager.instance.IsPlaySound("Main");
+            SoundManager.instance.IsPlayBgmSound("Main");
         }
     }
     void OnEnable()
@@ -47,11 +47,13 @@ public class FirstScreen : BaseMainMenu, IMainMenu
     public void OnClickStart()
     {
         SetwarningText("게임을 시작하였습니다. 로그인 화면으로 갑니다.");
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         Invoke("NextUI",3f);
     }
 
     public void OnClickQuit()
     {
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         OnQuit();
     }
     protected override void OnApplicationQuit() {}

@@ -62,17 +62,15 @@ public class SoundManager : MonoBehaviour
         playBgmSoundName = new string[BgmSound.Length];
         if (Config.defaultStage == 0)
         {
-            IsPlaySound("Main");
+            IsPlayBgmSound("Main");
         }
         audioMixer.SetFloat("SFX", Mathf.Log10(Config.Bgmvol) * 20); // 오디오 설정에 슬라이더 값 대입
         audioMixer.SetFloat("BGM", Mathf.Log10(Config.Sfxvol) * 20);
     }
-
-    public void IsPlaySound(string name)
-    { //음원재생
-        for (int i = 0; i < audioSourceSFX.Length; i++)
+    public void IsPlayBgmSound(string name) {
+        for (int i = 0; i < BgmSound.Length; i++)
         {
-            for (int j = 0; j < audioSourceSFX.Length; j++)
+            for (int j = 0; j < BgmSound.Length; j++)
             {
                 if (name.Equals(BgmSound[i].name)) //BGM재생
                 {
@@ -84,6 +82,17 @@ public class SoundManager : MonoBehaviour
                     audioSourceBGM.Play();
                     return;
                 }
+            }
+        }
+        Debug.Log("BGM 이름이 없거나 이미 사용중입니다.");
+        return;
+    }
+    public void IsPlaySfxSound(string name)
+    { //음원재생
+        for (int i = 0; i < audioSourceSFX.Length; i++)
+        {
+            for (int j = 0; j < audioSourceSFX.Length; j++)
+            {
                 if (name.Equals(EffectSound[i].name))
                 {//SFX재생
                     if (!audioSourceSFX[j].isPlaying)

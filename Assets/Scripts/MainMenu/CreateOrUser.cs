@@ -34,8 +34,10 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         if(NetworkInfo.connectionId.Equals(""))
         {
             SetwarningText("연결이 확실치 않습니다 잠시만 기다려 주세요.");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         base.SelectUI(selectUINum);
     }
     protected override void NextUI()
@@ -43,8 +45,11 @@ public class CreateOrUser : BaseMainMenu, IMainMenu
         if(NetworkInfo.connectionId.Equals(""))
         {
             SetwarningText("서버와 통신이 원활하지 않습니다. 잠시만 기다려 주세요.");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
+            base.NextUI();
             return;
         }
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         base.NextUI();
     }
 }
