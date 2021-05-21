@@ -153,6 +153,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
+        PlayerState = Movement.Run;
     }
     public void UpdatePInfo()
     {
