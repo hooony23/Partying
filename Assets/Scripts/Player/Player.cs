@@ -5,7 +5,6 @@ using Communication;
 using Boss;
 using Weapon;
 using GameUi;
-using System.Media;
 
 public class Player : PlayerUtil
 {

@@ -17,32 +17,32 @@ public class PlayerSound : MonoBehaviour
     public void RightWalkSound()
     {
         audioSourceSFX[0].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[0].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[0].clip.name}");
     }
     public void LeftWalkSound()
     {
         audioSourceSFX[1].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[1].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[1].clip.name}");
     }
     public void DeadSound() 
     {
         audioSourceSFX[2].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[2].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[2].clip.name}");
     }
     public void DodgeSound()
     {
         audioSourceSFX[3].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[3].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[3].clip.name}");
     }
     public void FireSound()
     {
         audioSourceSFX[4].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[4].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[4].clip.name}");
     }
     public void HitSound()
     {
         audioSourceSFX[5].Play();
-        Debug.Log($"Play Player Sfx : {audioSourceSFX[5].clip.name}");
+        Debug.Log($"Play Player Sfx : {audioclip[5].clip.name}");
     }
 
 

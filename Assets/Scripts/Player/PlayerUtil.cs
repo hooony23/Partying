@@ -19,7 +19,7 @@ public class PlayerUtil : PlayerController
     public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead||!GM.GameStart)
+        if (IsDead||!GM.GameStart|| GM.GameClear||GM.PauseOpen)
             return;
         HAxis = 0f;
         VAxis = 0f;

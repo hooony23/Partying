@@ -72,11 +72,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7c686f21df6f0a347b31c0a38819f6da, type: 3}
   - name: StageClearSound
     clip: {fileID: 8300000, guid: 520296322c2e64b42b99623f11d80df6, type: 3}
-  - name: 
-    clip: {fileID: 0}
+  - name: ItemGet
+    clip: {fileID: 8300000, guid: 47290095b03d702478e84c0abb42f0ae, type: 3}
   BgmSound:
   - name: Stage1
-    clip: {fileID: 8300000, guid: 5df0fc1bab4b2b04fa28bc64d5635f1b, type: 3}
+    clip: {fileID: 8300000, guid: 23f3faf7ec602c140987260c19ddf2c4, type: 3}
   - name: Stage2
     clip: {fileID: 8300000, guid: a917471b4d0ed4c48a6c834494f7ab10, type: 3}
   - name: Main

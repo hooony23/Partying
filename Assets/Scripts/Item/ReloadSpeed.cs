@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Item
 {
     public class ReloadSpeed : BaseItem
@@ -9,7 +11,8 @@ namespace Item
         }
         public override void ItemApply(Player player, float time = 0)
         {
-
+            var collider = gameObject.GetComponent<SphereCollider>();
+            Destroy(collider);
             _player = player;
             player.ShotSpeed = Util.Config.shotSpeed * 3;
             base.ItemApply(player, time);
