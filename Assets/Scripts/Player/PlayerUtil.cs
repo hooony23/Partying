@@ -14,9 +14,9 @@ public class PlayerUtil : PlayerController
     [SerializeField]
     private string BGMSound;
 
-    [Range(0.01f, 20f)] public float turnSpeed;
-    public float turnSmoothTime = 0.05f;
-    float turnSmoothVelocity;
+    [Range(0.01f, 20f)] public float turnSpeed = 0.5f; // 카메라이동 -> 마우스 감도
+    private float turnSmoothTime = 0.05f;
+    private float turnSmoothVelocity;
     public Cinemachine.AxisState xAxis;
     public Cinemachine.AxisState yAxis;
     public void GetInput()
@@ -147,8 +147,8 @@ public class PlayerUtil : PlayerController
     }
     public void CameraTurn()
     {
-        xAxis.Update(Time.fixedDeltaTime);
-        yAxis.Update(Time.fixedDeltaTime);
+        xAxis.Update(Time.deltaTime * turnSpeed);
+        yAxis.Update(Time.deltaTime * turnSpeed);
 
         CmFollowTarget.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
     }
@@ -340,7 +340,7 @@ public class PlayerUtil : PlayerController
         // SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
-        Pistol.Shot();
+        MusslePoint.Shot();
     }
     public void AnimationStart()
     {

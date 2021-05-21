@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     public bool IsBeatable { get; set; } = true; // 플레이어 무적 상태 컨트롤
 
     // 총
-    public MusslePoint Pistol { get; set; }
+    public MusslePoint MusslePoint { get; set; }
 
     public Transform ShotPoint { get; set; }
 

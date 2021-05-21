@@ -426,8 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BGMSound: 
-  turnSpeed: 0
-  turnSmoothTime: 0.05
+  turnSpeed: 0.5
   xAxis:
     Value: 0
     m_SpeedMode: 0
