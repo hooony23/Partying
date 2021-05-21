@@ -10,7 +10,7 @@ public class HoleTrap : BaseTrap
         anim = GetComponent<Animator>();
     }
 
-    public void OnTriggerStay(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         TrapEvent(other, holeActivate);
     }
@@ -18,9 +18,10 @@ public class HoleTrap : BaseTrap
     {
         bool state = (bool)obj[0];
         // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
+        if (holeActivate)
+            return;
         if (other.CompareTag("Player") && !state)
         {
-            Debug.Log("함정 발동");
             anim.SetTrigger("open");
         }
 
@@ -38,12 +39,12 @@ public class HoleTrap : BaseTrap
         }
     }
     // HoleOpen애니메이션 에서 HoleOpen(), HoleClose() 실행함
-    private void HoleOpen()
+    public void HoleOpen()
     {
         holeActivate = true;
     }
 
-    private void HoleClose()
+    public void HoleClose()
     {
         holeActivate = false;
     }

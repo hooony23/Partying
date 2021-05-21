@@ -21,14 +21,17 @@ public class Player : PlayerUtil
 
         CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
 
-        CameraArm.InitTarget(CmFollowTarget);
+        Debug.Log("CmFollowTarget유무 : " + CmFollowTarget);
+
         ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
 
         UserScore = GM.GetComponent<UserScore>();
-        // 플레이어 공격
-        Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
-    }
+    
 
+        UserScore = GM.GetComponent<UserScore>();
+        // 플레이어 공격
+        MusslePoint = transform.Find("Mussle Point").GetComponent<MusslePoint>();
+    }
 
 
     void Update()

@@ -16,17 +16,20 @@ public class SpikeTrap : BaseTrap
         }
     }
     public override void TrapEvent(Collider col, params object[] obj)
-    {        // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
+    {
+        // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
+        StartCoroutine(OnTrap(col));
+    }
 
-        if (col.CompareTag("Player"))
-        {
-            TakeHit(col);
-        }
+    private IEnumerator OnTrap(Collider col)
+    {
+        yield return new WaitForSeconds(1f);
+        anim.SetTrigger("doActivate");
     }
 
 
     // SpikeUpDown 애니메이션 내부에서 실행됨
-    public void SpikeOff()
+    public void OffTrap()
     {
         IsActive = false;
     }

@@ -40,7 +40,7 @@ public class MusslePoint : MonoBehaviour
 
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         if(player.IsMyCharacter())
-            bulletRigid.velocity = (shotPoint.position - this.transform.position) * 5; // 총알 진행 방향
+            bulletRigid.velocity = (shotPoint.position - this.transform.position) * 30; // 총알 진행 방향
         else
             bulletRigid.velocity = (new Vector3(player.PInfo.angle.X,player.PInfo.angle.Y,player.PInfo.angle.Z) - this.transform.position) * 5; // 총알 진행 방향
         yield return new WaitForSeconds(speed);
