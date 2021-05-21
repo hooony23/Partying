@@ -37,12 +37,12 @@ public class HoleTrap : BaseTrap
         }
     }
     // HoleOpen애니메이션 에서 HoleOpen(), HoleClose() 실행함
-    private void HoleOpen()
+    public void HoleOpen()
     {
         holeActivate = true;
     }
 
-    private void HoleClose()
+    public void HoleClose()
     {
         holeActivate = false;
     }

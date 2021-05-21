@@ -23,7 +23,7 @@ public class SpikeTrap : BaseTrap
 
     private IEnumerator OnTrap(Collider col)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         anim.SetTrigger("doActivate");
     }
 

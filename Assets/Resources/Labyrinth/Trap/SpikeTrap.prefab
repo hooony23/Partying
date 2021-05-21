@@ -2782,7 +2782,7 @@ Transform:
   m_GameObject: {fileID: 5190197919350638088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5190197918862205080}
   - {fileID: 6307017477460508615}
@@ -2819,7 +2819,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 4}
+  m_Size: {x: 5, y: 1, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &539622501
 MonoBehaviour:
@@ -3283,6 +3283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6307017477460508615}
   - component: {fileID: 1697416990}
+  - component: {fileID: 1707238940}
+  - component: {fileID: 1707238939}
   m_Layer: 13
   m_Name: Spike Array
   m_TagString: Untagged
@@ -3317,12 +3319,37 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5735420862871566492}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
+  m_IsTrigger: 0
+  m_Enabled: 0
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!65 &1707238940
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5735420862871566492}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 2.59, z: 8}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1707238939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5735420862871566492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33f4dc944841b14298022bbad7f2f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5774056790832563418
 GameObject:
   m_ObjectHideFlags: 0

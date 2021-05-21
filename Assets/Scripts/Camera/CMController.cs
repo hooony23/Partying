@@ -43,16 +43,12 @@ public class CMController : MonoBehaviour
 
     }
 
-    //public void InitTarget(GameObject targetObj)
-    //{
-    //    vcam.Follow = targetObj.transform;
-    //}
-
     public void ChangeTarget()
     {
         Debug.Log("카메라 변경");
         if (targetNum == playerList.Count)
             targetNum = 0;
+        // 안될 시 변경
         //GameObject.Find(playerList[targetNum].ToString()).transform.Find("CM Follow Target");
         vcam.Follow = playerList[targetNum].transform;
         targetNum += 1;
