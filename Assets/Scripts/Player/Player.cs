@@ -19,13 +19,12 @@ public class Player : PlayerUtil
 
         CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
 
-            CmFollowTarget = this.transform.Find("CM Follow Target");
-            Debug.Log("CmFollowTarget유무 : " + CmFollowTarget);
+        Debug.Log("CmFollowTarget유무 : " + CmFollowTarget);
 
-            ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
+        ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
 
-            UserScore = GM.GetComponent<UserScore>();
-        }
+        UserScore = GM.GetComponent<UserScore>();
+    
 
         UserScore = GM.GetComponent<UserScore>();
         // 플레이어 공격

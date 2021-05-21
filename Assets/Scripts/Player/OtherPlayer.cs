@@ -14,7 +14,7 @@ public class OtherPlayer : PlayerUtil
         GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
         Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
         // 플레이어 공격
-        Pistol = transform.Find("Mussle Point").GetComponent<MusslePoint>();
+        MusslePoint = transform.Find("Mussle Point").GetComponent<MusslePoint>();
     }
 
  
