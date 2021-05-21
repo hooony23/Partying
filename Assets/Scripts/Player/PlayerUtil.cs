@@ -32,9 +32,10 @@ public class PlayerUtil : PlayerController
     public void GetNetWorkInput()
     {
         if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name) && !IsDead)
-            if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo){
+            if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
+            {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
-                this.transform.position = new Vector3(PInfo.loc.X,PInfo.loc.Y,PInfo.loc.Z);
+                this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);
             }
         MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
         PlayerState = PInfo.movement;

@@ -16,10 +16,7 @@ public class MusslePoint : MonoBehaviour
     private void Start()
     {
         bulletPrefab = Resources.Load("Raid/Gun/Prefab/BulletHandgun") as GameObject;
-        if(this.transform.parent.name.Equals(Config.userUuid))
-            player = this.transform.parent.GetComponent<Player>();
-        else
-            player = this.transform.parent.GetComponent<OtherPlayer>();
+        player = this.transform.parent.GetComponent<Player>();
         shotPoint = player.ShotPoint;
         
         

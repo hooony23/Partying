@@ -5,7 +5,6 @@ using Communication;
 using Boss;
 using Weapon;
 using GameUi;
-
 public class Player : PlayerUtil
 {
     void Start()
@@ -13,43 +12,53 @@ public class Player : PlayerUtil
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
-        PlayerSound = GetComponent<PlayerSound>();
-        Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
-        //CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
-        CameraMain = GameObject.Find("Main Camera").GetComponent<Camera>();
-        CameraArm = GameObject.Find("CameraArm2").GetComponent<CMController>();
+        if (IsMyCharacter())
+        {
+            // 피격 처리
+            if (Config.defaultStage==2)
+            {
+                Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
+            }
 
-        CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
+            //CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
+            CameraMain = GameObject.Find("Main Camera").GetComponent<Camera>();
+            CameraArm = GameObject.Find("CameraArm2").GetComponent<CMController>();
 
-        Debug.Log("CmFollowTarget유무 : " + CmFollowTarget);
+            CmFollowTarget = this.transform.Find("CM Follow Target").GetComponent<Transform>();
 
-        ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
+            ShotPoint = CameraMain.transform.Find("Shot Point").GetComponent<Transform>();
 
-        UserScore = GM.GetComponent<UserScore>();
-    
+            UserScore = GM.GetComponent<UserScore>();
+        }
 
-        UserScore = GM.GetComponent<UserScore>();
         // 플레이어 공격
         MusslePoint = transform.Find("Mussle Point").GetComponent<MusslePoint>();
-
-        // 케메라(마우스) 감도 초기설정
-        turnSpeed = 0.5f;
     }
 
+ 
 
     void Update()
     {
-        GetInput();
-        CameraTurn();
-        Aim();
+        if (IsMyCharacter())
+        {
+            GetInput();
+            CameraTurn();
+            Aim();
+        }
+        else
+            GetNetWorkInput();
         Move();
+        //Turn();
         Attack();
         Dodge();
         GetItem();
         UpdatePInfo();
-        MoveChangeSend();
-        // 피격 처리
-        CheckHP();
+        if (IsMyCharacter())
+        {
+            MoveChangeSend();    
+            // 피격 처리
+            CheckHP();
+        }
         AnimationStart();
         CheckDeath();
 
@@ -63,11 +72,13 @@ public class Player : PlayerUtil
 
     private void OnTriggerEnter(Collider other) //플레이어 범위에 아이템이 인식할 수 있는지 확인
     {
-        NearbyObject(other);
+        if (IsMyCharacter())
+            NearbyObject(other);
     }
 
     private void OnTriggerExit(Collider other) //플레이어 범위에 아이템이 벗어났는지 확인
     {
-        MoveAnyFromObject(other);
+        if (IsMyCharacter())
+            MoveAnyFromObject(other);
     }
 }
