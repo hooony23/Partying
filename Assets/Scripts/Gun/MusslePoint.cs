@@ -8,7 +8,7 @@ namespace Weapon
 public class MusslePoint : MonoBehaviour
 {
     private GameObject bulletPrefab;
-    private Player player;
+    private PlayerUtil player;
     private Bullet bullet;
 
     private Transform shotPoint;
@@ -16,7 +16,10 @@ public class MusslePoint : MonoBehaviour
     private void Start()
     {
         bulletPrefab = Resources.Load("Raid/Gun/Prefab/BulletHandgun") as GameObject;
-        player = this.transform.parent.GetComponent<Player>();
+        if(this.transform.parent.name.Equals(Config.userUuid))
+            player = this.transform.parent.GetComponent<Player>();
+        else
+            player = this.transform.parent.GetComponent<OtherPlayer>();
         shotPoint = player.ShotPoint;
         
         

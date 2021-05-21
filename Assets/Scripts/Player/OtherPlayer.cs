@@ -22,11 +22,10 @@ public class OtherPlayer : PlayerUtil
     void Update()
     {
         GetNetWorkInput();
-        Move();
+        NetworkMove();
         Attack();
         Dodge();
         GetItem();
-        UpdatePInfo();
         AnimationStart();
         CheckDeath();
 

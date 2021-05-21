@@ -152,12 +152,17 @@ public class MapUtil : MapController
         foreach (CellInfo item in playerInfo)
         {
             GameObject player = null;
-            if(Config.userUuid.Equals(item.data.ToString()))
+            if(Config.userUuid.Equals(item.data.ToString())){
                 player = Instantiate(Resources.Load("Player/Player") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
-            else
-                player = Instantiate(Resources.Load("Player/OtherPlayer") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
             player.name = item.data.ToString();
-            player.GetComponent<Player>().UserUuid=player.name;
+                player.GetComponent<Player>().UserUuid=player.name;
+            }
+            else
+            {
+                player = Instantiate(Resources.Load("Player/OtherPlayer") as GameObject, Grid[item.col, item.row].Respwan.transform.position, Quaternion.identity);
+                player.name = item.data.ToString();
+                player.GetComponent<OtherPlayer>().UserUuid=player.name;
+            }
         }
     } 
     public void PatrolUnitRespawn()
