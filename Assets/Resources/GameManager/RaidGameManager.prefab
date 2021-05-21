@@ -72,5 +72,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountDownDisplay: {fileID: 0}
-  flag: 1
-  stageBgm: Stage1
+  Time: 0
+  stageBgm: Stage2

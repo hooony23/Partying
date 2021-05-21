@@ -27,9 +27,9 @@ public class PatrolAI : PatrolAIUtil
         SearchPlayers();
         Move(); // 순찰, 추격, 위험지역 확인
     }
-    private void OnCollisionEnter(Collision other) {
+    private void OnTriggerEnter(Collider other){
         Debug.Log($"ai hit {other.gameObject.name}");
-        TakeHit(other.collider);
+        TakeHit(other);
     }
 
 }

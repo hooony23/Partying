@@ -50,7 +50,6 @@ public class Timer : MonoBehaviour
         finishTime = NetworkInfo.finishTime;
         Time = (finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now))<=0?Config.Timer:(finishTime - Lib.Common.ConvertToUnixTimestamp(System.DateTime.Now));
         timerStartFlag = true;
-        GM.GameStart = true;
     }
     
     IEnumerator CountDownToStart(int seconds)
@@ -66,6 +65,7 @@ public class Timer : MonoBehaviour
             seconds--;
         }
 
+        GM.GameStart = true;
         //start 화면과 함께 게임시작
         //Time.timeScale = 1.0f;
         CountDownDisplay.text = "Start!";
