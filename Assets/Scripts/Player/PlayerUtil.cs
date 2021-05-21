@@ -290,11 +290,14 @@ public class PlayerUtil : PlayerController
         IsBeatable = false;
         Debug.Log("플레이어가 공격받음");
         Debug.Log(PlayerHealth);
-        SyncHp();
+        
+        if(!IsMyCharacter())
+        {
+            SyncHp();
+        }
         StartCoroutine(Blink(5));
         PlayerSound.HitSound();
         KnockBack(reactVec, 8f);
-
         yield return new WaitForSeconds(2f);
         IsBeatable = true;
     }
