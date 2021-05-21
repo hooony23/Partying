@@ -18,6 +18,8 @@ public class HoleTrap : BaseTrap
     {
         bool state = (bool)obj[0];
         // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
+        if (holeActivate)
+            return;
         if (other.CompareTag("Player") && !state)
         {
             anim.SetTrigger("open");
