@@ -68,7 +68,6 @@ namespace Lib
                 throw new Exception("존재하지 않는 메소드 입니다.");
             }
         }
-
         public static bool IsAdmin()
         {
             if (NetworkInfo.roomInfo.Admin.UserUuid.Equals(NetworkInfo.myData.UserUuid))

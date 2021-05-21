@@ -35,10 +35,6 @@ namespace Communication.GameServer.API
             string request = BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name));
             Connection.ConnectedExit(request);
         }
-        public void AiMove(object request)
-        {
-            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
-        }
         public void InitStage2()
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   
@@ -48,6 +44,18 @@ namespace Communication.GameServer.API
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name)));   
         }
         public void AttackBoss(object request)
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
+        }
+        public void UnDetected(object request)
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
+        }
+        public void IsDetected(object request)
+        {
+            Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
+        }
+        public void AIFinishSearch(object request)
         {
             Connection.Send(BaseJsonFormat.ObjectToJson(Common.ToCamelCase(MethodBase.GetCurrentMethod().Name), request));
         }

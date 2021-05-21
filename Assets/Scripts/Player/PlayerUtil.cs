@@ -10,6 +10,7 @@ using Util;
 public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
+    private bool sendFlag = true;
     [SerializeField]
     private string BGMSound;
 
@@ -20,15 +21,11 @@ public class PlayerUtil : PlayerController
     public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead )
+        if (IsDead||!GM.GameStart)
             return;
         HAxis = 0f;
         VAxis = 0f;
-        foreach (var key in GetInputKeys())
-        {
-            InputEvent(key);
-            PlayerState = Movement.Run;
-        }
+        InputEvent(GetInputKeys());
         MoveInput = new Vector2(HAxis, VAxis).normalized; // TPS 움직임용 vector
         MouseClickInput = Input.GetMouseButton(0);
         MoveVec = new Vector3(MoveInput.x, 0f, MoveInput.y).normalized; // Dodge 방향용 vector
@@ -37,9 +34,6 @@ public class PlayerUtil : PlayerController
     public void GetNetWorkInput()
     {
         if (NetworkInfo.playersInfo.ContainsKey(this.gameObject.name) && !IsDead)
-            // if (NetworkInfo.playersInfo[this.gameObject.name].loc.X != PInfo.loc.X||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Y != PInfo.loc.Y||
-            //     NetworkInfo.playersInfo[this.gameObject.name].loc.Z != PInfo.loc.Z)
             if (NetworkInfo.playersInfo[this.gameObject.name] != null && NetworkInfo.playersInfo[this.gameObject.name] != PInfo)
             {
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
@@ -52,37 +46,27 @@ public class PlayerUtil : PlayerController
     {
         return this.UserUuid == Config.userUuid;
     }
-    public void InputEvent(KeyCode key)
+    public void InputEvent(IEnumerable<KeyCode> keyArray)
     {
-        switch (key)
-        {
-            case KeyCode.A:
-                HAxis = -1f;
-                break;
-            case KeyCode.D:
-                HAxis = 1f;
-                break;
-            case KeyCode.W:
-                VAxis = 1f;
-                break;
-            case KeyCode.S:
-                VAxis = -1f;
-                break;
-            case KeyCode.E:
-                EDown = Input.GetKeyDown(key); //E키를 통한 아이템 습득
-                break;
-            case KeyCode.Space:
-                JDown = Input.GetKeyDown(key); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
-                break;
-        }
+        if(keyArray.Contains(KeyCode.A))
+            HAxis = -1f;
+        if(keyArray.Contains(KeyCode.D))
+            HAxis = 1f;
+        if(keyArray.Contains(KeyCode.W))
+            VAxis = 1f;
+        if(keyArray.Contains(KeyCode.S))
+            VAxis = -1f;
+        if(keyArray.Contains(KeyCode.E))
+            EDown = Input.GetKeyDown(KeyCode.E); //E키를 통한 아이템 습득
+        if(keyArray.Contains(KeyCode.Space))
+            JDown = Input.GetKeyDown(KeyCode.Space); // GetButtonDown : (일회성) 점프, 회피    GetButton : (차지) 모으기
     }
     public void MoveChangeSend()
     {
-        if (PlayerState == Movement.Shot)
-            Debug.Log("shot test");
-        if ((IsKeyInput() || MoveDir != preMoveDir || PlayerState == Movement.Shot) && !IsDead)
+        if ((((MoveDir == preMoveDir)&&sendFlag)|| PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
+            sendFlag=false;
         }
         preMoveDir = MoveDir;
     }
@@ -124,12 +108,15 @@ public class PlayerUtil : PlayerController
                 // 키보드 움직임 
                 float targetAngle = Mathf.Atan2(MoveVec.x, MoveVec.z) * Mathf.Rad2Deg 
                     + CameraMain.transform.eulerAngles.y;               // 카메라가 플레이어를 보는기준으로 플레이어 방향 정함
+                
                 float angle = Mathf.SmoothDampAngle(this.transform.eulerAngles.y, targetAngle,
                     ref turnSmoothVelocity, turnSmoothTime);            // 플레이어의 방향전환을 부드럽게 함
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 MoveDir = moveDir;
+                if(MoveDir != preMoveDir)
+                    sendFlag = true;
             }
             if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
             {
@@ -146,6 +133,7 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
+        PlayerState = Movement.Run;
     }
     public void UpdatePInfo()
     {
@@ -157,7 +145,6 @@ public class PlayerUtil : PlayerController
                 PInfo.SetAngle(ShotPoint.position);
         }
     }
- 
     public void CameraTurn()
     {
         xAxis.Update(Time.deltaTime * turnSpeed);
@@ -350,14 +337,13 @@ public class PlayerUtil : PlayerController
     }
     public void AttackEvent()
     {
-        SoundManager.instance.IsPlaySound("Attack");
+        // SoundManager.instance.IsPlaySound("Attack");
         transform.LookAt(ShotPoint);
         IsAttack = true;
         MusslePoint.Shot();
     }
     public void AnimationStart()
     {
-        Debug.Log($"{this.gameObject.name} state : {PlayerState}");
         if ((int)PlayerState == (int)Movement.Run)
         {
             Anim.SetBool(System.Enum.GetName(typeof(Movement), PlayerState), IsMove && !IsAttack);

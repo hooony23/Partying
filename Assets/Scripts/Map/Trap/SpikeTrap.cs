@@ -27,6 +27,7 @@ public class SpikeTrap : BaseTrap
         anim.SetTrigger("doActivate");
     }
 
+
     // SpikeUpDown 애니메이션 내부에서 실행됨
     public void OffTrap()
     {
