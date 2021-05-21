@@ -12,7 +12,7 @@ public class PlayerUtil : PlayerController
     private Vector3 preMoveDir = Vector3.zero;
     private bool sendFlag = true;
 
-    [Range(0.01f, 20f)] public float turnSpeed = 0.5f; // 카메라이동 -> 마우스 감도
+    [Range(0.01f, 20f)] public float turnSpeed;
     private float turnSmoothTime = 0.05f;
     private float turnSmoothVelocity;
     public Cinemachine.AxisState xAxis;

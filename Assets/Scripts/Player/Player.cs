@@ -31,6 +31,9 @@ public class Player : PlayerUtil
         UserScore = GM.GetComponent<UserScore>();
         // 플레이어 공격
         MusslePoint = transform.Find("Mussle Point").GetComponent<MusslePoint>();
+
+        // 케메라(마우스) 감도 초기설정
+        turnSpeed = 0.5f;
     }
 
 
