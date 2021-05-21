@@ -37,7 +37,7 @@ public class PlayerUtil : PlayerController
                 PInfo = NetworkInfo.playersInfo[this.gameObject.name];
                 this.gameObject.transform.position = new Vector3(PInfo.loc.X, PInfo.loc.Y, PInfo.loc.Z);
             }
-        MoveDir = new Vector3(PInfo.vec.X, PInfo.vec.Y, PInfo.vec.Z);
+        MoveDir = new Vector3(PInfo.vec.X,PInfo.vec.Y,PInfo.vec.Z);
         PlayerState = PInfo.movement;
     }
     public bool IsMyCharacter()
@@ -61,7 +61,7 @@ public class PlayerUtil : PlayerController
     }
     public void MoveChangeSend()
     {
-        if ((IsKeyInput()||(MoveDir == preMoveDir&&sendFlag)|| PlayerState == Movement.Shot) && !IsDead)
+        if ((IsKeyInput()||MoveDir != preMoveDir|| PlayerState == Movement.Shot) && !IsDead)
         {
             APIController.SendController("Move", PInfo);
             sendFlag=false;
@@ -98,9 +98,11 @@ public class PlayerUtil : PlayerController
         if (!IsStun && !MouseClickInput && !IsAttack)
         {
             IsMove = true;
-            if (IsBorder)// 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
-                return;
-            this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
+            if (!IsBorder) // 벽에 부딛힌 경우 위치는 옮기지 않는다(애니메이션은 작동)
+            {
+                this.transform.position += MoveDir.normalized * Time.deltaTime * PlayerSpeed;
+                this.transform.LookAt(transform.position + MoveDir);
+            }
         }
 
         if (IsStun == true)
@@ -112,8 +114,6 @@ public class PlayerUtil : PlayerController
         {
             IsMove = false;
         }
-        PlayerState = Movement.Run;
-
     }
     public void Move()
     {

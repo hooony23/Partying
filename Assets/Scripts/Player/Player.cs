@@ -52,7 +52,6 @@ public class Player : PlayerUtil
             GetNetWorkInput();
             NetworkMove();
         }
-        //Turn();
         Attack();
         Dodge();
         GetItem();
