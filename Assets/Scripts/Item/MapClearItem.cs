@@ -13,10 +13,12 @@ public class MapClearItem : MonoBehaviour
 
     //게임클리어 Ui
     private Animator animator;
+    private AudioSource openSound;
     public bool isOpened=false;
     private void Awake()
     {
         animator = this.GetComponent<Animator>();
+        openSound = this.GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -27,6 +29,9 @@ public class MapClearItem : MonoBehaviour
             this.isOpened=true;
         }  
         animator.SetBool("IsBoxOpen", isOpened);
+    }
+    public void BoxOpenSound() {
+        openSound.Play();
     }
 }
 

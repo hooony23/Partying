@@ -11,8 +11,6 @@ public class PlayerUtil : PlayerController
 {
     private Vector3 preMoveDir = Vector3.zero;
     private bool sendFlag = true;
-    [SerializeField]
-    private string BGMSound;
 
     [Range(0.01f, 20f)] public float turnSpeed = 0.5f; // 카메라이동 -> 마우스 감도
     private float turnSmoothTime = 0.05f;
@@ -21,7 +19,7 @@ public class PlayerUtil : PlayerController
     public Cinemachine.AxisState yAxis;
     public void GetInput()
     {
-        if (IsDead||!GM.GameStart)
+        if (IsDead||!GM.GameStart|| GM.GameClear||GM.PauseOpen)
             return;
         HAxis = 0f;
         VAxis = 0f;
@@ -272,6 +270,7 @@ public class PlayerUtil : PlayerController
         Debug.Log(PlayerHealth);
         SyncHp();
         StartCoroutine(Blink(5));
+        PlayerSound.HitSound();
         KnockBack(reactVec, 8f);
 
         yield return new WaitForSeconds(2f);

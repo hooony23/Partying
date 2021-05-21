@@ -12,6 +12,8 @@ namespace Item
         }
         public override void ItemApply(Player player, float time = 0)
         {
+            var collider = gameObject.GetComponent<SphereCollider>();
+            Destroy(collider);
             if (gameManager.DeathPlayerList.Count > 0)
             {
                 GameObject[] deathUser = gameManager.DeathPlayerList.ToArray();

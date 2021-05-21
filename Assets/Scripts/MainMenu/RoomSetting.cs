@@ -48,10 +48,11 @@ public class RoomSetting : BaseMainMenu, IMainMenu
         if (Title.Equals(""))
         {
             SetwarningText("방 제목을 입력해주세요");
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             return;
         }
         SetwarningText("방을 생성하였습니다");
-
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         // [createRoom API] uri : api/v1/rooms/createRoom , method : POST
         string response = "";
 
@@ -64,8 +65,10 @@ public class RoomSetting : BaseMainMenu, IMainMenu
         JObject json = JObject.Parse(response);
         serverMsg = json["data"]["isSuccess"].ToString();
 
-        if (!serverMsg.Equals("True"))
+        if (!serverMsg.Equals("True")) {
+            SoundManager.instance.IsPlaySfxSound("WrongMessageSound");
             throw new Exception("서버와 통신중 장애가 발생 했습니다.");
+        }
         // 방 진입
         NetworkInfo.roomInfo = ((JObject)json["data"]["roomInfo"]).ToObject<RoomInfo>();
         Debug.Log($"response roomInfo : {JObject.FromObject(NetworkInfo.roomInfo).ToString()}");

@@ -20,7 +20,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void Update()
     {
-        WorkingProgressBar(operation);
+        //WorkingProgressBar(operation);
     }
     public void LoadLevel(int scenceIndex)
     {

@@ -25,6 +25,7 @@ namespace Item
             if (other.CompareTag("Player"))
             {
                 Player player = other.transform.gameObject.GetComponent<Player>();
+                SoundManager.instance.IsPlaySfxSound("ItemGet");
                 ItemApply(player, WaitTime);
             }
         }

@@ -231,6 +231,7 @@ namespace Partying.UI
                 tagText.color = color;
                 nicknameText.color = color;
                 messageText.color = color;
+                SoundManager.instance.IsPlaySfxSound("ChattingInputSound");
             }
         }
         public void ObjectPulling(string chatTag)

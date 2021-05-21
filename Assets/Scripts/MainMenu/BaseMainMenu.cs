@@ -38,6 +38,7 @@ public class BaseMainMenu : MonoBehaviour
     protected virtual void BackUI()
     {
         SetActive(false);
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         mainMenuCanvas.transform.GetChild(UINum - 1).gameObject.SetActive(true);
     }
     protected virtual void SelectUI(int selectUINum)

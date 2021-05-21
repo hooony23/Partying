@@ -13,6 +13,7 @@ namespace GameManager
         public bool GameClear {get;set;} = false;
         public bool GameStart {get;set;} = false;
         public bool GameOver {get;set;} = false;
+        public  bool PauseOpen { get; set; } = false;
         public List<GameObject> PlayerList { get; set; } = new List<GameObject>();
         public List<GameObject> DeathPlayerList { get; set; } = new List<GameObject>();
     }

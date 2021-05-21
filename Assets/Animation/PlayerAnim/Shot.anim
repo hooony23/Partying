@@ -896,4 +896,12 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.016666668
+    functionName: FireSound
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 2bee8f485abf48349a8db5dc67885b1f,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

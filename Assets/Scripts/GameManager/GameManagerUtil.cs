@@ -108,6 +108,7 @@ namespace GameManager
             Cursor.visible = true;
             GameClearUi.SetActive(true);
             Debug.Log("Game Clear");
+            SoundManager.instance.IsPlaySfxSound("StageClearSound");
             GameClear = false;
         }
         protected void OverGame()

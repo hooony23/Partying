@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Item
 {
     public class Attack : BaseItem
@@ -10,7 +12,8 @@ namespace Item
         }
         public override void ItemApply(Player player, float time = 0)
         {
-
+            var collider = gameObject.GetComponent<SphereCollider>();
+            Destroy(collider);
             _player = player;
             player.AttackDamage = Util.Config.playerAttackDamage * 2;
             base.ItemApply(player, time);

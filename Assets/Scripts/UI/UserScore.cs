@@ -62,6 +62,7 @@ namespace GameUi
             {
                 Debug.Log(Config.defaultStage);
                 PlayerHeart(player);
+                playerBuff.SetActive(true);
             }
 
             GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();

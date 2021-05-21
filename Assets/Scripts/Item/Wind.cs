@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using System.Collections.Generic;
 namespace Item
 {
     public class Wind : BaseItem

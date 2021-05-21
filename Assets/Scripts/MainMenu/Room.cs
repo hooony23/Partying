@@ -143,8 +143,9 @@ public class Room : BaseMainMenu, IMainMenu
     }
     public void OnClickGameStart()
     {
+        SoundManager.instance.IsPlaySfxSound("ButtonClickSound");
         //레디
-        if(startButton.interactable)
+        if (startButton.interactable)
         {
             APIController.SendController("Connected");
             MServer.Ready(true);

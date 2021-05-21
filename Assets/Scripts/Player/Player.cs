@@ -5,6 +5,7 @@ using Communication;
 using Boss;
 using Weapon;
 using GameUi;
+
 public class Player : PlayerUtil
 {
     void Start()
@@ -12,6 +13,7 @@ public class Player : PlayerUtil
         Anim = GetComponent<Animator>();
         Rigid = GetComponent<Rigidbody>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager.GameManager>();
+        PlayerSound = GetComponent<PlayerSound>();
         Mat = transform.Find("큐브").gameObject.GetComponent<SkinnedMeshRenderer>().material;
         //CameraArm = GM.GetComponent<GameManager.GameManager>().PlayerCamera.transform;
         CameraMain = GameObject.Find("Main Camera").GetComponent<Camera>();

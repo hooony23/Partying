@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 241478541}
   - component: {fileID: 241478540}
   - component: {fileID: 241478539}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 241478544}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 33280
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 1160127243}
   - component: {fileID: 1160127245}
   - component: {fileID: 1160127244}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
