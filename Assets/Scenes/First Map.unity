@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 1427097325}
   m_Layer: 8
   m_Name: eye
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

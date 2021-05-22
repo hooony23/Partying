@@ -10,28 +10,27 @@ public class HoleTrap : BaseTrap
         anim = GetComponent<Animator>();
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
-        TrapEvent(other, holeActivate);
+        if (IsActive)
+        {
+            TrapEvent(other, holeActivate);
+            return;
+        }
+        anim.SetTrigger("open");
+        IsActive = true;
     }
     public override void TrapEvent(Collider other, params object[] obj)
     {
-        bool state = (bool)obj[0];
-        // holeActive 가 false 상태(처음으로 함정을 밟음) 이면 함정을 발동
-        if (holeActivate)
-            return;
-        if (other.CompareTag("Player") && !state)
-        {
-            anim.SetTrigger("open");
-        }
+        bool holestate = (bool)obj[0];
 
         // 발동된 함정은 holeActive 가 true 상태
-        if (other.CompareTag("Player") && state)
+        if (other.CompareTag("Player") && holestate)
         {
-            Player player = other.GetComponent<Player>();
-            playerColl = player.GetComponent<Collider>();
+            playerColl = other.GetComponent<Collider>();
             playerColl.enabled = false;
             // 플레이어 3초 동안 못움직이게 함
+            Player player = other.GetComponent<Player>();
             player.Stun(3f);
 
             // 플레이어 구멍에 빠진 뒤 콜라이더 원상복구(부활, 죽음, ... etc)
@@ -47,6 +46,7 @@ public class HoleTrap : BaseTrap
     public void HoleClose()
     {
         holeActivate = false;
+        IsActive = false;
     }
 
     // 구멍에 빠지게 하기 위해 Player 콜라이더 n초뒤 활성화
